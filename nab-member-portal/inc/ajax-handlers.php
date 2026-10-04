@@ -51,6 +51,9 @@ function nab_enqueue_portal_js() {
             NAB_VERSION,
             true // load in footer
         );
+        // v1.9.0 visual dashboard: Chart.js (bundled locally, no CDN) + charts/forms
+        wp_enqueue_script( 'nab-chartjs', NAB_URL . 'assets/js/vendor/chart.umd.min.js', [], '4.5.1', true );
+        wp_enqueue_script( 'nab-dashboard-charts', NAB_URL . 'assets/js/nab-dashboard-charts.js', [ 'nab-chartjs', 'nab-dashboard' ], NAB_VERSION, true );
     }
     wp_add_inline_script(
         'jquery',
@@ -85,8 +88,9 @@ add_action( 'wp_ajax_nab_save_credit_score', function () {
     update_user_meta( $uid, 'nab_credit_score',  $score );
     update_user_meta( $uid, 'nab_score_source',  'self' );
     update_user_meta( $uid, 'nab_score_updated', current_time( 'mysql' ) );
+    nab_record_score_history( $uid, $score ); // v1.9.0: feeds the dashboard score chart
 
-    wp_send_json_success( [ 'score' => $score ] );
+    wp_send_json_success( [ 'score' => $score, 'dash' => nab_dash_get_chart_data( $uid ) ] );
 } );
 
 /* ═══════════════════════════════════════════════════════════
@@ -137,6 +141,7 @@ add_action( 'wp_ajax_nab_save_simulation', function () {
 
     update_user_meta( $uid, 'nab_credit_score',   $score );
     update_user_meta( $uid, 'nab_last_sim_score',  $result );
+    nab_record_score_history( $uid, $score ); // v1.9.0: keep dashboard chart in step
 
     $history = json_decode( get_user_meta( $uid, 'nab_sim_history', true ) ?: '[]', true );
     array_unshift( $history, [

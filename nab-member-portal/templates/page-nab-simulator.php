@@ -21,7 +21,7 @@ $last_name     = $current_user->last_name  ?: '';
 $initials      = strtoupper( substr( $first_name, 0, 1 ) . substr( $last_name, 0, 1 ) ) ?: 'M';
 
 $member_status  = get_field( 'nab_member_status' )     ?: 'Active';
-$member_since   = get_field( 'nab_member_since' )       ?: '';
+$member_since   = nab_get_member_since( $user_id );
 $payment_status = get_field( 'nab_payment_status' )     ?: 'Secured';
 $suspension_msg = get_field( 'nab_suspension_message' ) ?: '';
 $sim_disclaimer = get_field( 'nab_sim_disclaimer' )

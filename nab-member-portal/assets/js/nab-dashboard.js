@@ -336,8 +336,6 @@ window.nabMarkModuleComplete=nabMarkModuleComplete;
   var lbl   = document.getElementById('nabScoreLabel');
   var msg   = document.getElementById('nabScoreMsg');
 
-  if(!btn || !input) return;
-
   function getScoreColor(s){
     if(s<580) return '#ef4444';
     if(s<670) return '#f97316';
@@ -353,17 +351,14 @@ window.nabMarkModuleComplete=nabMarkModuleComplete;
     return           {label:'Excellent',msg:'Outstanding! You qualify for the best rates available.'};
   }
 
-  function checkScore(){
-    var s = parseInt(input.value);
-    if(!s || s < 300 || s > 900){
-      if(err){ err.textContent='Please enter a score between 300 and 900.'; err.style.display='block'; }
-      return;
-    }
-    if(err) err.style.display='none';
-
+  // Draw the gauge for a score (no saving). v1.9.0: also used on page load
+  // so a saved score shows its arc/label, and by the charts after edits.
+  function renderGauge(s){
+    s = parseInt(s);
+    if(!s || s < 300 || s > 900){ if(disp) disp.style.display='none'; return; }
     var info  = getScoreLabel(s);
     var color = getScoreColor(s);
-    var total = 219; // arc length
+    var total = 220; // arc length (matches stroke-dasharray in the template)
     var pct   = (s - 300) / 600;
     var offset = Math.round(total * (1 - pct));
 
@@ -380,12 +375,36 @@ window.nabMarkModuleComplete=nabMarkModuleComplete;
       needle.style.transform = 'rotate(' + angle + 'deg)';
     }
 
-    // Save via AJAX
+  }
+  window.nabRenderScoreGauge = renderGauge;
+  if(num && num.textContent.trim()) renderGauge(num.textContent.trim());
+
+  if(!btn || !input) return;
+
+  function checkScore(){
+    var s = parseInt(input.value);
+    if(!s || s < 300 || s > 900){
+      if(err){ err.textContent='Please enter a score between 300 and 900.'; err.style.display='block'; }
+      return;
+    }
+    if(err) err.style.display='none';
+    renderGauge(s);
+
+    // Save via AJAX — v1.9.0: the response carries fresh chart data
     if(typeof nabPortal !== 'undefined'){
       fetch(nabPortal.ajax, {
         method:'POST',
         headers:{'Content-Type':'application/x-www-form-urlencoded'},
         body:'action=nab_save_credit_score&nonce='+nabPortal.nonce+'&score='+s+'&source=self'
+      }).then(function(r){ return r.json(); }).then(function(d){
+        if(d && d.success && d.data && d.data.dash){
+          window.dispatchEvent(new CustomEvent('nab:dash-data', { detail: d.data.dash }));
+        } else if(err){
+          err.textContent = (d && d.data && d.data.message) || 'Could not save your score. Please refresh and try again.';
+          err.style.display = 'block';
+        }
+      }).catch(function(){
+        if(err){ err.textContent='Connection error — your score was not saved.'; err.style.display='block'; }
       });
     }
   }

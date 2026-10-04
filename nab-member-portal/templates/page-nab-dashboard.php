@@ -76,6 +76,8 @@ if ( $mp_data && $mp_data['has_subscription'] ) {
     $recent_txns    = [];
     $is_suspended   = ($member_status === 'Suspended');
 }
+// v1.9.0: always the member's own registration date (see inc/dashboard-data.php)
+$member_since = nab_get_member_since( $uid );
 
 // ── ACF Nav links ─────────────────────────────────────
 $link_report  = get_field( 'nab_link_report' );
@@ -186,6 +188,17 @@ $next_module_id    = 1;
 foreach($edu_modules as $mid => $m){ if(!in_array($mid,$completed_modules)){ $next_module_id=$mid; break; } }
 $featured_module   = $edu_modules[$next_module_id] ?? $edu_modules[1];
 $score_source = get_user_meta( $uid, 'nab_score_source', true );
+
+// ── v1.9.0 Visual dashboard data ─────────────────────────
+$dash_data   = nab_dash_get_chart_data( $uid );
+$nav_links   = nab_get_nav_links();
+$cf_months   = [];
+$cf_cursor   = new DateTime( current_time( 'Y-m-01' ), wp_timezone() );
+for ( $i = 0; $i < 24; $i++ ) {
+    $cf_months[ $cf_cursor->format( 'Y-m' ) ] = wp_date( 'F Y', $cf_cursor->getTimestamp() + 43200 );
+    $cf_cursor->modify( '-1 month' );
+}
+$can_self_score = ! ( $saved_score && $score_source === 'account' );
 
 $hour     = (int) current_time( 'G' );
 $greeting = $hour < 12 ? 'Morning' : ( $hour < 17 ? 'Afternoon' : 'Evening' );
@@ -481,6 +494,248 @@ nab_head_open( 'Dashboard — NAB Member Portal' );
   table{font-size:11px}
   .nab-content{padding:12px}
 }
+
+/* ════════════════════════════════════════════════════════════
+   v1.9.0 VISUAL DASHBOARD — Monarch-inspired design layer.
+   Scoped to this page only (other portal pages are unchanged).
+   ════════════════════════════════════════════════════════════ */
+body.nab-portal-body{
+  --nd-bg:#F5F6F8;--nd-card:#fff;--nd-line:#E8EBF0;--nd-line2:#F1F3F6;
+  --nd-text:#0F1B2D;--nd-muted:#6B7685;--nd-faint:#9AA4B2;
+  --nd-blue:#0D5C9B;--nd-blue2:#0A4A7C;--nd-orange:#F97316;--nd-green:#22A06B;--nd-red:#E5484D;
+  --nd-radius:16px;--nd-shadow:0 1px 2px rgba(16,24,40,.04),0 1px 3px rgba(16,24,40,.03);
+  background:var(--nd-bg)!important;color:var(--nd-text);-webkit-font-smoothing:antialiased
+}
+body.nab-portal-body [hidden]{display:none!important}
+.nab-portal-body .nab-content{padding:28px 32px 40px;max-width:1440px;width:100%;box-sizing:border-box;margin:0 auto}
+.nab-portal-body .nab-topbar{background:rgba(255,255,255,.92);backdrop-filter:saturate(1.4) blur(8px);-webkit-backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--nd-line);padding:14px 32px;gap:16px}
+.nab-portal-body .nab-topbar-title{font-size:17px;font-weight:700;letter-spacing:-.01em;white-space:nowrap}
+
+/* Buttons + pills */
+.nd-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font:inherit;font-size:13px;font-weight:600;line-height:1;padding:10px 14px;border-radius:10px;border:1px solid var(--nd-line);background:#fff;color:var(--nd-text);cursor:pointer;text-decoration:none;transition:background .15s,border-color .15s,box-shadow .15s;white-space:nowrap}
+.nd-btn:hover{background:#F8F9FB;border-color:#D9DEE6;color:var(--nd-text)}
+.nd-btn-primary{background:var(--nd-blue);border-color:var(--nd-blue);color:#fff}
+.nd-btn-primary:hover{background:var(--nd-blue2);border-color:var(--nd-blue2);color:#fff}
+.nd-btn-orange{background:var(--nd-orange);border-color:var(--nd-orange);color:#fff!important}
+.nd-btn-orange:hover{background:#EA6C0A;border-color:#EA6C0A}
+.nd-btn-sm{padding:8px 12px;font-size:12.5px}
+.nd-btn-block{width:100%;padding:13px 16px;font-size:14px}
+.nd-btn[disabled]{opacity:.6;cursor:wait}
+.nd-link{background:none;border:0;padding:0;font:inherit;font-size:12.5px;font-weight:600;color:var(--nd-blue);cursor:pointer;text-decoration:none;white-space:nowrap}
+.nd-link:hover{text-decoration:underline}
+.nd-pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:#475467;background:#fff;border:1px solid var(--nd-line);padding:5px 10px;border-radius:999px}
+.nd-pill-id{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--nd-blue);font-weight:700}
+
+/* Hero */
+.nd-hero{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:22px}
+.nd-hero-date{font-size:12px;font-weight:600;color:var(--nd-faint);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.nd-hero-title{font-size:30px;line-height:1.15;font-weight:750;letter-spacing:-.025em;margin:0 0 12px;color:var(--nd-text)}
+.nd-hero-pills{display:flex;flex-wrap:wrap;gap:8px}
+.nd-hero-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+/* KPI tiles */
+.nd-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:24px}
+.nd-kpi{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;font:inherit;background:var(--nd-card);border:1px solid var(--nd-line);border-radius:var(--nd-radius);padding:16px 18px;box-shadow:var(--nd-shadow);cursor:pointer;text-decoration:none;color:inherit;transition:border-color .15s,box-shadow .15s,transform .15s;min-width:0}
+.nd-kpi:hover{border-color:#D3D9E2;box-shadow:0 6px 18px rgba(16,24,40,.06);transform:translateY(-1px)}
+.nd-kpi-label{font-size:12.5px;font-weight:600;color:var(--nd-muted)}
+.nd-kpi-value{font-size:26px;font-weight:750;letter-spacing:-.02em;color:var(--nd-text);line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.nd-kpi-sub{font-size:12px;color:var(--nd-faint);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.nd-up{color:var(--nd-green)!important}.nd-down{color:var(--nd-red)!important}
+
+/* Tabs → Monarch underline tabs */
+.nab-portal-body .nab-tab-bar{background:transparent;box-shadow:none;border-radius:0;padding:0;gap:2px;border-bottom:1px solid var(--nd-line);margin-bottom:24px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+.nab-portal-body .nab-tab-bar::-webkit-scrollbar{display:none}
+.nab-portal-body .nab-tab-btn{border-radius:0;padding:12px 14px;margin-bottom:-1px;border-bottom:2px solid transparent;color:var(--nd-muted);font-size:13.5px}
+.nab-portal-body .nab-tab-btn:hover{background:transparent;color:var(--nd-text)}
+.nab-portal-body .nab-tab-btn.active{background:transparent;color:var(--nd-blue);border-bottom-color:var(--nd-blue)}
+
+/* Grid + cards */
+.nd-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:20px;margin-bottom:32px}
+.nd-span-8{grid-column:span 8}.nd-span-4{grid-column:span 4}.nd-span-7{grid-column:span 7}.nd-span-5{grid-column:span 5}
+.nd-stack{display:flex;flex-direction:column;gap:20px;min-width:0}
+.nd-card{background:var(--nd-card);border:1px solid var(--nd-line);border-radius:var(--nd-radius);padding:20px 22px;box-shadow:var(--nd-shadow);min-width:0;box-sizing:border-box}
+.nd-card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px}
+.nd-card-title{font-size:16px;font-weight:700;letter-spacing:-.01em;margin:0;color:var(--nd-text)}
+.nd-card-sub{font-size:12.5px;color:var(--nd-muted);margin-top:3px}
+.nd-seg{display:inline-flex;background:var(--nd-line2);border-radius:10px;padding:3px;gap:2px;flex-shrink:0}
+.nd-seg button{border:0;background:transparent;font:inherit;font-size:12px;font-weight:600;color:var(--nd-muted);padding:6px 10px;border-radius:8px;cursor:pointer}
+.nd-seg button.on{background:#fff;color:var(--nd-text);box-shadow:0 1px 2px rgba(16,24,40,.08)}
+
+.nd-chart{position:relative;height:240px}
+.nd-chart-lg{height:280px}
+.nd-chart-sm{height:120px;margin:4px 0 12px}
+.nd-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;background:rgba(255,255,255,.92);border-radius:12px;padding:16px}
+.nd-empty-inline{position:static;background:#F8F9FB;border:1px dashed #DCE1E8;margin-top:6px}
+.nd-empty-ico{font-size:28px}
+.nd-empty-txt{font-size:13px;color:var(--nd-muted);max-width:300px;line-height:1.5}
+
+/* Cash flow stats */
+.nd-stats{display:flex;gap:28px;flex-wrap:wrap;margin:-2px 0 14px}
+.nd-stat-l{font-size:12px;color:var(--nd-muted);font-weight:500;display:flex;align-items:center;gap:6px}
+.nd-stat-l i{width:8px;height:8px;border-radius:3px;display:inline-block}
+.nd-stat-v{font-size:19px;font-weight:700;letter-spacing:-.01em;margin-top:2px}
+
+/* Spending donut */
+.nd-donut-wrap{display:flex;flex-direction:column;align-items:center;gap:16px}
+.nd-chart-donut{height:190px;width:190px}
+.nd-donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
+.nd-donut-center span{font-size:20px;font-weight:750;letter-spacing:-.02em}
+.nd-donut-center small{font-size:11.5px;color:var(--nd-muted)}
+.nd-legend{list-style:none;margin:0;padding:0;width:100%}
+.nd-legend li{display:flex;align-items:center;gap:10px;font-size:13px;padding:7px 0;border-bottom:1px solid var(--nd-line2)}
+.nd-legend li:last-child{border-bottom:0}
+.nd-legend .dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.nd-legend .nm{flex:1;min-width:0;color:#344054;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nd-legend .amt{font-weight:650}
+.nd-legend .pc{color:var(--nd-faint);font-size:12px;width:38px;text-align:right}
+
+/* Net worth */
+.nd-nw-value{font-size:32px;font-weight:750;letter-spacing:-.025em;line-height:1.1;margin-bottom:12px}
+.nd-nw-bar{display:flex;height:8px;border-radius:999px;overflow:hidden;background:var(--nd-line2);margin-bottom:10px}
+.nd-nw-bar .a{background:var(--nd-green);width:50%;transition:width .5s}.nd-nw-bar .d{background:var(--nd-red);width:0;transition:width .5s}
+.nd-nw-legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:var(--nd-muted)}
+.nd-nw-legend i{display:inline-block;width:8px;height:8px;border-radius:3px;margin-right:6px}
+.nd-nw-legend b{color:var(--nd-text);margin-left:4px}
+.nd-accounts{list-style:none;margin:0;padding:0}
+.nd-acc-group{font-size:11px;font-weight:700;color:var(--nd-faint);text-transform:uppercase;letter-spacing:.08em;padding:12px 0 4px;display:flex;justify-content:space-between}
+.nd-acc{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--nd-line2)}
+.nd-acc-ico{width:34px;height:34px;border-radius:10px;background:var(--nd-line2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.nd-acc-nm{flex:1;min-width:0}
+.nd-acc-nm b{display:block;font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nd-acc-nm small{font-size:11.5px;color:var(--nd-faint)}
+.nd-acc-bal{font-size:14px;font-weight:650;white-space:nowrap}
+
+/* Utilization */
+.nd-util-top{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.nd-util-pct{font-size:30px;font-weight:750;letter-spacing:-.02em}
+.nd-badge{font-size:11.5px;font-weight:700;padding:4px 9px;border-radius:999px}
+.nd-badge.good{background:#E3F6EC;color:#157F4F}.nd-badge.ok{background:#FFF4D6;color:#8A5A00}.nd-badge.bad{background:#FDE7E8;color:#B42328}
+.nd-util-row{margin-bottom:10px}
+.nd-util-row .t{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px;gap:8px}
+.nd-util-row .t span:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600;color:#344054}
+.nd-util-row .t span:last-child{color:var(--nd-muted);white-space:nowrap}
+.nd-track{height:7px;background:var(--nd-line2);border-radius:999px;overflow:hidden}
+.nd-track>span{display:block;height:100%;border-radius:999px;transition:width .5s}
+
+/* Goals */
+.nd-goals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.nd-goal{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;padding:10px 4px;border-radius:12px;text-decoration:none;color:inherit;transition:background .15s}
+.nd-goal:hover{background:#F8F9FB}
+.nd-goal-ring{position:relative;width:64px;height:64px}
+.nd-goal-ring span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:750}
+.nd-ring{width:64px;height:64px}.nd-ring circle{transition:stroke-dashoffset .6s}
+.nd-goal-name{font-size:13px;font-weight:650;margin-top:4px}
+.nd-goal-sub{font-size:11.5px;color:var(--nd-faint)}
+
+/* Score card (existing IDs, restyled) */
+.nab-portal-body .nab-score-card{padding:20px 22px}
+.nab-portal-body .nab-score-input{height:44px;padding:0 14px;border-radius:10px;font-size:15px;border:1px solid var(--nd-line)}
+.nab-portal-body .nab-btn-check{height:44px;border-radius:10px;padding:0 18px;font-size:14px}
+.nab-portal-body .nab-score-gauge{margin:14px 0 2px}
+.nab-portal-body .nab-score-number{font-size:34px;font-weight:800;letter-spacing:-.02em;bottom:2px}
+.nab-portal-body .nab-score-label{font-size:14px}
+
+/* Existing sections — align with the new card style */
+.nab-portal-body .nab-featured-video,.nab-portal-body .nab-learn-progress,.nab-portal-body .nab-journey-card,.nab-portal-body .nab-feat-card,.nab-portal-body .nab-profile-wrap,.nab-portal-body .nab-reader{border:1px solid var(--nd-line);box-shadow:var(--nd-shadow)}
+.nab-portal-body .nab-feat-card{border-top:3px solid var(--ncard-accent)}
+.nab-portal-body .nab-section-heading{font-size:16px;font-weight:700;color:var(--nd-text);text-transform:none;letter-spacing:-.01em}
+
+/* Sheets / modal */
+.nd-modal{position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center}
+.nd-modal-backdrop{position:absolute;inset:0;background:rgba(15,27,45,.45);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);animation:ndFade .18s ease}
+.nd-sheet{position:relative;background:#fff;border-radius:18px;width:min(560px,calc(100vw - 32px));max-height:min(88vh,780px);display:flex;flex-direction:column;box-shadow:0 24px 60px rgba(15,27,45,.25);animation:ndPop .2s ease}
+.nd-sheet-grip{display:none}
+.nd-sheet-head{display:flex;align-items:center;justify-content:space-between;padding:18px 22px 10px}
+.nd-sheet-head h3{margin:0;font-size:18px;font-weight:750;letter-spacing:-.01em;color:var(--nd-text)}
+.nd-sheet-x{border:0;background:var(--nd-line2);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:14px;color:var(--nd-muted)}
+.nd-sheet-body{overflow-y:auto;padding:4px 22px 24px;-webkit-overflow-scrolling:touch}
+.nd-form label{display:block;font-size:12.5px;font-weight:600;color:#475467;margin-bottom:12px}
+.nd-form input,.nd-form select{display:block;width:100%;box-sizing:border-box;height:44px;margin-top:6px;padding:0 12px;border:1px solid #D9DEE6;border-radius:10px;font:inherit;font-size:15px;color:var(--nd-text);background:#fff;outline:none;transition:border-color .15s,box-shadow .15s}
+.nd-form input:focus,.nd-form select:focus{border-color:var(--nd-blue);box-shadow:0 0 0 3px rgba(13,92,155,.12)}
+.nd-money{position:relative;display:block}
+.nd-money::before{content:'$';position:absolute;left:12px;top:50%;transform:translateY(-50%);margin-top:3px;color:var(--nd-faint);font-weight:600;font-size:14px;pointer-events:none}
+.nd-money input{padding-left:26px}
+.nd-row2{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+.nd-subhead{font-size:11px;font-weight:700;color:var(--nd-faint);text-transform:uppercase;letter-spacing:.08em;margin:6px 0 10px}
+.nd-cat-dot{display:inline-block;width:8px;height:8px;border-radius:3px;margin-right:6px}
+.nd-hint{font-size:12px;color:var(--nd-muted);margin:-2px 0 12px;line-height:1.5}
+.nd-form-msg{font-size:13px;font-weight:600;margin:0 0 10px;min-height:0}
+.nd-form-msg.ok{color:#157F4F}.nd-form-msg.err{color:#B42328}
+.nd-form-actions{display:flex;flex-direction:column;gap:8px}
+.nd-list-title{font-size:11px;font-weight:700;color:var(--nd-faint);text-transform:uppercase;letter-spacing:.08em;margin:22px 0 6px}
+.nd-list{list-style:none;margin:0;padding:0}
+.nd-list li{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--nd-line2);font-size:13.5px}
+.nd-list li .main{flex:1;min-width:0}
+.nd-list li .main b{display:block;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nd-list li .main small{color:var(--nd-faint);font-size:12px}
+.nd-list li .act{display:flex;gap:4px}
+.nd-list li .act button{border:0;background:var(--nd-line2);color:#475467;font:inherit;font-size:12px;font-weight:600;padding:6px 10px;border-radius:8px;cursor:pointer}
+.nd-list li .act button.del:hover{background:#FDE7E8;color:#B42328}
+.nd-list .none{color:var(--nd-faint);font-size:13px}
+.nd-quick{display:flex;flex-direction:column;gap:10px;padding-bottom:6px}
+.nd-quick button{display:grid;grid-template-columns:44px 1fr;grid-template-rows:auto auto;column-gap:12px;align-items:center;text-align:left;font:inherit;padding:14px;border:1px solid var(--nd-line);border-radius:14px;background:#fff;cursor:pointer;transition:border-color .15s,background .15s}
+.nd-quick button:hover{border-color:var(--nd-blue);background:#F6F9FD}
+.nd-quick span{grid-row:1/3;width:44px;height:44px;border-radius:12px;background:var(--nd-line2);display:flex;align-items:center;justify-content:center;font-size:20px}
+.nd-quick b{font-size:14.5px;color:var(--nd-text)}
+.nd-quick small{font-size:12px;color:var(--nd-muted)}
+@keyframes ndFade{from{opacity:0}to{opacity:1}}
+@keyframes ndPop{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes ndUp{from{transform:translateY(100%)}to{transform:none}}
+
+/* Bottom nav (mobile only) */
+.nd-bottomnav{display:none}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media(max-width:1180px){
+  .nd-span-8,.nd-span-4,.nd-span-7,.nd-span-5{grid-column:1/-1}
+  .nd-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .nd-donut-wrap{flex-direction:row;align-items:center}
+  .nd-donut-wrap .nd-legend{flex:1}
+}
+@media(max-width:768px){
+  .nab-portal-body .nab-topbar{padding:10px 14px 10px 64px;min-height:60px;flex-wrap:wrap;gap:10px}
+  .nab-portal-body .nab-topbar-title{font-size:16px;flex:1}
+  .nab-portal-body .nab-topbar-right .nab-status-badge,.nab-portal-body .nab-topbar-right .nab-qbtn{display:none}
+  .nab-portal-body .nab-search-wrap{order:3;flex-basis:100%;max-width:none}
+  /* scrolls away with the header — the bottom nav has its own Menu button */
+  .nab-portal-body .nab-hamburger{position:absolute;top:10px;left:12px}
+  .nab-portal-body .nab-content{padding:18px 16px calc(96px + env(safe-area-inset-bottom))}
+  .nd-hero{margin-bottom:18px;align-items:stretch}
+  .nd-hero-title{font-size:25px}
+  .nd-hero-actions{width:100%}
+  .nd-hero-actions .nd-btn{flex:1}
+  .nd-kpis{gap:10px;margin-bottom:20px}
+  .nd-kpi{padding:14px}
+  .nd-kpi-value{font-size:21px}
+  .nd-grid{gap:14px}
+  .nd-stack{gap:14px}
+  .nd-card{padding:16px;border-radius:14px}
+  .nd-card-head{flex-wrap:wrap}
+  .nd-chart{height:210px}
+  .nd-chart-lg{height:230px}
+  .nd-donut-wrap{flex-direction:column}
+  .nd-stats{gap:18px}
+  .nd-stat-v{font-size:17px}
+  .nd-nw-value{font-size:28px}
+  .nab-ask-ai-btn{display:none!important}
+  /* bottom sheet */
+  .nd-modal{align-items:flex-end}
+  .nd-sheet{width:100%;max-height:92vh;border-radius:20px 20px 0 0;animation:ndUp .24s cubic-bezier(.2,.8,.2,1)}
+  .nd-sheet-grip{display:block;width:40px;height:5px;border-radius:3px;background:#D9DEE6;margin:8px auto 0}
+  .nd-sheet-head{padding:10px 18px 8px}
+  .nd-sheet-body{padding:4px 18px calc(24px + env(safe-area-inset-bottom))}
+  .nd-form input,.nd-form select{font-size:16px}
+  /* bottom nav */
+  .nd-bottomnav{display:grid;grid-template-columns:repeat(5,1fr);align-items:end;position:fixed;left:0;right:0;bottom:0;z-index:80;background:rgba(255,255,255,.96);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid var(--nd-line);padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
+  .nd-bottomnav>a,.nd-bottomnav>button{display:flex;flex-direction:column;align-items:center;gap:2px;font:inherit;font-size:10.5px;font-weight:600;color:var(--nd-muted);background:none;border:0;text-decoration:none;padding:4px 0;cursor:pointer}
+  .nd-bottomnav>a span,.nd-bottomnav>button span{font-size:19px;line-height:1.2}
+  .nd-bottomnav .on{color:var(--nd-blue)}
+  .nd-bottomnav .nd-bn-add span{width:50px;height:50px;border-radius:50%;background:var(--nd-blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:400;box-shadow:0 6px 16px rgba(13,92,155,.35);margin-top:-22px}
+}
+@media(max-width:380px){
+  .nd-kpi-value{font-size:19px}
+  .nd-goals{gap:4px}
+}
 </style>
 </head>
 <body <?php body_class( 'nab-portal-body' ); ?>>
@@ -605,75 +860,52 @@ var nabQuizData = {
 
     <div class="nab-content">
 
-      <!-- ── TOP ROW: Welcome + Score ─────────────── -->
-      <div class="nab-top-row">
-
-        <div class="nab-welcome-card">
-          <div>
-            <div class="nab-welcome-greeting">Good <?php echo esc_html( $greeting ); ?>, 👋</div>
-            <div class="nab-welcome-name"><?php echo esc_html( $first_name ); ?></div>
-            <div class="nab-welcome-meta">
-              <span class="nab-meta-pill"><span class="ndot"></span><?php echo esc_html( $member_status ); ?> Member</span>
-              <?php if ( $member_since ) : ?>
-              <span class="nab-meta-pill">📅 Since <?php echo esc_html( $member_since ); ?></span>
-              <?php endif; ?>
-              <span class="nab-meta-pill">💳 <?php echo esc_html( $payment_status ); ?></span>
-            </div>
-          </div>
-          <div class="nab-welcome-right">
-            <div class="nab-member-since-label">Member ID</div>
-            <div class="nab-member-id"><?php echo esc_html( $member_id ); ?></div>
-            <div class="nab-quick-btns">
-              <?php if ( $url_book !== '#' ) : ?>
-              <a href="<?php echo esc_url( $url_book ); ?>" class="nab-qbtn nab-qbtn-orange">📅 Book Now</a>
-              <?php endif; ?>
-              <button class="nab-qbtn" data-tab-open="profile" type="button">👤 Profile</button>
-            </div>
+      <!-- ── HERO (v1.9.0, Monarch-style) ───────────── -->
+      <section class="nd-hero">
+        <div class="nd-hero-main">
+          <div class="nd-hero-date"><?php echo esc_html( wp_date( 'l, F j' ) ); ?></div>
+          <h1 class="nd-hero-title">Good <?php echo esc_html( strtolower( $greeting ) ); ?>, <?php echo esc_html( $first_name ); ?></h1>
+          <div class="nd-hero-pills">
+            <span class="nd-pill"><span class="ndot"></span><?php echo esc_html( $member_status ); ?> Member</span>
+            <?php if ( $member_since ) : ?>
+            <span class="nd-pill" title="The date you registered">📅 Member since <?php echo esc_html( $member_since ); ?></span>
+            <?php endif; ?>
+            <span class="nd-pill">💳 <?php echo esc_html( $payment_status ); ?></span>
+            <span class="nd-pill nd-pill-id">ID <?php echo esc_html( $member_id ); ?></span>
           </div>
         </div>
-
-        <div class="nab-score-card">
-          <div class="nab-score-title">📊 My Credit Score</div>
-          <?php if ( $saved_score && $score_source === 'account' ) : ?>
-          <p style="font-size:11px;color:#64748b;margin:0 0 8px">Score pulled from your credit account.</p>
-          <?php else : ?>
-          <div class="nab-score-input-wrap">
-            <input type="number" id="nabScoreInput" class="nab-score-input" placeholder="Enter score (300–900)"
-              min="300" max="900"
-              <?php echo ( $saved_score && $score_source === 'self' ) ? 'value="' . esc_attr( $saved_score ) . '"' : ''; ?>>
-            <button id="nabScoreBtn" class="nab-btn-check" type="button">Check</button>
-          </div>
-          <div class="nab-score-error" id="nabScoreError"></div>
-          <div class="nab-score-self-label" id="nabSelfLabel">⚠ Self-reported score</div>
+        <div class="nd-hero-actions">
+          <?php if ( $url_book !== '#' ) : ?>
+          <a href="<?php echo esc_url( $url_book ); ?>" class="nd-btn nd-btn-orange">📅 Book Now</a>
           <?php endif; ?>
-          <div id="nabScoreDisplay" style="display:<?php echo $saved_score ? 'block' : 'none'; ?>">
-            <div class="nab-score-gauge">
-              <svg width="160" height="80" viewBox="0 0 160 80">
-                <path d="M10,80 A70,70 0 0,1 150,80" fill="none" stroke="#f1f5f9" stroke-width="12" stroke-linecap="round"/>
-                <path id="nabGaugeArc" d="M10,80 A70,70 0 0,1 150,80" fill="none" stroke="#0D5C9B" stroke-width="12"
-                  stroke-linecap="round" stroke-dasharray="207" stroke-dashoffset="207" style="transition:stroke-dashoffset .6s ease,stroke .4s"/>
-              </svg>
-              <span class="nab-score-number" id="nabScoreNum"><?php echo $saved_score ? esc_html( $saved_score ) : ''; ?></span>
-            </div>
-            <div class="nab-score-label" id="nabScoreLabel"></div>
-            <div class="nab-score-msg"   id="nabScoreMsg"></div>
-            <div class="nab-score-range">
-              <div class="nab-ri"><span style="color:#ef4444">●</span><span>300</span><span>Poor</span></div>
-              <div class="nab-ri"><span style="color:#f97316">●</span><span>580</span><span>Fair</span></div>
-              <div class="nab-ri"><span style="color:#3b82f6">●</span><span>670</span><span>Good</span></div>
-              <div class="nab-ri"><span style="color:#22c55e">●</span><span>740</span><span>V.Good</span></div>
-              <div class="nab-ri"><span style="color:#16a34a">●</span><span>800</span><span>Excellent</span></div>
-            </div>
-          </div>
-          <div class="nab-score-providers">
-            <a class="nab-provider-chip" href="<?php echo esc_url($equifax_url); ?>"     target="_blank" rel="noopener"><span class="nab-pdot" style="background:#e53e3e"></span>Equifax</a>
-            <a class="nab-provider-chip" href="<?php echo esc_url($transunion_url); ?>"  target="_blank" rel="noopener"><span class="nab-pdot" style="background:#3182ce"></span>TransUnion</a>
-            <a class="nab-provider-chip" href="<?php echo esc_url($borrowell_url); ?>"   target="_blank" rel="noopener"><span class="nab-pdot" style="background:#38a169"></span>Borrowell</a>
-            <a class="nab-provider-chip" href="<?php echo esc_url($creditkarma_url); ?>" target="_blank" rel="noopener"><span class="nab-pdot" style="background:#805ad5"></span>CreditKarma</a>
-          </div>
+          <button type="button" class="nd-btn nd-btn-primary" data-nd-open="quick">＋ Add data</button>
+          <button type="button" class="nd-btn" data-tab-open="profile">👤 Profile</button>
         </div>
+      </section>
 
-      </div><!-- /top-row -->
+      <!-- ── KPI TILES (filled by nab-dashboard-charts.js) ── -->
+      <section class="nd-kpis" aria-label="Your numbers at a glance">
+        <button type="button" class="nd-kpi" data-nd-open="score">
+          <span class="nd-kpi-label">Credit score</span>
+          <span class="nd-kpi-value" id="ndKpiScore"><?php echo $saved_score ? esc_html( $saved_score ) : '—'; ?></span>
+          <span class="nd-kpi-sub" id="ndKpiScoreSub">Log your score</span>
+        </button>
+        <button type="button" class="nd-kpi" data-nd-open="account">
+          <span class="nd-kpi-label">Net worth</span>
+          <span class="nd-kpi-value" id="ndKpiNet">—</span>
+          <span class="nd-kpi-sub" id="ndKpiNetSub">Add your accounts</span>
+        </button>
+        <button type="button" class="nd-kpi" data-nd-open="cashflow">
+          <span class="nd-kpi-label" id="ndKpiCfLabel">Cash flow</span>
+          <span class="nd-kpi-value" id="ndKpiCf">—</span>
+          <span class="nd-kpi-sub" id="ndKpiCfSub">Add this month</span>
+        </button>
+        <a class="nd-kpi" href="<?php echo esc_url( $nav_links['util'] !== '#' ? $nav_links['util'] : '#nd-util' ); ?>">
+          <span class="nd-kpi-label">Credit utilization</span>
+          <span class="nd-kpi-value" id="ndKpiUtil">—</span>
+          <span class="nd-kpi-sub" id="ndKpiUtilSub">Use the Utilization Checker</span>
+        </a>
+      </section>
 
       <!-- ══ TAB BAR ════════════════════════════════════ -->
       <div class="nab-tab-bar" id="nabTabBar" role="tablist">
@@ -685,6 +917,187 @@ var nabQuizData = {
 
       <!-- ══ TAB: OVERVIEW ════════════════════════════════ -->
       <div class="nab-tab-panel active" id="nabTab-overview" role="tabpanel">
+
+        <?php
+        // Small progress ring used by the Goals card
+        $nd_ring = function( $pct, $color, $id = '' ) {
+            $pct = max( 0, min( 100, (int) round( $pct ) ) );
+            $c   = 2 * M_PI * 26;
+            printf(
+                '<svg class="nd-ring" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="26" fill="none" stroke="#EEF1F5" stroke-width="7"/><circle %s cx="32" cy="32" r="26" fill="none" stroke="%s" stroke-width="7" stroke-linecap="round" stroke-dasharray="%.1f" stroke-dashoffset="%.1f" transform="rotate(-90 32 32)"/></svg>',
+                $id ? 'id="' . esc_attr( $id ) . '"' : '', esc_attr( $color ), $c, $c * ( 1 - $pct / 100 )
+            );
+        };
+        ?>
+        <div class="nd-grid">
+
+          <!-- Credit score trend -->
+          <section class="nd-card nd-span-8">
+            <header class="nd-card-head">
+              <div>
+                <h2 class="nd-card-title">Credit score</h2>
+                <div class="nd-card-sub" id="ndScoreSub">Track your score over time</div>
+              </div>
+              <div class="nd-seg" role="group" aria-label="Score chart range" data-nd-range="score">
+                <button type="button" data-range="3">3M</button>
+                <button type="button" data-range="6">6M</button>
+                <button type="button" data-range="12" class="on">1Y</button>
+                <button type="button" data-range="0">All</button>
+              </div>
+            </header>
+            <div class="nd-chart nd-chart-lg"><canvas id="ndScoreChart" aria-label="Credit score over time" role="img"></canvas>
+              <div class="nd-empty" id="ndScoreEmpty" hidden>
+                <div class="nd-empty-ico">📈</div>
+                <div class="nd-empty-txt">Log your credit score to start your trend line.</div>
+                <?php if ( $can_self_score ) : ?><button type="button" class="nd-btn nd-btn-primary" data-nd-open="score">＋ Log a score</button><?php endif; ?>
+              </div>
+            </div>
+          </section>
+
+          <!-- Score gauge + quick check (IDs used by nab-dashboard.js) -->
+          <section class="nd-card nd-span-4 nab-score-card">
+            <header class="nd-card-head">
+              <h2 class="nd-card-title">My credit score</h2>
+              <?php if ( $can_self_score ) : ?><button type="button" class="nd-link" data-nd-open="score">History</button><?php endif; ?>
+            </header>
+            <?php if ( ! $can_self_score ) : ?>
+            <p style="font-size:12px;color:#64748b;margin:0 0 8px">Score pulled from your credit account.</p>
+            <?php else : ?>
+            <div class="nab-score-input-wrap">
+              <input type="number" id="nabScoreInput" class="nab-score-input" placeholder="Enter score (300–900)" inputmode="numeric"
+                min="300" max="900" <?php echo ( $saved_score && $score_source === 'self' ) ? 'value="' . esc_attr( $saved_score ) . '"' : ''; ?>>
+              <button id="nabScoreBtn" class="nab-btn-check" type="button">Save</button>
+            </div>
+            <div class="nab-score-error" id="nabScoreError"></div>
+            <div class="nab-score-self-label" id="nabSelfLabel">⚠ Self-reported score</div>
+            <?php endif; ?>
+            <div id="nabScoreDisplay" style="display:<?php echo $saved_score ? 'block' : 'none'; ?>">
+              <div class="nab-score-gauge">
+                <svg width="180" height="96" viewBox="0 0 160 86">
+                  <path d="M10,80 A70,70 0 0,1 150,80" fill="none" stroke="#EEF1F5" stroke-width="12" stroke-linecap="round"/>
+                  <path id="nabGaugeArc" d="M10,80 A70,70 0 0,1 150,80" fill="none" stroke="#0D5C9B" stroke-width="12"
+                    stroke-linecap="round" stroke-dasharray="220" stroke-dashoffset="220" style="transition:stroke-dashoffset .6s ease,stroke .4s"/>
+                </svg>
+                <span class="nab-score-number" id="nabScoreNum"><?php echo $saved_score ? esc_html( $saved_score ) : ''; ?></span>
+              </div>
+              <div class="nab-score-label" id="nabScoreLabel"></div>
+              <div class="nab-score-msg"   id="nabScoreMsg"></div>
+              <div class="nab-score-range">
+                <div class="nab-ri"><span style="color:#ef4444">●</span><span>300</span><span>Poor</span></div>
+                <div class="nab-ri"><span style="color:#f97316">●</span><span>580</span><span>Fair</span></div>
+                <div class="nab-ri"><span style="color:#3b82f6">●</span><span>670</span><span>Good</span></div>
+                <div class="nab-ri"><span style="color:#22c55e">●</span><span>740</span><span>V.Good</span></div>
+                <div class="nab-ri"><span style="color:#16a34a">●</span><span>800</span><span>Excellent</span></div>
+              </div>
+            </div>
+            <div class="nab-score-providers">
+              <a class="nab-provider-chip" href="<?php echo esc_url($equifax_url); ?>"     target="_blank" rel="noopener"><span class="nab-pdot" style="background:#e53e3e"></span>Equifax</a>
+              <a class="nab-provider-chip" href="<?php echo esc_url($transunion_url); ?>"  target="_blank" rel="noopener"><span class="nab-pdot" style="background:#3182ce"></span>TransUnion</a>
+              <a class="nab-provider-chip" href="<?php echo esc_url($borrowell_url); ?>"   target="_blank" rel="noopener"><span class="nab-pdot" style="background:#38a169"></span>Borrowell</a>
+              <a class="nab-provider-chip" href="<?php echo esc_url($creditkarma_url); ?>" target="_blank" rel="noopener"><span class="nab-pdot" style="background:#805ad5"></span>CreditKarma</a>
+            </div>
+          </section>
+
+          <!-- Cash flow -->
+          <section class="nd-card nd-span-8">
+            <header class="nd-card-head">
+              <div>
+                <h2 class="nd-card-title">Cash flow</h2>
+                <div class="nd-card-sub">Income vs. expenses — last 6 months</div>
+              </div>
+              <button type="button" class="nd-btn nd-btn-sm" data-nd-open="cashflow">＋ Add month</button>
+            </header>
+            <div class="nd-stats" id="ndCfStats"></div>
+            <div class="nd-chart"><canvas id="ndCashflowChart" aria-label="Income and expenses by month" role="img"></canvas>
+              <div class="nd-empty" id="ndCashflowEmpty" hidden>
+                <div class="nd-empty-ico">💸</div>
+                <div class="nd-empty-txt">Add a month of income and expenses to see your cash flow.</div>
+                <button type="button" class="nd-btn nd-btn-primary" data-nd-open="cashflow">＋ Add a month</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Spending breakdown -->
+          <section class="nd-card nd-span-4">
+            <header class="nd-card-head">
+              <div>
+                <h2 class="nd-card-title">Spending</h2>
+                <div class="nd-card-sub" id="ndSpendSub">By category</div>
+              </div>
+            </header>
+            <div class="nd-donut-wrap">
+              <div class="nd-chart nd-chart-donut"><canvas id="ndSpendChart" aria-label="Spending by category" role="img"></canvas>
+                <div class="nd-donut-center"><span id="ndSpendTotal">—</span><small>spent</small></div>
+              </div>
+              <ul class="nd-legend" id="ndSpendLegend"></ul>
+            </div>
+            <div class="nd-empty nd-empty-inline" id="ndSpendEmpty" hidden>
+              <div class="nd-empty-txt">Your spending categories will appear here.</div>
+            </div>
+          </section>
+
+          <!-- Net worth -->
+          <section class="nd-card nd-span-7">
+            <header class="nd-card-head">
+              <div>
+                <h2 class="nd-card-title">Net worth</h2>
+                <div class="nd-card-sub">What you own minus what you owe</div>
+              </div>
+              <button type="button" class="nd-btn nd-btn-sm" data-nd-open="account">＋ Add account</button>
+            </header>
+            <div class="nd-nw-top">
+              <div class="nd-nw-value" id="ndNwValue">—</div>
+              <div class="nd-nw-bar" id="ndNwBar" aria-hidden="true"><span class="a"></span><span class="d"></span></div>
+              <div class="nd-nw-legend">
+                <span><i style="background:#22A06B"></i>Assets <b id="ndNwAssets">$0</b></span>
+                <span><i style="background:#E5484D"></i>Debts <b id="ndNwDebts">$0</b></span>
+              </div>
+            </div>
+            <div class="nd-chart nd-chart-sm"><canvas id="ndNetChart" aria-label="Net worth over time" role="img"></canvas></div>
+            <ul class="nd-accounts" id="ndAccountList"></ul>
+            <div class="nd-empty nd-empty-inline" id="ndNwEmpty" hidden>
+              <div class="nd-empty-txt">Add your bank accounts, savings, loans and cards to see your net worth.</div>
+              <button type="button" class="nd-btn nd-btn-primary" data-nd-open="account">＋ Add an account</button>
+            </div>
+          </section>
+
+          <!-- Utilization + Goals -->
+          <div class="nd-span-5 nd-stack">
+            <section class="nd-card" id="nd-util">
+              <header class="nd-card-head">
+                <div>
+                  <h2 class="nd-card-title">Credit utilization</h2>
+                  <div class="nd-card-sub">Keep it under 30%</div>
+                </div>
+                <?php if ( $nav_links['util'] !== '#' ) : ?><a class="nd-link" href="<?php echo esc_url( $nav_links['util'] ); ?>">Update →</a><?php endif; ?>
+              </header>
+              <div id="ndUtilBody"></div>
+            </section>
+
+            <section class="nd-card">
+              <header class="nd-card-head"><h2 class="nd-card-title">Goals</h2></header>
+              <div class="nd-goals">
+                <a class="nd-goal" href="<?php echo esc_url( $nav_links['ef'] !== '#' ? $nav_links['ef'] : '#' ); ?>">
+                  <div class="nd-goal-ring"><?php $nd_ring( 0, '#22A06B', 'ndEfRing' ); ?><span id="ndEfPct">0%</span></div>
+                  <div class="nd-goal-name">Emergency fund</div>
+                  <div class="nd-goal-sub" id="ndEfSub">Set a goal</div>
+                </a>
+                <a class="nd-goal" href="<?php echo esc_url( $nav_links['learning'] ); ?>">
+                  <div class="nd-goal-ring"><?php $nd_ring( $progress_pct, '#0D5C9B' ); ?><span><?php echo (int) $progress_pct; ?>%</span></div>
+                  <div class="nd-goal-name">Learning</div>
+                  <div class="nd-goal-sub"><?php echo (int) $completed_count; ?> of <?php echo (int) $total_modules; ?> lessons</div>
+                </a>
+                <?php $rm_pct = $roadmap_progress['total'] ? 100 * $roadmap_progress['done'] / $roadmap_progress['total'] : 0; ?>
+                <a class="nd-goal" href="<?php echo esc_url( $nav_links['roadmap'] !== '#' ? $nav_links['roadmap'] : '#' ); ?>">
+                  <div class="nd-goal-ring"><?php $nd_ring( $rm_pct, '#F97316' ); ?><span><?php echo (int) round( $rm_pct ); ?>%</span></div>
+                  <div class="nd-goal-name">Roadmap</div>
+                  <div class="nd-goal-sub"><?php echo (int) $roadmap_progress['done']; ?> of <?php echo (int) $roadmap_progress['total']; ?> steps</div>
+                </a>
+              </div>
+            </section>
+          </div>
+
+        </div><!-- /nd-grid -->
 
         <!-- ── Featured Video + Right Panel ─────────── -->
         <div class="nab-dash-two-col">
@@ -1291,6 +1704,113 @@ var nabQuizData = {
     </div><!-- /nab-content -->
   </main>
 </div><!-- /nab-portal-wrap -->
+
+<!-- ══ v1.9.0 MANUAL ENTRY SHEETS (modal on desktop, bottom sheet on mobile) ══ -->
+<div class="nd-modal" id="ndModal" hidden>
+  <div class="nd-modal-backdrop" data-nd-close></div>
+  <div class="nd-sheet" role="dialog" aria-modal="true" aria-labelledby="ndSheetTitle">
+    <div class="nd-sheet-grip" aria-hidden="true"></div>
+    <header class="nd-sheet-head">
+      <h3 id="ndSheetTitle">Add data</h3>
+      <button type="button" class="nd-sheet-x" data-nd-close aria-label="Close">✕</button>
+    </header>
+    <div class="nd-sheet-body">
+
+      <!-- Quick add chooser -->
+      <div class="nd-pane" data-pane="quick" data-title="What would you like to add?">
+        <div class="nd-quick">
+          <?php if ( $can_self_score ) : ?>
+          <button type="button" data-nd-open="score"><span>📈</span><b>Credit score</b><small>Log today's or a past score</small></button>
+          <?php endif; ?>
+          <button type="button" data-nd-open="cashflow"><span>💸</span><b>Monthly income &amp; expenses</b><small>Powers Cash Flow and Spending</small></button>
+          <button type="button" data-nd-open="account"><span>🏦</span><b>Account or debt</b><small>Powers your Net Worth</small></button>
+        </div>
+      </div>
+
+      <!-- Credit score -->
+      <form class="nd-pane nd-form" data-pane="score" data-title="Log a credit score" data-action="nab_dash_score_add" novalidate>
+        <div class="nd-row2">
+          <label>Score<input type="number" name="score" min="300" max="900" inputmode="numeric" placeholder="e.g. 712" required></label>
+          <label>Date<input type="date" name="date" max="<?php echo esc_attr( $dash_data['today'] ); ?>" value="<?php echo esc_attr( $dash_data['today'] ); ?>" required></label>
+        </div>
+        <p class="nd-hint">Find your score free on Borrowell or Credit Karma. One entry per day — saving the same date again replaces it.</p>
+        <div class="nd-form-msg" role="status"></div>
+        <button type="submit" class="nd-btn nd-btn-primary nd-btn-block">Save score</button>
+        <h4 class="nd-list-title">Your score history</h4>
+        <ul class="nd-list" data-list="score"></ul>
+      </form>
+
+      <!-- Cash flow month -->
+      <form class="nd-pane nd-form" data-pane="cashflow" data-title="Monthly income &amp; expenses" data-action="nab_dash_cashflow_save" novalidate>
+        <label>Month
+          <select name="month">
+            <?php foreach ( $cf_months as $mk => $ml ) : ?><option value="<?php echo esc_attr( $mk ); ?>"><?php echo esc_html( $ml ); ?></option><?php endforeach; ?>
+          </select>
+        </label>
+        <label>Total income (after tax)
+          <span class="nd-money"><input type="number" name="income" min="0" step="0.01" inputmode="decimal" placeholder="0.00"></span>
+        </label>
+        <div class="nd-subhead">Expenses</div>
+        <div class="nd-row2">
+          <?php foreach ( $dash_data['cats'] as $ck => $cat ) : ?>
+          <label><span class="nd-cat-dot" style="background:<?php echo esc_attr( $cat['color'] ); ?>"></span><?php echo esc_html( $cat['label'] ); ?>
+            <span class="nd-money"><input type="number" name="exp_<?php echo esc_attr( $ck ); ?>" min="0" step="0.01" inputmode="decimal" placeholder="0.00"></span>
+          </label>
+          <?php endforeach; ?>
+        </div>
+        <div class="nd-form-msg" role="status"></div>
+        <button type="submit" class="nd-btn nd-btn-primary nd-btn-block">Save month</button>
+        <h4 class="nd-list-title">Saved months</h4>
+        <ul class="nd-list" data-list="cashflow"></ul>
+      </form>
+
+      <!-- Account -->
+      <form class="nd-pane nd-form" data-pane="account" data-title="Add an account" data-action="nab_dash_account_save" novalidate>
+        <input type="hidden" name="id" value="">
+        <label>Account name<input type="text" name="name" maxlength="60" placeholder="e.g. TD Chequing, Car loan" required></label>
+        <div class="nd-row2">
+          <label>Type
+            <select name="type">
+              <optgroup label="What you own">
+                <?php foreach ( $dash_data['types'] as $tk => $t ) if ( $t['group'] === 'asset' ) : ?><option value="<?php echo esc_attr( $tk ); ?>"><?php echo esc_html( $t['label'] ); ?></option><?php endif; ?>
+              </optgroup>
+              <optgroup label="What you owe">
+                <?php foreach ( $dash_data['types'] as $tk => $t ) if ( $t['group'] === 'debt' ) : ?><option value="<?php echo esc_attr( $tk ); ?>"><?php echo esc_html( $t['label'] ); ?></option><?php endif; ?>
+              </optgroup>
+            </select>
+          </label>
+          <label>Current balance<span class="nd-money"><input type="number" name="balance" min="0" step="0.01" inputmode="decimal" placeholder="0.00" required></span></label>
+        </div>
+        <p class="nd-hint">For debts, enter the amount you owe as a positive number.</p>
+        <div class="nd-form-msg" role="status"></div>
+        <div class="nd-form-actions">
+          <button type="submit" class="nd-btn nd-btn-primary nd-btn-block">Save account</button>
+          <button type="button" class="nd-btn nd-btn-block" data-nd-reset hidden>Cancel edit</button>
+        </div>
+        <h4 class="nd-list-title">Your accounts</h4>
+        <ul class="nd-list" data-list="account"></ul>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══ v1.9.0 MOBILE BOTTOM NAV ══ -->
+<nav class="nd-bottomnav" aria-label="Quick navigation">
+  <button type="button" class="on" data-nd-home><span>🏠</span>Home</button>
+  <a href="<?php echo esc_url( $nav_links['learning'] !== '#' ? $nav_links['learning'] : $nav_links['dashboard'] ); ?>"><span>🎓</span>Learn</a>
+  <button type="button" class="nd-bn-add" data-nd-open="quick" aria-label="Add data"><span>＋</span></button>
+  <?php if ( $nav_links['chatbot'] !== '#' ) : ?>
+  <a href="<?php echo esc_url( $nav_links['chatbot'] ); ?>"><span>✨</span>Ask AI</a>
+  <?php else : ?>
+  <button type="button" data-tab-open="profile"><span>👤</span>Profile</button>
+  <?php endif; ?>
+  <button type="button" data-nd-menu><span>☰</span>Menu</button>
+</nav>
+
+<script>
+window.nabDashData = <?php echo wp_json_encode( $dash_data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP ); ?>;
+</script>
 <?php endif; ?>
 
 

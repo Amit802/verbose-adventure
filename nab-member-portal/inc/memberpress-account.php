@@ -26,7 +26,7 @@ function nab_mp_account_shortcode() {
     $tier    = nab_get_member_tier( $user_id );
     $paused  = (bool) get_user_meta( $user_id, 'nab_mp_resume_date', true );
     $resume  = get_user_meta( $user_id, 'nab_mp_resume_date', true );
-    $joined  = get_user_meta( $user_id, 'nab_joined_date', true );
+    $joined  = nab_get_member_since( $user_id, 'Y-m-d' );
     $points  = (int) get_user_meta( $user_id, 'nab_points', true );
     $level   = get_user_meta( $user_id, 'nab_level', true ) ?: 'bronze';
     $streak  = (int) get_user_meta( $user_id, 'nab_streak', true );

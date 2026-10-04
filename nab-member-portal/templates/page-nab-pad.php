@@ -38,7 +38,7 @@ $bank_name   = get_user_meta( $uid, 'nab_bank_name', true ) ?: 'On file';
 $institution = get_user_meta( $uid, 'nab_institution', true ) ?: 'On file';
 $transit     = get_user_meta( $uid, 'nab_transit', true ) ?: 'On file';
 $account     = get_user_meta( $uid, 'nab_account', true ) ?: 'On file';
-$since       = get_user_meta( $uid, 'nab_member_since', true ) ?: date( 'd M Y', strtotime( $user->user_registered ) );
+$since       = nab_get_member_since( $uid, 'd M Y' );
 $member_id   = get_user_meta( $uid, 'nab_member_id', true ) ?: 'NAB-' . str_pad( $uid, 4, '0', STR_PAD_LEFT );
 
 $agreement_vars = [

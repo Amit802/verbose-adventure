@@ -25,7 +25,7 @@ if ( ! function_exists( 'nab_mp_get_member_data' ) ) {
 
         $status      = get_user_meta( $user_id, 'nab_membership_status', true ) ?: 'active';
         $resume_date = get_user_meta( $user_id, 'nab_mp_resume_date',    true ) ?: null;
-        $joined      = get_user_meta( $user_id, 'nab_joined_date',       true ) ?: get_the_date( 'Y-m-d', $user_id );
+        $joined      = nab_get_member_since( $user_id, 'Y-m-d' );
         $plan        = get_user_meta( $user_id, 'nab_plan_name',         true ) ?: 'NAB Solutions Membership';
         $price       = get_user_meta( $user_id, 'nab_plan_price',        true ) ?: '$20.45 CAD/week';
 
