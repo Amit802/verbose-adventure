@@ -3,7 +3,7 @@
  * Plugin Name:  NAB Member Portal
  * Plugin URI:   https://nabsolutions.ca
  * Description:  Full member portal for NAB Solutions — Dashboard, Credit Tools, Auto Loan (LoanConnect v1.4), Credit Card Matcher, PAD Agreement, MemberPress integration, Notification system.
- * Version:      1.9.1
+ * Version:      1.9.2
  * Author:       NAB Solutions
  * Author URI:   https://nabsolutions.ca
  * License:      Private — All Rights Reserved
@@ -42,11 +42,78 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'NAB_VERSION', '1.9.1' );
+/* ── Safety check before loading (v1.9.2) ─────────────────
+   If another copy of this plugin, or a theme/snippet/plugin, already
+   defines one of our functions, PHP stops with "Cannot redeclare": the
+   activation fails with only "triggered a fatal error", and if the clash
+   appears while the portal is active the WHOLE SITE goes down.
+   Instead: stop loading the portal and say exactly what clashes and where.
+   Our function names are scanned once per release and cached in an
+   option, so each page load only does a few hundred function_exists(). */
+$nab_conflict = ( function() {
+    if ( defined( 'NAB_VERSION' ) ) {
+        return 'Another copy of NAB Member Portal (version ' . NAB_VERSION . ') is already running'
+            . ( defined( 'NAB_DIR' ) ? ' from ' . str_replace( ABSPATH, '', NAB_DIR ) : '' ) . '. Deactivate and delete that copy in Plugins, then activate this one.';
+    }
+    $files = glob( __DIR__ . '/inc/*.php' ) ?: [];
+    $key   = md5( implode( '|', array_map( function( $f ) { return basename( $f ) . ':' . @filemtime( $f ) . ':' . @filesize( $f ); }, $files ) ) );
+    $index = get_option( 'nab_function_index' );
+    if ( ! is_array( $index ) || ( $index['key'] ?? '' ) !== $key ) {
+        if ( ! function_exists( 'token_get_all' ) ) return '';
+        $names = [];
+        foreach ( $files as $file ) {
+            $tokens = token_get_all( (string) file_get_contents( $file ) );
+            $depth  = 0;
+            foreach ( $tokens as $i => $t ) {
+                if ( $t === '{' || ( is_array( $t ) && in_array( $t[0], [ T_CURLY_OPEN, T_DOLLAR_OPEN_CURLY_BRACES ], true ) ) ) { $depth++; continue; }
+                if ( $t === '}' ) { $depth--; continue; }
+                // Only top-level declarations: ones wrapped in if ( ! function_exists() ) can't clash.
+                if ( $depth !== 0 || ! is_array( $t ) || $t[0] !== T_FUNCTION ) continue;
+                for ( $j = $i + 1; isset( $tokens[ $j ] ) && is_array( $tokens[ $j ] ) && $tokens[ $j ][0] === T_WHITESPACE; $j++ );
+                if ( isset( $tokens[ $j ] ) && is_array( $tokens[ $j ] ) && $tokens[ $j ][0] === T_STRING ) $names[] = $tokens[ $j ][1];
+            }
+        }
+        $index = [ 'key' => $key, 'names' => array_values( array_unique( $names ) ) ];
+        update_option( 'nab_function_index', $index, true );
+    }
+    foreach ( $index['names'] as $name ) {
+        if ( ! function_exists( $name ) ) continue;
+        $ref   = new ReflectionFunction( $name );
+        $where = $ref->getFileName() ? str_replace( ABSPATH, '', $ref->getFileName() ) . ' (line ' . $ref->getStartLine() . ')' : 'WordPress core or a PHP extension';
+        return 'The function ' . $name . '() used by NAB Member Portal is already defined in ' . $where
+            . '. Remove or rename it there (or deactivate the plugin/theme that contains it), then activate NAB Member Portal again.';
+    }
+    return '';
+} )();
+if ( $nab_conflict ) {
+    if ( defined( 'WP_SANDBOX_SCRAPING' ) ) {
+        // WordPress is test-loading us to activate: cancel activation and show
+        // the reason on its own page. (WordPress's own "triggered a fatal error"
+        // box no longer shows plugin details — its notice filter strips them.)
+        // Status 200 so the browser shows this page instead of following the
+        // redirect WordPress already queued, and hosts don't swap in a 500 page.
+        wp_die(
+            '<h1>NAB Member Portal was not activated</h1><p>' . esc_html( $nab_conflict ) . '</p><p>Nothing on your site was changed.</p>',
+            'NAB Member Portal was not activated',
+            [ 'response' => 200, 'back_link' => true ]
+        );
+    }
+    // Already active: keep the rest of the site running and tell the admin.
+    add_action( 'admin_notices', function() use ( $nab_conflict ) {
+        if ( current_user_can( 'activate_plugins' ) ) {
+            echo '<div class="notice notice-error"><p><strong>NAB Member Portal is switched off:</strong> ' . esc_html( $nab_conflict ) . '</p></div>';
+        }
+    } );
+    return;
+}
+unset( $nab_conflict );
+
+define( 'NAB_VERSION', '1.9.2' );
 define( 'NAB_DIR',     plugin_dir_path( __FILE__ ) );
 define( 'NAB_URL',     plugin_dir_url( __FILE__ ) );
 
 /* ── Load all modules ─────────────────────────────────── */
+require_once NAB_DIR . 'inc/lifecycle.php';
 require_once NAB_DIR . 'inc/helpers.php';
 require_once NAB_DIR . 'inc/icons.php';
 require_once NAB_DIR . 'inc/tools.php';
@@ -62,21 +129,9 @@ require_once NAB_DIR . 'inc/template-loader.php';
 
 /* ── Activation: schedule cron + set defaults ─────────── */
 register_activation_hook( __FILE__, 'nab_plugin_activate' );
-function nab_plugin_activate() {
-    if ( ! wp_next_scheduled( 'nab_mp_daily_check' ) ) {
-        wp_schedule_event( time(), 'daily', 'nab_mp_daily_check' );
-    }
-    // Flush rewrite rules in case page templates need it
-    flush_rewrite_rules();
-}
 
 /* ── Deactivation: clear scheduled cron ──────────────── */
 register_deactivation_hook( __FILE__, 'nab_plugin_deactivate' );
-function nab_plugin_deactivate() {
-    $ts = wp_next_scheduled( 'nab_mp_daily_check' );
-    if ( $ts ) wp_unschedule_event( $ts, 'nab_mp_daily_check' );
-    flush_rewrite_rules();
-}
 
 /* ── Auto-purge on file update ─────────────────────────
    v1.8.0: Runs on every request (one cheap get_option compare).
@@ -109,13 +164,6 @@ add_action( 'init', function() {
    by default — uncomment the block below only if you want
    full data wipe on plugin delete. ── */
 register_uninstall_hook( __FILE__, 'nab_plugin_uninstall' );
-function nab_plugin_uninstall() {
-    // Delete plugin options only — NOT user data
-    delete_option( 'nab_portal_version' );
-    // Uncomment below to also wipe all member data on uninstall:
-    // global $wpdb;
-    // $wpdb->query("DELETE FROM {$wpdb->usermeta} WHERE meta_key LIKE 'nab_%'");
-}
 
 // ─── LAST LOGIN TRACKING ──────────────────────────────────────────────────────
 // Track last login time

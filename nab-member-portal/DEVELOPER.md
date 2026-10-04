@@ -8,6 +8,17 @@ How the plugin is put together, the rules every file follows, and exactly where 
 - **Advanced Custom Fields (ACF)** must be active. Without it, 8 of the 16 portal pages fail with a fatal error (`get_field()` is undefined).
 - Non-admin members are sent to `/dashboard/` after login. A page with that slug must exist; otherwise WordPress redirects `/dashboard/` back to `/wp-admin/` and the member gets stuck in a redirect loop.
 
+## Load-time safety check
+
+Before loading anything, `nab-member-portal.php` checks that no other copy of the plugin, and no theme, snippet or plugin, already defines one of our functions. That clash causes PHP's fatal "Cannot redeclare" error, which WordPress reports only as "triggered a fatal error"; if it happens while the portal is active, it takes the whole site down.
+
+- **During activation:** activation is cancelled, and a page names the clashing function and the file/line it's in.
+- **While active:** the portal switches itself off, the rest of the site keeps working, and admins see a notice explaining why.
+
+Our function names are scanned once per release and cached in the `nab_function_index` option. Rules that keep the check working:
+- Keep **named functions out of `nab-member-portal.php`**: put them in `inc/` (activation callbacks live in `inc/lifecycle.php`).
+- Every PHP file in `inc/` is scanned automatically.
+
 ## Folder map
 
 | Path | What lives there |
