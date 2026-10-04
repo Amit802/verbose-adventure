@@ -1,0 +1,90 @@
+/* NAB Member Portal — MemberPress Styles v1.6.2 */
+:root{--nab-navy:#0D5C9B;--nab-navy-dk:#0a4a7c;--nab-gold:#b8860b;--nab-green:#166534;--nab-red:#c62828;--nab-grey:#64748b;--nab-bg:#f4f6f9;--nab-white:#fff;--r:12px;--sh:0 2px 16px rgba(0,0,0,.08)}
+
+/* Wrap */
+.nab-account-wrap{max-width:880px;margin:0 auto;padding:32px 20px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+
+/* Alerts */
+.nab-alert{padding:13px 18px;border-radius:8px;margin-bottom:22px;font-weight:600;font-size:14px}
+.nab-alert--success{background:#dcfce7;color:#166534;border-left:4px solid #166534}
+.nab-alert--error{background:#fee2e2;color:#c62828;border-left:4px solid #c62828}
+
+/* Header */
+.nab-account-header{display:flex;align-items:center;gap:20px;background:var(--nab-white);border-radius:var(--r);padding:26px 30px;margin-bottom:26px;box-shadow:var(--sh);flex-wrap:wrap}
+.nab-avatar-img{border-radius:50%;display:block}
+.nab-account-identity h2{margin:0 0 4px;color:var(--nab-navy);font-size:20px}
+.nab-account-email{color:var(--nab-grey);margin:0 0 8px;font-size:13px}
+.nab-account-stats{margin-left:auto;display:flex;gap:20px}
+.nab-stat{text-align:center}
+.nab-stat__num{display:block;font-size:20px;font-weight:700;color:var(--nab-navy)}
+.nab-stat__lbl{font-size:11px;color:var(--nab-grey);text-transform:uppercase;letter-spacing:.5px}
+
+/* Badges */
+.nab-badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.nab-badge--basic{background:#eceff1;color:#455a64}
+.nab-badge--standard{background:#e8eaf6;color:var(--nab-navy)}
+.nab-badge--premium{background:#fff8e1;color:var(--nab-gold)}
+.nab-badge--paused{background:#fff3e0;color:#e65100;margin-left:8px}
+
+/* Tabs */
+.nab-tabs{display:flex;gap:2px;border-bottom:2px solid #e2e8f0;margin-bottom:22px;flex-wrap:wrap}
+.nab-tab{background:none;border:none;padding:11px 18px;font-size:14px;color:var(--nab-grey);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;font-weight:500;transition:.15s}
+.nab-tab--active,.nab-tab:hover{color:var(--nab-navy);border-bottom-color:var(--nab-navy)}
+.nab-tab-pane{display:none}
+.nab-tab-pane--active{display:block}
+
+/* Cards */
+.nab-card{background:var(--nab-white);border-radius:var(--r);padding:26px 30px;margin-bottom:18px;box-shadow:var(--sh)}
+.nab-card__title{margin:0 0 18px;color:var(--nab-navy);font-size:17px}
+
+/* Plan summary */
+.nab-plan-summary{margin-bottom:8px}
+.nab-plan-name{font-size:18px;font-weight:700;color:#1e293b}
+.nab-plan-price{font-size:15px;color:var(--nab-navy);font-weight:600;margin:4px 0}
+.nab-plan-price span{font-weight:400;color:var(--nab-grey)}
+.nab-plan-since{font-size:12px;color:var(--nab-grey);margin-top:2px}
+
+/* Action sections */
+.nab-action-section{border-top:1px solid #f1f5f9;padding-top:18px;margin-top:18px}
+.nab-action-section h4{margin:0 0 6px;font-size:15px;color:#1e293b}
+.nab-action-section p{margin:0 0 12px;color:var(--nab-grey);font-size:13px}
+.nab-action-section--warning{background:#fffbeb;border-radius:8px;padding:18px;margin-top:18px;border-top:none}
+
+/* Buttons */
+.nab-btn{display:inline-block;padding:11px 22px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;text-decoration:none;border:2px solid transparent;transition:.15s;line-height:1}
+.nab-btn--primary{background:var(--nab-navy);color:#fff}
+.nab-btn--primary:hover{background:var(--nab-navy-dk);color:#fff}
+.nab-btn--secondary{background:#e8eaf6;color:var(--nab-navy)}
+.nab-btn--secondary:hover{background:#c5cae9}
+.nab-btn--accent{background:#F97316;color:#fff}
+.nab-btn--outline-red{border-color:var(--nab-red);color:var(--nab-red);background:transparent}
+.nab-btn--red{background:var(--nab-red);color:#fff}
+.nab-btn--ghost{background:transparent;color:var(--nab-grey);border-color:#e2e8f0}
+.nab-btn--sm{padding:8px 16px;font-size:12px}
+
+/* Forms */
+.nab-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+.nab-form-row{display:flex;flex-direction:column;gap:5px}
+.nab-form-row label{font-size:12px;font-weight:600;color:#475569}
+.nab-form-input{width:100%;padding:10px 13px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:13px;transition:border-color .15s;box-sizing:border-box}
+.nab-form-input:focus{outline:none;border-color:var(--nab-navy)}
+.nab-inline-form{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.nab-inline-form label{display:flex;align-items:center;gap:5px;font-size:13px;cursor:pointer}
+
+/* Billing table */
+.nab-table{width:100%;border-collapse:collapse;font-size:13px}
+.nab-table th{background:#f8fafc;padding:10px 14px;text-align:left;font-size:11px;text-transform:uppercase;color:var(--nab-grey);letter-spacing:.5px}
+.nab-table td{padding:11px 14px;border-bottom:1px solid #f1f5f9}
+.nab-status{display:inline-block;padding:2px 9px;border-radius:12px;font-size:11px;font-weight:600}
+.nab-status--success{background:#dcfce7;color:var(--nab-green)}
+.nab-status--pending{background:#fef9c3;color:#854d0e}
+.nab-link{color:var(--nab-navy);text-decoration:none;font-weight:600}
+
+/* Utility */
+.nab-hidden{display:none!important}
+
+@media(max-width:640px){
+  .nab-account-header{flex-direction:column;text-align:center}
+  .nab-account-stats{margin-left:0;justify-content:center}
+  .nab-form-grid{grid-template-columns:1fr}
+}
