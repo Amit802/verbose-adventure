@@ -240,28 +240,24 @@ if ( ! function_exists( 'nab_render_sidebar' ) ) {
         $status = $did ? ( get_field( 'nab_member_status', $did ) ?: 'Active' ) : 'Active';
         $dash_url = $nav['dashboard'] ?? home_url('/dashboard/');
 
-        // Standard nav item — link to URL or disabled
-        $item = function( $slug, $emoji, $label ) use ( $active, $nav ) {
-            $url = $nav[ $slug ] ?? '#';
-            $dis = ( $url === '#' );
-            $cls = 'nab-nav-item' . ( $active === $slug ? ' nab-active' : '' ) . ( $dis ? ' nab-nav-disabled' : '' );
-            $href = $dis ? 'javascript:void(0)' : esc_url( $url );
-            echo '<a class="' . esc_attr( $cls ) . '" href="' . $href . '">' . $emoji . ' ' . esc_html( $label ) . '</a>';
-        };
-
-        // Blog/DIY nav item — ALWAYS active (opens tab on dashboard, never disabled)
-        // When on dashboard: calls nabOpenTab() JS. When on another page: navigates to dashboard#tab.
-        $tab_item = function( $slug, $tab, $emoji, $label ) use ( $active, $nav, $dash_url ) {
-            $is_on_dashboard = ( $active === 'dashboard' );
-            $cls = 'nab-nav-item'; // never disabled, never dimmed
-            if ( $is_on_dashboard ) {
-                // JS tab switch — stays on dashboard
-                echo '<a class="' . esc_attr( $cls ) . '" href="javascript:void(0)" onclick="if(typeof nabOpenTab!==\'undefined\')nabOpenTab(\'' . esc_attr( $tab ) . '\')">' . $emoji . ' ' . esc_html( $label ) . '</a>';
-            } else {
-                // Navigate to dashboard with hash so JS can auto-open the tab on load
-                $url = esc_url( add_query_arg( 'nab_tab', $tab, $dash_url ) );
-                echo '<a class="' . esc_attr( $cls ) . '" href="' . $url . '">' . $emoji . ' ' . esc_html( $label ) . '</a>';
+        // v1.9.1: items come from nab_nav_sections() in inc/tools.php.
+        // Blog/DIY-style items carry a 'tab': they are never disabled — on the
+        // dashboard they switch tab via JS, elsewhere they link to dashboard?nab_tab=…
+        $render_item = function( $it ) use ( $active, $dash_url ) {
+            $label = nab_icon( $it['icon'] ?? '', 18 ) . '<span>' . esc_html( $it['label'] ) . '</span>';
+            if ( ! empty( $it['tab'] ) ) {
+                if ( $active === 'dashboard' ) {
+                    echo '<a class="nab-nav-item" href="javascript:void(0)" onclick="if(typeof nabOpenTab!==\'undefined\')nabOpenTab(\'' . esc_attr( $it['tab'] ) . '\')">' . $label . '</a>';
+                } else {
+                    echo '<a class="nab-nav-item" href="' . esc_url( add_query_arg( 'nab_tab', $it['tab'], $dash_url ) ) . '">' . $label . '</a>';
+                }
+                return;
             }
+            $url  = nab_nav_item_url( $it );
+            $dis  = ( $url === '#' );
+            $cls  = 'nab-nav-item' . ( $active === $it['key'] ? ' nab-active' : '' ) . ( $dis ? ' nab-nav-disabled' : '' );
+            $href = $dis ? 'javascript:void(0)' : esc_url( $url );
+            echo '<a class="' . esc_attr( $cls ) . '" href="' . $href . '"' . ( $active === $it['key'] ? ' aria-current="page"' : '' ) . '>' . $label . '</a>';
         };
         ?>
         <aside class="nab-sidebar" id="nabSidebar">
@@ -269,29 +265,11 @@ if ( ! function_exists( 'nab_render_sidebar' ) ) {
             <div class="nab-logo-icon">N</div>
             <div class="nab-logo-text">NAB <span>Solutions</span><small>Member Portal</small></div>
           </div>
-          <nav class="nab-sidebar-nav">
-            <div class="nab-nav-label">Main</div>
-            <?php $item( 'dashboard', '🏠', 'Dashboard' ); ?>
-            <div class="nab-nav-label">Credit Tools</div>
-            <?php $item( 'report',   '📄', 'Credit Report Access' ); ?>
-            <?php $item( 'util',     '📊', 'Utilization Checker' ); ?>
-            <?php $item( 'sim',      '📈', 'Score Simulator' ); ?>
-            <?php $item( 'dispute',  '🛡️', 'Dispute Center' ); ?>
-            <div class="nab-nav-label">Services</div>
-            <?php $item( 'booking',  '📅', 'Book Specialist' ); ?>
-            <?php $item( 'chatbot',  '🤖', 'NAB AI Chatbot' ); ?>
-            <?php $item( 'support',  '🎫', 'Support Center' ); ?>
-            <div class="nab-nav-label">Loan Tools</div>
-            <?php $item( 'lfp',       '🏦', 'Lending Finder Program' ); ?>
-            <?php $item( 'loan',      '🚗', 'Auto Loan Matcher' ); ?>
-            <?php $item( 'card-match','💳', 'Card Matcher' ); ?>
-            <div class="nab-nav-label">Resources</div>
-            <?php $item( 'learning', '🎓', 'Learning Center' ); ?>
-            <?php $tab_item( 'blog', 'blog', '📚', 'Education Blog' ); ?>
-            <?php $tab_item( 'diy',  'diy',  '✅', 'DIY Repair Guide' ); ?>
-            <?php $item( 'ef', '💰', 'Emergency Fund Planner' ); ?>
-            <?php $item( 'roadmap', '🗺', 'Financial Roadmap' ); ?>
-            <?php $item( 'pad', '📄', 'PAD Agreement' ); ?>
+          <nav class="nab-sidebar-nav" aria-label="Portal">
+            <?php foreach ( nab_nav_sections() as $section ) : ?>
+            <div class="nab-nav-label"><?php echo esc_html( $section['label'] ); ?></div>
+            <?php foreach ( $section['items'] as $it ) $render_item( $it ); ?>
+            <?php endforeach; ?>
           </nav>
           <div class="nab-sidebar-bottom">
             <div class="nab-member-chip">
@@ -300,11 +278,11 @@ if ( ! function_exists( 'nab_render_sidebar' ) ) {
                 <div class="nab-member-name"><?php echo esc_html( $user->display_name ); ?></div>
                 <div class="nab-member-role"><?php echo esc_html( $status ); ?> Member</div>
               </div>
-              <a href="<?php echo esc_url( wp_logout_url( home_url() ) ); ?>" class="nab-logout-btn" title="Logout">↩</a>
+              <a href="<?php echo esc_url( wp_logout_url( home_url() ) ); ?>" class="nab-logout-btn" title="Log out" aria-label="Log out"><?php echo nab_icon( 'log-out', 18 ); ?></a>
             </div>
           </div>
         </aside>
-        <button class="nab-hamburger" id="nabHamburger" aria-label="Open menu">☰</button>
+        <button class="nab-hamburger" id="nabHamburger" aria-label="Open menu" type="button"><?php echo nab_icon( 'menu', 22 ); ?></button>
         <div class="nab-sidebar-overlay" id="nabOverlay"></div>
         <?php
     }
@@ -318,11 +296,11 @@ if ( ! function_exists( 'nab_render_notification_bell' ) ) {
         $uid    = get_current_user_id();
         $notifs = function_exists( 'nab_get_user_notifications' ) ? nab_get_user_notifications( $uid ) : [];
         $count  = count( $notifs );
-        $icons  = [ 'info' => '📣', 'dispute' => '🛡️', 'score' => '📊', 'billing' => '💳' ];
+        $icons  = [ 'info' => 'megaphone', 'dispute' => 'shield-check', 'score' => 'chart-line', 'billing' => 'credit-card' ];
         ?>
         <div class="nab-bell-wrap">
           <button class="nab-bell-btn" id="nabBell" aria-label="Notifications (<?php echo $count; ?> unread)" type="button">
-            🔔
+            <?php echo nab_icon( 'bell', 18 ); ?>
             <span class="nab-bell-count <?php echo $count ? 'show' : ''; ?>" id="nabBellCount"><?php echo $count; ?></span>
           </button>
           <div class="nab-notif-drop" id="nabNotifDrop" role="dialog" aria-label="Notifications panel">
@@ -334,7 +312,7 @@ if ( ! function_exists( 'nab_render_notification_bell' ) ) {
             </div>
             <?php if ( $notifs ) : foreach ( $notifs as $n ) : ?>
             <div class="nab-notif-row">
-              <span class="nab-notif-ico"><?php echo $icons[ $n['type'] ] ?? '📣'; ?></span>
+              <span class="nab-notif-ico"><?php echo nab_icon( $icons[ $n['type'] ] ?? 'megaphone', 16 ); ?></span>
               <div class="nab-notif-body">
                 <?php if ( $n['title'] )   : ?><div class="nab-notif-title"><?php echo esc_html( $n['title'] ); ?></div><?php endif; ?>
                 <?php if ( $n['message'] ) : ?><div class="nab-notif-txt"><?php echo esc_html( $n['message'] ); ?></div><?php endif; ?>
@@ -342,7 +320,7 @@ if ( ! function_exists( 'nab_render_notification_bell' ) ) {
               <button class="nab-notif-x" data-nid="<?php echo esc_attr( $n['id'] ); ?>" title="Dismiss" type="button">×</button>
             </div>
             <?php endforeach; else : ?>
-            <div class="nab-notif-empty">🎉 You're all caught up — no new notifications.</div>
+            <div class="nab-notif-empty">You're all caught up — no new notifications.</div>
             <?php endif; ?>
           </div>
         </div>
@@ -415,6 +393,12 @@ body{margin:0!important;padding:0!important;background:#F0F4FA!important}
 .nab-nav-item:hover{background:rgba(255,255,255,.12);color:#fff}
 .nab-nav-item.nab-active{background:rgba(255,255,255,.18);color:#fff;font-weight:600}
 .nab-nav-disabled{opacity:.4;cursor:not-allowed;pointer-events:none}
+.nab-i{display:inline-block;vertical-align:middle;flex-shrink:0}
+.nab-nav-item .nab-i{opacity:.85}
+.nab-nav-item.nab-active .nab-i{opacity:1}
+.nab-logout-btn{display:inline-flex}
+.nab-notif-ico{color:#64748b}
+.nab-bell-btn{color:#475467}
 .nab-sidebar-bottom{padding:12px 14px 18px;border-top:1px solid rgba(255,255,255,.1)}
 .nab-member-chip{display:flex;align-items:center;gap:10px}
 .nab-avatar{width:34px;height:34px;border-radius:50%;background:#F97316;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff;flex-shrink:0}
@@ -538,7 +522,7 @@ if ( ! function_exists( 'nab_portal_footer_js' ) ) {
         drop.querySelector('.nab-notif-hdr').innerHTML='<span>Notifications</span>';
         var empty=document.createElement('div');
         empty.className='nab-notif-empty';
-        empty.textContent='🎉 You\'re all caught up — no new notifications.';
+        empty.textContent='You\'re all caught up — no new notifications.';
         drop.appendChild(empty);
       }
       /* AJAX dismiss */

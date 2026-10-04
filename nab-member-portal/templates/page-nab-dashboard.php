@@ -503,7 +503,7 @@ body.nab-portal-body{
   --nd-bg:#F5F6F8;--nd-card:#fff;--nd-line:#E8EBF0;--nd-line2:#F1F3F6;
   --nd-text:#0F1B2D;--nd-muted:#6B7685;--nd-faint:#9AA4B2;
   --nd-blue:#0D5C9B;--nd-blue2:#0A4A7C;--nd-orange:#F97316;--nd-green:#22A06B;--nd-red:#E5484D;
-  --nd-radius:16px;--nd-shadow:0 1px 2px rgba(16,24,40,.04),0 1px 3px rgba(16,24,40,.03);
+  --nd-radius:14px;--nd-shadow:0 1px 2px rgba(16,24,40,.04),0 1px 3px rgba(16,24,40,.03);
   background:var(--nd-bg)!important;color:var(--nd-text);-webkit-font-smoothing:antialiased
 }
 body.nab-portal-body [hidden]{display:none!important}
@@ -637,8 +637,35 @@ body.nab-portal-body [hidden]{display:none!important}
 
 /* Existing sections — align with the new card style */
 .nab-portal-body .nab-featured-video,.nab-portal-body .nab-learn-progress,.nab-portal-body .nab-journey-card,.nab-portal-body .nab-feat-card,.nab-portal-body .nab-profile-wrap,.nab-portal-body .nab-reader{border:1px solid var(--nd-line);box-shadow:var(--nd-shadow)}
-.nab-portal-body .nab-feat-card{border-top:3px solid var(--ncard-accent)}
 .nab-portal-body .nab-section-heading{font-size:16px;font-weight:700;color:var(--nd-text);text-transform:none;letter-spacing:-.01em}
+
+/* v1.9.1 — calmer, icon-led styling (no emoji, no rainbow stripes) */
+.nab-portal-body .nab-i{display:inline-block;vertical-align:middle;flex-shrink:0}
+.nd-btn .nab-i{margin:-2px 0}
+.nab-portal-body .nab-search-icon{display:flex;color:var(--nd-faint)}
+.nab-portal-body .nab-qbtn{display:inline-flex;align-items:center;gap:6px}
+.nab-portal-body .nab-feat-card{border:1px solid var(--nd-line);border-radius:var(--nd-radius);padding:16px;gap:14px;transition:border-color .15s,box-shadow .15s}
+.nab-portal-body .nab-feat-card:hover{border-color:#D3D9E2;box-shadow:0 6px 18px rgba(16,24,40,.06);transform:none}
+.nab-portal-body .nab-card-icon{width:40px;height:40px;border-radius:10px;color:var(--ncard-accent);background:var(--ncard-iconbg)}
+.nab-portal-body .nab-card-title{font-size:13.5px;font-weight:650}
+.nab-portal-body .nab-card-desc{font-size:12px;color:var(--nd-muted)}
+.nab-portal-body .nab-card-arrow{color:#C3CAD5}
+.nab-portal-body .nab-feat-card:hover .nab-card-arrow{color:var(--nd-text)}
+.nab-portal-body .nab-journey-card{border-radius:var(--nd-radius);padding:16px}
+.nab-portal-body .nab-journey-card:hover{border-color:#D3D9E2;transform:none;box-shadow:0 6px 18px rgba(16,24,40,.06)}
+.nab-portal-body .nab-journey-card-icon{width:40px;height:40px;border-radius:10px;background:#EEF4FA;color:var(--nd-blue);display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.nab-portal-body .nab-featured-video,.nab-portal-body .nab-learn-progress{border-radius:var(--nd-radius)}
+.nab-portal-body .nab-featured-label{color:var(--nd-muted);letter-spacing:.06em}
+.nab-portal-body .nab-featured-meta-item{display:inline-flex;align-items:center;gap:5px}
+.nab-portal-body .nab-reader-placeholder-icon,.nab-portal-body .nab-reader-row-thumb-ph{color:#B7791F}
+.nab-portal-body .nab-reader-placeholder-icon{opacity:1}
+.nab-portal-body .nab-susp-icon{color:var(--nd-muted)}
+.nab-portal-body .nab-ask-ai-btn{background:var(--nd-text);box-shadow:0 6px 18px rgba(15,27,45,.22);padding:12px 18px;font-weight:600}
+.nab-portal-body .nab-ask-ai-btn:hover{background:#1D2B40;box-shadow:0 8px 22px rgba(15,27,45,.28)}
+.nab-portal-body .nab-ask-ai-btn-dot{display:none}
+.nd-empty-ico{width:44px;height:44px;border-radius:50%;background:var(--nd-line2);color:var(--nd-muted);display:flex;align-items:center;justify-content:center}
+.nd-acc-ico.asset{background:#E8F5EE;color:#157F4F}.nd-acc-ico.debt{background:#FDECEC;color:#B42328}
+.nd-quick span{color:var(--nd-blue)}
 
 /* Sheets / modal */
 .nd-modal{position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center}
@@ -676,7 +703,7 @@ body.nab-portal-body [hidden]{display:none!important}
 .nd-quick button{display:grid;grid-template-columns:44px 1fr;grid-template-rows:auto auto;column-gap:12px;align-items:center;text-align:left;font:inherit;padding:14px;border:1px solid var(--nd-line);border-radius:14px;background:#fff;cursor:pointer;transition:border-color .15s,background .15s}
 .nd-quick button:hover{border-color:var(--nd-blue);background:#F6F9FD}
 .nd-quick span{grid-row:1/3;width:44px;height:44px;border-radius:12px;background:var(--nd-line2);display:flex;align-items:center;justify-content:center;font-size:20px}
-.nd-quick b{font-size:14.5px;color:var(--nd-text)}
+.nd-quick b{font-size:14.5px;font-weight:650;color:var(--nd-text)}
 .nd-quick small{font-size:12px;color:var(--nd-muted)}
 @keyframes ndFade{from{opacity:0}to{opacity:1}}
 @keyframes ndPop{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
@@ -696,7 +723,7 @@ body.nab-portal-body [hidden]{display:none!important}
   .nab-portal-body .nab-topbar{padding:10px 14px 10px 64px;min-height:60px;flex-wrap:wrap;gap:10px}
   .nab-portal-body .nab-topbar-title{font-size:16px;flex:1}
   .nab-portal-body .nab-topbar-right .nab-status-badge,.nab-portal-body .nab-topbar-right .nab-qbtn{display:none}
-  .nab-portal-body .nab-search-wrap{order:3;flex-basis:100%;max-width:none}
+  .nab-portal-body .nab-search-wrap{order:3;flex-basis:100%;max-width:none;margin-left:-50px}
   /* scrolls away with the header — the bottom nav has its own Menu button */
   .nab-portal-body .nab-hamburger{position:absolute;top:10px;left:12px}
   .nab-portal-body .nab-content{padding:18px 16px calc(96px + env(safe-area-inset-bottom))}
@@ -728,9 +755,9 @@ body.nab-portal-body [hidden]{display:none!important}
   /* bottom nav */
   .nd-bottomnav{display:grid;grid-template-columns:repeat(5,1fr);align-items:end;position:fixed;left:0;right:0;bottom:0;z-index:80;background:rgba(255,255,255,.96);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid var(--nd-line);padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
   .nd-bottomnav>a,.nd-bottomnav>button{display:flex;flex-direction:column;align-items:center;gap:2px;font:inherit;font-size:10.5px;font-weight:600;color:var(--nd-muted);background:none;border:0;text-decoration:none;padding:4px 0;cursor:pointer}
-  .nd-bottomnav>a span,.nd-bottomnav>button span{font-size:19px;line-height:1.2}
+  .nd-bottomnav>a span,.nd-bottomnav>button span{display:flex;height:24px;align-items:center}
   .nd-bottomnav .on{color:var(--nd-blue)}
-  .nd-bottomnav .nd-bn-add span{width:50px;height:50px;border-radius:50%;background:var(--nd-blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:400;box-shadow:0 6px 16px rgba(13,92,155,.35);margin-top:-22px}
+  .nd-bottomnav .nd-bn-add span{width:50px;height:50px;border-radius:50%;background:var(--nd-blue);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(13,92,155,.3);margin-top:-22px}
 }
 @media(max-width:380px){
   .nd-kpi-value{font-size:19px}
@@ -824,7 +851,7 @@ var nabQuizData = {
 <?php if ( $is_suspended ) : ?>
 <div class="nab-suspension-screen">
   <div class="nab-suspension-box">
-    <div class="nab-susp-icon">🔒</div>
+    <div class="nab-susp-icon"><?php echo nab_icon( 'lock', 40 ); ?></div>
     <h2>Account Temporarily Suspended</h2>
     <p><?php echo wp_kses_post( $suspension_msg ?: 'Please settle your outstanding payment to regain access to the member portal.' ); ?></p>
     <?php
@@ -845,7 +872,7 @@ var nabQuizData = {
     <header class="nab-topbar">
       <div class="nab-topbar-title">Member Dashboard</div>
       <div class="nab-search-wrap" id="nabSearchWrap">
-        <span class="nab-search-icon">🔍</span>
+        <span class="nab-search-icon"><?php echo nab_icon( 'search', 16 ); ?></span>
         <input type="text" class="nab-search-input" id="nabSearchInput" placeholder="Search tools, modules, resources..." autocomplete="off">
         <div class="nab-search-results" id="nabSearchResults"></div>
       </div>
@@ -854,7 +881,7 @@ var nabQuizData = {
         <span class="nab-status-badge nab-status-<?php echo esc_attr( strtolower( $member_status ) ); ?>">
           ● <?php echo esc_html( $member_status ); ?>
         </span>
-        <button class="nab-qbtn" style="margin:0" data-tab-open="profile" type="button">👤 Profile</button>
+        <button class="nab-qbtn" style="margin:0" data-tab-open="profile" type="button"><?php echo nab_icon( 'user', 15 ); ?> Profile</button>
       </div>
     </header>
 
@@ -868,18 +895,18 @@ var nabQuizData = {
           <div class="nd-hero-pills">
             <span class="nd-pill"><span class="ndot"></span><?php echo esc_html( $member_status ); ?> Member</span>
             <?php if ( $member_since ) : ?>
-            <span class="nd-pill" title="The date you registered">📅 Member since <?php echo esc_html( $member_since ); ?></span>
+            <span class="nd-pill" title="The date you registered">Member since <?php echo esc_html( $member_since ); ?></span>
             <?php endif; ?>
-            <span class="nd-pill">💳 <?php echo esc_html( $payment_status ); ?></span>
+            <span class="nd-pill"><?php echo esc_html( $payment_status ); ?></span>
             <span class="nd-pill nd-pill-id">ID <?php echo esc_html( $member_id ); ?></span>
           </div>
         </div>
         <div class="nd-hero-actions">
           <?php if ( $url_book !== '#' ) : ?>
-          <a href="<?php echo esc_url( $url_book ); ?>" class="nd-btn nd-btn-orange">📅 Book Now</a>
+          <a href="<?php echo esc_url( $url_book ); ?>" class="nd-btn nd-btn-orange"><?php echo nab_icon( 'calendar-days', 16 ); ?> Book a session</a>
           <?php endif; ?>
-          <button type="button" class="nd-btn nd-btn-primary" data-nd-open="quick">＋ Add data</button>
-          <button type="button" class="nd-btn" data-tab-open="profile">👤 Profile</button>
+          <button type="button" class="nd-btn nd-btn-primary" data-nd-open="quick"><?php echo nab_icon( 'plus', 16 ); ?> Add data</button>
+          <button type="button" class="nd-btn" data-tab-open="profile"><?php echo nab_icon( 'user', 16 ); ?> Profile</button>
         </div>
       </section>
 
@@ -909,10 +936,10 @@ var nabQuizData = {
 
       <!-- ══ TAB BAR ════════════════════════════════════ -->
       <div class="nab-tab-bar" id="nabTabBar" role="tablist">
-        <button class="nab-tab-btn active" data-tab="overview" data-tab-open="overview" role="tab" type="button">🏠 Overview</button>
-        <button class="nab-tab-btn"        data-tab="profile"  data-tab-open="profile"  role="tab" type="button">👤 My Profile</button>
-                <button class="nab-tab-btn"        data-tab="blog"     data-tab-open="blog"     role="tab" type="button">📚 Education Blog</button>
-        <button class="nab-tab-btn"        data-tab="diy"      data-tab-open="diy"      role="tab" type="button">📄 DIY Dispute Letter</button>
+        <button class="nab-tab-btn active" data-tab="overview" data-tab-open="overview" role="tab" type="button">Overview</button>
+        <button class="nab-tab-btn"        data-tab="profile"  data-tab-open="profile"  role="tab" type="button">Profile &amp; membership</button>
+                <button class="nab-tab-btn"        data-tab="blog"     data-tab-open="blog"     role="tab" type="button">Education blog</button>
+        <button class="nab-tab-btn"        data-tab="diy"      data-tab-open="diy"      role="tab" type="button">Dispute letters</button>
       </div>
 
       <!-- ══ TAB: OVERVIEW ════════════════════════════════ -->
@@ -947,9 +974,9 @@ var nabQuizData = {
             </header>
             <div class="nd-chart nd-chart-lg"><canvas id="ndScoreChart" aria-label="Credit score over time" role="img"></canvas>
               <div class="nd-empty" id="ndScoreEmpty" hidden>
-                <div class="nd-empty-ico">📈</div>
+                <div class="nd-empty-ico"><?php echo nab_icon( 'chart-line', 22 ); ?></div>
                 <div class="nd-empty-txt">Log your credit score to start your trend line.</div>
-                <?php if ( $can_self_score ) : ?><button type="button" class="nd-btn nd-btn-primary" data-nd-open="score">＋ Log a score</button><?php endif; ?>
+                <?php if ( $can_self_score ) : ?><button type="button" class="nd-btn nd-btn-primary" data-nd-open="score"><?php echo nab_icon( 'plus', 16 ); ?> Log a score</button><?php endif; ?>
               </div>
             </div>
           </section>
@@ -969,7 +996,7 @@ var nabQuizData = {
               <button id="nabScoreBtn" class="nab-btn-check" type="button">Save</button>
             </div>
             <div class="nab-score-error" id="nabScoreError"></div>
-            <div class="nab-score-self-label" id="nabSelfLabel">⚠ Self-reported score</div>
+            <div class="nab-score-self-label" id="nabSelfLabel">Self-reported score</div>
             <?php endif; ?>
             <div id="nabScoreDisplay" style="display:<?php echo $saved_score ? 'block' : 'none'; ?>">
               <div class="nab-score-gauge">
@@ -1005,14 +1032,14 @@ var nabQuizData = {
                 <h2 class="nd-card-title">Cash flow</h2>
                 <div class="nd-card-sub">Income vs. expenses — last 6 months</div>
               </div>
-              <button type="button" class="nd-btn nd-btn-sm" data-nd-open="cashflow">＋ Add month</button>
+              <button type="button" class="nd-btn nd-btn-sm" data-nd-open="cashflow"><?php echo nab_icon( 'plus', 15 ); ?> Add month</button>
             </header>
             <div class="nd-stats" id="ndCfStats"></div>
             <div class="nd-chart"><canvas id="ndCashflowChart" aria-label="Income and expenses by month" role="img"></canvas>
               <div class="nd-empty" id="ndCashflowEmpty" hidden>
-                <div class="nd-empty-ico">💸</div>
+                <div class="nd-empty-ico"><?php echo nab_icon( 'chart-column', 22 ); ?></div>
                 <div class="nd-empty-txt">Add a month of income and expenses to see your cash flow.</div>
-                <button type="button" class="nd-btn nd-btn-primary" data-nd-open="cashflow">＋ Add a month</button>
+                <button type="button" class="nd-btn nd-btn-primary" data-nd-open="cashflow"><?php echo nab_icon( 'plus', 16 ); ?> Add a month</button>
               </div>
             </div>
           </section>
@@ -1043,7 +1070,7 @@ var nabQuizData = {
                 <h2 class="nd-card-title">Net worth</h2>
                 <div class="nd-card-sub">What you own minus what you owe</div>
               </div>
-              <button type="button" class="nd-btn nd-btn-sm" data-nd-open="account">＋ Add account</button>
+              <button type="button" class="nd-btn nd-btn-sm" data-nd-open="account"><?php echo nab_icon( 'plus', 15 ); ?> Add account</button>
             </header>
             <div class="nd-nw-top">
               <div class="nd-nw-value" id="ndNwValue">—</div>
@@ -1057,7 +1084,7 @@ var nabQuizData = {
             <ul class="nd-accounts" id="ndAccountList"></ul>
             <div class="nd-empty nd-empty-inline" id="ndNwEmpty" hidden>
               <div class="nd-empty-txt">Add your bank accounts, savings, loans and cards to see your net worth.</div>
-              <button type="button" class="nd-btn nd-btn-primary" data-nd-open="account">＋ Add an account</button>
+              <button type="button" class="nd-btn nd-btn-primary" data-nd-open="account"><?php echo nab_icon( 'plus', 16 ); ?> Add an account</button>
             </div>
           </section>
 
@@ -1144,14 +1171,14 @@ var nabQuizData = {
                 <?php endif; ?>
               </div>
               <div class="nab-featured-info">
-                <div class="nab-featured-label">⭐ Featured Training Video</div>
+                <div class="nab-featured-label">Up next in Learning Center</div>
                 <div class="nab-featured-title"><?php echo esc_html($featured_module['title']); ?></div>
                 <div class="nab-featured-desc">
                   <?php echo esc_html( $featured_module['overview'] ?? 'Watch this module to improve your credit knowledge and earn points.' ); ?>
                 </div>
                 <div class="nab-featured-meta">
-                  <span class="nab-featured-meta-item">⏱ <?php echo esc_html($featured_module['duration']); ?></span>
-                  <span class="nab-featured-meta-item">🎓 <?php echo esc_html($featured_module['category']); ?></span>
+                  <span class="nab-featured-meta-item"><?php echo nab_icon( 'clock', 14 ); ?> <?php echo esc_html($featured_module['duration']); ?></span>
+                  <span class="nab-featured-meta-item"><?php echo nab_icon( 'graduation-cap', 14 ); ?> <?php echo esc_html($featured_module['category']); ?></span>
                 </div>
                 <div class="nab-featured-progress">
                   <div style="font-size:11px;color:#64748b;margin-bottom:4px">
@@ -1172,7 +1199,7 @@ var nabQuizData = {
             <!-- Learning Progress -->
             <div class="nab-learn-progress">
               <div class="nab-learn-progress-title">
-                🎓 Learning Progress
+                Learning progress
                 <a href="<?php echo esc_url(nab_resolve_url(get_field('nab_link_learning', nab_get_dash_page_id()))); ?>">View My Learning</a>
               </div>
               <div style="display:flex;align-items:center;gap:16px">
@@ -1202,7 +1229,7 @@ var nabQuizData = {
               </div>
               <?php else : ?>
               <div class="nab-learn-next" style="text-align:center">
-                <div style="font-size:24px;margin-bottom:6px">🏆</div>
+                <div style="margin-bottom:6px;color:#16a34a"><?php echo nab_icon( 'trophy', 26 ); ?></div>
                 <div style="font-size:13px;font-weight:700;color:#166534">All modules complete!</div>
               </div>
               <?php endif; ?>
@@ -1215,7 +1242,7 @@ var nabQuizData = {
         <div class="nab-section-heading">My Financial Journey</div>
         <div class="nab-journey-grid">
           <a href="<?php echo esc_url(nab_resolve_url(get_field('nab_link_learning', nab_get_dash_page_id()))); ?>" class="nab-journey-card">
-            <div class="nab-journey-card-icon">🎓</div>
+            <div class="nab-journey-card-icon"><?php echo nab_icon( 'graduation-cap', 20 ); ?></div>
             <div class="nab-journey-card-title">Learning Center</div>
             <div class="nab-journey-card-desc">Access the 7-part credit education series</div>
           </a>
@@ -1224,22 +1251,22 @@ var nabQuizData = {
           $roadmap_dis = ( $roadmap_url === '#' );
           ?>
           <a href="<?php echo $roadmap_dis ? 'javascript:void(0)' : esc_url( $roadmap_url ); ?>" class="nab-journey-card" <?php echo $roadmap_dis ? 'style="cursor:default;opacity:.6" aria-disabled="true"' : ''; ?>>
-            <div class="nab-journey-card-icon">🗺</div>
+            <div class="nab-journey-card-icon"><?php echo nab_icon( 'map', 20 ); ?></div>
             <div class="nab-journey-card-title">Financial Roadmap</div>
             <div class="nab-journey-card-desc"><?php echo $roadmap_dis ? 'Personalized action plan — link the Roadmap page in Dashboard settings' : esc_html( $roadmap_progress['done'] . ' of ' . $roadmap_progress['total'] . ' steps complete' ); ?></div>
           </a>
           <a href="<?php echo esc_url(nab_resolve_url(get_field('nab_link_simulator', nab_get_dash_page_id()) ?: get_page_link(get_page_by_path('score-simulator')))); ?>" class="nab-journey-card">
-            <div class="nab-journey-card-icon">📈</div>
+            <div class="nab-journey-card-icon"><?php echo nab_icon( 'trending-up', 20 ); ?></div>
             <div class="nab-journey-card-title">Credit Progress Tracker</div>
             <div class="nab-journey-card-desc">Simulate and track score improvements</div>
           </a>
           <a href="<?php echo esc_url(nab_resolve_url(get_field('nab_link_booking', nab_get_dash_page_id()))); ?>" class="nab-journey-card">
-            <div class="nab-journey-card-icon">📅</div>
+            <div class="nab-journey-card-icon"><?php echo nab_icon( 'calendar-days', 20 ); ?></div>
             <div class="nab-journey-card-title">Next Specialist Session</div>
             <div class="nab-journey-card-desc">Book your next credit specialist session</div>
           </a>
           <a href="#" class="nab-journey-card" style="cursor:default;opacity:.6">
-            <div class="nab-journey-card-icon">🎯</div>
+            <div class="nab-journey-card-icon"><?php echo nab_icon( 'target', 20 ); ?></div>
             <div class="nab-journey-card-title">Goal Tracker</div>
             <div class="nab-journey-card-desc">Home, Car, Business Funding — coming soon</div>
           </a>
@@ -1249,25 +1276,25 @@ var nabQuizData = {
         <div class="nab-cards-grid">
         <?php
         $cards = [
-          ['#1565C0','#e8f0fe','📄','Credit Report Access',     'Access your credit report through Equifax, TransUnion, Borrowell, or Credit Karma.',         $link_report,  'live', 'link'],
-          ['#F57C00','#fff3e0','📅','Book a Credit Specialist', 'Schedule a 1-on-1 session with our certified credit advisors.',                               $link_booking, '',     'link'],
-          ['#dc2626','#fee2e2','🛡️','Credit Dispute Center',   'Upload supporting documents and track your dispute status.',                                   $link_dispute, '',     'link'],
-          ['#7c3aed','#ede9fe','🤖','NAB AI Chatbot',           'Exclusive access to our intelligent credit chatbot for NAB members.',                         $link_chatbot, '',     'link'],
-          ['#0891b2','#e0f2fe','📊','Utilization Checker',      'Visualize your credit utilization and get guidance based on your inputs.',                    $link_util,    '',     'link'],
-          ['#059669','#d1fae5','📈','Credit Score Simulator',   "Simulate 'what-if' scenarios for your credit score range.",                                   $link_sim,     '',     'link'],
-          ['#1e40af','#dbeafe','🚗','Auto Loan Matcher',        'Find auto loan offers from Canadian lenders — powered by LoanConnect.',                       $link_loan,    'new',  'link'],
-          ['#7c2d92','#f3e8ff','💳','Credit Card Matcher',      'Answer 4 questions and get matched to the best Canadian credit card for your profile.',        $link_cards,   'new',  'link'],
-          ['#d97706','#fef3c7','📚','Credit Education Blog',    'Browse articles and tips on credit rebuilding — read right here on your dashboard.',          null,          '',     'blog'],
-          ['#be185d','#fce7f3','📄','DIY Dispute Letter',  'Download ready-to-use dispute letter templates — available right here on your dashboard.',         null,          '',     'diy' ],
-          ['#0d9488','#ccfbf1','💰','Emergency Fund Planner',  'Set a savings goal and track your progress toward financial security.',                      $link_ef,      '',     'link'],
+          ['#1565C0','#e8f0fe','file-text','Credit Report Access',     'Access your credit report through Equifax, TransUnion, Borrowell, or Credit Karma.',         $link_report,  'live', 'link'],
+          ['#F57C00','#fff3e0','calendar-days','Book a Credit Specialist', 'Schedule a 1-on-1 session with our certified credit advisors.',                               $link_booking, '',     'link'],
+          ['#dc2626','#fee2e2','shield-check','Credit Dispute Center',   'Upload supporting documents and track your dispute status.',                                   $link_dispute, '',     'link'],
+          ['#7c3aed','#ede9fe','message-square-text','NAB AI Chatbot',           'Exclusive access to our intelligent credit chatbot for NAB members.',                         $link_chatbot, '',     'link'],
+          ['#0891b2','#e0f2fe','gauge','Utilization Checker',      'Visualize your credit utilization and get guidance based on your inputs.',                    $link_util,    '',     'link'],
+          ['#059669','#d1fae5','trending-up','Credit Score Simulator',   "Simulate 'what-if' scenarios for your credit score range.",                                   $link_sim,     '',     'link'],
+          ['#1e40af','#dbeafe','car','Auto Loan Matcher',        'Find auto loan offers from Canadian lenders — powered by LoanConnect.',                       $link_loan,    'new',  'link'],
+          ['#7c2d92','#f3e8ff','credit-card','Credit Card Matcher',      'Answer 4 questions and get matched to the best Canadian credit card for your profile.',        $link_cards,   'new',  'link'],
+          ['#d97706','#fef3c7','book-open','Credit Education Blog',    'Browse articles and tips on credit rebuilding — read right here on your dashboard.',          null,          '',     'blog'],
+          ['#be185d','#fce7f3','file-pen-line','DIY Dispute Letter',  'Download ready-to-use dispute letter templates — available right here on your dashboard.',         null,          '',     'diy' ],
+          ['#0d9488','#ccfbf1','piggy-bank','Emergency Fund Planner',  'Set a savings goal and track your progress toward financial security.',                      $link_ef,      '',     'link'],
         ];
         foreach ( $cards as $c ) :
-          list( $accent, $iconbg, $emoji, $title, $desc, $link, $badge, $action ) = $c;
+          list( $accent, $iconbg, $icon, $title, $desc, $link, $badge, $action ) = $c;
           if ( $action === 'blog' || $action === 'diy' ) : ?>
           <div class="nab-feat-card" data-tab-open="<?php echo esc_attr($action); ?>"
                style="--ncard-accent:<?php echo esc_attr($accent); ?>;--ncard-iconbg:<?php echo esc_attr($iconbg); ?>"
                role="button" tabindex="0" onkeydown="if(event.key==='Enter')nabOpenTab('<?php echo esc_attr($action); ?>')">
-            <div class="nab-card-icon"><?php echo $emoji; ?></div>
+            <div class="nab-card-icon"><?php echo nab_icon( $icon, 20 ); ?></div>
             <div class="nab-card-body">
               <div class="nab-card-title"><?php echo esc_html($title); ?></div>
               <div class="nab-card-desc"><?php echo esc_html($desc); ?></div>
@@ -1281,7 +1308,7 @@ var nabQuizData = {
              style="--ncard-accent:<?php echo esc_attr($accent); ?>;--ncard-iconbg:<?php echo esc_attr($iconbg); ?>"
              <?php echo $dis ? 'tabindex="-1" aria-disabled="true"' : ''; ?>>
             <?php if ($sb) : ?><span class="nab-badge nab-badge-<?php echo esc_attr($sb); ?>"><?php echo strtoupper($sb); ?></span><?php endif; ?>
-            <div class="nab-card-icon"><?php echo $emoji; ?></div>
+            <div class="nab-card-icon"><?php echo nab_icon( $icon, 20 ); ?></div>
             <div class="nab-card-body">
               <div class="nab-card-title"><?php echo esc_html($title); ?></div>
               <div class="nab-card-desc"><?php echo esc_html($desc); ?></div>
@@ -1300,7 +1327,7 @@ var nabQuizData = {
 
           <!-- Native Profile Form (v1.6.2 - UM removed) -->
           <div class="nab-profile-wrap" style="grid-column:1/-1">
-            <div style="font-size:13px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:20px">👤 My Profile</div>
+            <div style="font-size:13px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:20px">My profile</div>
 
             <?php
             // Process save
@@ -1341,12 +1368,12 @@ var nabQuizData = {
 
             <?php if ($nab_profile_msg): ?>
             <div style="background:#dcfce7;color:#166534;border-left:4px solid #166534;padding:11px 16px;border-radius:6px;font-size:13px;font-weight:600;margin-bottom:18px;">
-                ✅ <?php echo esc_html($nab_profile_msg); ?>
+                <?php echo esc_html($nab_profile_msg); ?>
             </div>
             <?php endif; ?>
             <?php if ($nab_profile_err): ?>
             <div style="background:#fee2e2;color:#c62828;border-left:4px solid #c62828;padding:11px 16px;border-radius:6px;font-size:13px;font-weight:600;margin-bottom:18px;">
-                ⚠️ <?php echo esc_html($nab_profile_err); ?>
+                <?php echo esc_html($nab_profile_err); ?>
             </div>
             <?php endif; ?>
 
@@ -1429,7 +1456,7 @@ var nabQuizData = {
 
           <!-- ── Membership Status Card ── -->
           <div style="background:#fff;border-radius:16px;padding:24px;box-shadow:0 1px 4px rgba(0,0,0,.06)">
-            <div style="font-size:13px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:16px">💳 Membership</div>
+            <div style="font-size:13px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:16px">Membership</div>
 
             <?php if ( $mp_data && $mp_data['has_subscription'] ) : ?>
             <div style="display:flex;flex-direction:column;gap:12px">
@@ -1465,7 +1492,7 @@ var nabQuizData = {
               <?php endif; ?>
               <?php if ($is_paused && $resume_date) : ?>
               <div style="background:#fef9c3;border-radius:8px;padding:10px 12px;font-size:12px;color:#854d0e">
-                ⏸ Paused — resumes <?php echo esc_html(date('M j, Y',strtotime($resume_date))); ?>
+                Paused — resumes <?php echo esc_html(date('M j, Y',strtotime($resume_date))); ?>
               </div>
               <?php endif; ?>
             </div>
@@ -1480,8 +1507,8 @@ var nabQuizData = {
               <div style="margin-bottom:12px">
                 <div style="font-size:12px;color:#64748b;margin-bottom:8px">Pause billing temporarily:</div>
                 <div style="display:flex;gap:8px">
-                  <button data-mp-action="pause" data-plan="2" class="nab-mp-pause-btn" type="button">⏸ Pause 2 Weeks</button>
-                  <button data-mp-action="pause" data-plan="4" class="nab-mp-pause-btn" type="button">⏸ Pause 4 Weeks</button>
+                  <button data-mp-action="pause" data-plan="2" class="nab-mp-pause-btn" type="button">Pause 2 weeks</button>
+                  <button data-mp-action="pause" data-plan="4" class="nab-mp-pause-btn" type="button">Pause 4 weeks</button>
                 </div>
               </div>
               <?php else : ?>
@@ -1492,7 +1519,7 @@ var nabQuizData = {
               <div id="nabCancelSection">
                 <button data-show="nabCancelForm" type="button"
                   style="background:none;border:1px solid #fca5a5;color:#ef4444;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:600;cursor:pointer;width:100%;transition:.15s">
-                  ❌ Cancel Membership
+                  Cancel membership
                 </button>
                 <div id="nabCancelForm" style="display:none;margin-top:12px">
                   <div style="font-size:12px;color:#64748b;margin-bottom:8px">Please tell us why you're leaving (optional):</div>
@@ -1503,7 +1530,7 @@ var nabQuizData = {
                       style="flex:1;background:#ef4444;color:#fff;border:none;border-radius:8px;padding:10px;font-size:13px;font-weight:700;cursor:pointer">
                       Confirm Cancel
                     </button>
-                    <button data-hide="nabCancelForm" type="button" class="nab-btn-cancel-hide">✕ Cancel</button>
+                    <button data-hide="nabCancelForm" type="button" class="nab-btn-cancel-hide">Keep membership</button>
                   </div>
                 </div>
               </div>
@@ -1541,7 +1568,7 @@ var nabQuizData = {
           <!-- ── Billing History Card ── -->
           <?php if (!empty($recent_txns)) : ?>
           <div style="background:#fff;border-radius:16px;padding:24px;box-shadow:0 1px 4px rgba(0,0,0,.06)">
-            <div style="font-size:13px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:16px">🧾 Recent Billing</div>
+            <div style="font-size:13px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:16px">Recent billing</div>
             <table style="width:100%;border-collapse:collapse;font-size:12px">
               <thead>
                 <tr style="border-bottom:2px solid #f1f5f9">
@@ -1584,12 +1611,12 @@ var nabQuizData = {
         <script>
         function nabMpPause(weeks){
           if(!confirm('Pause your membership for '+weeks+' weeks? Billing will stop and resume automatically.')) return;
-          nabMpAction('nab_mp_pause','weeks='+weeks,'⏸ Membership paused for '+weeks+' weeks.');
+          nabMpAction('nab_mp_pause','weeks='+weeks,'Membership paused for '+weeks+' weeks.');
         }
         function nabMpCancel(){
           var reason=document.getElementById('nabCancelReason').value;
           if(!confirm('Are you sure you want to cancel your membership? This cannot be undone.')) return;
-          nabMpAction('nab_mp_cancel','reason='+encodeURIComponent(reason),'❌ Membership cancelled. You retain access until your billing period ends.');
+          nabMpAction('nab_mp_cancel','reason='+encodeURIComponent(reason),'Membership cancelled. You keep access until your billing period ends.');
         }
         function nabMpAction(action,extra,successMsg){
           if(typeof nabPortal==='undefined') return;
@@ -1625,7 +1652,7 @@ var nabQuizData = {
           <!-- Left: post list -->
           <div class="nab-reader-list">
             <div class="nab-reader-list-header">
-              <span>📚 Education Blog</span>
+              <span>Education blog</span>
               <?php $bext = nab_resolve_url($link_blog); if ($bext !== '#') : ?>
               <a href="<?php echo esc_url($bext); ?>" target="_blank" rel="noopener">View all →</a>
               <?php endif; ?>
@@ -1640,7 +1667,7 @@ var nabQuizData = {
               <?php if ($bthumb) : ?>
               <img class="nab-reader-row-thumb" src="<?php echo esc_url($bthumb); ?>" alt="" loading="lazy">
               <?php else : ?>
-              <div class="nab-reader-row-thumb-ph blog-ph">📚</div>
+              <div class="nab-reader-row-thumb-ph blog-ph"><?php echo nab_icon( 'book-open', 22 ); ?></div>
               <?php endif; ?>
               <div class="nab-reader-row-body">
                 <div class="nab-reader-row-title"><?php echo esc_html( get_the_title($bp) ); ?></div>
@@ -1653,7 +1680,7 @@ var nabQuizData = {
           <!-- Right: article view -->
           <div class="nab-reader-article" id="nabBlogArticle">
             <div class="nab-reader-placeholder">
-              <div class="nab-reader-placeholder-icon">📚</div>
+              <div class="nab-reader-placeholder-icon"><?php echo nab_icon( 'book-open', 40 ); ?></div>
               <div class="nab-reader-placeholder-text">Select an article from the list to read it here.</div>
             </div>
           </div>
@@ -1661,7 +1688,7 @@ var nabQuizData = {
         </div>
         <?php else : ?>
         <div class="nab-no-posts">
-          📚 No blog posts yet.<br>
+          No blog posts yet.<br>
           <?php if ( current_user_can('publish_posts') ) : ?>
           <small>Publish posts in the "<strong><?php echo esc_html($blog_cat_slug); ?></strong>" category, or change the slug in ACF → Dashboard → Blog Category Slug.</small>
           <?php endif; ?>
@@ -1690,14 +1717,14 @@ var nabQuizData = {
               <div style="font-size:12.5px;color:#64748b;flex:1"><?php echo esc_html($tpl['desc']); ?></div>
               <a href="<?php echo esc_url($tpl['file']); ?>" target="_blank" rel="noopener" download
                  style="margin-top:8px;text-align:center;padding:9px 12px;border-radius:8px;background:<?php echo esc_attr($tpl['color']); ?>;color:#fff;font-size:13px;font-weight:600;text-decoration:none">
-                📄 Download PDF
+                <?php echo nab_icon( 'download', 15 ); ?> Download PDF
               </a>
             </div>
           </div>
           <?php endforeach; ?>
         </div>
         <?php else : ?>
-        <div class="nab-no-posts">📄 No dispute letter templates available yet.</div>
+        <div class="nab-no-posts">No dispute letter templates available yet.</div>
         <?php endif; ?>
       </div><!-- /tab diy -->
 
@@ -1712,7 +1739,7 @@ var nabQuizData = {
     <div class="nd-sheet-grip" aria-hidden="true"></div>
     <header class="nd-sheet-head">
       <h3 id="ndSheetTitle">Add data</h3>
-      <button type="button" class="nd-sheet-x" data-nd-close aria-label="Close">✕</button>
+      <button type="button" class="nd-sheet-x" data-nd-close aria-label="Close"><?php echo nab_icon( 'x', 16 ); ?></button>
     </header>
     <div class="nd-sheet-body">
 
@@ -1720,10 +1747,10 @@ var nabQuizData = {
       <div class="nd-pane" data-pane="quick" data-title="What would you like to add?">
         <div class="nd-quick">
           <?php if ( $can_self_score ) : ?>
-          <button type="button" data-nd-open="score"><span>📈</span><b>Credit score</b><small>Log today's or a past score</small></button>
+          <button type="button" data-nd-open="score"><span><?php echo nab_icon( 'chart-line', 20 ); ?></span><b>Credit score</b><small>Log today's or a past score</small></button>
           <?php endif; ?>
-          <button type="button" data-nd-open="cashflow"><span>💸</span><b>Monthly income &amp; expenses</b><small>Powers Cash Flow and Spending</small></button>
-          <button type="button" data-nd-open="account"><span>🏦</span><b>Account or debt</b><small>Powers your Net Worth</small></button>
+          <button type="button" data-nd-open="cashflow"><span><?php echo nab_icon( 'banknote', 20 ); ?></span><b>Monthly income &amp; expenses</b><small>Powers Cash Flow and Spending</small></button>
+          <button type="button" data-nd-open="account"><span><?php echo nab_icon( 'landmark', 20 ); ?></span><b>Account or debt</b><small>Powers your Net Worth</small></button>
         </div>
       </div>
 
@@ -1797,18 +1824,24 @@ var nabQuizData = {
 
 <!-- ══ v1.9.0 MOBILE BOTTOM NAV ══ -->
 <nav class="nd-bottomnav" aria-label="Quick navigation">
-  <button type="button" class="on" data-nd-home><span>🏠</span>Home</button>
-  <a href="<?php echo esc_url( $nav_links['learning'] !== '#' ? $nav_links['learning'] : $nav_links['dashboard'] ); ?>"><span>🎓</span>Learn</a>
-  <button type="button" class="nd-bn-add" data-nd-open="quick" aria-label="Add data"><span>＋</span></button>
+  <button type="button" class="on" data-nd-home><span><?php echo nab_icon( 'house', 22 ); ?></span>Home</button>
+  <a href="<?php echo esc_url( $nav_links['learning'] !== '#' ? $nav_links['learning'] : $nav_links['dashboard'] ); ?>"><span><?php echo nab_icon( 'graduation-cap', 22 ); ?></span>Learn</a>
+  <button type="button" class="nd-bn-add" data-nd-open="quick" aria-label="Add data"><span><?php echo nab_icon( 'plus', 24 ); ?></span></button>
   <?php if ( $nav_links['chatbot'] !== '#' ) : ?>
-  <a href="<?php echo esc_url( $nav_links['chatbot'] ); ?>"><span>✨</span>Ask AI</a>
+  <a href="<?php echo esc_url( $nav_links['chatbot'] ); ?>"><span><?php echo nab_icon( 'message-square-text', 22 ); ?></span>Ask AI</a>
   <?php else : ?>
-  <button type="button" data-tab-open="profile"><span>👤</span>Profile</button>
+  <button type="button" data-tab-open="profile"><span><?php echo nab_icon( 'user', 22 ); ?></span>Profile</button>
   <?php endif; ?>
-  <button type="button" data-nd-menu><span>☰</span>Menu</button>
+  <button type="button" data-nd-menu><span><?php echo nab_icon( 'menu', 22 ); ?></span>Menu</button>
 </nav>
 
+<?php
+$nd_js_icons = [ 'house','briefcase','landmark','chart-line','car','credit-card','receipt','file-text','play' ];
+foreach ( nab_nav_sections() as $sec ) foreach ( $sec['items'] as $it ) $nd_js_icons[] = $it['icon'];
+nab_print_icons_js( array_unique( $nd_js_icons ) );
+?>
 <script>
+window.nabSearchItems = <?php echo wp_json_encode( nab_search_items(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP ); ?>;
 window.nabDashData = <?php echo wp_json_encode( $dash_data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP ); ?>;
 </script>
 <?php endif; ?>
@@ -1821,7 +1854,7 @@ if ($link_chatbot_url && $link_chatbot_url !== '#') :
 ?>
 <a href="<?php echo esc_url($link_chatbot_url); ?>" class="nab-ask-ai-btn" title="Ask the NAB AI Assistant">
   <span class="nab-ask-ai-btn-dot"></span>
-  ✨ Ask AI
+  <?php echo nab_icon( 'message-square-text', 16 ); ?> Ask NAB AI
 </a>
 <?php endif; ?>
 

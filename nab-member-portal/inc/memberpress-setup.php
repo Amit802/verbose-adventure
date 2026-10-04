@@ -356,18 +356,11 @@ add_filter( 'elementor/editor/heartbeat_options', function( $settings ) {
 // ─────────────────────────────────────────────────────────────────────────────
 add_filter( 'litespeed_is_not_cacheable', function( $not_cacheable ) {
     if ( ! is_user_logged_in() ) return $not_cacheable;
-    // Exclude all NAB portal templates from cache
-    $nab_templates = [
-        'nab-dashboard','nab-chatbot','nab-support','nab-simulator',
-        'nab-utilization','nab-credit-report','nab-dispute-center',
-        'nab-loan','nab-card-match','nab-pad','nab-plans','nab-roadmap',
-    ];
-    if ( is_page() ) {
-        $tpl = get_post_meta( get_queried_object_id(), '_wp_page_template', true );
-        foreach ( $nab_templates as $t ) {
-            if ( strpos( $tpl, $t ) !== false ) return true;
-        }
-    }
+    // Exclude every registered portal tool (inc/tools.php) unless it opts in
+    // with 'cache' => true. v1.9.1: now also covers LFP, Learning Center and
+    // Emergency Fund, which show member-specific data but were missing here.
+    $tool = nab_current_tool();
+    if ( $tool && empty( nab_tools()[ $tool ]['cache'] ) ) return true;
     return $not_cacheable;
 } );
 

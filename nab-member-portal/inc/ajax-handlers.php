@@ -26,20 +26,12 @@ add_action( 'wp_enqueue_scripts', 'nab_enqueue_portal_js' );
 function nab_enqueue_portal_js() {
     if ( ! is_page() ) return;
 
-    $slug   = get_post_meta( get_the_ID(), '_wp_page_template', true );
-    $portal = [
-        'nab-dashboard', 'nab-simulator', 'nab-utilization',
-        'nab-credit-report', 'nab-dispute-center',
-        'nab-loan', 'nab-card-match', 'nab-pad',
-        'nab-learning', 'nab-support', 'nab-chatbot',
-        // Added — these 3 templates exist in template-loader.php but were
-        // missing here, so nabPortal (ajax url + nonce) never loaded on
-        // them, causing "Session error. Please refresh the page." alerts.
-        'nab-emergency-fund', 'nab-lfp', 'nab-plans',
-        'nab-roadmap',
-    ];
+    $slug = get_post_meta( get_the_ID(), '_wp_page_template', true );
 
-    if ( ! in_array( $slug, $portal, true ) ) return;
+    // v1.9.1: every registered tool gets nabPortal automatically (inc/tools.php).
+    // Previously a hand-kept list here drifted from the template loader and
+    // new pages showed "Session error. Please refresh the page."
+    if ( ! isset( nab_tools()[ $slug ] ) ) return;
 
     wp_enqueue_script( 'jquery' );
     // Enqueue dashboard JS as proper file - bypasses Elementor Ember optimizer

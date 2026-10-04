@@ -241,7 +241,9 @@ function renderSpending(){
 }
 
 /* ═══ Net worth ══════════════════════════════════════════ */
-var ACC_ICON = { cash:'🏦', investment:'📈', property:'🏠', vehicle:'🚗', other_asset:'💼', credit_card:'💳', loan:'🧾', mortgage:'🏡', other_debt:'📄' };
+var ACC_ICON = { cash:'landmark', investment:'chart-line', property:'house', vehicle:'car', other_asset:'briefcase', credit_card:'credit-card', loan:'receipt', mortgage:'house', other_debt:'file-text' };
+// Static icon markup from inc/icons.php (never user data)
+function icon(n, s){ return typeof window.nabIcon === 'function' ? window.nabIcon(n, s) : ''; }
 function groupOf(t){ return (D.types && D.types[t] && D.types[t].group) || 'asset'; }
 
 function renderNetworth(){
@@ -283,7 +285,8 @@ function renderNetworth(){
       list.appendChild(head);
       items.forEach(function(a){
         var li = el('li', 'nd-acc');
-        li.appendChild(el('span', 'nd-acc-ico', ACC_ICON[a.type] || '💼'));
+        var ico = el('span', 'nd-acc-ico ' + g[0]); ico.innerHTML = icon(ACC_ICON[a.type] || 'briefcase', 18);
+        li.appendChild(ico);
         var nm = el('span', 'nd-acc-nm'); nm.appendChild(el('b', null, a.name)); nm.appendChild(el('small', null, (D.types[a.type] || {}).label || ''));
         li.appendChild(nm);
         var bal = el('span', 'nd-acc-bal', (g[0] === 'debt' ? '−' : '') + money(a.bal));

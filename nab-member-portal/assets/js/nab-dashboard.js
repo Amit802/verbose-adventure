@@ -224,37 +224,16 @@ window.nabMarkModuleComplete=nabMarkModuleComplete;
   var searchResults = document.getElementById('nabSearchResults');
   if(!searchInput || !searchResults) return;
 
-  // All searchable items
-  var searchItems = [
-    // Credit Tools
-    {icon:'📄', title:'Credit Report Access', desc:'Access your Equifax, TransUnion, Borrowell or Credit Karma report', tab:null, url:null, key:'credit report equifax transunion borrowell'},
-    {icon:'📊', title:'Utilization Checker', desc:'Visualize your credit utilization', tab:null, url:'utilization', key:'utilization checker credit usage'},
-    {icon:'📈', title:'Score Simulator', desc:'Simulate what-if scenarios for your credit score', tab:null, url:'simulator', key:'score simulator credit score'},
-    {icon:'🛡', title:'Dispute Center', desc:'Submit a credit dispute and track your case', tab:null, url:'dispute', key:'dispute center credit error'},
-    // Services
-    {icon:'📅', title:'Book Specialist', desc:'Schedule a 1-on-1 session with a credit advisor', tab:null, url:'booking', key:'book specialist appointment advisor'},
-    {icon:'🤖', title:'NAB AI Chatbot', desc:'Ask our intelligent credit chatbot anything', tab:null, url:'chatbot', key:'ai chatbot assistant help'},
-    {icon:'🎫', title:'Support Center', desc:'Submit a support ticket or track existing tickets', tab:null, url:'support', key:'support ticket help contact'},
-    // Loan Tools
-    {icon:'🚗', title:'Auto Loan Matcher', desc:'Find auto loan offers from Canadian lenders', tab:null, url:'loan', key:'auto loan car vehicle lender'},
-    {icon:'💳', title:'Credit Card Matcher', desc:'Answer 4 questions and get matched to the best credit card', tab:null, url:'card-match', key:'credit card matcher best card'},
-    // Resources
-    {icon:'🎓', title:'Learning Center', desc:'7-part credit education video series', tab:null, url:'learning', key:'learning center education videos modules'},
-    {icon:'📚', title:'Education Blog', desc:'Browse credit articles and tips', tab:'blog', url:null, key:'education blog articles credit tips'},
-    {icon:'✅', title:'DIY Repair Guide', desc:'Step-by-step credit repair guides', tab:'diy', url:null, key:'diy repair guide credit fix'},
-    {icon:'📄', title:'PAD Agreement', desc:'View your Pre-Authorized Debit Agreement', tab:null, url:'pad', key:'pad agreement debit authorization'},
-    // Modules
-    {icon:'🎥', title:'What is Credit, Really?', desc:'Module 1 — Credit Basics', tab:'education', url:null, key:'what is credit really module 1'},
-    {icon:'🎥', title:'The Trust Recipe', desc:'Module 2 — How Credit Scores Are Calculated', tab:'education', url:null, key:'trust recipe credit score calculated module 2'},
-    {icon:'🎥', title:'The Escalating Cost of Bad Advice', desc:'Module 3 — Credit Education', tab:'education', url:null, key:'escalating cost bad advice module 3'},
-    {icon:'🎥', title:'Free Canadian Credit Reports', desc:'Module 4 — The Complete Guide', tab:'education', url:null, key:'free canadian credit reports equifax transunion module 4'},
-    {icon:'🎥', title:'Securing Your Free Credit Reports', desc:'Module 5 — Step by step guide', tab:'education', url:null, key:'securing free credit reports module 5'},
-    {icon:'🎥', title:'Credit Inquiry Guide', desc:'Module 6 — Hard and Soft Pulls', tab:'education', url:null, key:'credit inquiry hard soft pulls module 6'},
-    {icon:'🎥', title:'Building Better Financial Habits', desc:'Module 7 — Financial Habits', tab:'education', url:null, key:'building financial habits module 7'},
-    // Journey
-    {icon:'🗺', title:'Financial Roadmap', desc:'Personalized credit action plan — coming soon', tab:null, url:null, key:'financial roadmap plan goals'},
-    {icon:'🎯', title:'Goal Tracker', desc:'Track your home, car, business funding goals — coming soon', tab:null, url:null, key:'goal tracker home car business'},
+  // v1.9.1: items come from the tool registry (window.nabSearchItems, printed
+  // by the dashboard from inc/tools.php) with each page's real URL, so new tools
+  // are searchable automatically. Old hard-coded list kept as a fallback.
+  var searchItems = window.nabSearchItems || [
+    {icon:'file-text', title:'Credit Report Access', desc:'Access your Equifax, TransUnion, Borrowell or Credit Karma report', tab:'', url:'', key:'credit report equifax transunion borrowell'},
+    {icon:'book-open', title:'Education Blog', desc:'Browse credit articles and tips', tab:'blog', url:'', key:'education blog articles credit tips'},
+    {icon:'file-pen-line', title:'DIY Repair Guide', desc:'Step-by-step credit repair guides', tab:'diy', url:'', key:'diy repair guide credit fix'}
   ];
+  function esc(t){ var d=document.createElement('div'); d.textContent=t==null?'':t; return d.innerHTML; }
+  function ico(n){ return typeof window.nabIcon==='function' ? window.nabIcon(n,18) : ''; }
 
   var debounceTimer;
   searchInput.addEventListener('input', function(){
@@ -269,13 +248,13 @@ window.nabMarkModuleComplete=nabMarkModuleComplete;
       }).slice(0, 6);
 
       if(!matches.length){
-        searchResults.innerHTML = '<div class="nab-search-no-results">No results found for "' + q + '"</div>';
+        searchResults.innerHTML = '<div class="nab-search-no-results">No results found for "' + esc(q) + '"</div>';
       } else {
         searchResults.innerHTML = matches.map(function(item){
-          return '<div class="nab-search-result-item" data-tab="'+(item.tab||'')+'" data-url="'+(item.url||'')+'">' +
-            '<div class="nab-search-result-icon">'+item.icon+'</div>' +
-            '<div><div class="nab-search-result-title">'+item.title+'</div>' +
-            '<div class="nab-search-result-desc">'+item.desc+'</div></div></div>';
+          return '<div class="nab-search-result-item" role="button" tabindex="0" data-tab="'+esc(item.tab)+'" data-url="'+esc(item.url)+'">' +
+            '<div class="nab-search-result-icon">'+ico(item.icon)+'</div>' +
+            '<div><div class="nab-search-result-title">'+esc(item.title)+'</div>' +
+            '<div class="nab-search-result-desc">'+esc(item.desc)+'</div></div></div>';
         }).join('');
       }
       searchResults.classList.add('visible');
@@ -293,8 +272,10 @@ window.nabMarkModuleComplete=nabMarkModuleComplete;
 
     if(tab && typeof nabOpenTab === 'function'){
       nabOpenTab(tab);
+    } else if(url && /^https?:\/\//.test(url)){
+      window.location.href = url;
     } else if(url && typeof nabPortal !== 'undefined'){
-      // Navigate to portal page by URL key
+      // Legacy fallback: navigate to portal page by URL key
       var urlMap = {
         'utilization': '/utilization-checker/',
         'simulator': '/score-simulator/',
