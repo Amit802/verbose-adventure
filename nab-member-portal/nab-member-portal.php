@@ -3,7 +3,7 @@
  * Plugin Name:  NAB Member Portal
  * Plugin URI:   https://nabsolutions.ca
  * Description:  Full member portal for NAB Solutions — Dashboard, Credit Tools, Auto Loan (LoanConnect v1.4), Credit Card Matcher, PAD Agreement, MemberPress integration, Notification system.
- * Version:      1.9.2
+ * Version:      1.9.3
  * Author:       NAB Solutions
  * Author URI:   https://nabsolutions.ca
  * License:      Private — All Rights Reserved
@@ -41,6 +41,37 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
+
+/* ── Activation error reporter (v1.9.3) ────────────────────
+   While WordPress test-loads the plugin to activate it, its own fatal
+   error handler is switched off and the plugins screen only says
+   "triggered a fatal error". If ANY PHP fatal happens while loading or
+   activating this plugin, show the real message, file and line instead,
+   so it can be fixed without digging through server logs. */
+if ( defined( 'WP_SANDBOX_SCRAPING' ) ) {
+    register_shutdown_function( function() {
+        $e = error_get_last();
+        if ( ! $e || ! in_array( $e['type'], [ E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR, E_RECOVERABLE_ERROR ], true ) ) return;
+        while ( ob_get_level() ) ob_end_clean();
+        if ( ! headers_sent() ) {
+            header_remove( 'Location' ); // WordPress has already queued a redirect to its vague error notice
+            http_response_code( 200 );
+            header( 'Content-Type: text/html; charset=utf-8' );
+        }
+        $root = defined( 'ABSPATH' ) ? ABSPATH : '';
+        $msg  = htmlspecialchars( str_replace( $root, '', $e['message'] ), ENT_QUOTES, 'UTF-8' );
+        $file = htmlspecialchars( str_replace( $root, '', $e['file'] ), ENT_QUOTES, 'UTF-8' );
+        $back = function_exists( 'admin_url' ) ? admin_url( 'plugins.php' ) : '../wp-admin/plugins.php';
+        echo '<!DOCTYPE html><html><head><meta charset="utf-8"><title>NAB Member Portal was not activated</title></head>'
+           . '<body style="font:14px/1.6 -apple-system,Segoe UI,Roboto,sans-serif;background:#f0f0f1;margin:0;padding:40px 16px">'
+           . '<div style="max-width:720px;margin:0 auto;background:#fff;border:1px solid #c3c4c7;padding:24px 28px">'
+           . '<h1 style="font-size:20px;margin:0 0 12px">NAB Member Portal was not activated</h1>'
+           . '<p>PHP stopped with this error while loading the plugin. Nothing on your site was changed.</p>'
+           . '<pre style="white-space:pre-wrap;background:#f6f7f7;border:1px solid #dcdcde;padding:12px;font-size:13px">' . $msg . "\n\nFile: " . $file . ' (line ' . (int) $e['line'] . ')</pre>'
+           . '<p>Please send a screenshot of this box to your developer.</p>'
+           . '<p><a href="' . htmlspecialchars( $back, ENT_QUOTES, 'UTF-8' ) . '">&laquo; Back to Plugins</a></p></div></body></html>';
+    } );
+}
 
 /* ── Safety check before loading (v1.9.2) ─────────────────
    If another copy of this plugin, or a theme/snippet/plugin, already
@@ -108,7 +139,7 @@ if ( $nab_conflict ) {
 }
 unset( $nab_conflict );
 
-define( 'NAB_VERSION', '1.9.2' );
+define( 'NAB_VERSION', '1.9.3' );
 define( 'NAB_DIR',     plugin_dir_path( __FILE__ ) );
 define( 'NAB_URL',     plugin_dir_url( __FILE__ ) );
 
