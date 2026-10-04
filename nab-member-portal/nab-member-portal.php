@@ -3,7 +3,7 @@
  * Plugin Name:  NAB Member Portal
  * Plugin URI:   https://nabsolutions.ca
  * Description:  Full member portal for NAB Solutions — Dashboard, Credit Tools, Auto Loan (LoanConnect v1.4), Credit Card Matcher, PAD Agreement, MemberPress integration, Notification system.
- * Version:      1.9.3
+ * Version:      1.9.4
  * Author:       NAB Solutions
  * Author URI:   https://nabsolutions.ca
  * License:      Private — All Rights Reserved
@@ -86,11 +86,12 @@ $nab_conflict = ( function() {
         return 'Another copy of NAB Member Portal (version ' . NAB_VERSION . ') is already running'
             . ( defined( 'NAB_DIR' ) ? ' from ' . str_replace( ABSPATH, '', NAB_DIR ) : '' ) . '. Deactivate and delete that copy in Plugins, then activate this one.';
     }
+    // Some hosts disable glob()/token_get_all() — then simply skip the scan.
+    if ( ! function_exists( 'glob' ) || ! function_exists( 'token_get_all' ) || ! class_exists( 'ReflectionFunction' ) ) return '';
     $files = glob( __DIR__ . '/inc/*.php' ) ?: [];
     $key   = md5( implode( '|', array_map( function( $f ) { return basename( $f ) . ':' . @filemtime( $f ) . ':' . @filesize( $f ); }, $files ) ) );
     $index = get_option( 'nab_function_index' );
     if ( ! is_array( $index ) || ( $index['key'] ?? '' ) !== $key ) {
-        if ( ! function_exists( 'token_get_all' ) ) return '';
         $names = [];
         foreach ( $files as $file ) {
             $tokens = token_get_all( (string) file_get_contents( $file ) );
@@ -139,7 +140,7 @@ if ( $nab_conflict ) {
 }
 unset( $nab_conflict );
 
-define( 'NAB_VERSION', '1.9.3' );
+define( 'NAB_VERSION', '1.9.4' );
 define( 'NAB_DIR',     plugin_dir_path( __FILE__ ) );
 define( 'NAB_URL',     plugin_dir_url( __FILE__ ) );
 

@@ -8,14 +8,14 @@
  * list, the sidebar, the dashboard search, ...) and missing one caused
  * bugs like "Session error. Please refresh the page." Now:
  *
- *   1. nab_tools()        — page templates  → template loader, page-template
+ *   1. nab_portal_tools()        — page templates  → template loader, page-template
  *                           dropdown, nabPortal (ajax url + nonce), no-cache
- *   2. nab_nav_sections() — sidebar groups and items → sidebar + search
+ *   2. nab_portal_nav_sections() — sidebar groups and items → sidebar + search
  *
  * Adding a tool = one entry in each list + the template file. See
  * DEVELOPER.md ("Adding a new tool").
  *
- * Both lists are filterable ('nab_tools', 'nab_nav_sections') so an
+ * Both lists are filterable ('nab_portal_tools', 'nab_portal_nav_sections') so an
  * add-on plugin can register tools without editing this file.
  *
  * @package NAB_Member_Portal
@@ -32,10 +32,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
              show member-specific data and nonces)
    Order = order in the template dropdown.
    ═══════════════════════════════════════════════════════════ */
-function nab_tools() {
+function nab_portal_tools() {
     static $tools = null;
     if ( $tools !== null ) return $tools;
-    $tools = apply_filters( 'nab_tools', [
+    $tools = apply_filters( 'nab_portal_tools', [
         'nab-dashboard'      => [ 'name' => 'NAB Member Dashboard',        'file' => 'page-nab-dashboard.php' ],
         'nab-lfp'            => [ 'name' => 'NAB Lending Finder Program',  'file' => 'page-nab-lfp.php' ],
         'nab-simulator'      => [ 'name' => 'NAB Credit Score Simulator',  'file' => 'page-nab-simulator.php' ],
@@ -56,10 +56,10 @@ function nab_tools() {
 }
 
 /** Template slug of the page being viewed, if it is a portal page — else ''. */
-function nab_current_tool() {
+function nab_portal_current_tool() {
     if ( ! is_page() ) return '';
     $slug = get_post_meta( get_queried_object_id(), '_wp_page_template', true );
-    return isset( nab_tools()[ $slug ] ) ? $slug : '';
+    return isset( nab_portal_tools()[ $slug ] ) ? $slug : '';
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -74,10 +74,10 @@ function nab_current_tool() {
                 has no entry for this key — new tools need no ACF field
      desc / keywords — shown / matched by the dashboard search
    ═══════════════════════════════════════════════════════════ */
-function nab_nav_sections() {
+function nab_portal_nav_sections() {
     static $sections = null;
     if ( $sections !== null ) return $sections;
-    $sections = apply_filters( 'nab_nav_sections', [
+    $sections = apply_filters( 'nab_portal_nav_sections', [
         'main' => [ 'label' => 'Main', 'items' => [
             [ 'key' => 'dashboard', 'label' => 'Dashboard', 'icon' => 'house', 'desc' => 'Your overview', 'keywords' => 'home overview' ],
         ] ],
@@ -110,7 +110,7 @@ function nab_nav_sections() {
 }
 
 /** Resolved URL for a nav item, or '#' when it isn't set up yet. */
-function nab_nav_item_url( $item ) {
+function nab_portal_nav_item_url( $item ) {
     $nav = nab_get_nav_links();
     $url = $nav[ $item['key'] ] ?? '#';
     if ( $url === '#' && ! empty( $item['template'] ) ) $url = nab_get_template_url( $item['template'] );
@@ -121,13 +121,13 @@ function nab_nav_item_url( $item ) {
  * Items for the dashboard search box, built from the sidebar so every
  * tool is searchable the moment it is registered.
  */
-function nab_search_items() {
+function nab_portal_search_items() {
     $items = [];
     $learning = nab_get_nav_links()['learning'] ?? '#';
-    foreach ( nab_nav_sections() as $section ) {
+    foreach ( nab_portal_nav_sections() as $section ) {
         foreach ( $section['items'] as $it ) {
             if ( $it['key'] === 'dashboard' ) continue;
-            $url = empty( $it['tab'] ) ? nab_nav_item_url( $it ) : '';
+            $url = empty( $it['tab'] ) ? nab_portal_nav_item_url( $it ) : '';
             if ( empty( $it['tab'] ) && $url === '#' ) continue; // not set up on this site yet
             $items[] = [
                 'icon'  => $it['icon'],
@@ -150,5 +150,5 @@ function nab_search_items() {
             $items[] = [ 'icon' => 'play', 'title' => $t, 'desc' => 'Lesson ' . ( $i + 1 ) . ' · Learning Center', 'tab' => '', 'url' => $learning, 'key' => 'module lesson video ' . ( $i + 1 ) ];
         }
     }
-    return apply_filters( 'nab_search_items', $items );
+    return apply_filters( 'nab_portal_search_items', $items );
 }

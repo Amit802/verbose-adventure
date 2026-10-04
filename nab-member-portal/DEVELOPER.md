@@ -24,8 +24,8 @@ Our function names are scanned once per release and cached in the `nab_function_
 | Path | What lives there |
 |---|---|
 | `nab-member-portal.php` | Bootstrap: constants, `require`s, activation/deactivation, small admin tweaks. Bump **both** the header `Version` and `NAB_VERSION` on every release. A version change triggers the LiteSpeed purge-all automatically. |
-| `inc/tools.php` | **Tool registry.** Every page template (`nab_tools()`) and every sidebar/search entry (`nab_nav_sections()`). |
-| `inc/icons.php` | The only icon set (Lucide, ISC licence). `nab_icon( 'name', $size )`. No emoji in the UI. |
+| `inc/tools.php` | **Tool registry.** Every page template (`nab_portal_tools()`) and every sidebar/search entry (`nab_portal_nav_sections()`). |
+| `inc/icons.php` | The only icon set (Lucide, ISC licence). `nab_portal_icon( 'name', $size )`. No emoji in the UI. |
 | `inc/helpers.php` | Shared layout (`nab_head_open`, `nab_render_sidebar`, shared CSS/JS), nav links, roadmap, templates. |
 | `inc/template-loader.php` | Maps page templates to files. Driven by the registry, so you don't need to edit it. |
 | `inc/ajax-handlers.php` | Loads `nabPortal` (ajax URL + nonce) on every registered tool, plus the AJAX for the existing tools. |
@@ -38,7 +38,7 @@ Our function names are scanned once per release and cached in the `nab_function_
 
 ## Rules for every file
 
-1. **Prefix everything `nab_`.** Functions, options, user meta keys, AJAX actions, CSS classes (`nab-` / `nd-` on the dashboard).
+1. **Prefix everything `nab_`.** Options, user meta keys, AJAX actions, CSS classes (`nab-` / `nd-` on the dashboard). **New PHP functions use the longer `nab_portal_` or a tool-specific prefix** (e.g. `nab_budget_…`), never short generic names like `nab_icon`. The NAB site has its own custom code, and v1.9.1 failed to activate there because short names clashed with it.
 2. **AJAX lives in `inc/`, never in templates.** Every handler must:
    - check a nonce (`check_ajax_referer( 'nab_portal_nonce', 'nonce' )`);
    - read `get_current_user_id()` and never accept a user ID from the request;
@@ -46,7 +46,7 @@ Our function names are scanned once per release and cached in the `nab_function_
    - reply with `wp_send_json_success()` / `wp_send_json_error( [ 'message' => '…' ] )`.
 3. **Escape all output.** In PHP use `esc_html` / `esc_attr` / `esc_url`. In JS, put user text in with `textContent` (or the `esc()` helper), never `innerHTML`.
 4. **Member data goes in user meta**, as JSON for lists (see `nab_dash_json_meta()`). Keep existing meta keys stable — other tools read them (`nab_credit_score`, `nab_card_N_*`, `nab_ef_*`, `nab_points`…).
-5. **Icons:** use `nab_icon()`. To add an icon, copy the inner markup of `lucide-static/icons/<name>.svg` into `nab_icon_paths()`.
+5. **Icons:** use `nab_portal_icon()`. To add an icon, copy the inner markup of `lucide-static/icons/<name>.svg` into `nab_portal_icon_paths()`.
 6. **Dates shown to members:** use `wp_date()` in PHP (site timezone). The join date always comes from `nab_get_member_since()`.
 7. **Credentials** go in `wp-config.php` constants or ACF settings, never in code (the existing `NAB_LC_*` pattern).
 8. **Release:** run `php -l` on changed files, test on a staging site, then bump the version.
@@ -56,12 +56,12 @@ Our function names are scanned once per release and cached in the `nab_function_
 Example: a "Loan Calculator" page.
 
 1. **Template file** `templates/page-nab-loan-calculator.php`. Copy the structure of an existing simple tool (e.g. `page-nab-emergency-fund.php`): `nab_head_open()` → page CSS → `nab_open_body( 'loan-calc' )` → content → `nab_portal_footer_js()` → `wp_footer()`.
-2. **Register the page** in `nab_tools()`:
+2. **Register the page** in `nab_portal_tools()`:
    ```php
    'nab-loan-calculator' => [ 'name' => 'NAB Loan Calculator', 'file' => 'page-nab-loan-calculator.php' ],
    ```
    That one line makes it selectable as a page template, routes it, loads `nabPortal` (no "Session error"), and excludes it from page cache.
-3. **Add it to the sidebar and search** in `nab_nav_sections()`:
+3. **Add it to the sidebar and search** in `nab_portal_nav_sections()`:
    ```php
    [ 'key' => 'loan-calc', 'label' => 'Loan Calculator', 'icon' => 'circle-dollar-sign',
      'template' => 'nab-loan-calculator', 'desc' => 'Estimate payments and interest', 'keywords' => 'loan calculator payment interest' ],
@@ -87,7 +87,7 @@ Example: a "Loan Calculator" page.
 
 | # | Item | Plan |
 |---|---|---|
-| 8 | Sidebar categories | Edit `nab_nav_sections()` only — rename/regroup into Loan Tools, Credit Tools, Money Management, Learning Hub, Member Support, My Progress. No template changes needed. |
+| 8 | Sidebar categories | Edit `nab_portal_nav_sections()` only — rename/regroup into Loan Tools, Credit Tools, Money Management, Learning Hub, Member Support, My Progress. No template changes needed. |
 | 9 | Progressive unlock | Add an `unlock` rule to nav items/tools (e.g. `[ 'level' => 'silver' ]`). Add `nab_tool_is_unlocked( $uid, $key )` in `tools.php`; the sidebar shows a lock icon, and the template redirects when the tool is locked. |
 | 10 | Badges, XP, levels | **Partly exists:** `nab_points`, `nab_level`, `nab_streak` (updated in `nab_complete_module`). Move that into `inc/gamification.php` with one `nab_award_xp( $uid, $action )`, and call it from the existing saves (score logged, month added, module done). |
 

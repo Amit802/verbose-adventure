@@ -240,11 +240,11 @@ if ( ! function_exists( 'nab_render_sidebar' ) ) {
         $status = $did ? ( get_field( 'nab_member_status', $did ) ?: 'Active' ) : 'Active';
         $dash_url = $nav['dashboard'] ?? home_url('/dashboard/');
 
-        // v1.9.1: items come from nab_nav_sections() in inc/tools.php.
+        // v1.9.1: items come from nab_portal_nav_sections() in inc/tools.php.
         // Blog/DIY-style items carry a 'tab': they are never disabled — on the
         // dashboard they switch tab via JS, elsewhere they link to dashboard?nab_tab=…
         $render_item = function( $it ) use ( $active, $dash_url ) {
-            $label = nab_icon( $it['icon'] ?? '', 18 ) . '<span>' . esc_html( $it['label'] ) . '</span>';
+            $label = nab_portal_icon( $it['icon'] ?? '', 18 ) . '<span>' . esc_html( $it['label'] ) . '</span>';
             if ( ! empty( $it['tab'] ) ) {
                 if ( $active === 'dashboard' ) {
                     echo '<a class="nab-nav-item" href="javascript:void(0)" onclick="if(typeof nabOpenTab!==\'undefined\')nabOpenTab(\'' . esc_attr( $it['tab'] ) . '\')">' . $label . '</a>';
@@ -253,7 +253,7 @@ if ( ! function_exists( 'nab_render_sidebar' ) ) {
                 }
                 return;
             }
-            $url  = nab_nav_item_url( $it );
+            $url  = nab_portal_nav_item_url( $it );
             $dis  = ( $url === '#' );
             $cls  = 'nab-nav-item' . ( $active === $it['key'] ? ' nab-active' : '' ) . ( $dis ? ' nab-nav-disabled' : '' );
             $href = $dis ? 'javascript:void(0)' : esc_url( $url );
@@ -266,7 +266,7 @@ if ( ! function_exists( 'nab_render_sidebar' ) ) {
             <div class="nab-logo-text">NAB <span>Solutions</span><small>Member Portal</small></div>
           </div>
           <nav class="nab-sidebar-nav" aria-label="Portal">
-            <?php foreach ( nab_nav_sections() as $section ) : ?>
+            <?php foreach ( nab_portal_nav_sections() as $section ) : ?>
             <div class="nab-nav-label"><?php echo esc_html( $section['label'] ); ?></div>
             <?php foreach ( $section['items'] as $it ) $render_item( $it ); ?>
             <?php endforeach; ?>
@@ -278,11 +278,11 @@ if ( ! function_exists( 'nab_render_sidebar' ) ) {
                 <div class="nab-member-name"><?php echo esc_html( $user->display_name ); ?></div>
                 <div class="nab-member-role"><?php echo esc_html( $status ); ?> Member</div>
               </div>
-              <a href="<?php echo esc_url( wp_logout_url( home_url() ) ); ?>" class="nab-logout-btn" title="Log out" aria-label="Log out"><?php echo nab_icon( 'log-out', 18 ); ?></a>
+              <a href="<?php echo esc_url( wp_logout_url( home_url() ) ); ?>" class="nab-logout-btn" title="Log out" aria-label="Log out"><?php echo nab_portal_icon( 'log-out', 18 ); ?></a>
             </div>
           </div>
         </aside>
-        <button class="nab-hamburger" id="nabHamburger" aria-label="Open menu" type="button"><?php echo nab_icon( 'menu', 22 ); ?></button>
+        <button class="nab-hamburger" id="nabHamburger" aria-label="Open menu" type="button"><?php echo nab_portal_icon( 'menu', 22 ); ?></button>
         <div class="nab-sidebar-overlay" id="nabOverlay"></div>
         <?php
     }
@@ -300,7 +300,7 @@ if ( ! function_exists( 'nab_render_notification_bell' ) ) {
         ?>
         <div class="nab-bell-wrap">
           <button class="nab-bell-btn" id="nabBell" aria-label="Notifications (<?php echo $count; ?> unread)" type="button">
-            <?php echo nab_icon( 'bell', 18 ); ?>
+            <?php echo nab_portal_icon( 'bell', 18 ); ?>
             <span class="nab-bell-count <?php echo $count ? 'show' : ''; ?>" id="nabBellCount"><?php echo $count; ?></span>
           </button>
           <div class="nab-notif-drop" id="nabNotifDrop" role="dialog" aria-label="Notifications panel">
@@ -312,7 +312,7 @@ if ( ! function_exists( 'nab_render_notification_bell' ) ) {
             </div>
             <?php if ( $notifs ) : foreach ( $notifs as $n ) : ?>
             <div class="nab-notif-row">
-              <span class="nab-notif-ico"><?php echo nab_icon( $icons[ $n['type'] ] ?? 'megaphone', 16 ); ?></span>
+              <span class="nab-notif-ico"><?php echo nab_portal_icon( $icons[ $n['type'] ] ?? 'megaphone', 16 ); ?></span>
               <div class="nab-notif-body">
                 <?php if ( $n['title'] )   : ?><div class="nab-notif-title"><?php echo esc_html( $n['title'] ); ?></div><?php endif; ?>
                 <?php if ( $n['message'] ) : ?><div class="nab-notif-txt"><?php echo esc_html( $n['message'] ); ?></div><?php endif; ?>

@@ -31,7 +31,7 @@ function nab_enqueue_portal_js() {
     // v1.9.1: every registered tool gets nabPortal automatically (inc/tools.php).
     // Previously a hand-kept list here drifted from the template loader and
     // new pages showed "Session error. Please refresh the page."
-    if ( ! isset( nab_tools()[ $slug ] ) ) return;
+    if ( ! isset( nab_portal_tools()[ $slug ] ) ) return;
 
     wp_enqueue_script( 'jquery' );
     // Enqueue dashboard JS as proper file - bypasses Elementor Ember optimizer

@@ -8,19 +8,19 @@
  * are copied here; to add one, paste the inner markup of
  * lucide-static/icons/<name>.svg as a new entry.
  *
- * PHP:  echo nab_icon( 'piggy-bank' );            // 20px
- *       echo nab_icon( 'car', 16, 'my-class' );
- * JS:   window.nabIcon( 'car' ) on pages that call nab_print_icons_js()
+ * PHP:  echo nab_portal_icon( 'piggy-bank' );            // 20px
+ *       echo nab_portal_icon( 'car', 16, 'my-class' );
+ * JS:   window.nabIcon( 'car' ) on pages that call nab_portal_print_icons_js()
  *
  * @package NAB_Member_Portal
  * @since   1.9.1
  */
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-function nab_icon_paths() {
+function nab_portal_icon_paths() {
     static $icons = null;
     if ( $icons !== null ) return $icons;
-    $icons = apply_filters( 'nab_icon_paths', [
+    $icons = apply_filters( 'nab_portal_icon_paths', [
         'house' => '<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
         'file-text' => '<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',
         'chart-column' => '<path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>',
@@ -82,8 +82,8 @@ function nab_icon_paths() {
  * Inline SVG icon. Decorative (aria-hidden) — always pair with visible text
  * or an aria-label on the parent control.
  */
-function nab_icon( $name, $size = 20, $class = '' ) {
-    $paths = nab_icon_paths();
+function nab_portal_icon( $name, $size = 20, $class = '' ) {
+    $paths = nab_portal_icon_paths();
     if ( ! isset( $paths[ $name ] ) ) return '';
     return sprintf(
         '<svg class="nab-i%s" width="%d" height="%d" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">%s</svg>',
@@ -92,8 +92,8 @@ function nab_icon( $name, $size = 20, $class = '' ) {
 }
 
 /** Exposes window.nabIcon(name, size) for scripts that build UI in the browser. */
-function nab_print_icons_js( $names ) {
-    $paths = array_intersect_key( nab_icon_paths(), array_flip( (array) $names ) );
+function nab_portal_print_icons_js( $names ) {
+    $paths = array_intersect_key( nab_portal_icon_paths(), array_flip( (array) $names ) );
     ?>
 <script>
 window.nabIconPaths = <?php echo wp_json_encode( $paths ); ?>;
