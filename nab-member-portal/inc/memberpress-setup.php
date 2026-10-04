@@ -225,9 +225,14 @@ add_filter('wp_send_new_user_notification_to_user', '__return_false');
 add_filter('wp_send_new_user_notification_to_admin', '__return_false');
 
 // Fires when admin manually creates a user (NAB's main flow)
+// Sent at the end of the request, not inside user_register: the REST
+// create-member endpoint saves first/last name AFTER the user is created,
+// so sending immediately greeted those members as "Hi Member".
 add_action('user_register', function($uid) {
     if(did_action('mepr-signup')) return; // MP checkout handles its own
-    nab_dispatch_welcome_email($uid);
+    add_action('shutdown', function() use ($uid) {
+        nab_dispatch_welcome_email($uid);
+    });
 }, 20, 1);
 
 // Also fires on first MP transaction

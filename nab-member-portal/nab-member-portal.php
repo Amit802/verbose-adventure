@@ -3,7 +3,7 @@
  * Plugin Name:  NAB Member Portal
  * Plugin URI:   https://nabsolutions.ca
  * Description:  Full member portal for NAB Solutions — Dashboard, Credit Tools, Auto Loan (LoanConnect v1.4), Credit Card Matcher, PAD Agreement, MemberPress integration, Notification system.
- * Version:      1.8.1
+ * Version:      1.8.2
  * Author:       NAB Solutions
  * Author URI:   https://nabsolutions.ca
  * License:      Private — All Rights Reserved
@@ -42,7 +42,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'NAB_VERSION', '1.8.1' );
+define( 'NAB_VERSION', '1.8.2' );
 define( 'NAB_DIR',     plugin_dir_path( __FILE__ ) );
 define( 'NAB_URL',     plugin_dir_url( __FILE__ ) );
 
