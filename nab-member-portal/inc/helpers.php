@@ -261,9 +261,10 @@ if ( ! function_exists( 'nab_render_sidebar' ) ) {
         };
         ?>
         <aside class="nab-sidebar" id="nabSidebar">
-          <div class="nab-sidebar-logo">
-            <div class="nab-logo-icon">N</div>
-            <div class="nab-logo-text">NAB <span>Solutions</span><small>Member Portal</small></div>
+                  <div class="nab-sidebar-logo">
+            <a href="<?php echo esc_url( $dash_url ); ?>" class="nab-logo-img-wrap">
+              <img src="https://members.nabsolutions.ca/wp-content/uploads/2024/10/image-6.png" alt="NAB Solutions" class="nab-logo-img">
+            </a>
           </div>
           <nav class="nab-sidebar-nav" aria-label="Portal">
             <?php foreach ( nab_portal_nav_sections() as $section ) : ?>
@@ -386,6 +387,8 @@ body{margin:0!important;padding:0!important;background:#F0F4FA!important}
 .nab-logo-icon{width:36px;height:36px;background:#F97316;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;color:#fff;flex-shrink:0}
 .nab-logo-text{font-size:13px;font-weight:700;color:#fff;line-height:1.2}
 .nab-logo-text span{color:#F97316}
+	.nab-logo-img-wrap{display:block;border-radius:10px;padding:8px 12px;width:100%;box-sizing:border-box}
+.nab-logo-img{display:block;max-width:100%;max-height:44px;height:auto;margin:0 auto}
 .nab-logo-text small{display:block;font-weight:400;font-size:10px;color:rgba(255,255,255,.5);margin-top:1px}
 .nab-sidebar-nav{flex:1;padding:0 10px 16px}
 .nab-nav-label{font-size:9px;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.4);text-transform:uppercase;padding:14px 8px 4px}
