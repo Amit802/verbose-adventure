@@ -199,6 +199,7 @@ for ( $i = 0; $i < 24; $i++ ) {
     $cf_cursor->modify( '-1 month' );
 }
 $can_self_score = ! ( $saved_score && $score_source === 'account' );
+$budget_url     = nab_get_template_url( 'nab-budget' ); // v1.10.0 Budget Planner page, '#' if not created yet
 
 $hour     = (int) current_time( 'G' );
 $greeting = $hour < 12 ? 'Morning' : ( $hour < 17 ? 'Afternoon' : 'Evening' );
@@ -1051,6 +1052,7 @@ var nabQuizData = {
                 <h2 class="nd-card-title">Spending</h2>
                 <div class="nd-card-sub" id="ndSpendSub">By category</div>
               </div>
+              <?php if ( $budget_url !== '#' ) : ?><a class="nd-link" href="<?php echo esc_url( $budget_url ); ?>">Budget →</a><?php endif; ?>
             </header>
             <div class="nd-donut-wrap">
               <div class="nd-chart nd-chart-donut"><canvas id="ndSpendChart" aria-label="Spending by category" role="img"></canvas>
@@ -1286,6 +1288,7 @@ var nabQuizData = {
           ['#7c2d92','#f3e8ff','credit-card','Credit Card Matcher',      'Answer 4 questions and get matched to the best Canadian credit card for your profile.',        $link_cards,   'new',  'link'],
           ['#d97706','#fef3c7','book-open','Credit Education Blog',    'Browse articles and tips on credit rebuilding — read right here on your dashboard.',          null,          '',     'blog'],
           ['#be185d','#fce7f3','file-pen-line','DIY Dispute Letter',  'Download ready-to-use dispute letter templates — available right here on your dashboard.',         null,          '',     'diy' ],
+          ['#0f766e','#d1fae5','wallet','Monthly Budget Planner', 'Set a monthly budget for each category and see how your spending compares.', $budget_url, 'new', 'link'],
           ['#0d9488','#ccfbf1','piggy-bank','Emergency Fund Planner',  'Set a savings goal and track your progress toward financial security.',                      $link_ef,      '',     'link'],
         ];
         foreach ( $cards as $c ) :

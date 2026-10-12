@@ -77,7 +77,7 @@ Example: a "Loan Calculator" page.
 
 | # | Tool | Plan |
 |---|---|---|
-| 3 | Monthly Budget Planner | New tool. Reuse the expense categories from `nab_dash_expense_categories()` and the actual spending in `nab_cashflow`; store targets in `nab_budget` (`{ category: amount }`). The dashboard Spending card can then show budget vs actual. |
+| 3 | Monthly Budget Planner | **Done in v1.10.0.** `templates/page-nab-budget.php`, `inc/budget.php`, `assets/js/nab-budget.js`. Budget in `nab_budget`; actual spending is the dashboard's `nab_cashflow`, saved through `nab_dash_cashflow_save`, so both pages always agree. Needs a page using the "NAB Monthly Budget Planner" template. |
 | 4 | Payment Calendar | New tool. `nab_bills` (name, amount, due day, repeat). Feeds #13 and #16. |
 | 5 | Net Worth Calculator | **Data already exists:** `nab_accounts` + `nab_networth_history` (dashboard Net Worth card). Build a full-page view with the same AJAX actions (`nab_dash_account_*`). |
 | 6 | Loan Calculator | New tool. Calculations in the browser; saving is optional. |

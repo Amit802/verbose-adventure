@@ -51,6 +51,7 @@ function nab_portal_tools() {
         'nab-plans'          => [ 'name' => 'NAB Membership Plans',        'file' => 'page-membership-plans.php' ],
         'nab-emergency-fund' => [ 'name' => 'NAB Emergency Fund Planner',  'file' => 'page-nab-emergency-fund.php' ],
         'nab-roadmap'        => [ 'name' => 'NAB Financial Roadmap',       'file' => 'page-nab-roadmap.php' ],
+        'nab-budget'         => [ 'name' => 'NAB Monthly Budget Planner',  'file' => 'page-nab-budget.php' ],
     ] );
     return $tools;
 }
@@ -101,6 +102,7 @@ function nab_portal_nav_sections() {
             [ 'key' => 'learning', 'label' => 'Learning Center',        'icon' => 'graduation-cap', 'desc' => '7-part credit education video series',   'keywords' => 'learning center education videos modules lessons' ],
             [ 'key' => 'blog',     'label' => 'Education Blog',         'icon' => 'book-open',      'tab' => 'blog', 'desc' => 'Credit articles and tips',  'keywords' => 'education blog articles credit tips' ],
             [ 'key' => 'diy',      'label' => 'DIY Repair Guide',       'icon' => 'file-pen-line',  'tab' => 'diy',  'desc' => 'Ready-to-use dispute letter templates', 'keywords' => 'diy repair guide dispute letter template' ],
+            [ 'key' => 'budget',   'label' => 'Budget Planner',         'icon' => 'wallet',         'template' => 'nab-budget', 'desc' => 'Set a monthly budget and track your spending', 'keywords' => 'monthly budget planner spending categories' ],
             [ 'key' => 'ef',       'label' => 'Emergency Fund Planner', 'icon' => 'piggy-bank',     'desc' => 'Set a savings goal and track progress', 'keywords' => 'emergency fund savings goal planner' ],
             [ 'key' => 'roadmap',  'label' => 'Financial Roadmap',      'icon' => 'map',            'desc' => 'Your personalised action plan',         'keywords' => 'financial roadmap plan goals steps' ],
             [ 'key' => 'pad',      'label' => 'PAD Agreement',          'icon' => 'file-check',     'desc' => 'Your Pre-Authorized Debit agreement',   'keywords' => 'pad agreement debit authorization' ],

@@ -47,6 +47,10 @@ function nab_enqueue_portal_js() {
         wp_enqueue_script( 'nab-chartjs', NAB_URL . 'assets/js/vendor/chart.umd.min.js', [], '4.5.1', true );
         wp_enqueue_script( 'nab-dashboard-charts', NAB_URL . 'assets/js/nab-dashboard-charts.js', [ 'nab-chartjs', 'nab-dashboard' ], NAB_VERSION, true );
     }
+    // v1.10.0 Monthly Budget Planner (depends on jquery only so nabPortal is defined first)
+    if ( $slug === 'nab-budget' ) {
+        wp_enqueue_script( 'nab-budget', NAB_URL . 'assets/js/nab-budget.js', [ 'jquery' ], NAB_VERSION, true );
+    }
     wp_add_inline_script(
         'jquery',
         'var nabPortal=' . wp_json_encode( [
