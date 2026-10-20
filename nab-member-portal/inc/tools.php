@@ -52,6 +52,7 @@ function nab_portal_tools() {
         'nab-emergency-fund' => [ 'name' => 'NAB Emergency Fund Planner',  'file' => 'page-nab-emergency-fund.php' ],
         'nab-roadmap'        => [ 'name' => 'NAB Financial Roadmap',       'file' => 'page-nab-roadmap.php' ],
         'nab-budget'         => [ 'name' => 'NAB Monthly Budget Planner',  'file' => 'page-nab-budget.php' ],
+        'nab-payments'       => [ 'name' => 'NAB Payment Calendar',        'file' => 'page-nab-payments.php' ],
     ] );
     return $tools;
 }
@@ -103,6 +104,7 @@ function nab_portal_nav_sections() {
             [ 'key' => 'blog',     'label' => 'Education Blog',         'icon' => 'book-open',      'tab' => 'blog', 'desc' => 'Credit articles and tips',  'keywords' => 'education blog articles credit tips' ],
             [ 'key' => 'diy',      'label' => 'DIY Repair Guide',       'icon' => 'file-pen-line',  'tab' => 'diy',  'desc' => 'Ready-to-use dispute letter templates', 'keywords' => 'diy repair guide dispute letter template' ],
             [ 'key' => 'budget',   'label' => 'Budget Planner',         'icon' => 'wallet',         'template' => 'nab-budget', 'desc' => 'Set a monthly budget and track your spending', 'keywords' => 'monthly budget planner spending categories' ],
+            [ 'key' => 'payments', 'label' => 'Payment Calendar',       'icon' => 'calendar',       'template' => 'nab-payments', 'desc' => 'See every bill due date and mark payments as paid', 'keywords' => 'payment calendar bills due dates reminders autopay' ],
             [ 'key' => 'ef',       'label' => 'Emergency Fund Planner', 'icon' => 'piggy-bank',     'desc' => 'Set a savings goal and track progress', 'keywords' => 'emergency fund savings goal planner' ],
             [ 'key' => 'roadmap',  'label' => 'Financial Roadmap',      'icon' => 'map',            'desc' => 'Your personalised action plan',         'keywords' => 'financial roadmap plan goals steps' ],
             [ 'key' => 'pad',      'label' => 'PAD Agreement',          'icon' => 'file-check',     'desc' => 'Your Pre-Authorized Debit agreement',   'keywords' => 'pad agreement debit authorization' ],

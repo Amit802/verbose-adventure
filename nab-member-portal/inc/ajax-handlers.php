@@ -51,6 +51,10 @@ function nab_enqueue_portal_js() {
     if ( $slug === 'nab-budget' ) {
         wp_enqueue_script( 'nab-budget', NAB_URL . 'assets/js/nab-budget.js', [ 'jquery' ], NAB_VERSION, true );
     }
+    // v1.11.0 Payment Calendar
+    if ( $slug === 'nab-payments' ) {
+        wp_enqueue_script( 'nab-payments', NAB_URL . 'assets/js/nab-payments.js', [ 'jquery' ], NAB_VERSION, true );
+    }
     wp_add_inline_script(
         'jquery',
         'var nabPortal=' . wp_json_encode( [

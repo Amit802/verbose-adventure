@@ -200,6 +200,7 @@ for ( $i = 0; $i < 24; $i++ ) {
 }
 $can_self_score = ! ( $saved_score && $score_source === 'account' );
 $budget_url     = nab_get_template_url( 'nab-budget' ); // v1.10.0 Budget Planner page, '#' if not created yet
+$payments_url   = nab_get_template_url( 'nab-payments' ); // v1.11.0 Payment Calendar page, '#' if not created yet
 
 $hour     = (int) current_time( 'G' );
 $greeting = $hour < 12 ? 'Morning' : ( $hour < 17 ? 'Afternoon' : 'Evening' );
@@ -1289,6 +1290,7 @@ var nabQuizData = {
           ['#d97706','#fef3c7','book-open','Credit Education Blog',    'Browse articles and tips on credit rebuilding — read right here on your dashboard.',          null,          '',     'blog'],
           ['#be185d','#fce7f3','file-pen-line','DIY Dispute Letter',  'Download ready-to-use dispute letter templates — available right here on your dashboard.',         null,          '',     'diy' ],
           ['#0f766e','#d1fae5','wallet','Monthly Budget Planner', 'Set a monthly budget for each category and see how your spending compares.', $budget_url, 'new', 'link'],
+          ['#1d4ed8','#dbeafe','calendar','Payment Calendar', 'See all your bill due dates in one calendar and get reminders before payments are due.', $payments_url, 'new', 'link'],
           ['#0d9488','#ccfbf1','piggy-bank','Emergency Fund Planner',  'Set a savings goal and track your progress toward financial security.',                      $link_ef,      '',     'link'],
         ];
         foreach ( $cards as $c ) :

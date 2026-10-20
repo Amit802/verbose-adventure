@@ -78,7 +78,7 @@ Example: a "Loan Calculator" page.
 | # | Tool | Plan |
 |---|---|---|
 | 3 | Monthly Budget Planner | **Done in v1.10.0.** `templates/page-nab-budget.php`, `inc/budget.php`, `assets/js/nab-budget.js`. Budget in `nab_budget`; actual spending is the dashboard's `nab_cashflow`, saved through `nab_dash_cashflow_save`, so both pages always agree. Needs a page using the "NAB Monthly Budget Planner" template. |
-| 4 | Payment Calendar | New tool. `nab_bills` (name, amount, due day, repeat). Feeds #13 and #16. |
+| 4 | Payment Calendar | **Done in v1.11.0.** `templates/page-nab-payments.php`, `inc/payments.php`, `assets/js/nab-payments.js`. Bills in `nab_bills` (name, amount, frequency, first due date, category, autopay); paid dates in `nab_bill_paid`. Due-date rules live in both `nab_cal_bill_dates()` (PHP) and `nabPayDates()` (JS), so change them together. Bell reminders for unpaid bills due within 3 days or overdue (`nab_cal_send_reminders()`, once a day per member). #13 and #16 can reuse `nab_cal_bill_dates()`. Needs a page using the "NAB Payment Calendar" template. |
 | 5 | Net Worth Calculator | **Data already exists:** `nab_accounts` + `nab_networth_history` (dashboard Net Worth card). Build a full-page view with the same AJAX actions (`nab_dash_account_*`). |
 | 6 | Loan Calculator | New tool. Calculations in the browser; saving is optional. |
 | 7 | Collection Assistance page | New page. Reuse the Freshdesk ticket AJAX (`nab_freshdesk_submit`) with its own ticket category. |
