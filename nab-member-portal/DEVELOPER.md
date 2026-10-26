@@ -31,6 +31,7 @@ Our function names are scanned once per release and cached in the `nab_function_
 | `inc/ajax-handlers.php` | Loads `nabPortal` (ajax URL + nonce) on every registered tool, plus the AJAX for the existing tools. |
 | `inc/dashboard-data.php` | Dashboard chart data + AJAX, and `nab_get_member_since()`. |
 | `inc/memberpress*.php` | Membership pause/cancel/resume, welcome emails, signup fields. (`nab_mp_active()` is always `false` — MemberPress is not used.) |
+| `inc/ai-assistant.php` | NAB AI Assistant (v1.12.0): the `nab_ai_chat` AJAX, the member context sent to OpenAI (score, utilization, budget, bills; totals only), the six suggested questions (`nab_portal_ai_prompts()`), an hourly limit per member (filter `nab_portal_ai_hourly_limit`, default 60), and the chat widget printed bottom-right on every portal page except the chatbot page (turn off with the `nab_portal_ai_widget_enabled` filter or the ACF "AI Features Enabled" switch). Front end: `assets/js/nab-ai.js`, shared with `page-nab-chatbot.php`. The NAB knowledge base itself stays in `nab_get_ai_knowledge_base()` in `inc/helpers.php`. |
 | `inc/notifications.php` | Admin and automatic member notifications (`nab_add_auto_notification()`). |
 | `inc/acf-fields.php` | ACF field groups (settings live on the Dashboard page). |
 | `templates/` | One file per portal page. |

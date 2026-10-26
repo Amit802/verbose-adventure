@@ -1832,8 +1832,9 @@ var nabQuizData = {
   <button type="button" class="on" data-nd-home><span><?php echo nab_portal_icon( 'house', 22 ); ?></span>Home</button>
   <a href="<?php echo esc_url( $nav_links['learning'] !== '#' ? $nav_links['learning'] : $nav_links['dashboard'] ); ?>"><span><?php echo nab_portal_icon( 'graduation-cap', 22 ); ?></span>Learn</a>
   <button type="button" class="nd-bn-add" data-nd-open="quick" aria-label="Add data"><span><?php echo nab_portal_icon( 'plus', 24 ); ?></span></button>
-  <?php if ( $nav_links['chatbot'] !== '#' ) : ?>
-  <a href="<?php echo esc_url( $nav_links['chatbot'] ); ?>"><span><?php echo nab_portal_icon( 'message-square-text', 22 ); ?></span>Ask AI</a>
+  <?php $nd_ai_widget = function_exists( 'nab_portal_ai_widget_enabled' ) && nab_portal_ai_widget_enabled(); ?>
+  <?php if ( $nav_links['chatbot'] !== '#' || $nd_ai_widget ) : ?>
+  <a href="<?php echo esc_url( $nav_links['chatbot'] !== '#' ? $nav_links['chatbot'] : '#' ); ?>" data-aiw-open><span><?php echo nab_portal_icon( 'message-square-text', 22 ); ?></span>Ask AI</a>
   <?php else : ?>
   <button type="button" data-tab-open="profile"><span><?php echo nab_portal_icon( 'user', 22 ); ?></span>Profile</button>
   <?php endif; ?>
@@ -1852,10 +1853,10 @@ window.nabDashData = <?php echo wp_json_encode( $dash_data, JSON_HEX_TAG | JSON_
 <?php endif; ?>
 
 
-<!-- Ask AI floating button -->
+<!-- Ask AI floating button (only when the v1.12.0 chat widget is switched off) -->
 <?php
 $link_chatbot_url = nab_resolve_url( get_field('nab_link_chatbot') );
-if ($link_chatbot_url && $link_chatbot_url !== '#') :
+if ( $link_chatbot_url && $link_chatbot_url !== '#' && ! ( function_exists( 'nab_portal_ai_widget_enabled' ) && nab_portal_ai_widget_enabled() ) ) :
 ?>
 <a href="<?php echo esc_url($link_chatbot_url); ?>" class="nab-ask-ai-btn" title="Ask the NAB AI Assistant">
   <span class="nab-ask-ai-btn-dot"></span>

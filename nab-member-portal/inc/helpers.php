@@ -775,7 +775,7 @@ PADTEXT;
 /* ═══════════════════════════════════════════════════════════════════
    NAB AI KNOWLEDGE BASE / CONSTITUTION — v1.1 (July 2026)
    Source: "NAB Solutions Ltd. - AI Knowledge Base.docx" supplied by Matt.
-   Feeds the system prompt for the main NAB AI Chatbot (inc/ajax-handlers.php
+   Feeds the system prompt for the main NAB AI Chatbot (inc/ai-assistant.php
    → wp_ajax_nab_ai_chat) so it answers in NAB's own voice instead of
    generic ChatGPT style. FULL, UNABRIDGED content of the source doc —
    mission/vision/values, all principles (CST/LEAD/NAB), full member
