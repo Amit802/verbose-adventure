@@ -191,6 +191,10 @@ function nab_register_all_acf_fields() {
               'default_value'=>1, 'ui'=>1,
               'instructions'=>'Toggle all AI features on/off without removing the API key.' ],
 
+            [ 'key'=>'f_nab_nabby_image', 'label'=>'Nabby mascot image', 'name'=>'nab_nabby_image',
+              'type'=>'image', 'return_format'=>'url', 'preview_size'=>'thumbnail', 'library'=>'all', 'wrapper'=>['width'=>'100'],
+              'instructions'=>'Optional. Upload the official Nabby mascot picture (square PNG with a transparent background works best, at least 256 × 256). It replaces the built-in Nabby icon on the AI chat button, chat window and AI Assistant page. Leave empty to use the built-in icon.' ],
+
             /* ── Tab: MemberPress Plans ── */
             [ 'key'=>'f_nab_t_mp', 'label'=>'Membership Plans', 'name'=>'', 'type'=>'tab', 'placement'=>'left', 'endpoint'=>0 ],
 

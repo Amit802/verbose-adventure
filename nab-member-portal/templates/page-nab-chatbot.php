@@ -23,7 +23,7 @@ $prompts  = nab_portal_ai_prompts();
 $hour     = (int) current_time( 'G' );
 $greeting = $hour < 12 ? 'Good morning' : ( $hour < 17 ? 'Good afternoon' : 'Good evening' );
 
-nab_head_open( 'NAB AI Assistant — NAB Member Portal' );
+nab_head_open( 'Nabby, NAB AI Assistant — NAB Member Portal' );
 nab_portal_ai_message_css();
 ?>
 <style>
@@ -42,8 +42,7 @@ body.nab-chat-page{background:#F5F6F8!important}
 .nab-chat-prompt-btn{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid #E8EBF0;border-radius:12px;padding:12px 14px;text-align:left;cursor:pointer;transition:border-color .15s,background .15s;font:inherit;color:#0F1B2D;line-height:1.35}
 .nab-chat-prompt-btn:hover{border-color:#0D5C9B;background:#F7FAFD}
 .nab-chat-prompt-icon{width:32px;height:32px;border-radius:9px;background:#EEF5FB;color:#0D5C9B;display:flex;align-items:center;justify-content:center;flex:none}
-.nab-chat-prompt-icon.is-tile,.nab-chat-welcome-icon.is-nabi,.nab-chat-msg-avatar.is-nabi{background:none;width:auto;height:auto}
-.nab-chat-hero .nab-nabi-word i,.nab-chat-hero-title i{color:#C9962B}
+.nab-chat-prompt-icon.is-tile,.nab-chat-welcome-icon.is-nabby,.nab-chat-msg-avatar.is-nabby{background:none;width:auto;height:auto}
 .nab-chat-prompt-text{font-weight:650;font-size:13.5px;display:block;margin-bottom:2px}
 .nab-chat-prompt-hint{font-size:12px;color:#6B7685}
 .nab-chat-window{background:#fff;border:1px solid #E8EBF0;border-radius:16px;display:flex;flex-direction:column;min-height:420px}
@@ -87,7 +86,7 @@ body.nab-chat-page{background:#F5F6F8!important}
 
   <main class="nab-main">
     <header class="nab-topbar">
-      <div class="nab-topbar-title"><?php echo nab_portal_nabi_mark( 26 ); ?> NAB AI Assistant</div>
+      <div class="nab-topbar-title"><?php echo nab_portal_nabby_mark( 30 ); ?> Nabby · NAB AI Assistant</div>
       <div class="nab-topbar-right">
         <?php if ( function_exists( 'nab_render_notification_bell' ) ) nab_render_notification_bell(); ?>
       </div>
@@ -97,9 +96,9 @@ body.nab-chat-page{background:#F5F6F8!important}
       <div class="nab-chat-wrap">
 
         <div class="nab-chat-hero">
-          <?php echo nab_portal_nabi_mark( 56, 'nab-chat-hero-mark' ); ?>
+          <?php echo nab_portal_nabby_mark( 64, 'nab-chat-hero-mark' ); ?>
           <div>
-            <div class="nab-chat-hero-title"><?php echo esc_html( $greeting . ', ' . $first_name ); ?>! I'm <span class="nab-nabi-word">NAB<i>i</i></span>, your NAB Credit Assistant.</div>
+            <div class="nab-chat-hero-title"><?php echo esc_html( $greeting . ', ' . $first_name ); ?>! I'm Nabby, your NAB Credit Assistant.</div>
             <p class="nab-chat-hero-sub">Ask me anything about your credit score, dispute strategies, Canadian credit cards, budgeting, or how to improve your financial profile. I can see the numbers you've added in your portal, so my answers fit your situation.</p>
             <span class="nab-chat-hero-badge<?php echo $has_ai ? '' : ' off'; ?>"><i></i><?php echo $has_ai ? 'Online' : 'Quick answers mode'; ?></span>
           </div>
@@ -126,7 +125,7 @@ body.nab-chat-page{background:#F5F6F8!important}
         <div class="nab-chat-window">
           <div class="nab-chat-messages" id="nabChatMessages" aria-live="polite">
             <div class="nab-chat-welcome" id="nabChatWelcome">
-              <div class="nab-chat-welcome-icon is-nabi"><?php echo nab_portal_nabi_mark( 52 ); ?></div>
+              <div class="nab-chat-welcome-icon is-nabby"><?php echo nab_portal_nabby_mark( 64 ); ?></div>
               <div class="nab-chat-welcome-text">Ask me anything about your credit</div>
               <div class="nab-chat-welcome-hint">Use a suggested question above or type your own below</div>
             </div>

@@ -140,6 +140,7 @@ function nab_portal_ai_system_prompt( $uid, $page = '' ) {
         . "TODAY: {$today}\n"
         . ( $page ? "The member is currently on this portal page: {$page}\n" : '' )
         . ( $context ? "\nMEMBER CONTEXT (from their portal; use it when it helps, never invent numbers that are not here):\n{$context}\n" : "\nMEMBER CONTEXT: The member has not entered any data yet. If personal numbers would help, suggest adding them on the dashboard.\n" )
+        . "\nYOUR NAME: In the portal you appear as Nabby, the NAB Solutions mascot. If a member asks your name or who you are, say you are Nabby, NAB Solutions' AI assistant.\n"
         . "\nHOW TO ANSWER:\n"
         . "- Answer the actual question first, in plain everyday language. Address the member by first name now and then, not in every reply.\n"
         . "- When the member context is relevant, use their real numbers (for example their utilization or an overdue bill) so the advice is specific to them.\n"
@@ -251,6 +252,8 @@ function nab_portal_ai_js_settings() {
         'pageUrl'  => ( $nav['chatbot'] ?? '#' ) !== '#' ? $nav['chatbot'] : ( function_exists( 'nab_get_template_url' ) ? nab_get_template_url( 'nab-chatbot' ) : '#' ),
         'support'  => $nav['support'] ?? '#',
         'prompts'  => nab_portal_ai_prompts(),
+        'mascotImg'  => nab_portal_nabby_image_url() !== '',
+        'mascotHtml' => nab_portal_nabby_image_url() ? '<img src="' . esc_url( nab_portal_nabby_image_url() ) . '" alt="">' : nab_portal_nabby_svg(),
     ];
 }
 
@@ -299,13 +302,13 @@ add_action( 'wp_footer', function() {
     ?>
 <div class="nab-aiw" id="nabAiw" data-state="closed">
   <button type="button" class="nab-aiw-launch" id="nabAiwLaunch" aria-controls="nabAiwPanel" aria-expanded="false">
-    <?php echo nab_portal_nabi_mark( 32, 'nab-aiw-mark' ); ?><span class="nab-nabi-word">Ask NAB<i>i</i></span>
+    <?php echo nab_portal_nabby_mark( 34, 'nab-aiw-mark' ); ?><span class="nab-nabby-word">Ask Nabby</span>
   </button>
-  <section class="nab-aiw-panel" id="nabAiwPanel" role="dialog" aria-label="NAB AI Assistant" hidden>
+  <section class="nab-aiw-panel" id="nabAiwPanel" role="dialog" aria-label="Nabby, NAB AI Assistant" hidden>
     <header class="nab-aiw-head">
-      <?php echo nab_portal_nabi_mark( 36 ); ?>
+      <?php echo nab_portal_nabby_mark( 38 ); ?>
       <div class="nab-aiw-title">
-        <strong class="nab-nabi-word">NAB<i>i</i> <span>· NAB AI Assistant</span></strong>
+        <strong>Nabby <span>· NAB AI Assistant</span></strong>
         <small><?php echo $s['live'] ? 'Usually replies in a few seconds' : 'Quick answers to common questions'; ?></small>
       </div>
       <button type="button" class="nab-aiw-hbtn" data-aiw-new title="New chat" aria-label="Start a new chat"><?php echo nab_portal_icon( 'square-pen', 18 ); ?></button>
@@ -316,8 +319,8 @@ add_action( 'wp_footer', function() {
     </header>
     <div class="nab-aiw-body" id="nabAiwBody" aria-live="polite">
       <div class="nab-aiw-intro" id="nabAiwIntro">
-        <p class="nab-aiw-hello"><?php echo esc_html( $s['first'] ? 'Hi ' . $s['first'] . ', how can I help?' : 'Hi, how can I help?' ); ?></p>
-        <p class="nab-aiw-sub">Ask about your credit score, disputes, cards, budgeting or anything in your portal.</p>
+        <p class="nab-aiw-hello"><?php echo esc_html( $s['first'] ? 'Hi ' . $s['first'] . ', I\'m Nabby!' : 'Hi, I\'m Nabby!' ); ?></p>
+        <p class="nab-aiw-sub">How can I help? Ask about your credit score, disputes, cards, budgeting or anything in your portal.</p>
         <div class="nab-aiw-chips">
           <?php foreach ( $s['prompts'] as $p ) : ?>
           <button type="button" class="nab-aiw-chip" data-aiw-q="<?php echo esc_attr( $p['q'] ); ?>"><?php echo esc_html( $p['label'] ); ?></button>
@@ -340,7 +343,7 @@ add_action( 'wp_footer', function() {
 .nab-aiw-launch{position:fixed;right:24px;bottom:24px;z-index:9990;display:flex;align-items:center;gap:10px;height:52px;padding:0 20px 0 10px;border:0;border-radius:999px;color:#fff;font:inherit;font-size:14.5px;font-weight:650;letter-spacing:.01em;cursor:pointer;
   background:linear-gradient(135deg,#163E70 0%,#0A1F3D 100%);box-shadow:inset 0 0 0 1px rgba(236,200,112,.55),inset 0 1px 0 rgba(255,255,255,.14),0 10px 26px -8px rgba(8,26,51,.65);transition:transform .15s,box-shadow .15s}
 .nab-aiw-launch:hover{transform:translateY(-2px);box-shadow:inset 0 0 0 1px rgba(236,200,112,.8),inset 0 1px 0 rgba(255,255,255,.16),0 14px 30px -8px rgba(8,26,51,.7)}
-.nab-aiw-launch .nab-nabi{box-shadow:inset 0 0 0 1.25px rgba(236,200,112,.9),0 2px 6px rgba(0,0,0,.3)}
+.nab-aiw-launch .nab-nabby{filter:drop-shadow(0 2px 4px rgba(0,0,0,.35))}
 .nab-aiw-launch:focus-visible{outline:3px solid rgba(13,92,155,.4);outline-offset:2px}
 .nab-aiw[data-state=open] .nab-aiw-launch{display:none}
 .nab-aiw-panel{position:fixed;right:24px;bottom:24px;z-index:9991;width:380px;height:min(600px,calc(100vh - 48px));display:flex;flex-direction:column;background:#fff;border:1px solid var(--aiw-line);border-radius:16px;box-shadow:0 18px 50px rgba(15,27,45,.22);overflow:hidden;animation:nabAiwIn .18s ease-out}
@@ -348,7 +351,6 @@ add_action( 'wp_footer', function() {
 .nab-aiw-head{display:flex;align-items:center;gap:10px;padding:12px 10px 12px 14px;border-bottom:1px solid var(--aiw-line)}
 .nab-aiw-title{flex:1;min-width:0;line-height:1.25}
 .nab-aiw-title strong{display:block;font-size:15px;font-weight:750}
-.nab-aiw-title strong i{color:#C9962B}
 .nab-aiw-title strong span{font-size:12.5px;font-weight:600;color:var(--aiw-muted)}
 .nab-aiw-title small{display:block;font-size:12px;color:var(--aiw-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .nab-aiw-hbtn{width:34px;height:34px;border:0;border-radius:9px;background:none;color:var(--aiw-muted);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none;text-decoration:none}
@@ -368,8 +370,8 @@ add_action( 'wp_footer', function() {
 .nab-aiw-foot a{color:var(--aiw-blue);font-weight:600;text-decoration:none}
 @media(max-width:640px){
   .nab-aiw-launch{right:16px;bottom:16px;width:58px;height:58px;padding:0;justify-content:center;border-radius:18px;background:none;box-shadow:0 10px 24px -8px rgba(8,26,51,.7)}
-  .nab-aiw-launch .nab-nabi-word{display:none}
-  .nab-aiw-launch .nab-nabi{--nabi:58px!important}
+  .nab-aiw-launch .nab-nabby-word{display:none}
+  .nab-aiw-launch .nab-nabby{--nabby:58px!important}
   body.nab-has-bottomnav .nab-aiw-launch{display:none} /* dashboard: the bottom bar's Ask AI button opens the chat */
   .nab-aiw-panel{inset:0;width:auto;height:100%;max-height:none;border-radius:0;border:0;animation:none}
   .nab-aiw-hide-sm{display:none}

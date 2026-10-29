@@ -764,8 +764,7 @@ body.nab-portal-body [hidden]{display:none!important}
   .nd-bottomnav>a,.nd-bottomnav>button{display:flex;flex-direction:column;align-items:center;gap:2px;font:inherit;font-size:10.5px;font-weight:600;color:var(--nd-muted);background:none;border:0;text-decoration:none;padding:4px 0;cursor:pointer}
   .nd-bottomnav>a span,.nd-bottomnav>button span{display:flex;height:24px;align-items:center}
   .nd-bottomnav .on{color:var(--nd-blue)}
-  .nd-bottomnav .nd-bn-nabi .nab-nabi-word{height:auto;display:inline}
-  .nd-bottomnav .nd-bn-nabi .nab-nabi-word i{color:#B98A23}
+  .nd-bottomnav .nd-bn-nabby .nab-nabby-word{height:auto;display:inline}
   .nd-bottomnav .nd-bn-add span{width:50px;height:50px;border-radius:50%;background:var(--nd-blue);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(13,92,155,.3);margin-top:-22px}
 }
 @media(max-width:380px){
@@ -1314,7 +1313,7 @@ var nabQuizData = {
           <div class="nab-feat-card" data-tab-open="<?php echo esc_attr($action); ?>"
                style="--ncard-accent:<?php echo esc_attr($accent); ?>;--ncard-iconbg:<?php echo esc_attr($iconbg); ?>"
                role="button" tabindex="0" onkeydown="if(event.key==='Enter')nabOpenTab('<?php echo esc_attr($action); ?>')">
-            <div class="nab-card-icon is-tile"><?php echo $title === 'NAB AI Chatbot' && function_exists( 'nab_portal_nabi_mark' ) ? nab_portal_nabi_mark( 42 ) : nab_portal_icon_tile( $icon, $card_tones[ $title ] ?? 'blue', 42 ); ?></div>
+            <div class="nab-card-icon is-tile"><?php echo $title === 'NAB AI Chatbot' && function_exists( 'nab_portal_nabby_mark' ) ? nab_portal_nabby_mark( 44 ) : nab_portal_icon_tile( $icon, $card_tones[ $title ] ?? 'blue', 42 ); ?></div>
             <div class="nab-card-body">
               <div class="nab-card-title"><?php echo esc_html($title); ?></div>
               <div class="nab-card-desc"><?php echo esc_html($desc); ?></div>
@@ -1328,7 +1327,7 @@ var nabQuizData = {
              style="--ncard-accent:<?php echo esc_attr($accent); ?>;--ncard-iconbg:<?php echo esc_attr($iconbg); ?>"
              <?php echo $dis ? 'tabindex="-1" aria-disabled="true"' : ''; ?>>
             <?php if ($sb) : ?><span class="nab-badge nab-badge-<?php echo esc_attr($sb); ?>"><?php echo strtoupper($sb); ?></span><?php endif; ?>
-            <div class="nab-card-icon is-tile"><?php echo $title === 'NAB AI Chatbot' && function_exists( 'nab_portal_nabi_mark' ) ? nab_portal_nabi_mark( 42 ) : nab_portal_icon_tile( $icon, $card_tones[ $title ] ?? 'blue', 42 ); ?></div>
+            <div class="nab-card-icon is-tile"><?php echo $title === 'NAB AI Chatbot' && function_exists( 'nab_portal_nabby_mark' ) ? nab_portal_nabby_mark( 44 ) : nab_portal_icon_tile( $icon, $card_tones[ $title ] ?? 'blue', 42 ); ?></div>
             <div class="nab-card-body">
               <div class="nab-card-title"><?php echo esc_html($title); ?></div>
               <div class="nab-card-desc"><?php echo esc_html($desc); ?></div>
@@ -1849,7 +1848,7 @@ var nabQuizData = {
   <button type="button" class="nd-bn-add" data-nd-open="quick" aria-label="Add data"><span><?php echo nab_portal_icon( 'plus', 24 ); ?></span></button>
   <?php $nd_ai_widget = function_exists( 'nab_portal_ai_widget_enabled' ) && nab_portal_ai_widget_enabled(); ?>
   <?php if ( $nav_links['chatbot'] !== '#' || $nd_ai_widget ) : ?>
-  <a href="<?php echo esc_url( $nav_links['chatbot'] !== '#' ? $nav_links['chatbot'] : '#' ); ?>" data-aiw-open class="nd-bn-nabi"><span><?php echo nab_portal_nabi_mark( 24 ); ?></span><span class="nab-nabi-word">NAB<i>i</i></span></a>
+  <a href="<?php echo esc_url( $nav_links['chatbot'] !== '#' ? $nav_links['chatbot'] : '#' ); ?>" data-aiw-open class="nd-bn-nabby"><span><?php echo nab_portal_nabby_mark( 24 ); ?></span><span class="nab-nabby-word">Nabby</span></a>
   <?php else : ?>
   <button type="button" data-tab-open="profile"><span><?php echo nab_portal_icon( 'user', 22 ); ?></span>Profile</button>
   <?php endif; ?>

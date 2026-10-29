@@ -16,11 +16,9 @@ var S = window.nabAiSettings;
 if(!S) return;
 var KEY = 'nabAiChat_' + S.user, MAX_KEEP = 30;
 
-/* ── NABi mark (same markup as nab_portal_nabi_mark() in inc/icons.php) ── */
+/* ── Nabby mascot (same markup as nab_portal_nabby_mark() in inc/icons.php) ── */
 function mark(size){
-  return '<span class="nab-nabi" style="--nabi:' + (size | 0) + 'px" aria-hidden="true"><svg viewBox="0 0 48 48" width="100%" height="100%" focusable="false">' +
-    '<path class="nab-nabi-n" d="M15 33.5V15.5l15.5 18V15.5"/>' +
-    '<path class="nab-nabi-spark" d="M37.5 6.5c.45 2.9 2.1 4.55 5 5-2.9.45-4.55 2.1-5 5-.45-2.9-2.1-4.55-5-5 2.9-.45 4.55-2.1 5-5z"/></svg></span>';
+  return '<span class="nab-nabby' + (S.mascotImg ? ' is-photo' : '') + '" style="--nabby:' + (size | 0) + 'px" aria-hidden="true">' + (S.mascotHtml || '') + '</span>';
 }
 
 /* ── Conversation storage ─────────────────────────────── */
@@ -237,7 +235,7 @@ function initPage(){
     focusAfter: true,
     avatar: function(role){
       var a = document.createElement('div');
-      a.className = 'nab-chat-msg-avatar' + (role === 'user' ? '' : ' is-nabi');
+      a.className = 'nab-chat-msg-avatar' + (role === 'user' ? '' : ' is-nabby');
       if(role === 'user') a.textContent = S.initials || 'M'; else a.innerHTML = mark(32);
       return a;
     }
