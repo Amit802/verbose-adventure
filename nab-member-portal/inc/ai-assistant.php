@@ -252,8 +252,7 @@ function nab_portal_ai_js_settings() {
         'pageUrl'  => ( $nav['chatbot'] ?? '#' ) !== '#' ? $nav['chatbot'] : ( function_exists( 'nab_get_template_url' ) ? nab_get_template_url( 'nab-chatbot' ) : '#' ),
         'support'  => $nav['support'] ?? '#',
         'prompts'  => nab_portal_ai_prompts(),
-        'mascotImg'  => nab_portal_nabby_image_url() !== '',
-        'mascotHtml' => nab_portal_nabby_image_url() ? '<img src="' . esc_url( nab_portal_nabby_image_url() ) . '" alt="">' : nab_portal_nabby_svg(),
+        'mascot'   => nab_portal_nabby_image_url(),
     ];
 }
 
@@ -343,7 +342,7 @@ add_action( 'wp_footer', function() {
 .nab-aiw-launch{position:fixed;right:24px;bottom:24px;z-index:9990;display:flex;align-items:center;gap:10px;height:52px;padding:0 20px 0 10px;border:0;border-radius:999px;color:#fff;font:inherit;font-size:14.5px;font-weight:650;letter-spacing:.01em;cursor:pointer;
   background:linear-gradient(135deg,#163E70 0%,#0A1F3D 100%);box-shadow:inset 0 0 0 1px rgba(236,200,112,.55),inset 0 1px 0 rgba(255,255,255,.14),0 10px 26px -8px rgba(8,26,51,.65);transition:transform .15s,box-shadow .15s}
 .nab-aiw-launch:hover{transform:translateY(-2px);box-shadow:inset 0 0 0 1px rgba(236,200,112,.8),inset 0 1px 0 rgba(255,255,255,.16),0 14px 30px -8px rgba(8,26,51,.7)}
-.nab-aiw-launch .nab-nabby{filter:drop-shadow(0 2px 4px rgba(0,0,0,.35))}
+.nab-aiw-launch .nab-nabby{box-shadow:0 0 0 2px #F7E8CC,0 2px 6px rgba(0,0,0,.35)}
 .nab-aiw-launch:focus-visible{outline:3px solid rgba(13,92,155,.4);outline-offset:2px}
 .nab-aiw[data-state=open] .nab-aiw-launch{display:none}
 .nab-aiw-panel{position:fixed;right:24px;bottom:24px;z-index:9991;width:380px;height:min(600px,calc(100vh - 48px));display:flex;flex-direction:column;background:#fff;border:1px solid var(--aiw-line);border-radius:16px;box-shadow:0 18px 50px rgba(15,27,45,.22);overflow:hidden;animation:nabAiwIn .18s ease-out}
@@ -369,7 +368,8 @@ add_action( 'wp_footer', function() {
 .nab-aiw-foot{margin:0;padding:0 14px 10px;font-size:11.5px;color:#9AA4B2;background:#fff}
 .nab-aiw-foot a{color:var(--aiw-blue);font-weight:600;text-decoration:none}
 @media(max-width:640px){
-  .nab-aiw-launch{right:16px;bottom:16px;width:58px;height:58px;padding:0;justify-content:center;border-radius:18px;background:none;box-shadow:0 10px 24px -8px rgba(8,26,51,.7)}
+  .nab-aiw-launch{right:16px;bottom:16px;width:60px;height:60px;padding:0;justify-content:center;border-radius:50%;background:none;box-shadow:0 10px 24px -8px rgba(8,26,51,.7)}
+  .nab-aiw-launch .nab-nabby{box-shadow:0 0 0 3px #1D3D82,0 0 0 4.5px #fff}
   .nab-aiw-launch .nab-nabby-word{display:none}
   .nab-aiw-launch .nab-nabby{--nabby:58px!important}
   body.nab-has-bottomnav .nab-aiw-launch{display:none} /* dashboard: the bottom bar's Ask AI button opens the chat */

@@ -18,7 +18,8 @@ var KEY = 'nabAiChat_' + S.user, MAX_KEEP = 30;
 
 /* ── Nabby mascot (same markup as nab_portal_nabby_mark() in inc/icons.php) ── */
 function mark(size){
-  return '<span class="nab-nabby' + (S.mascotImg ? ' is-photo' : '') + '" style="--nabby:' + (size | 0) + 'px" aria-hidden="true">' + (S.mascotHtml || '') + '</span>';
+  var src = String(S.mascot || '').replace(/"/g, '&quot;');
+  return '<span class="nab-nabby" style="--nabby:' + (size | 0) + 'px" aria-hidden="true"><img src="' + src + '" alt="" width="' + (size | 0) + '" height="' + (size | 0) + '"></span>';
 }
 
 /* ── Conversation storage ─────────────────────────────── */

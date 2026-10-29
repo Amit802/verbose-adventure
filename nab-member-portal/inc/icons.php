@@ -134,17 +134,11 @@ function nab_portal_icon_tile( $icon, $tone = 'blue', $size = 40, $class = '' ) 
 
 /**
  * Nabby — NAB Solutions' mascot, used as the face of the AI Assistant
- * (v1.13.1). Drawn as an SVG of the mascot's face (navy frame, cream card,
- * maple leaf, big eyes and smile) so it stays sharp from 24px to full size.
- * If an admin uploads the official mascot picture (Dashboard page →
- * OpenAI / AI Features → "Nabby mascot image"), that picture is used instead.
- * nab-ai.js builds the same markup in the browser (NabAI.mark()).
+ * (v1.13.1). assets/img/nabby.png is the mascot's face cut from the official
+ * artwork (round, transparent corners). If an admin uploads another picture
+ * (Dashboard page → OpenAI / AI Features → "Nabby mascot image"), that one
+ * is used instead. nab-ai.js builds the same markup in the browser.
  */
-function nab_portal_nabby_svg() {
-    return '<svg viewBox="0 0 48 48" width="100%" height="100%" focusable="false">'
-        . '<rect x="1" y="1" width="46" height="46" rx="11.5" fill="#1D3D82"/><rect x="1.5" y="1.5" width="45" height="45" rx="11" fill="none" stroke="#132B5E" stroke-width="1"/><path d="M3.2 12.5a9.5 9.5 0 0 1 9.5-9.5h22.6a9.5 9.5 0 0 1 9.5 9.5" fill="none" stroke="#4A70BC" stroke-width="1.1" stroke-linecap="round" opacity=".75"/><path d="M8.6 4.6h30.8l4 4v30.8l-4 4H8.6l-4-4V8.6z" fill="#F7E8CC"/><path d="M9.6 6.6h28.8l3 3v28.8l-3 3H9.6l-3-3V9.6z" fill="none" stroke="#E3C592" stroke-width=".75"/><path transform="translate(35 6.6) scale(.5)" fill="#E2362F" d="M5 0l1 2.2 1.6-.6-.4 2.6 1.9-1.2.2 1.2 1.7-.3-.9 1.7.9.6L7.6 8.1l.4 1.2L5.5 9v2h-1V9l-2.5.3.4-1.2L0 6.2l.9-.6L0 3.9l1.7.3.2-1.2 1.9 1.2-.4-2.6 1.6.6z"/><path d="M11.8 13.6q4.6-3.8 9.2.3" fill="none" stroke="#1D3D82" stroke-width="2.6" stroke-linecap="round"/><path d="M27 13.9q4.6-4.1 9.2-.3" fill="none" stroke="#1D3D82" stroke-width="2.6" stroke-linecap="round"/><ellipse cx="17.3" cy="21.4" rx="5.4" ry="6.1" fill="#fff" stroke="#1D3D82" stroke-width="1"/><ellipse cx="30.7" cy="21.4" rx="5.4" ry="6.1" fill="#fff" stroke="#1D3D82" stroke-width="1"/><circle cx="18.3" cy="22.4" r="3.4" fill="#1B2B4F"/><circle cx="29.7" cy="22.4" r="3.4" fill="#1B2B4F"/><circle cx="19.4" cy="21" r="1.2" fill="#fff"/><circle cx="30.8" cy="21" r="1.2" fill="#fff"/><ellipse cx="24" cy="28.4" rx="2.1" ry="1.8" fill="#EFBE98"/><path d="M15.8 31q8.2 2 16.4 0q-1.2 9.4-8.2 9.4t-8.2-9.4z" fill="#7C1D2A"/><path d="M16.5 31.3q7.5 1.8 15 0l-.4 1.6q-7.1 1.6-14.2 0z" fill="#fff"/><path d="M19.2 37.6q4.8-3.4 9.6 0q-2 2.8-4.8 2.8t-4.8-2.8z" fill="#EE6A6E"/>'
-        . '</svg>';
-}
 function nab_portal_nabby_image_url() {
     static $url = null;
     if ( $url !== null ) return $url;
@@ -153,12 +147,12 @@ function nab_portal_nabby_image_url() {
         $img = get_field( 'nab_nabby_image', $did );
         $url = is_array( $img ) ? ( $img['url'] ?? '' ) : (string) $img;
     }
+    if ( $url === '' ) $url = NAB_URL . 'assets/img/nabby.png?v=' . NAB_VERSION;
     return $url = (string) apply_filters( 'nab_portal_nabby_image_url', $url );
 }
 function nab_portal_nabby_mark( $size = 40, $class = '' ) {
-    $img = nab_portal_nabby_image_url();
-    return '<span class="nab-nabby' . ( $img ? ' is-photo' : '' ) . ( $class ? ' ' . esc_attr( $class ) : '' ) . '" style="--nabby:' . (int) $size . 'px" aria-hidden="true">'
-        . ( $img ? '<img src="' . esc_url( $img ) . '" alt="">' : nab_portal_nabby_svg() )
+    return '<span class="nab-nabby' . ( $class ? ' ' . esc_attr( $class ) : '' ) . '" style="--nabby:' . (int) $size . 'px" aria-hidden="true">'
+        . '<img src="' . esc_url( nab_portal_nabby_image_url() ) . '" alt="" width="' . (int) $size . '" height="' . (int) $size . '" decoding="async">'
         . '</span>';
 }
 
@@ -177,10 +171,10 @@ function nab_portal_tile_css() {
         . '.nab-tile::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,.26) 0%,rgba(255,255,255,0) 52%);pointer-events:none}'
         . '.nab-tile .nab-i{position:relative;z-index:1;filter:drop-shadow(0 1px 1px rgba(0,0,0,.14))}'
         . $tones
-        // Nabby mascot
-        . '.nab-nabby{--nabby:40px;display:inline-flex;flex:none;width:var(--nabby);height:var(--nabby);min-width:var(--nabby);filter:drop-shadow(0 2px 4px rgba(15,27,45,.22))}'
-        . '.nab-nabby svg,.nab-nabby img{display:block;width:100%;height:100%}'
-        . '.nab-nabby img{object-fit:contain}'
+        // Nabby mascot: round face with a navy ring (the mascot's frame colour)
+        . '.nab-nabby{--nabby:40px;display:inline-flex;flex:none;width:var(--nabby);height:var(--nabby);min-width:var(--nabby);border-radius:50%;background:#F7E8CC;'
+        . 'box-shadow:0 0 0 2px #1D3D82,0 3px 8px rgba(15,27,45,.22);overflow:hidden}'
+        . '.nab-nabby img{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%}'
         . '</style>';
 }
 add_action( 'wp_head', function() {
