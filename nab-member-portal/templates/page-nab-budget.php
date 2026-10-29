@@ -75,6 +75,7 @@ body.nab-budget-page [hidden]{display:none!important}
 .bp-list{list-style:none;margin:0;padding:0}
 .bp-row{display:grid;grid-template-columns:36px minmax(0,1fr) auto;column-gap:12px;row-gap:6px;align-items:center;padding:12px 0;border-bottom:1px solid var(--bp-line2)}
 .bp-row:last-child{border-bottom:0}
+.bp-ico.is-tile{background:none!important}
 .bp-ico{grid-row:1/3;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff}
 .bp-name{font-size:14px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .bp-amt{font-size:13.5px;font-weight:650;text-align:right;white-space:nowrap}
@@ -93,6 +94,8 @@ body.nab-budget-page [hidden]{display:none!important}
 .bp-money{position:relative;display:block}
 .bp-money::before{content:'$';position:absolute;left:12px;top:50%;transform:translateY(-50%);margin-top:3px;color:var(--bp-faint);font-weight:600;font-size:14px;pointer-events:none}
 .bp-dot{display:inline-block;width:8px;height:8px;border-radius:3px;margin-right:6px}
+.bp-lbl{display:flex;align-items:center;gap:8px}
+.bp-lbl .nab-tile{border-radius:7px}
 .bp-helpers{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
 .bp-total{background:#F8F9FB;border:1px solid var(--bp-line);border-radius:10px;padding:12px 14px;font-size:13.5px;margin:4px 0 14px;line-height:1.5}
 .bp-total b{font-weight:700}
@@ -211,7 +214,7 @@ body.nab-budget-page [hidden]{display:none!important}
             </div>
             <div class="bp-form-grid">
               <?php foreach ( $data['cats'] as $ck => $cat ) : ?>
-              <label><span class="bp-dot" style="background:<?php echo esc_attr( $cat['color'] ); ?>"></span><?php echo esc_html( $cat['label'] ); ?>
+              <label><span class="bp-lbl"><?php echo nab_portal_icon_tile( $cat['icon'], $cat['tone'], 22, 'bp-mini' ); ?><?php echo esc_html( $cat['label'] ); ?></span>
                 <span class="bp-money"><input type="number" name="b_<?php echo esc_attr( $ck ); ?>" min="0" step="0.01" inputmode="decimal" placeholder="0.00"></span>
               </label>
               <?php endforeach; ?>
@@ -240,7 +243,7 @@ body.nab-budget-page [hidden]{display:none!important}
             </label>
             <div class="bp-form-grid">
               <?php foreach ( $data['cats'] as $ck => $cat ) : ?>
-              <label><span class="bp-dot" style="background:<?php echo esc_attr( $cat['color'] ); ?>"></span><?php echo esc_html( $cat['label'] ); ?>
+              <label><span class="bp-lbl"><?php echo nab_portal_icon_tile( $cat['icon'], $cat['tone'], 22, 'bp-mini' ); ?><?php echo esc_html( $cat['label'] ); ?></span>
                 <span class="bp-money"><input type="number" name="exp_<?php echo esc_attr( $ck ); ?>" min="0" step="0.01" inputmode="decimal" placeholder="0.00"></span>
               </label>
               <?php endforeach; ?>
@@ -269,7 +272,7 @@ body.nab-budget-page [hidden]{display:none!important}
   </main>
 </div>
 
-<?php nab_portal_print_icons_js( [ 'pencil', 'banknote', 'triangle-alert', 'circle-check', 'info' ] ); ?>
+<?php nab_portal_print_icons_js( array_merge( [ 'pencil', 'banknote', 'triangle-alert', 'circle-check', 'info' ], wp_list_pluck( $data['cats'], 'icon' ) ) ); ?>
 <script>
 window.nabBudgetData = <?php echo wp_json_encode( $data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP ); ?>;
 </script>

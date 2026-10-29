@@ -55,6 +55,11 @@ function nab_enqueue_portal_js() {
     if ( $slug === 'nab-payments' ) {
         wp_enqueue_script( 'nab-payments', NAB_URL . 'assets/js/nab-payments.js', [ 'jquery' ], NAB_VERSION, true );
     }
+    // v1.13.0 Net Worth Calculator (Chart.js bundled locally, same copy as the dashboard)
+    if ( $slug === 'nab-networth' ) {
+        wp_enqueue_script( 'nab-chartjs', NAB_URL . 'assets/js/vendor/chart.umd.min.js', [], '4.5.1', true );
+        wp_enqueue_script( 'nab-networth', NAB_URL . 'assets/js/nab-networth.js', [ 'jquery', 'nab-chartjs' ], NAB_VERSION, true );
+    }
     wp_add_inline_script(
         'jquery',
         'var nabPortal=' . wp_json_encode( [

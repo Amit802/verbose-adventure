@@ -109,6 +109,7 @@ body.nab-payments-page [hidden]{display:none!important}
 .pc-list{list-style:none;margin:0;padding:0}
 .pc-row{display:grid;grid-template-columns:36px minmax(0,1fr) auto auto;column-gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--pc-line2)}
 .pc-row:last-child{border-bottom:0}
+.pc-ico.is-tile{background:none!important}
 .pc-ico{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;background:#8A94A3}
 .pc-name{font-size:14px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pc-meta{font-size:12.5px;color:var(--pc-muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -332,7 +333,7 @@ body.nab-payments-page [hidden]{display:none!important}
   </main>
 </div>
 
-<?php nab_portal_print_icons_js( [ 'check', 'pencil', 'triangle-alert', 'clock', 'circle-check' ] ); ?>
+<?php nab_portal_print_icons_js( array_merge( [ 'check', 'pencil', 'triangle-alert', 'clock', 'circle-check', 'receipt' ], wp_list_pluck( $data['cats'], 'icon' ) ) ); ?>
 <script>
 window.nabPayData = <?php echo wp_json_encode( $data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP ); ?>;
 </script>

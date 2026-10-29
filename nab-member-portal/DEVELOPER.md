@@ -25,7 +25,7 @@ Our function names are scanned once per release and cached in the `nab_function_
 |---|---|
 | `nab-member-portal.php` | Bootstrap: constants, `require`s, activation/deactivation, small admin tweaks. Bump **both** the header `Version` and `NAB_VERSION` on every release. A version change triggers the LiteSpeed purge-all automatically. |
 | `inc/tools.php` | **Tool registry.** Every page template (`nab_portal_tools()`) and every sidebar/search entry (`nab_portal_nav_sections()`). |
-| `inc/icons.php` | The only icon set (Lucide, ISC licence). `nab_portal_icon( 'name', $size )`. No emoji in the UI. |
+| `inc/icons.php` | The only icon set (Lucide, ISC licence). `nab_portal_icon( 'name', $size )`. No emoji in the UI. **v1.13.0:** `nab_portal_icon_tile( 'name', 'tone', $size )` draws the icon white on a gradient tile (tones in `nab_portal_tile_tones()`; JS `window.nabTile()`), and `nab_portal_nabi_mark( $size )` draws the NABi mark of the AI Assistant. Each sidebar item, spending category and account type has an `icon` and a `tone`. |
 | `inc/helpers.php` | Shared layout (`nab_head_open`, `nab_render_sidebar`, shared CSS/JS), nav links, roadmap, templates. |
 | `inc/template-loader.php` | Maps page templates to files. Driven by the registry, so you don't need to edit it. |
 | `inc/ajax-handlers.php` | Loads `nabPortal` (ajax URL + nonce) on every registered tool, plus the AJAX for the existing tools. |
@@ -80,7 +80,7 @@ Example: a "Loan Calculator" page.
 |---|---|---|
 | 3 | Monthly Budget Planner | **Done in v1.10.0.** `templates/page-nab-budget.php`, `inc/budget.php`, `assets/js/nab-budget.js`. Budget in `nab_budget`; actual spending is the dashboard's `nab_cashflow`, saved through `nab_dash_cashflow_save`, so both pages always agree. Needs a page using the "NAB Monthly Budget Planner" template. |
 | 4 | Payment Calendar | **Done in v1.11.0.** `templates/page-nab-payments.php`, `inc/payments.php`, `assets/js/nab-payments.js`. Bills in `nab_bills` (name, amount, frequency, first due date, category, autopay); paid dates in `nab_bill_paid`. Due-date rules live in both `nab_cal_bill_dates()` (PHP) and `nabPayDates()` (JS), so change them together. Bell reminders for unpaid bills due within 3 days or overdue (`nab_cal_send_reminders()`, once a day per member). #13 and #16 can reuse `nab_cal_bill_dates()`. Needs a page using the "NAB Payment Calendar" template. |
-| 5 | Net Worth Calculator | **Data already exists:** `nab_accounts` + `nab_networth_history` (dashboard Net Worth card). Build a full-page view with the same AJAX actions (`nab_dash_account_*`). |
+| 5 | Net Worth Calculator | **Done in v1.13.0.** `templates/page-nab-networth.php`, `assets/js/nab-networth.js`. No new data: it uses the dashboard's `nab_accounts` and `nab_networth_history` through the same AJAX actions (`nab_dash_account_save` / `_delete`), so the page and the dashboard card always agree. Needs a page using the "NAB Net Worth Calculator" template. |
 | 6 | Loan Calculator | New tool. Calculations in the browser; saving is optional. |
 | 7 | Collection Assistance page | New page. Reuse the Freshdesk ticket AJAX (`nab_freshdesk_submit`) with its own ticket category. |
 

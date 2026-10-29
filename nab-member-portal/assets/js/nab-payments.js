@@ -122,14 +122,20 @@ function nextDue(b){
   return '';
 }
 
+// Category icon on a gradient tile (falls back to the first letter)
+function billIcon(b, cat){
+  var ic = el('span', 'pc-ico');
+  ic.setAttribute('aria-hidden', 'true');
+  if(typeof window.nabTile === 'function'){ ic.classList.add('is-tile'); ic.innerHTML = window.nabTile(cat ? cat.icon : 'receipt', cat ? cat.tone : 'slate', 36); }
+  else { ic.textContent = b.name.charAt(0).toUpperCase(); if(cat) ic.style.background = cat.color; }
+  return ic;
+}
+
 /* ── One payment row (day panel + coming up) ──────────── */
 function payRow(o, showDate){
   var b = o.bill, cat = catOf(b);
   var li = el('li', 'pc-row');
-  var ic = el('span', 'pc-ico', b.name.charAt(0).toUpperCase());
-  if(cat) ic.style.background = cat.color;
-  ic.setAttribute('aria-hidden', 'true');
-  li.appendChild(ic);
+  li.appendChild(billIcon(b, cat));
 
   var mid = el('div');
   mid.appendChild(el('div', 'pc-name', b.name));
@@ -299,10 +305,7 @@ function renderBills(){
   list.textContent = '';
   bills.forEach(function(b){
     var cat = catOf(b), li = el('li', 'pc-row');
-    var ic = el('span', 'pc-ico', b.name.charAt(0).toUpperCase());
-    if(cat) ic.style.background = cat.color;
-    ic.setAttribute('aria-hidden', 'true');
-    li.appendChild(ic);
+    li.appendChild(billIcon(b, cat));
     var mid = el('div'), nm = el('div', 'pc-name', b.name);
     if(b.autopay) nm.appendChild(el('span', 'pc-auto-tag', 'Autopay'));
     mid.appendChild(nm);

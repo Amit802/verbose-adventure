@@ -285,7 +285,9 @@ function renderNetworth(){
       list.appendChild(head);
       items.forEach(function(a){
         var li = el('li', 'nd-acc');
-        var ico = el('span', 'nd-acc-ico ' + g[0]); ico.innerHTML = icon(ACC_ICON[a.type] || 'briefcase', 18);
+        var ico = el('span', 'nd-acc-ico ' + g[0]), ty = D.types[a.type] || {};
+        if(typeof window.nabTile === 'function' && ty.tone){ ico.classList.add('is-tile'); ico.innerHTML = window.nabTile(ty.icon || ACC_ICON[a.type] || 'briefcase', ty.tone, 34); }
+        else ico.innerHTML = icon(ACC_ICON[a.type] || 'briefcase', 18);
         li.appendChild(ico);
         var nm = el('span', 'nd-acc-nm'); nm.appendChild(el('b', null, a.name)); nm.appendChild(el('small', null, (D.types[a.type] || {}).label || ''));
         li.appendChild(nm);

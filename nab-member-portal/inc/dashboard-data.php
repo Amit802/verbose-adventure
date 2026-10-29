@@ -49,28 +49,28 @@ if ( ! function_exists( 'nab_get_member_since' ) ) {
    ═══════════════════════════════════════════════════════════ */
 function nab_dash_expense_categories() {
     return [
-        'housing'   => [ 'label' => 'Housing & Rent',     'color' => '#0D5C9B' ],
-        'transport' => [ 'label' => 'Transportation',     'color' => '#F97316' ],
-        'food'      => [ 'label' => 'Food & Groceries',   'color' => '#22A06B' ],
-        'utilities' => [ 'label' => 'Bills & Utilities',  'color' => '#8B5CF6' ],
-        'debt'      => [ 'label' => 'Debt Payments',      'color' => '#E5484D' ],
-        'shopping'  => [ 'label' => 'Shopping',           'color' => '#EAB308' ],
-        'health'    => [ 'label' => 'Health & Insurance', 'color' => '#06B6D4' ],
-        'other'     => [ 'label' => 'Other',              'color' => '#94A3B8' ],
+        'housing'   => [ 'label' => 'Housing & Rent',     'color' => '#0D5C9B', 'icon' => 'house', 'tone' => 'blue' ],
+        'transport' => [ 'label' => 'Transportation',     'color' => '#F97316', 'icon' => 'car', 'tone' => 'orange' ],
+        'food'      => [ 'label' => 'Food & Groceries',   'color' => '#22A06B', 'icon' => 'shopping-cart', 'tone' => 'green' ],
+        'utilities' => [ 'label' => 'Bills & Utilities',  'color' => '#8B5CF6', 'icon' => 'receipt', 'tone' => 'purple' ],
+        'debt'      => [ 'label' => 'Debt Payments',      'color' => '#E5484D', 'icon' => 'credit-card', 'tone' => 'red' ],
+        'shopping'  => [ 'label' => 'Shopping',           'color' => '#EAB308', 'icon' => 'shopping-bag', 'tone' => 'yellow' ],
+        'health'    => [ 'label' => 'Health & Insurance', 'color' => '#06B6D4', 'icon' => 'heart-pulse', 'tone' => 'teal' ],
+        'other'     => [ 'label' => 'Other',              'color' => '#94A3B8', 'icon' => 'ellipsis', 'tone' => 'slate' ],
     ];
 }
 
 function nab_dash_account_types() {
     return [
-        'cash'        => [ 'label' => 'Cash & Bank',     'group' => 'asset' ],
-        'investment'  => [ 'label' => 'Investments',     'group' => 'asset' ],
-        'property'    => [ 'label' => 'Real Estate',     'group' => 'asset' ],
-        'vehicle'     => [ 'label' => 'Vehicle',         'group' => 'asset' ],
-        'other_asset' => [ 'label' => 'Other Asset',     'group' => 'asset' ],
-        'credit_card' => [ 'label' => 'Credit Card',     'group' => 'debt'  ],
-        'loan'        => [ 'label' => 'Loan',            'group' => 'debt'  ],
-        'mortgage'    => [ 'label' => 'Mortgage',        'group' => 'debt'  ],
-        'other_debt'  => [ 'label' => 'Other Debt',      'group' => 'debt'  ],
+        'cash'        => [ 'label' => 'Cash & Bank',     'group' => 'asset', 'icon' => 'landmark', 'tone' => 'green' ],
+        'investment'  => [ 'label' => 'Investments',     'group' => 'asset', 'icon' => 'trending-up', 'tone' => 'indigo' ],
+        'property'    => [ 'label' => 'Real Estate',     'group' => 'asset', 'icon' => 'house', 'tone' => 'blue' ],
+        'vehicle'     => [ 'label' => 'Vehicle',         'group' => 'asset', 'icon' => 'car', 'tone' => 'orange' ],
+        'other_asset' => [ 'label' => 'Other Asset',     'group' => 'asset', 'icon' => 'gem', 'tone' => 'teal' ],
+        'credit_card' => [ 'label' => 'Credit Card',     'group' => 'debt',  'icon' => 'credit-card', 'tone' => 'red' ],
+        'loan'        => [ 'label' => 'Loan',            'group' => 'debt',  'icon' => 'hand-coins', 'tone' => 'pink' ],
+        'mortgage'    => [ 'label' => 'Mortgage',        'group' => 'debt',  'icon' => 'key-round', 'tone' => 'purple' ],
+        'other_debt'  => [ 'label' => 'Other Debt',      'group' => 'debt',  'icon' => 'receipt', 'tone' => 'slate' ],
     ];
 }
 

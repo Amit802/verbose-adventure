@@ -53,6 +53,7 @@ function nab_portal_tools() {
         'nab-roadmap'        => [ 'name' => 'NAB Financial Roadmap',       'file' => 'page-nab-roadmap.php' ],
         'nab-budget'         => [ 'name' => 'NAB Monthly Budget Planner',  'file' => 'page-nab-budget.php' ],
         'nab-payments'       => [ 'name' => 'NAB Payment Calendar',        'file' => 'page-nab-payments.php' ],
+        'nab-networth'       => [ 'name' => 'NAB Net Worth Calculator',    'file' => 'page-nab-networth.php' ],
     ] );
     return $tools;
 }
@@ -81,33 +82,34 @@ function nab_portal_nav_sections() {
     if ( $sections !== null ) return $sections;
     $sections = apply_filters( 'nab_portal_nav_sections', [
         'main' => [ 'label' => 'Main', 'items' => [
-            [ 'key' => 'dashboard', 'label' => 'Dashboard', 'icon' => 'house', 'desc' => 'Your overview', 'keywords' => 'home overview' ],
+            [ 'key' => 'dashboard', 'label' => 'Dashboard', 'icon' => 'house', 'tone' => 'navy', 'desc' => 'Your overview', 'keywords' => 'home overview' ],
         ] ],
         'credit' => [ 'label' => 'Credit Tools', 'items' => [
-            [ 'key' => 'report',  'label' => 'Credit Report Access', 'icon' => 'file-text',    'desc' => 'Access your Equifax, TransUnion, Borrowell or Credit Karma report', 'keywords' => 'credit report equifax transunion borrowell' ],
-            [ 'key' => 'util',    'label' => 'Utilization Checker',  'icon' => 'gauge',        'desc' => 'See how much of your credit you are using',  'keywords' => 'utilization checker credit usage cards' ],
-            [ 'key' => 'sim',     'label' => 'Score Simulator',      'icon' => 'trending-up',  'desc' => 'Simulate what-if scenarios for your score',  'keywords' => 'score simulator credit score what if' ],
-            [ 'key' => 'dispute', 'label' => 'Dispute Center',       'icon' => 'shield-check', 'desc' => 'Submit a credit dispute and track your case', 'keywords' => 'dispute center credit error' ],
+            [ 'key' => 'report',  'label' => 'Credit Report Access', 'icon' => 'file-text', 'tone' => 'blue',    'desc' => 'Access your Equifax, TransUnion, Borrowell or Credit Karma report', 'keywords' => 'credit report equifax transunion borrowell' ],
+            [ 'key' => 'util',    'label' => 'Utilization Checker',  'icon' => 'gauge', 'tone' => 'teal',        'desc' => 'See how much of your credit you are using',  'keywords' => 'utilization checker credit usage cards' ],
+            [ 'key' => 'sim',     'label' => 'Score Simulator',      'icon' => 'trending-up', 'tone' => 'green',  'desc' => 'Simulate what-if scenarios for your score',  'keywords' => 'score simulator credit score what if' ],
+            [ 'key' => 'dispute', 'label' => 'Dispute Center',       'icon' => 'shield-check', 'tone' => 'indigo', 'desc' => 'Submit a credit dispute and track your case', 'keywords' => 'dispute center credit error' ],
         ] ],
         'services' => [ 'label' => 'Services', 'items' => [
-            [ 'key' => 'booking', 'label' => 'Book Specialist', 'icon' => 'calendar-days',       'desc' => 'Schedule a 1-on-1 session with a credit advisor', 'keywords' => 'book specialist appointment advisor session' ],
-            [ 'key' => 'chatbot', 'label' => 'NAB AI Chatbot',  'icon' => 'message-square-text', 'desc' => 'Ask the NAB assistant anything about credit',     'keywords' => 'ai chatbot assistant help question' ],
-            [ 'key' => 'support', 'label' => 'Support Center',  'icon' => 'life-buoy',           'desc' => 'Submit a support ticket or track existing tickets', 'keywords' => 'support ticket help contact' ],
+            [ 'key' => 'booking', 'label' => 'Book Specialist', 'icon' => 'calendar-days', 'tone' => 'orange',       'desc' => 'Schedule a 1-on-1 session with a credit advisor', 'keywords' => 'book specialist appointment advisor session' ],
+            [ 'key' => 'chatbot', 'label' => 'NAB AI Chatbot',  'icon' => 'message-square-text', 'tone' => 'gold', 'desc' => 'Ask the NAB assistant anything about credit',     'keywords' => 'ai chatbot assistant help question' ],
+            [ 'key' => 'support', 'label' => 'Support Center',  'icon' => 'life-buoy', 'tone' => 'pink',           'desc' => 'Submit a support ticket or track existing tickets', 'keywords' => 'support ticket help contact' ],
         ] ],
         'loan' => [ 'label' => 'Loan Tools', 'items' => [
-            [ 'key' => 'lfp',        'label' => 'Lending Finder Program', 'icon' => 'landmark',    'desc' => 'Find lenders that fit your profile',            'keywords' => 'lending finder lfp lender loan' ],
-            [ 'key' => 'loan',       'label' => 'Auto Loan Matcher',      'icon' => 'car',         'desc' => 'Auto loan offers from Canadian lenders',          'keywords' => 'auto loan car vehicle lender' ],
-            [ 'key' => 'card-match', 'label' => 'Card Matcher',           'icon' => 'credit-card', 'desc' => 'Get matched to the best credit card for you',    'keywords' => 'credit card matcher best card' ],
+            [ 'key' => 'lfp',        'label' => 'Lending Finder Program', 'icon' => 'landmark', 'tone' => 'navy',    'desc' => 'Find lenders that fit your profile',            'keywords' => 'lending finder lfp lender loan' ],
+            [ 'key' => 'loan',       'label' => 'Auto Loan Matcher',      'icon' => 'car', 'tone' => 'orange',         'desc' => 'Auto loan offers from Canadian lenders',          'keywords' => 'auto loan car vehicle lender' ],
+            [ 'key' => 'card-match', 'label' => 'Card Matcher',           'icon' => 'credit-card', 'tone' => 'purple', 'desc' => 'Get matched to the best credit card for you',    'keywords' => 'credit card matcher best card' ],
         ] ],
         'resources' => [ 'label' => 'Resources', 'items' => [
-            [ 'key' => 'learning', 'label' => 'Learning Center',        'icon' => 'graduation-cap', 'desc' => '7-part credit education video series',   'keywords' => 'learning center education videos modules lessons' ],
-            [ 'key' => 'blog',     'label' => 'Education Blog',         'icon' => 'book-open',      'tab' => 'blog', 'desc' => 'Credit articles and tips',  'keywords' => 'education blog articles credit tips' ],
-            [ 'key' => 'diy',      'label' => 'DIY Repair Guide',       'icon' => 'file-pen-line',  'tab' => 'diy',  'desc' => 'Ready-to-use dispute letter templates', 'keywords' => 'diy repair guide dispute letter template' ],
-            [ 'key' => 'budget',   'label' => 'Budget Planner',         'icon' => 'wallet',         'template' => 'nab-budget', 'desc' => 'Set a monthly budget and track your spending', 'keywords' => 'monthly budget planner spending categories' ],
-            [ 'key' => 'payments', 'label' => 'Payment Calendar',       'icon' => 'calendar',       'template' => 'nab-payments', 'desc' => 'See every bill due date and mark payments as paid', 'keywords' => 'payment calendar bills due dates reminders autopay' ],
-            [ 'key' => 'ef',       'label' => 'Emergency Fund Planner', 'icon' => 'piggy-bank',     'desc' => 'Set a savings goal and track progress', 'keywords' => 'emergency fund savings goal planner' ],
-            [ 'key' => 'roadmap',  'label' => 'Financial Roadmap',      'icon' => 'map',            'desc' => 'Your personalised action plan',         'keywords' => 'financial roadmap plan goals steps' ],
-            [ 'key' => 'pad',      'label' => 'PAD Agreement',          'icon' => 'file-check',     'desc' => 'Your Pre-Authorized Debit agreement',   'keywords' => 'pad agreement debit authorization' ],
+            [ 'key' => 'learning', 'label' => 'Learning Center',        'icon' => 'graduation-cap', 'tone' => 'indigo', 'desc' => '7-part credit education video series',   'keywords' => 'learning center education videos modules lessons' ],
+            [ 'key' => 'blog',     'label' => 'Education Blog',         'icon' => 'book-open', 'tone' => 'yellow',      'tab' => 'blog', 'desc' => 'Credit articles and tips',  'keywords' => 'education blog articles credit tips' ],
+            [ 'key' => 'diy',      'label' => 'DIY Repair Guide',       'icon' => 'file-pen-line', 'tone' => 'pink',  'tab' => 'diy',  'desc' => 'Ready-to-use dispute letter templates', 'keywords' => 'diy repair guide dispute letter template' ],
+            [ 'key' => 'budget',   'label' => 'Budget Planner',         'icon' => 'wallet', 'tone' => 'green',         'template' => 'nab-budget', 'desc' => 'Set a monthly budget and track your spending', 'keywords' => 'monthly budget planner spending categories' ],
+            [ 'key' => 'payments', 'label' => 'Payment Calendar',       'icon' => 'calendar', 'tone' => 'red',       'template' => 'nab-payments', 'desc' => 'See every bill due date and mark payments as paid', 'keywords' => 'payment calendar bills due dates reminders autopay' ],
+            [ 'key' => 'networth', 'label' => 'Net Worth Calculator',   'icon' => 'scale', 'tone' => 'indigo', 'template' => 'nab-networth', 'desc' => 'Add up what you own and owe, and track your net worth', 'keywords' => 'net worth calculator assets debts accounts savings' ],
+            [ 'key' => 'ef',       'label' => 'Emergency Fund Planner', 'icon' => 'piggy-bank', 'tone' => 'teal',     'desc' => 'Set a savings goal and track progress', 'keywords' => 'emergency fund savings goal planner' ],
+            [ 'key' => 'roadmap',  'label' => 'Financial Roadmap',      'icon' => 'map', 'tone' => 'purple',            'desc' => 'Your personalised action plan',         'keywords' => 'financial roadmap plan goals steps' ],
+            [ 'key' => 'pad',      'label' => 'PAD Agreement',          'icon' => 'file-check', 'tone' => 'slate',     'desc' => 'Your Pre-Authorized Debit agreement',   'keywords' => 'pad agreement debit authorization' ],
         ] ],
     ] );
     return $sections;
@@ -135,6 +137,7 @@ function nab_portal_search_items() {
             if ( empty( $it['tab'] ) && $url === '#' ) continue; // not set up on this site yet
             $items[] = [
                 'icon'  => $it['icon'],
+                'tone'  => $it['tone'] ?? 'blue',
                 'title' => $it['label'],
                 'desc'  => $it['desc'] ?? '',
                 'tab'   => $it['tab'] ?? '',
@@ -151,7 +154,7 @@ function nab_portal_search_items() {
             'The Credit Inquiry Guide: Hard and Soft Pulls', 'Building Better Financial Habits',
         ];
         foreach ( $lessons as $i => $t ) {
-            $items[] = [ 'icon' => 'play', 'title' => $t, 'desc' => 'Lesson ' . ( $i + 1 ) . ' · Learning Center', 'tab' => '', 'url' => $learning, 'key' => 'module lesson video ' . ( $i + 1 ) ];
+            $items[] = [ 'icon' => 'play', 'tone' => 'indigo', 'title' => $t, 'desc' => 'Lesson ' . ( $i + 1 ) . ' · Learning Center', 'tab' => '', 'url' => $learning, 'key' => 'module lesson video ' . ( $i + 1 ) ];
         }
     }
     return apply_filters( 'nab_portal_search_items', $items );

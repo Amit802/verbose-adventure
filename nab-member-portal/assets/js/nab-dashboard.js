@@ -252,7 +252,7 @@ window.nabMarkModuleComplete=nabMarkModuleComplete;
       } else {
         searchResults.innerHTML = matches.map(function(item){
           return '<div class="nab-search-result-item" role="button" tabindex="0" data-tab="'+esc(item.tab)+'" data-url="'+esc(item.url)+'">' +
-            '<div class="nab-search-result-icon">'+ico(item.icon)+'</div>' +
+            (item.tone && typeof window.nabTile==='function' ? '<div class="nab-search-result-icon is-tile">'+window.nabTile(item.icon,item.tone,36)+'</div>' : '<div class="nab-search-result-icon">'+ico(item.icon)+'</div>') +
             '<div><div class="nab-search-result-title">'+esc(item.title)+'</div>' +
             '<div class="nab-search-result-desc">'+esc(item.desc)+'</div></div></div>';
         }).join('');

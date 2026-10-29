@@ -244,7 +244,7 @@ if ( ! function_exists( 'nab_render_sidebar' ) ) {
         // Blog/DIY-style items carry a 'tab': they are never disabled — on the
         // dashboard they switch tab via JS, elsewhere they link to dashboard?nab_tab=…
         $render_item = function( $it ) use ( $active, $dash_url ) {
-            $label = nab_portal_icon( $it['icon'] ?? '', 18 ) . '<span>' . esc_html( $it['label'] ) . '</span>';
+            $label = ( ( $it['key'] ?? '' ) === 'chatbot' ? nab_portal_nabi_mark( 24 ) : nab_portal_icon_tile( $it['icon'] ?? '', $it['tone'] ?? 'blue', 24, 'nab-nav-tile' ) ) . '<span>' . esc_html( $it['label'] ) . '</span>';
             if ( ! empty( $it['tab'] ) ) {
                 if ( $active === 'dashboard' ) {
                     echo '<a class="nab-nav-item" href="javascript:void(0)" onclick="if(typeof nabOpenTab!==\'undefined\')nabOpenTab(\'' . esc_attr( $it['tab'] ) . '\')">' . $label . '</a>';
@@ -259,6 +259,7 @@ if ( ! function_exists( 'nab_render_sidebar' ) ) {
             $href = $dis ? 'javascript:void(0)' : esc_url( $url );
             echo '<a class="' . esc_attr( $cls ) . '" href="' . $href . '"' . ( $active === $it['key'] ? ' aria-current="page"' : '' ) . '>' . $label . '</a>';
         };
+        nab_portal_tile_css();
         ?>
         <aside class="nab-sidebar" id="nabSidebar">
                   <div class="nab-sidebar-logo">

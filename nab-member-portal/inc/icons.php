@@ -56,6 +56,14 @@ function nab_portal_icon_paths() {
         'play' => '<path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"/>',
         'check' => '<path d="M20 6 9 17l-5-5"/>',
         'x' => '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+        'shopping-cart' => '<path d="m2.05 2.05 1.099-.028a1 1 0 0 1 1.008.815l2.69 14.347A1 1 0 0 0 7.83 18H18"/><path d="M4.563 5h16.435a1 1 0 0 1 .981 1.204l-1.026 6.226A2 2 0 0 1 18.962 14H6.25"/><circle cx="18" cy="20" r="2"/><circle cx="8" cy="20" r="2"/>',
+        'shopping-bag' => '<path d="M16 10a4 4 0 0 1-8 0"/><path d="M3.103 6.034h17.794"/><path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z"/>',
+        'heart-pulse' => '<path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/><path d="M3.22 13H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/>',
+        'ellipsis' => '<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>',
+        'hand-coins' => '<path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17"/><path d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"/><path d="m2 16 6 6"/><circle cx="16" cy="9" r="2.9"/><circle cx="6" cy="5" r="3"/>',
+        'gem' => '<path d="M10.5 3 8 9l4 13 4-13-2.5-6"/><path d="M17 3a2 2 0 0 1 1.6.8l3 4a2 2 0 0 1 .013 2.382l-7.99 10.986a2 2 0 0 1-3.247 0l-7.99-10.986A2 2 0 0 1 2.4 7.8l2.998-3.997A2 2 0 0 1 7 3z"/><path d="M2 9h20"/>',
+        'key-round' => '<path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/>',
+        'scale' => '<path d="M12 3v18"/><path d="m19 8 3 8a5 5 0 0 1-6 0zV7"/><path d="M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1"/><path d="m5 8 3 8a5 5 0 0 1-6 0zV7"/><path d="M7 21h10"/>',
         'arrow-up' => '<path d="m5 12 7-7 7 7"/><path d="M12 19V5"/>',
         'maximize-2' => '<path d="M15 3h6v6"/><path d="m21 3-7 7"/><path d="m3 21 7-7"/><path d="M9 21H3v-6"/>',
         'square-pen' => '<path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/>',
@@ -94,12 +102,95 @@ function nab_portal_icon( $name, $size = 20, $class = '' ) {
     );
 }
 
+/* ═══════════════════════════════════════════════════════════
+   ICON TILES (v1.13.0) — a white icon on a soft gradient tile, like
+   app icons. Used for every tool, category and account type.
+   PHP: echo nab_portal_icon_tile( 'wallet', 'green', 40 );
+   JS:  window.nabTile( 'wallet', 'green', 40 ) (nab_portal_print_icons_js)
+   ═══════════════════════════════════════════════════════════ */
+function nab_portal_tile_tones() {
+    return apply_filters( 'nab_portal_tile_tones', [
+        'blue'   => [ '#5AA9FA', '#1C6ED8' ],
+        'navy'   => [ '#3F75AE', '#0B3A6B' ],
+        'indigo' => [ '#8C97FF', '#4F46E5' ],
+        'purple' => [ '#B096FF', '#7044E6' ],
+        'pink'   => [ '#FF8FC4', '#DD3E87' ],
+        'red'    => [ '#FF7E83', '#DC2F38' ],
+        'orange' => [ '#FFAA63', '#F06A0A' ],
+        'yellow' => [ '#FFD75E', '#EFA70A' ],
+        'green'  => [ '#55D892', '#14A058' ],
+        'teal'   => [ '#45DCD2', '#0B9E9C' ],
+        'slate'  => [ '#A9B6C8', '#66768C' ],
+        'gold'   => [ '#F3D68F', '#B98A23' ],
+    ] );
+}
+
+function nab_portal_icon_tile( $icon, $tone = 'blue', $size = 40, $class = '' ) {
+    if ( ! isset( nab_portal_tile_tones()[ $tone ] ) ) $tone = 'blue';
+    $glyph = (int) round( $size * 0.5 );
+    $svg   = str_replace( 'stroke-width="1.75"', 'stroke-width="2"', nab_portal_icon( $icon, $glyph ) );
+    return '<span class="nab-tile nab-tile-' . esc_attr( $tone ) . ( $class ? ' ' . esc_attr( $class ) : '' ) . '" style="--tile:' . (int) $size . 'px" aria-hidden="true">' . $svg . '</span>';
+}
+
+/**
+ * NABi — the NAB AI Assistant's mark (v1.13.0): a white "N" monogram with a
+ * gold spark on a deep navy tile with a fine gold rim. The colours live in
+ * CSS (.nab-nabi), so the same markup works from PHP and JS
+ * (window.NabAI.mark( size ) in nab-ai.js builds the identical string).
+ */
+function nab_portal_nabi_mark( $size = 40, $class = '' ) {
+    return '<span class="nab-nabi' . ( $class ? ' ' . esc_attr( $class ) : '' ) . '" style="--nabi:' . (int) $size . 'px" aria-hidden="true">'
+        . '<svg viewBox="0 0 48 48" width="100%" height="100%" focusable="false">'
+        . '<path class="nab-nabi-n" d="M15 33.5V15.5l15.5 18V15.5"/>'
+        . '<path class="nab-nabi-spark" d="M37.5 6.5c.45 2.9 2.1 4.55 5 5-2.9.45-4.55 2.1-5 5-.45-2.9-2.1-4.55-5-5 2.9-.45 4.55-2.1 5-5z"/>'
+        . '</svg></span>';
+}
+
+/** Tile styles. Printed once per page (wp_head on portal pages, and the sidebar as a fallback). */
+function nab_portal_tile_css() {
+    static $done = false;
+    if ( $done ) return;
+    $done = true;
+    $tones = '';
+    foreach ( nab_portal_tile_tones() as $k => $c ) $tones .= '.nab-tile-' . $k . '{--t1:' . $c[0] . ';--t2:' . $c[1] . '}';
+    echo '<style id="nab-tile-css">'
+        . '.nab-tile{--tile:40px;--t1:#5AA9FA;--t2:#1C6ED8;position:relative;display:inline-flex;align-items:center;justify-content:center;flex:none;'
+        . 'width:var(--tile);height:var(--tile);min-width:var(--tile);border-radius:calc(var(--tile) * .3);color:#fff;overflow:hidden;'
+        . 'background:linear-gradient(160deg,var(--t1) 0%,var(--t2) 100%);'
+        . 'box-shadow:inset 0 1px 0 rgba(255,255,255,.38),inset 0 -1px 0 rgba(0,0,0,.10),0 1px 2px rgba(15,27,45,.16),0 6px 14px -8px var(--t2)}'
+        . '.nab-tile::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,.26) 0%,rgba(255,255,255,0) 52%);pointer-events:none}'
+        . '.nab-tile .nab-i{position:relative;z-index:1;filter:drop-shadow(0 1px 1px rgba(0,0,0,.14))}'
+        . $tones
+        // NABi mark
+        . '.nab-nabi{--nabi:40px;position:relative;display:inline-flex;flex:none;width:var(--nabi);height:var(--nabi);min-width:var(--nabi);border-radius:calc(var(--nabi) * .3);overflow:hidden;'
+        . 'background:radial-gradient(120% 90% at 20% 0%,#2C6BB3 0%,#123A6E 45%,#081A33 100%);'
+        . 'box-shadow:inset 0 0 0 1.25px rgba(236,200,112,.9),inset 0 1px 0 rgba(255,255,255,.28),0 1px 2px rgba(8,26,51,.25),0 8px 18px -8px rgba(8,26,51,.7)}'
+        . '.nab-nabi::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,0) 50%);pointer-events:none}'
+        . '.nab-nabi svg{position:relative;z-index:1;display:block}'
+        . '.nab-nabi-n{fill:none;stroke:#fff;stroke-width:4.4;stroke-linecap:round;stroke-linejoin:round}'
+        . '.nab-nabi-spark{fill:#F0CF7A}'
+        . '.nab-nabi-word i{font-style:normal;color:#E9C46A}'
+        // sidebar: tiles sit on the dark blue menu, so they get a fine light ring
+        . '.nab-nav-item .nab-nav-tile{margin-right:3px;box-shadow:inset 0 1px 0 rgba(255,255,255,.38),0 0 0 1px rgba(255,255,255,.14),0 2px 6px rgba(0,0,0,.18)}'
+        . '.nab-nav-item .nab-nav-tile .nab-i{opacity:1}'
+        . '.nab-nav-item .nab-nabi{margin-right:3px;box-shadow:inset 0 0 0 1.25px rgba(236,200,112,.9),0 0 0 1px rgba(255,255,255,.14),0 2px 6px rgba(0,0,0,.25)}'
+        . '</style>';
+}
+add_action( 'wp_head', function() {
+    if ( function_exists( 'nab_portal_current_tool' ) && nab_portal_current_tool() ) nab_portal_tile_css();
+}, 20 );
+
 /** Exposes window.nabIcon(name, size) for scripts that build UI in the browser. */
 function nab_portal_print_icons_js( $names ) {
     $paths = array_intersect_key( nab_portal_icon_paths(), array_flip( (array) $names ) );
     ?>
 <script>
 window.nabIconPaths = <?php echo wp_json_encode( $paths ); ?>;
+window.nabTile = function( n, tone, s ) {
+  s = s || 40;
+  var svg = window.nabIcon( n, Math.round( s * 0.5 ) ).replace( 'stroke-width="1.75"', 'stroke-width="2"' );
+  return '<span class="nab-tile nab-tile-' + String( tone || 'blue' ).replace( /[^a-z]/g, '' ) + '" style="--tile:' + ( s | 0 ) + 'px" aria-hidden="true">' + svg + '</span>';
+};
 window.nabIcon = function( n, s ) {
   var p = window.nabIconPaths[ n ]; if ( ! p ) return '';
   s = s || 20;

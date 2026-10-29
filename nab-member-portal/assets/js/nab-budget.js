@@ -110,6 +110,7 @@ function render(){
     var b = +budget[k] || 0, s = +spentBy[k] || 0, cat = D.cats[k];
     var li = el('li', 'bp-row');
     var ic = el('span', 'bp-ico', cat.label.charAt(0)); ic.style.background = cat.color; ic.setAttribute('aria-hidden', 'true');
+    if(cat.tone && typeof window.nabTile === 'function'){ ic.textContent = ''; ic.style.background = ''; ic.classList.add('is-tile'); ic.innerHTML = window.nabTile(cat.icon, cat.tone, 36); }
     li.appendChild(ic);
     li.appendChild(el('span', 'bp-name', cat.label));
     var amt = el('span', 'bp-amt', money(s));

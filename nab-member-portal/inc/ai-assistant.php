@@ -26,12 +26,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /** The suggested questions (unchanged from the original chatbot page). */
 function nab_portal_ai_prompts() {
     return apply_filters( 'nab_portal_ai_prompts', [
-        [ 'icon' => 'trending-up',  'label' => 'Improve my credit score',      'hint' => 'Get a personalised action plan', 'q' => 'How can I improve my credit score fast?' ],
-        [ 'icon' => 'shield-check', 'label' => 'Dispute credit report errors', 'hint' => 'Step-by-step dispute guidance', 'q' => 'How do I dispute an error on my credit report?' ],
-        [ 'icon' => 'credit-card',  'label' => 'Best credit card for me',      'hint' => 'Canadian card recommendations', 'q' => 'What credit card is best for someone rebuilding credit in Canada?' ],
-        [ 'icon' => 'gauge',        'label' => 'Credit utilization explained', 'hint' => 'Optimise your ratio',           'q' => 'How does credit utilization affect my score and what should I aim for?' ],
-        [ 'icon' => 'clock',        'label' => 'How long do negatives last?',  'hint' => 'Canadian credit bureau rules',  'q' => 'How long does a missed payment stay on my credit report in Canada?' ],
-        [ 'icon' => 'landmark',     'label' => 'Equifax vs TransUnion',        'hint' => 'Understanding both bureaus',    'q' => 'What is the difference between Equifax and TransUnion in Canada?' ],
+        [ 'icon' => 'trending-up', 'tone' => 'green',  'label' => 'Improve my credit score',      'hint' => 'Get a personalised action plan', 'q' => 'How can I improve my credit score fast?' ],
+        [ 'icon' => 'shield-check', 'tone' => 'indigo', 'label' => 'Dispute credit report errors', 'hint' => 'Step-by-step dispute guidance', 'q' => 'How do I dispute an error on my credit report?' ],
+        [ 'icon' => 'credit-card', 'tone' => 'purple',  'label' => 'Best credit card for me',      'hint' => 'Canadian card recommendations', 'q' => 'What credit card is best for someone rebuilding credit in Canada?' ],
+        [ 'icon' => 'gauge', 'tone' => 'teal',        'label' => 'Credit utilization explained', 'hint' => 'Optimise your ratio',           'q' => 'How does credit utilization affect my score and what should I aim for?' ],
+        [ 'icon' => 'clock', 'tone' => 'orange',        'label' => 'How long do negatives last?',  'hint' => 'Canadian credit bureau rules',  'q' => 'How long does a missed payment stay on my credit report in Canada?' ],
+        [ 'icon' => 'landmark', 'tone' => 'blue',     'label' => 'Equifax vs TransUnion',        'hint' => 'Understanding both bureaus',    'q' => 'What is the difference between Equifax and TransUnion in Canada?' ],
     ] );
 }
 
@@ -145,7 +145,7 @@ function nab_portal_ai_system_prompt( $uid, $page = '' ) {
         . "- When the member context is relevant, use their real numbers (for example their utilization or an overdue bill) so the advice is specific to them.\n"
         . "- Keep replies under about 150 words unless the member asks for detail. Use short paragraphs, and use a numbered or bulleted list for steps.\n"
         . "- Format with simple Markdown only: **bold**, lists, and links. No tables, no headings larger than ###.\n"
-        . "- When a portal tool would help, name it exactly (Credit Score Simulator, Utilization Checker, Dispute Center, Budget Planner, Payment Calendar, Emergency Fund Planner, Card Matcher, Lending Finder Program, Learning Center, Support Center, Book Specialist).\n"
+        . "- When a portal tool would help, name it exactly (Credit Score Simulator, Utilization Checker, Dispute Center, Budget Planner, Payment Calendar, Net Worth Calculator, Emergency Fund Planner, Card Matcher, Lending Finder Program, Learning Center, Support Center, Book Specialist).\n"
         . "- Be encouraging and honest. Never guarantee approvals or score changes. Only discuss credit, personal finance, and NAB Solutions topics, and recommend a licensed professional for important legal, tax, or financial decisions.\n"
         . "- If the member writes in French, reply in French.";
 }
@@ -299,13 +299,13 @@ add_action( 'wp_footer', function() {
     ?>
 <div class="nab-aiw" id="nabAiw" data-state="closed">
   <button type="button" class="nab-aiw-launch" id="nabAiwLaunch" aria-controls="nabAiwPanel" aria-expanded="false">
-    <?php echo nab_portal_icon( 'message-square-text', 20 ); ?><span>Ask NAB AI</span>
+    <?php echo nab_portal_nabi_mark( 32, 'nab-aiw-mark' ); ?><span class="nab-nabi-word">Ask NAB<i>i</i></span>
   </button>
   <section class="nab-aiw-panel" id="nabAiwPanel" role="dialog" aria-label="NAB AI Assistant" hidden>
     <header class="nab-aiw-head">
-      <span class="nab-aiw-avatar" aria-hidden="true">N</span>
+      <?php echo nab_portal_nabi_mark( 36 ); ?>
       <div class="nab-aiw-title">
-        <strong>NAB Assistant</strong>
+        <strong class="nab-nabi-word">NAB<i>i</i> <span>· NAB AI Assistant</span></strong>
         <small><?php echo $s['live'] ? 'Usually replies in a few seconds' : 'Quick answers to common questions'; ?></small>
       </div>
       <button type="button" class="nab-aiw-hbtn" data-aiw-new title="New chat" aria-label="Start a new chat"><?php echo nab_portal_icon( 'square-pen', 18 ); ?></button>
@@ -337,16 +337,19 @@ add_action( 'wp_footer', function() {
 <style>
 .nab-aiw{--aiw-blue:#0D5C9B;--aiw-ink:#0F1B2D;--aiw-muted:#6B7685;--aiw-line:#E8EBF0;font-family:inherit;color:var(--aiw-ink)}
 .nab-aiw [hidden]{display:none!important}
-.nab-aiw-launch{position:fixed;right:24px;bottom:24px;z-index:9990;display:flex;align-items:center;gap:8px;height:48px;padding:0 18px 0 16px;border:0;border-radius:999px;background:var(--aiw-ink);color:#fff;font:inherit;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 6px 18px rgba(15,27,45,.22);transition:transform .15s,box-shadow .15s}
-.nab-aiw-launch:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(15,27,45,.28)}
+.nab-aiw-launch{position:fixed;right:24px;bottom:24px;z-index:9990;display:flex;align-items:center;gap:10px;height:52px;padding:0 20px 0 10px;border:0;border-radius:999px;color:#fff;font:inherit;font-size:14.5px;font-weight:650;letter-spacing:.01em;cursor:pointer;
+  background:linear-gradient(135deg,#163E70 0%,#0A1F3D 100%);box-shadow:inset 0 0 0 1px rgba(236,200,112,.55),inset 0 1px 0 rgba(255,255,255,.14),0 10px 26px -8px rgba(8,26,51,.65);transition:transform .15s,box-shadow .15s}
+.nab-aiw-launch:hover{transform:translateY(-2px);box-shadow:inset 0 0 0 1px rgba(236,200,112,.8),inset 0 1px 0 rgba(255,255,255,.16),0 14px 30px -8px rgba(8,26,51,.7)}
+.nab-aiw-launch .nab-nabi{box-shadow:inset 0 0 0 1.25px rgba(236,200,112,.9),0 2px 6px rgba(0,0,0,.3)}
 .nab-aiw-launch:focus-visible{outline:3px solid rgba(13,92,155,.4);outline-offset:2px}
 .nab-aiw[data-state=open] .nab-aiw-launch{display:none}
 .nab-aiw-panel{position:fixed;right:24px;bottom:24px;z-index:9991;width:380px;height:min(600px,calc(100vh - 48px));display:flex;flex-direction:column;background:#fff;border:1px solid var(--aiw-line);border-radius:16px;box-shadow:0 18px 50px rgba(15,27,45,.22);overflow:hidden;animation:nabAiwIn .18s ease-out}
 @keyframes nabAiwIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 .nab-aiw-head{display:flex;align-items:center;gap:10px;padding:12px 10px 12px 14px;border-bottom:1px solid var(--aiw-line)}
-.nab-aiw-avatar{width:34px;height:34px;border-radius:10px;background:var(--aiw-blue);color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;flex:none}
 .nab-aiw-title{flex:1;min-width:0;line-height:1.25}
-.nab-aiw-title strong{display:block;font-size:14.5px}
+.nab-aiw-title strong{display:block;font-size:15px;font-weight:750}
+.nab-aiw-title strong i{color:#C9962B}
+.nab-aiw-title strong span{font-size:12.5px;font-weight:600;color:var(--aiw-muted)}
 .nab-aiw-title small{display:block;font-size:12px;color:var(--aiw-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .nab-aiw-hbtn{width:34px;height:34px;border:0;border-radius:9px;background:none;color:var(--aiw-muted);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none;text-decoration:none}
 .nab-aiw-hbtn:hover{background:#F1F3F6;color:var(--aiw-ink)}
@@ -364,8 +367,9 @@ add_action( 'wp_footer', function() {
 .nab-aiw-foot{margin:0;padding:0 14px 10px;font-size:11.5px;color:#9AA4B2;background:#fff}
 .nab-aiw-foot a{color:var(--aiw-blue);font-weight:600;text-decoration:none}
 @media(max-width:640px){
-  .nab-aiw-launch{right:16px;bottom:16px;width:52px;height:52px;padding:0;justify-content:center}
-  .nab-aiw-launch span{display:none}
+  .nab-aiw-launch{right:16px;bottom:16px;width:58px;height:58px;padding:0;justify-content:center;border-radius:18px;background:none;box-shadow:0 10px 24px -8px rgba(8,26,51,.7)}
+  .nab-aiw-launch .nab-nabi-word{display:none}
+  .nab-aiw-launch .nab-nabi{--nabi:58px!important}
   body.nab-has-bottomnav .nab-aiw-launch{display:none} /* dashboard: the bottom bar's Ask AI button opens the chat */
   .nab-aiw-panel{inset:0;width:auto;height:100%;max-height:none;border-radius:0;border:0;animation:none}
   .nab-aiw-hide-sm{display:none}

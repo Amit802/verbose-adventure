@@ -201,6 +201,7 @@ for ( $i = 0; $i < 24; $i++ ) {
 $can_self_score = ! ( $saved_score && $score_source === 'account' );
 $budget_url     = nab_get_template_url( 'nab-budget' ); // v1.10.0 Budget Planner page, '#' if not created yet
 $payments_url   = nab_get_template_url( 'nab-payments' ); // v1.11.0 Payment Calendar page, '#' if not created yet
+$networth_url   = nab_get_template_url( 'nab-networth' ); // v1.13.0 Net Worth Calculator page, '#' if not created yet
 
 $hour     = (int) current_time( 'G' );
 $greeting = $hour < 12 ? 'Morning' : ( $hour < 17 ? 'Afternoon' : 'Evening' );
@@ -667,7 +668,7 @@ body.nab-portal-body [hidden]{display:none!important}
 .nab-portal-body .nab-ask-ai-btn-dot{display:none}
 .nd-empty-ico{width:44px;height:44px;border-radius:50%;background:var(--nd-line2);color:var(--nd-muted);display:flex;align-items:center;justify-content:center}
 .nd-acc-ico.asset{background:#E8F5EE;color:#157F4F}.nd-acc-ico.debt{background:#FDECEC;color:#B42328}
-.nd-quick span{color:var(--nd-blue)}
+.nd-quick button>span{color:var(--nd-blue)}
 
 /* Sheets / modal */
 .nd-modal{position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center}
@@ -704,7 +705,11 @@ body.nab-portal-body [hidden]{display:none!important}
 .nd-quick{display:flex;flex-direction:column;gap:10px;padding-bottom:6px}
 .nd-quick button{display:grid;grid-template-columns:44px 1fr;grid-template-rows:auto auto;column-gap:12px;align-items:center;text-align:left;font:inherit;padding:14px;border:1px solid var(--nd-line);border-radius:14px;background:#fff;cursor:pointer;transition:border-color .15s,background .15s}
 .nd-quick button:hover{border-color:var(--nd-blue);background:#F6F9FD}
-.nd-quick span{grid-row:1/3;width:44px;height:44px;border-radius:12px;background:var(--nd-line2);display:flex;align-items:center;justify-content:center;font-size:20px}
+.nd-quick button>span{grid-row:1/3;width:44px;height:44px;border-radius:12px;background:var(--nd-line2);display:flex;align-items:center;justify-content:center;font-size:20px}
+/* v1.13.0 gradient icon tiles carry their own background */
+.nab-portal-body .nab-card-icon.is-tile,.nab-portal-body .nab-journey-card-icon.is-tile,.nd-quick button>span.is-tile,.nab-search-result-icon.is-tile{background:none;width:auto;height:auto;border-radius:0}
+.nab-portal-body .nab-journey-card-icon.is-tile{display:inline-flex}
+.nd-acc-ico.is-tile{background:none!important;width:auto;height:auto}
 .nd-quick b{font-size:14.5px;font-weight:650;color:var(--nd-text)}
 .nd-quick small{font-size:12px;color:var(--nd-muted)}
 @keyframes ndFade{from{opacity:0}to{opacity:1}}
@@ -759,6 +764,8 @@ body.nab-portal-body [hidden]{display:none!important}
   .nd-bottomnav>a,.nd-bottomnav>button{display:flex;flex-direction:column;align-items:center;gap:2px;font:inherit;font-size:10.5px;font-weight:600;color:var(--nd-muted);background:none;border:0;text-decoration:none;padding:4px 0;cursor:pointer}
   .nd-bottomnav>a span,.nd-bottomnav>button span{display:flex;height:24px;align-items:center}
   .nd-bottomnav .on{color:var(--nd-blue)}
+  .nd-bottomnav .nd-bn-nabi .nab-nabi-word{height:auto;display:inline}
+  .nd-bottomnav .nd-bn-nabi .nab-nabi-word i{color:#B98A23}
   .nd-bottomnav .nd-bn-add span{width:50px;height:50px;border-radius:50%;background:var(--nd-blue);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(13,92,155,.3);margin-top:-22px}
 }
 @media(max-width:380px){
@@ -1073,7 +1080,10 @@ var nabQuizData = {
                 <h2 class="nd-card-title">Net worth</h2>
                 <div class="nd-card-sub">What you own minus what you owe</div>
               </div>
-              <button type="button" class="nd-btn nd-btn-sm" data-nd-open="account"><?php echo nab_portal_icon( 'plus', 15 ); ?> Add account</button>
+              <div style="display:flex;gap:8px;align-items:center">
+                <?php if ( $networth_url !== '#' ) : ?><a class="nd-link" href="<?php echo esc_url( $networth_url ); ?>">Details →</a><?php endif; ?>
+                <button type="button" class="nd-btn nd-btn-sm" data-nd-open="account"><?php echo nab_portal_icon( 'plus', 15 ); ?> Add account</button>
+              </div>
             </header>
             <div class="nd-nw-top">
               <div class="nd-nw-value" id="ndNwValue">—</div>
@@ -1245,7 +1255,7 @@ var nabQuizData = {
         <div class="nab-section-heading">My Financial Journey</div>
         <div class="nab-journey-grid">
           <a href="<?php echo esc_url(nab_resolve_url(get_field('nab_link_learning', nab_get_dash_page_id()))); ?>" class="nab-journey-card">
-            <div class="nab-journey-card-icon"><?php echo nab_portal_icon( 'graduation-cap', 20 ); ?></div>
+            <div class="nab-journey-card-icon is-tile"><?php echo nab_portal_icon_tile( 'graduation-cap', 'indigo', 42 ); ?></div>
             <div class="nab-journey-card-title">Learning Center</div>
             <div class="nab-journey-card-desc">Access the 7-part credit education series</div>
           </a>
@@ -1254,22 +1264,22 @@ var nabQuizData = {
           $roadmap_dis = ( $roadmap_url === '#' );
           ?>
           <a href="<?php echo $roadmap_dis ? 'javascript:void(0)' : esc_url( $roadmap_url ); ?>" class="nab-journey-card" <?php echo $roadmap_dis ? 'style="cursor:default;opacity:.6" aria-disabled="true"' : ''; ?>>
-            <div class="nab-journey-card-icon"><?php echo nab_portal_icon( 'map', 20 ); ?></div>
+            <div class="nab-journey-card-icon is-tile"><?php echo nab_portal_icon_tile( 'map', 'purple', 42 ); ?></div>
             <div class="nab-journey-card-title">Financial Roadmap</div>
             <div class="nab-journey-card-desc"><?php echo $roadmap_dis ? 'Personalized action plan — link the Roadmap page in Dashboard settings' : esc_html( $roadmap_progress['done'] . ' of ' . $roadmap_progress['total'] . ' steps complete' ); ?></div>
           </a>
           <a href="<?php echo esc_url(nab_resolve_url(get_field('nab_link_simulator', nab_get_dash_page_id()) ?: get_page_link(get_page_by_path('score-simulator')))); ?>" class="nab-journey-card">
-            <div class="nab-journey-card-icon"><?php echo nab_portal_icon( 'trending-up', 20 ); ?></div>
+            <div class="nab-journey-card-icon is-tile"><?php echo nab_portal_icon_tile( 'trending-up', 'green', 42 ); ?></div>
             <div class="nab-journey-card-title">Credit Progress Tracker</div>
             <div class="nab-journey-card-desc">Simulate and track score improvements</div>
           </a>
           <a href="<?php echo esc_url(nab_resolve_url(get_field('nab_link_booking', nab_get_dash_page_id()))); ?>" class="nab-journey-card">
-            <div class="nab-journey-card-icon"><?php echo nab_portal_icon( 'calendar-days', 20 ); ?></div>
+            <div class="nab-journey-card-icon is-tile"><?php echo nab_portal_icon_tile( 'calendar-days', 'orange', 42 ); ?></div>
             <div class="nab-journey-card-title">Next Specialist Session</div>
             <div class="nab-journey-card-desc">Book your next credit specialist session</div>
           </a>
           <a href="#" class="nab-journey-card" style="cursor:default;opacity:.6">
-            <div class="nab-journey-card-icon"><?php echo nab_portal_icon( 'target', 20 ); ?></div>
+            <div class="nab-journey-card-icon is-tile"><?php echo nab_portal_icon_tile( 'target', 'pink', 42 ); ?></div>
             <div class="nab-journey-card-title">Goal Tracker</div>
             <div class="nab-journey-card-desc">Home, Car, Business Funding — coming soon</div>
           </a>
@@ -1291,15 +1301,20 @@ var nabQuizData = {
           ['#be185d','#fce7f3','file-pen-line','DIY Dispute Letter',  'Download ready-to-use dispute letter templates — available right here on your dashboard.',         null,          '',     'diy' ],
           ['#0f766e','#d1fae5','wallet','Monthly Budget Planner', 'Set a monthly budget for each category and see how your spending compares.', $budget_url, 'new', 'link'],
           ['#1d4ed8','#dbeafe','calendar','Payment Calendar', 'See all your bill due dates in one calendar and get reminders before payments are due.', $payments_url, 'new', 'link'],
+          ['#4f46e5','#e0e7ff','scale','Net Worth Calculator', 'Add up what you own and what you owe, and watch your net worth grow over time.', $networth_url, 'new', 'link'],
           ['#0d9488','#ccfbf1','piggy-bank','Emergency Fund Planner',  'Set a savings goal and track your progress toward financial security.',                      $link_ef,      '',     'link'],
         ];
+        // v1.13.0 gradient icon tiles: one colour per tool (same as the sidebar)
+        $card_tones = [ 'Credit Report Access' => 'blue', 'Book a Credit Specialist' => 'orange', 'Credit Dispute Center' => 'indigo', 'NAB AI Chatbot' => 'gold',
+          'Utilization Checker' => 'teal', 'Credit Score Simulator' => 'green', 'Auto Loan Matcher' => 'orange', 'Credit Card Matcher' => 'purple', 'Credit Education Blog' => 'yellow',
+          'DIY Dispute Letter' => 'pink', 'Monthly Budget Planner' => 'green', 'Payment Calendar' => 'red', 'Net Worth Calculator' => 'indigo', 'Emergency Fund Planner' => 'teal' ];
         foreach ( $cards as $c ) :
           list( $accent, $iconbg, $icon, $title, $desc, $link, $badge, $action ) = $c;
           if ( $action === 'blog' || $action === 'diy' ) : ?>
           <div class="nab-feat-card" data-tab-open="<?php echo esc_attr($action); ?>"
                style="--ncard-accent:<?php echo esc_attr($accent); ?>;--ncard-iconbg:<?php echo esc_attr($iconbg); ?>"
                role="button" tabindex="0" onkeydown="if(event.key==='Enter')nabOpenTab('<?php echo esc_attr($action); ?>')">
-            <div class="nab-card-icon"><?php echo nab_portal_icon( $icon, 20 ); ?></div>
+            <div class="nab-card-icon is-tile"><?php echo $title === 'NAB AI Chatbot' && function_exists( 'nab_portal_nabi_mark' ) ? nab_portal_nabi_mark( 42 ) : nab_portal_icon_tile( $icon, $card_tones[ $title ] ?? 'blue', 42 ); ?></div>
             <div class="nab-card-body">
               <div class="nab-card-title"><?php echo esc_html($title); ?></div>
               <div class="nab-card-desc"><?php echo esc_html($desc); ?></div>
@@ -1313,7 +1328,7 @@ var nabQuizData = {
              style="--ncard-accent:<?php echo esc_attr($accent); ?>;--ncard-iconbg:<?php echo esc_attr($iconbg); ?>"
              <?php echo $dis ? 'tabindex="-1" aria-disabled="true"' : ''; ?>>
             <?php if ($sb) : ?><span class="nab-badge nab-badge-<?php echo esc_attr($sb); ?>"><?php echo strtoupper($sb); ?></span><?php endif; ?>
-            <div class="nab-card-icon"><?php echo nab_portal_icon( $icon, 20 ); ?></div>
+            <div class="nab-card-icon is-tile"><?php echo $title === 'NAB AI Chatbot' && function_exists( 'nab_portal_nabi_mark' ) ? nab_portal_nabi_mark( 42 ) : nab_portal_icon_tile( $icon, $card_tones[ $title ] ?? 'blue', 42 ); ?></div>
             <div class="nab-card-body">
               <div class="nab-card-title"><?php echo esc_html($title); ?></div>
               <div class="nab-card-desc"><?php echo esc_html($desc); ?></div>
@@ -1752,10 +1767,10 @@ var nabQuizData = {
       <div class="nd-pane" data-pane="quick" data-title="What would you like to add?">
         <div class="nd-quick">
           <?php if ( $can_self_score ) : ?>
-          <button type="button" data-nd-open="score"><span><?php echo nab_portal_icon( 'chart-line', 20 ); ?></span><b>Credit score</b><small>Log today's or a past score</small></button>
+          <button type="button" data-nd-open="score"><span class="is-tile"><?php echo nab_portal_icon_tile( 'chart-line', 'green', 44 ); ?></span><b>Credit score</b><small>Log today's or a past score</small></button>
           <?php endif; ?>
-          <button type="button" data-nd-open="cashflow"><span><?php echo nab_portal_icon( 'banknote', 20 ); ?></span><b>Monthly income &amp; expenses</b><small>Powers Cash Flow and Spending</small></button>
-          <button type="button" data-nd-open="account"><span><?php echo nab_portal_icon( 'landmark', 20 ); ?></span><b>Account or debt</b><small>Powers your Net Worth</small></button>
+          <button type="button" data-nd-open="cashflow"><span class="is-tile"><?php echo nab_portal_icon_tile( 'banknote', 'blue', 44 ); ?></span><b>Monthly income &amp; expenses</b><small>Powers Cash Flow and Spending</small></button>
+          <button type="button" data-nd-open="account"><span class="is-tile"><?php echo nab_portal_icon_tile( 'landmark', 'indigo', 44 ); ?></span><b>Account or debt</b><small>Powers your Net Worth</small></button>
         </div>
       </div>
 
@@ -1834,7 +1849,7 @@ var nabQuizData = {
   <button type="button" class="nd-bn-add" data-nd-open="quick" aria-label="Add data"><span><?php echo nab_portal_icon( 'plus', 24 ); ?></span></button>
   <?php $nd_ai_widget = function_exists( 'nab_portal_ai_widget_enabled' ) && nab_portal_ai_widget_enabled(); ?>
   <?php if ( $nav_links['chatbot'] !== '#' || $nd_ai_widget ) : ?>
-  <a href="<?php echo esc_url( $nav_links['chatbot'] !== '#' ? $nav_links['chatbot'] : '#' ); ?>" data-aiw-open><span><?php echo nab_portal_icon( 'message-square-text', 22 ); ?></span>Ask AI</a>
+  <a href="<?php echo esc_url( $nav_links['chatbot'] !== '#' ? $nav_links['chatbot'] : '#' ); ?>" data-aiw-open class="nd-bn-nabi"><span><?php echo nab_portal_nabi_mark( 24 ); ?></span><span class="nab-nabi-word">NAB<i>i</i></span></a>
   <?php else : ?>
   <button type="button" data-tab-open="profile"><span><?php echo nab_portal_icon( 'user', 22 ); ?></span>Profile</button>
   <?php endif; ?>
@@ -1844,6 +1859,7 @@ var nabQuizData = {
 <?php
 $nd_js_icons = [ 'house','briefcase','landmark','chart-line','car','credit-card','receipt','file-text','play' ];
 foreach ( nab_portal_nav_sections() as $sec ) foreach ( $sec['items'] as $it ) $nd_js_icons[] = $it['icon'];
+foreach ( nab_dash_account_types() as $ty ) $nd_js_icons[] = $ty['icon']; // v1.13.0 account tiles
 nab_portal_print_icons_js( array_unique( $nd_js_icons ) );
 ?>
 <script>
