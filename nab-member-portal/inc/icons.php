@@ -170,10 +170,6 @@ function nab_portal_tile_css() {
         . '.nab-nabi-n{fill:none;stroke:#fff;stroke-width:4.4;stroke-linecap:round;stroke-linejoin:round}'
         . '.nab-nabi-spark{fill:#F0CF7A}'
         . '.nab-nabi-word i{font-style:normal;color:#E9C46A}'
-        // sidebar: tiles sit on the dark blue menu, so they get a fine light ring
-        . '.nab-nav-item .nab-nav-tile{margin-right:3px;box-shadow:inset 0 1px 0 rgba(255,255,255,.38),0 0 0 1px rgba(255,255,255,.14),0 2px 6px rgba(0,0,0,.18)}'
-        . '.nab-nav-item .nab-nav-tile .nab-i{opacity:1}'
-        . '.nab-nav-item .nab-nabi{margin-right:3px;box-shadow:inset 0 0 0 1.25px rgba(236,200,112,.9),0 0 0 1px rgba(255,255,255,.14),0 2px 6px rgba(0,0,0,.25)}'
         . '</style>';
 }
 add_action( 'wp_head', function() {
