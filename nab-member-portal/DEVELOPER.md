@@ -74,45 +74,54 @@ Example: a "Loan Calculator" page.
 
 ## Roadmap — where each planned tool plugs in
 
+This is the full list the client has asked for, in the order it will be built, with the agreed estimates. Working through it in order comes to about 8–9 weeks. It can take longer if the team adds changes or new requirements along the way. When an item ships, mark it **Done in vX.Y.Z** and list its files.
+
+**Phase 1 — Landing page & dashboard**
+
+| # | Item | Estimate | Plan / status |
+|---|---|---|---|
+| 1 | Landing page (design finalised) — coding/implementation | 2–3 days | `templates/page-nab-home.php`. Design is finalised; check the current template against it before building. |
+| 2 | Visual dashboard with charts and manual entry forms (reference: monarch.com) | 5–7 days | **Done in v1.9.0** (design refreshed in v1.9.1). `templates/page-nab-dashboard.php`, `inc/dashboard-data.php`, `assets/js/nab-dashboard*.js`. |
+
 **Phase 2 — New member tools**
 
-| # | Tool | Plan |
-|---|---|---|
-| 3 | Monthly Budget Planner | **Done in v1.10.0.** `templates/page-nab-budget.php`, `inc/budget.php`, `assets/js/nab-budget.js`. Budget in `nab_budget`; actual spending is the dashboard's `nab_cashflow`, saved through `nab_dash_cashflow_save`, so both pages always agree. Needs a page using the "NAB Monthly Budget Planner" template. |
-| 4 | Payment Calendar | **Done in v1.11.0.** `templates/page-nab-payments.php`, `inc/payments.php`, `assets/js/nab-payments.js`. Bills in `nab_bills` (name, amount, frequency, first due date, category, autopay); paid dates in `nab_bill_paid`. Due-date rules live in both `nab_cal_bill_dates()` (PHP) and `nabPayDates()` (JS), so change them together. Bell reminders for unpaid bills due within 3 days or overdue (`nab_cal_send_reminders()`, once a day per member). #13 and #16 can reuse `nab_cal_bill_dates()`. Needs a page using the "NAB Payment Calendar" template. |
-| 5 | Net Worth Calculator | **Done in v1.13.0.** `templates/page-nab-networth.php`, `assets/js/nab-networth.js`. No new data: it uses the dashboard's `nab_accounts` and `nab_networth_history` through the same AJAX actions (`nab_dash_account_save` / `_delete`), so the page and the dashboard card always agree. Needs a page using the "NAB Net Worth Calculator" template. |
-| 6 | Loan Calculator | New tool. Calculations in the browser; saving is optional. |
-| 7 | Collection Assistance page | New page. Reuse the Freshdesk ticket AJAX (`nab_freshdesk_submit`) with its own ticket category. |
+| # | Tool | Estimate | Plan / status |
+|---|---|---|---|
+| 3 | Monthly Budget Planner | 4–5 days | **Done in v1.10.0.** `templates/page-nab-budget.php`, `inc/budget.php`, `assets/js/nab-budget.js`. Budget in `nab_budget`; actual spending is the dashboard's `nab_cashflow`, saved through `nab_dash_cashflow_save`, so both pages always agree. Needs a page using the "NAB Monthly Budget Planner" template. |
+| 4 | Payment Calendar | 3–4 days | **Done in v1.11.0.** `templates/page-nab-payments.php`, `inc/payments.php`, `assets/js/nab-payments.js`. Bills in `nab_bills` (name, amount, frequency, first due date, category, autopay); paid dates in `nab_bill_paid`. Due-date rules live in both `nab_cal_bill_dates()` (PHP) and `nabPayDates()` (JS), so change them together. Bell reminders for unpaid bills due within 3 days or overdue (`nab_cal_send_reminders()`, once a day per member). #13 and #16 can reuse `nab_cal_bill_dates()`. Needs a page using the "NAB Payment Calendar" template. |
+| 5 | Net Worth Calculator | 2–3 days | **Done in v1.13.0.** `templates/page-nab-networth.php`, `assets/js/nab-networth.js`. No new data: it uses the dashboard's `nab_accounts` and `nab_networth_history` through the same AJAX actions (`nab_dash_account_save` / `_delete`), so the page and the dashboard card always agree. Needs a page using the "NAB Net Worth Calculator" template. |
+| 6 | Loan Calculator | 2–3 days | **Next.** New tool. Calculations in the browser; saving is optional. |
+| 7 | Collection Assistance support page | 2 days | New page. Reuse the Freshdesk ticket AJAX (`nab_freshdesk_submit`) with its own ticket category. |
 
-**Phase 3 — Structure & gamification**
+**Phase 3 — Portal structure & gamification**
 
-| # | Item | Plan |
-|---|---|---|
-| 8 | Sidebar categories | Edit `nab_portal_nav_sections()` only — rename/regroup into Loan Tools, Credit Tools, Money Management, Learning Hub, Member Support, My Progress. No template changes needed. |
-| 9 | Progressive unlock | Add an `unlock` rule to nav items/tools (e.g. `[ 'level' => 'silver' ]`). Add `nab_tool_is_unlocked( $uid, $key )` in `tools.php`; the sidebar shows a lock icon, and the template redirects when the tool is locked. |
-| 10 | Badges, XP, levels | **Partly exists:** `nab_points`, `nab_level`, `nab_streak` (updated in `nab_complete_module`). Move that into `inc/gamification.php` with one `nab_award_xp( $uid, $action )`, and call it from the existing saves (score logged, month added, module done). |
+| # | Item | Estimate | Plan / status |
+|---|---|---|---|
+| 8 | Sidebar restructuring into the new category layout | 3–4 days | Edit `nab_portal_nav_sections()` only — rename/regroup into Loan Tools, Credit Tools, Money Management, Learning Hub, Member Support, My Progress. No template changes needed. |
+| 9 | Progressive feature unlock for the new tools | 3–4 days | Add an `unlock` rule to nav items/tools (e.g. `[ 'level' => 'silver' ]`). Add `nab_tool_is_unlocked( $uid, $key )` in `tools.php`; the sidebar shows a lock icon, and the template redirects when the tool is locked. |
+| 10 | Badges, XP and levels system | 5–6 days | **Partly exists:** `nab_points`, `nab_level`, `nab_streak` (updated in `nab_complete_module`). Move that into `inc/gamification.php` with one `nab_award_xp( $uid, $action )`, and call it from the existing saves (score logged, month added, module done). |
 
 **Phase 4 — Additional tools**
 
-| # | Tool | Plan |
-|---|---|---|
-| 11 | Debt Snowball vs Avalanche | Reuse the debts in `nab_accounts`; add interest rate and minimum payment fields to the account form. |
-| 12 | RRSP/TFSA Contribution Tracker | New tool. `nab_contributions` per year; can link to `investment` accounts. |
-| 13 | Grace Period Reminder | Statement/due dates on `credit_card` accounts. A daily cron sends reminders through `nab_add_auto_notification()` (and SMS once #16 exists). Note: `nab_mp_daily_check` is already scheduled daily but nothing is attached to it yet, so the reminder handler can hook onto it. |
-| 14 | Credit Bureau Comparison | Content page (Equifax vs TransUnion). No data. |
+| # | Tool | Estimate | Plan / status |
+|---|---|---|---|
+| 11 | Debt Snowball vs Avalanche Calculator | 3 days | Reuse the debts in `nab_accounts`; add interest rate and minimum payment fields to the account form. |
+| 12 | RRSP/TFSA Contribution Tracker | 3 days | New tool. `nab_contributions` per year; can link to `investment` accounts. |
+| 13 | Credit Card Grace Period Reminder | 2 days | Statement/due dates on `credit_card` accounts. A daily cron sends reminders through `nab_add_auto_notification()` (and SMS once #16 exists). Note: `nab_mp_daily_check` is already scheduled daily but nothing is attached to it yet, so the reminder handler can hook onto it. |
+| 14 | Credit Bureau Comparison Explainer | 2 days | Content page (Equifax vs TransUnion). No data. |
 
-**Phase 5 — Integrations**
+**Phase 5 — API integrations**
 
-| # | Item | Plan |
-|---|---|---|
-| 15 | Statistics Canada benchmark | `inc/integrations/statcan.php`. Fetch on the server, cache in a transient (daily), then compare with the member's `nab_cashflow` categories. |
-| 16 | Twilio SMS | `inc/integrations/twilio.php`. Credentials as `NAB_TWILIO_*` constants in `wp-config.php`; opt-in and phone number stored per member (`nab_sms_optin`, existing `nab_phone`). Used by #4 and #13. |
+| # | Item | Estimate | Plan / status |
+|---|---|---|---|
+| 15 | Statistics Canada Cost of Living Benchmark | 3 days | `inc/integrations/statcan.php`. Fetch on the server, cache in a transient (daily), then compare with the member's `nab_cashflow` categories. |
+| 16 | SMS Reminders via Twilio | 3–4 days | `inc/integrations/twilio.php`. Credentials as `NAB_TWILIO_*` constants in `wp-config.php`; opt-in and phone number stored per member (`nab_sms_optin`, existing `nab_phone`). Used by #4 and #13. |
 
-**Phase 6 — Branding**
+**Phase 6 — Branding & polish**
 
-| # | Item | Plan |
-|---|---|---|
-| 17 | Portal-wide colours | The dashboard already uses CSS variables (`--nd-*`). Move the shared CSS in `nab_portal_head_css()` to the same variables, so the landing-page palette is a one-place change. |
+| # | Item | Estimate | Plan / status |
+|---|---|---|---|
+| 17 | Updated colour palette across the portal to match the landing page | 2–3 days | The dashboard already uses CSS variables (`--nd-*`). Move the shared CSS in `nab_portal_head_css()` to the same variables, so the landing-page palette is a one-place change. |
 
 ## Known issues (not yet fixed — need a decision)
 
