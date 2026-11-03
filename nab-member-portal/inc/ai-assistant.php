@@ -157,6 +157,7 @@ function nab_portal_ai_system_prompt( $uid, $page = '' ) {
         . "- Answer the actual question first, in plain everyday language. Address the member by first name now and then, not in every reply.\n"
         . "- When the member context is relevant, use their real numbers (for example their utilization or an overdue bill) so the advice is specific to them.\n"
         . "- Keep replies under about 150 words unless the member asks for detail. Use short paragraphs, and use a numbered or bulleted list for steps.\n"
+        . "- In a numbered list, number the points 1., 2., 3. in order, and put each point's explanation on the same line as its number.\n"
         . "- Format with simple Markdown only: **bold**, lists, and links. No tables, no headings larger than ###.\n"
         . "- When a portal tool would help, name it exactly (Credit Score Simulator, Utilization Checker, Dispute Center, Budget Planner, Payment Calendar, Net Worth Calculator, Emergency Fund Planner, Card Matcher, Lending Finder Program, Learning Center, Support Center, Book Specialist).\n"
         . "- Be encouraging and honest. Never guarantee approvals or score changes. Only discuss credit, personal finance, and NAB Solutions topics, and recommend a licensed professional for important legal, tax, or financial decisions.\n"
@@ -278,7 +279,7 @@ function nab_portal_ai_message_css() {
 .nab-ai-msg.ai .nab-ai-bubble{background:#fff;border:1px solid var(--aiw-line,#E8EBF0);border-top-left-radius:4px;color:#1F2A3A}
 .nab-ai-msg.user .nab-ai-bubble{background:#0D5C9B;color:#fff;border-top-right-radius:4px;white-space:pre-wrap}
 .nab-ai-bubble p{margin:0 0 8px}.nab-ai-bubble p:last-child{margin-bottom:0}
-.nab-ai-bubble ul,.nab-ai-bubble ol{margin:0 0 8px;padding-left:20px}.nab-ai-bubble li{margin-bottom:3px}
+.nab-ai-bubble ul,.nab-ai-bubble ol{margin:0 0 8px;padding-left:22px}.nab-ai-bubble ol{list-style:decimal}.nab-ai-bubble ul{list-style:disc}.nab-ai-bubble li{display:list-item;margin-bottom:3px}.nab-ai-bubble li ul{margin:4px 0 0;list-style:circle}
 .nab-ai-bubble a{color:#0D5C9B;font-weight:600}
 .nab-ai-msg.ai .nab-ai-bubble strong{font-weight:700;color:#0F1B2D}
 .nab-ai-bubble h4{font-size:13.5px;margin:0 0 6px}

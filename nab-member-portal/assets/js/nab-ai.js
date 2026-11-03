@@ -40,32 +40,51 @@ function inline(s){
     .replace(/(^|[\s(])((?:https?:\/\/)[^\s<)]+)/g, function(m, pre, u){ return pre + '<a href="' + u + '" target="_blank" rel="noopener noreferrer">' + u + '</a>'; })
     .replace(/(^|[\s(])([\w.+-]+@[\w-]+\.[\w.-]+\w)/g, '$1<a href="mailto:$2">$2</a>');
 }
+var MD_NUM = /^(\d+)[.)]\s+(.*)$/, MD_DOT = /^[-*•]\s+(.*)$/;
+function itemTag(line){ var t = line.trim(); return MD_NUM.test(t) ? 'ol' : MD_DOT.test(t) ? 'ul' : ''; }
+/** True when the paragraph starting at line i is followed (after blank lines) by another item of the same list. */
+function continuesList(lines, i, tag){
+  var j = i;
+  while(j < lines.length && lines[j].trim() !== '' && !itemTag(lines[j])) j++;
+  while(j < lines.length && lines[j].trim() === '') j++;
+  return j < lines.length && itemTag(lines[j]) === tag;
+}
 function md(text){
   var out = [], list = null, para = [], prevItem = false;
+  var lines = String(text || '').replace(/\r/g, '').split('\n');
   function flushPara(){ if(para.length){ out.push('<p>' + para.map(inline).join('<br>') + '</p>'); para = []; } }
   function flushList(){
     if(!list) return;
     // start= keeps the numbering right when a list is split ("3." after a paragraph shows 3, not 1)
     var open = list.tag === 'ol' && list.start > 1 ? '<ol start="' + list.start + '">' : '<' + list.tag + '>';
-    out.push(open + list.items.map(function(i){ return '<li>' + i.map(inline).join('<br>') + '</li>'; }).join('') + '</' + list.tag + '>');
+    out.push(open + list.items.map(function(i){
+      return '<li>' + i.lines.map(inline).join('<br>') + (i.sub.length ? '<ul>' + i.sub.map(function(x){ return '<li>' + inline(x) + '</li>'; }).join('') + '</ul>' : '') + '</li>';
+    }).join('') + '</' + list.tag + '>');
     list = null;
   }
-  String(text || '').replace(/\r/g, '').split('\n').forEach(function(line){
+  lines.forEach(function(line, idx){
     var t = line.trim(), m;
     // a blank line ends a paragraph but not a list: replies often put a blank line between numbered points
     if(!t){ flushPara(); prevItem = false; return; }
     if((m = t.match(/^#{1,6}\s+(.*)$/))){ flushPara(); flushList(); out.push('<h4>' + inline(m[1]) + '</h4>'); prevItem = false; return; }
-    var num = t.match(/^(\d+)[.)]\s+(.*)$/), dot = t.match(/^[-*•]\s+(.*)$/);
+    var num = t.match(MD_NUM), dot = t.match(MD_DOT);
+    // an indented bullet under a numbered point is a sub-point of that point
+    if(dot && list && list.tag === 'ol' && /^\s{2,}/.test(line)){ list.items[list.items.length - 1].sub.push(dot[1]); prevItem = true; return; }
     if(num || dot){
       var tag = num ? 'ol' : 'ul';
       flushPara();
       if(!list || list.tag !== tag){ flushList(); list = { tag:tag, items:[], start: num ? parseInt(num[1], 10) || 1 : 1 }; }
-      list.items.push([ num ? num[2] : dot[1] ]);
+      list.items.push({ lines:[ num ? num[2] : dot[1] ], sub:[] });
       prevItem = true;
       return;
     }
-    // an indented line, or a line straight after an item, belongs to that item
-    if(list && (prevItem || /^\s{2,}/.test(line))){ list.items[list.items.length - 1].push(t); return; }
+    // a line that belongs to the item above it: right after the item, indented, or an
+    // explanation paragraph between two points of the same list ("1. Title / text / 1. Title")
+    if(list && (prevItem || /^\s{2,}/.test(line) || continuesList(lines, idx, list.tag))){
+      list.items[list.items.length - 1].lines.push(t);
+      prevItem = true;
+      return;
+    }
     flushList(); para.push(t); prevItem = false;
   });
   flushPara(); flushList();
