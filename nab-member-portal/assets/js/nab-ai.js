@@ -41,13 +41,13 @@ function inline(s){
     .replace(/(^|[\s(])([\w.+-]+@[\w-]+\.[\w.-]+\w)/g, '$1<a href="mailto:$2">$2</a>');
 }
 var MD_NUM = /^(\d+)[.)]\s+(.*)$/, MD_DOT = /^[-*•]\s+(.*)$/;
-function itemTag(line){ var t = line.trim(); return MD_NUM.test(t) ? 'ol' : MD_DOT.test(t) ? 'ul' : ''; }
-/** True when the paragraph starting at line i is followed (after blank lines) by another item of the same list. */
-function continuesList(lines, i, tag){
+/** Number of the numbered item that comes next after the paragraph at line i (skipping blank lines), or 0. */
+function nextNumber(lines, i){
   var j = i;
-  while(j < lines.length && lines[j].trim() !== '' && !itemTag(lines[j])) j++;
+  while(j < lines.length && lines[j].trim() !== '' && !MD_NUM.test(lines[j].trim()) && !MD_DOT.test(lines[j].trim())) j++;
   while(j < lines.length && lines[j].trim() === '') j++;
-  return j < lines.length && itemTag(lines[j]) === tag;
+  var m = j < lines.length ? lines[j].trim().match(MD_NUM) : null;
+  return m ? parseInt(m[1], 10) : 0;
 }
 function md(text){
   var out = [], list = null, para = [], prevItem = false;
@@ -62,25 +62,40 @@ function md(text){
     }).join('') + '</' + list.tag + '>');
     list = null;
   }
+  /* Text between two numbered points belongs to the point above it when the next point carries
+     on the count (1. … text … 2.) or the reply numbers every point "1." (1. … text … 1.).
+     A list that starts again at 1 after other text stays a new list. */
+  function explainsPoint(idx){
+    if(!list || list.tag !== 'ol') return false;
+    var n = nextNumber(lines, idx), last = list.nums[list.nums.length - 1];
+    if(n > 0) return n === last + 1 || (n === last && list.nums.every(function(x){ return x === n; }));
+    // after the last point: its explanation, when every earlier point had one and this one doesn't
+    // yet, and more text follows (a reply's last line is its closing, not part of the list)
+    var items = list.items, done = items.slice(0, -1), j = idx;
+    while(j < lines.length && lines[j].trim() !== '') j++;
+    while(j < lines.length && lines[j].trim() === '') j++;
+    return j < lines.length && done.length > 0 && items[items.length - 1].lines.length === 1 && done.every(function(i){ return i.lines.length > 1; });
+  }
   lines.forEach(function(line, idx){
     var t = line.trim(), m;
     // a blank line ends a paragraph but not a list: replies often put a blank line between numbered points
     if(!t){ flushPara(); prevItem = false; return; }
     if((m = t.match(/^#{1,6}\s+(.*)$/))){ flushPara(); flushList(); out.push('<h4>' + inline(m[1]) + '</h4>'); prevItem = false; return; }
-    var num = t.match(MD_NUM), dot = t.match(MD_DOT);
+    var num = t.match(MD_NUM), dot = t.match(MD_DOT), indented = /^\s{2,}/.test(line);
     // an indented bullet under a numbered point is a sub-point of that point
-    if(dot && list && list.tag === 'ol' && /^\s{2,}/.test(line)){ list.items[list.items.length - 1].sub.push(dot[1]); prevItem = true; return; }
+    if(dot && indented && list && list.tag === 'ol'){ list.items[list.items.length - 1].sub.push(dot[1]); prevItem = true; return; }
     if(num || dot){
-      var tag = num ? 'ol' : 'ul';
+      var tag = num ? 'ol' : 'ul', n = num ? parseInt(num[1], 10) || 1 : 1;
       flushPara();
-      if(!list || list.tag !== tag){ flushList(); list = { tag:tag, items:[], start: num ? parseInt(num[1], 10) || 1 : 1 }; }
+      if(!list || list.tag !== tag){ flushList(); list = { tag:tag, items:[], nums:[], start:n }; }
       list.items.push({ lines:[ num ? num[2] : dot[1] ], sub:[] });
+      list.nums.push(n);
       prevItem = true;
       return;
     }
-    // a line that belongs to the item above it: right after the item, indented, or an
-    // explanation paragraph between two points of the same list ("1. Title / text / 1. Title")
-    if(list && (prevItem || /^\s{2,}/.test(line) || continuesList(lines, idx, list.tag))){
+    // a line that belongs to the item above it: indented, straight after a numbered point
+    // ("1. **Title**" then its explanation), or text between two points of the same list
+    if(list && (indented || (prevItem && list.tag === 'ol') || explainsPoint(idx))){
       list.items[list.items.length - 1].lines.push(t);
       prevItem = true;
       return;

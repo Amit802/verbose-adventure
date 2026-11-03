@@ -496,7 +496,7 @@ function nab_dispute_send_reminders( $uid ) {
         $bureau = $bureaus[ $l['bureau'] ]['name'] ?? 'the bureau';
         $what   = $types[ $l['type'] ]['label'] ?? 'dispute';
         nab_add_auto_notification( $uid, 'dispute', 'Any reply from ' . $bureau . ' about your ' . strtolower( $what ) . ' letter?',
-            'You submitted it on ' . nab_dispute_fmt_date( $l['sent'] ) . '. Bureaus usually reply within about 30 days. Mark it as answered in the Dispute Center when you hear back, or contact ' . $bureau . ' to check on it.', 30 * DAY_IN_SECONDS );
+            'You submitted it on ' . nab_dispute_fmt_date( $l['sent'] ) . '. Bureaus usually reply within about 30 days. Click "I got a reply" on the letter in the Dispute Center when you hear back, or contact ' . $bureau . ' to check on it.', 30 * DAY_IN_SECONDS );
         $letters[ $i ]['reminded'] = true;
         $changed = true;
     }
@@ -517,8 +517,9 @@ function nab_dispute_ajax_uid() {
     return $uid;
 }
 
+/** One text value from the request (arrays and other odd input count as empty). */
 function nab_dispute_clean( $v, $len ) {
-    return mb_substr( sanitize_text_field( wp_unslash( (string) $v ) ), 0, $len );
+    return is_scalar( $v ) ? mb_substr( sanitize_text_field( wp_unslash( (string) $v ) ), 0, $len ) : '';
 }
 
 add_action( 'wp_ajax_nab_dispute_save', function() {
@@ -547,11 +548,12 @@ add_action( 'wp_ajax_nab_dispute_save', function() {
         if ( $fd['type'] === 'rows' ) {
             $rows = [];
             foreach ( array_slice( (array) ( $in[ $k ] ?? [] ), 0, $fd['max'] ) as $r ) {
+                if ( ! is_array( $r ) ) continue;
                 $row = [];
                 foreach ( $fd['cols'] as $c ) {
                     $val = $r[ $c['key'] ] ?? '';
                     $row[ $c['key'] ] = ( $c['type'] ?? '' ) === 'date'
-                        ? ( nab_dispute_valid_date( $val ) ? $val : '' )
+                        ? ( nab_dispute_valid_date( $val ) ? $val : '' ) // checks the type and the format
                         : nab_dispute_clean( $val, ! empty( $c['long'] ) ? 300 : 120 );
                 }
                 if ( $row[ $fd['cols'][0]['key'] ] !== '' ) $rows[] = $row;
@@ -562,10 +564,10 @@ add_action( 'wp_ajax_nab_dispute_save', function() {
         }
         $raw = $in[ $k ] ?? '';
         if ( $fd['type'] === 'date' ) {
-            $val = sanitize_text_field( wp_unslash( (string) $raw ) );
+            $val = nab_dispute_clean( $raw, 10 );
             if ( ! nab_dispute_valid_date( $val ) ) $val = '';
         } elseif ( $fd['type'] === 'textarea' ) {
-            $val = mb_substr( sanitize_textarea_field( wp_unslash( (string) $raw ) ), 0, 600 );
+            $val = is_scalar( $raw ) ? mb_substr( sanitize_textarea_field( wp_unslash( (string) $raw ) ), 0, 600 ) : '';
         } else {
             $val = nab_dispute_clean( $raw, 120 );
         }
@@ -618,7 +620,7 @@ add_action( 'wp_ajax_nab_dispute_status', function() {
     }
     if ( ! $found ) wp_send_json_error( [ 'message' => 'That letter could not be found.' ] );
     update_user_meta( $uid, 'nab_dispute_letters', wp_json_encode( array_values( $letters ) ) );
-    $msg = [ 'created' => 'Marked as not sent yet.', 'sent' => 'Marked as sent. We\'ll remind you if you haven\'t heard back in 30 days.', 'response' => 'Marked as answered.' ];
+    $msg = [ 'created' => 'Marked as not sent yet.', 'sent' => 'Marked as submitted. We\'ll remind you if you haven\'t heard back in 30 days.', 'response' => 'Marked as answered.' ];
     wp_send_json_success( [ 'message' => $msg[ $status ], 'data' => nab_dispute_page_data( $uid ) ] );
 } );
 
@@ -644,6 +646,7 @@ add_action( 'wp_ajax_nab_dispute_pdf', function() {
     $pdf    = nab_dispute_pdf( nab_dispute_letter_blocks( $letter ), $type . ' – ' . $bureau );
     $file   = 'Dispute-Letter-' . str_replace( ' ', '-', $bureau ) . '-' . $letter['created'] . '.pdf';
 
+    while ( ob_get_level() ) ob_end_clean(); // stray output from other code would corrupt the file
     nocache_headers();
     header( 'Content-Type: application/pdf' );
     header( 'Content-Disposition: ' . ( ! empty( $_GET['view'] ) ? 'inline' : 'attachment' ) . '; filename="' . $file . '"' );
