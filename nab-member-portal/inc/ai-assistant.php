@@ -128,6 +128,18 @@ function nab_portal_ai_member_context( $uid ) {
         }
         if ( $due ) $lines[] = 'Unpaid bills (overdue or due in the next 14 days): ' . implode( '; ', array_slice( $due, 0, 8 ) );
     }
+
+    // Dispute letters (Dispute Center) — type, bureau and status only
+    if ( function_exists( 'nab_dispute_get_letters' ) && ( $letters = nab_dispute_get_letters( $uid ) ) ) {
+        $types   = nab_dispute_types();
+        $bureaus = nab_dispute_bureaus();
+        $states  = [ 'created' => 'created, not submitted yet', 'sent' => 'submitted, waiting for a reply', 'response' => 'bureau has replied' ];
+        $list    = [];
+        foreach ( array_slice( array_reverse( $letters ), 0, 6 ) as $l ) {
+            $list[] = ( $types[ $l['type'] ]['label'] ?? 'Dispute' ) . ' to ' . ( $bureaus[ $l['bureau'] ]['name'] ?? 'a bureau' ) . ' (' . ( $states[ $l['status'] ?? '' ] ?? 'created' ) . ( ! empty( $l['sent'] ) ? ', submitted ' . $l['sent'] : '' ) . ')';
+        }
+        $lines[] = 'Dispute letters: ' . implode( '; ', $list );
+    }
     return implode( "\n", $lines );
 }
 

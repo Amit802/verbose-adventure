@@ -88,7 +88,7 @@ function nab_portal_nav_sections() {
             [ 'key' => 'report',  'label' => 'Credit Report Access', 'icon' => 'file-text', 'tone' => 'blue',    'desc' => 'Access your Equifax, TransUnion, Borrowell or Credit Karma report', 'keywords' => 'credit report equifax transunion borrowell' ],
             [ 'key' => 'util',    'label' => 'Utilization Checker',  'icon' => 'gauge', 'tone' => 'teal',        'desc' => 'See how much of your credit you are using',  'keywords' => 'utilization checker credit usage cards' ],
             [ 'key' => 'sim',     'label' => 'Score Simulator',      'icon' => 'trending-up', 'tone' => 'green',  'desc' => 'Simulate what-if scenarios for your score',  'keywords' => 'score simulator credit score what if' ],
-            [ 'key' => 'dispute', 'label' => 'Dispute Center',       'icon' => 'shield-check', 'tone' => 'indigo', 'desc' => 'Submit a credit dispute and track your case', 'keywords' => 'dispute center credit error' ],
+            [ 'key' => 'dispute', 'label' => 'Dispute Center',       'icon' => 'shield-check', 'tone' => 'indigo', 'desc' => 'Create a dispute letter for Equifax or TransUnion', 'keywords' => 'dispute center credit error letter equifax transunion' ],
         ] ],
         'services' => [ 'label' => 'Services', 'items' => [
             [ 'key' => 'booking', 'label' => 'Book Specialist', 'icon' => 'calendar-days', 'tone' => 'orange',       'desc' => 'Schedule a 1-on-1 session with a credit advisor', 'keywords' => 'book specialist appointment advisor session' ],

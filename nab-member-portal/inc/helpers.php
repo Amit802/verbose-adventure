@@ -1038,7 +1038,7 @@ Some members simply need a friendly, guided tour of what they're paying for. Use
 • Financial Roadmap: A personalized plan showing the steps to strengthen your financial profile over time.
 • Credit Repair Guide: Step-by-step guidance for addressing issues that may be affecting your credit score.
 • Dispute Letter Template Kit: Ready-to-use templates for disputing inaccurate items on your credit report.
-• Dispute Center: A dedicated space to track and manage any disputes you've filed.
+• Dispute Center: Creates the member's dispute letter for Equifax or TransUnion from a short form. The member downloads the PDF and submits it on the bureau's website themselves (NAB does not send it), then tracks it under My Letters.
 • Utilization Checker: Shows how much of your available credit you're using, and how it's affecting your score.
 • Score Simulator: Lets you model how different actions (like paying down a balance) could impact your credit score.
 • Talk With a Credit Specialist Advisor: Direct, 24/7 access to a human expert who can walk you through any tool or question.

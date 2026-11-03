@@ -55,6 +55,10 @@ function nab_enqueue_portal_js() {
     if ( $slug === 'nab-payments' ) {
         wp_enqueue_script( 'nab-payments', NAB_URL . 'assets/js/nab-payments.js', [ 'jquery' ], NAB_VERSION, true );
     }
+    // v1.14.0 Dispute Letter Builder
+    if ( $slug === 'nab-dispute-center' ) {
+        wp_enqueue_script( 'nab-disputes', NAB_URL . 'assets/js/nab-disputes.js', [ 'jquery' ], NAB_VERSION, true );
+    }
     // v1.13.0 Net Worth Calculator (Chart.js bundled locally, same copy as the dashboard)
     if ( $slug === 'nab-networth' ) {
         wp_enqueue_script( 'nab-chartjs', NAB_URL . 'assets/js/vendor/chart.umd.min.js', [], '4.5.1', true );

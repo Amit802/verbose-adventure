@@ -332,15 +332,13 @@ function nab_register_all_acf_fields() {
         'position' => 'normal',
         'fields'   => [
             [ 'key'=>'f_dc_t1', 'label'=>'Page Text', 'name'=>'', 'type'=>'tab', 'placement'=>'left', 'endpoint'=>0 ],
-            [ 'key'=>'f_dc_disclosure',   'label'=>'Top Disclosure',      'name'=>'dc_disclosure',
+            [ 'key'=>'f_dc_letter_notice', 'label'=>'Top Notice',          'name'=>'dc_letter_notice',
               'type'=>'textarea', 'rows'=>4,
-              'default_value'=>'We assist you in preparing dispute information but we are not a credit bureau, lender, or law firm. You may dispute information on your credit report directly with the credit bureaus at no cost. Submitting this form does not guarantee any specific outcome.' ],
-            [ 'key'=>'f_dc_response',     'label'=>'Response Time Note',  'name'=>'dc_response_time',
-              'type'=>'textarea', 'rows'=>3,
-              'default_value'=>'We will review your submission and respond within 5–7 business days. This does not control how quickly credit bureaus update your report.' ],
-            [ 'key'=>'f_dc_bureau_note',  'label'=>'Bureau Timeline Note','name'=>'dc_bureau_note',
-              'type'=>'textarea', 'rows'=>2,
-              'default_value'=>'Credit bureaus generally have up to 30 days to investigate disputes submitted directly to them.' ],
+              'instructions'=>'Shown at the top of the Dispute Center. Leave empty to use the built-in notice (NAB prepares the letter, the member sends it).' ],
+            [ 'key'=>'f_dc_equifax_url',    'label'=>'Equifax online dispute page',    'name'=>'dc_equifax_url',
+              'type'=>'url', 'instructions'=>'Where members submit their letter. Leave empty to use the default: https://www.consumer.equifax.ca/personal/dispute-credit-report' ],
+            [ 'key'=>'f_dc_transunion_url', 'label'=>'TransUnion online dispute page', 'name'=>'dc_transunion_url',
+              'type'=>'url', 'instructions'=>'Leave empty to use the default: https://www.transunion.ca/assistance/credit-report-disputes' ],
         ],
     ] );
 
@@ -413,21 +411,6 @@ function nab_register_all_acf_fields() {
         ],
     ] );
 
-    /* ════════════════════════════════════════════════════════════
-       GROUP 8 — DISPUTE STATUS (shown on User edit screen in WP Admin)
-       Admin fills these in to update a member's dispute status.
-    ════════════════════════════════════════════════════════════ */
-    acf_add_local_field_group( [
-        'key'      => 'group_nab_dispute_status',
-        'title'    => 'NAB Dispute Status (Admin Use)',
-        'location' => [ [ [ 'param' => 'user_form', 'operator' => '==', 'value' => 'all' ] ] ],
-        'position' => 'normal',
-        'fields'   => [
-            [ 'key'=>'f_disp_status', 'label'=>'Dispute Status',                'name'=>'dispute_status',
-              'type'=>'select', 'default_value'=>'Pending',
-              'choices'=>['Pending'=>'Pending','In Review'=>'In Review','Resolved'=>'Resolved','Closed'=>'Closed'] ],
-            [ 'key'=>'f_disp_ref',    'label'=>'Reference Number',               'name'=>'dispute_reference', 'type'=>'text' ],
-            [ 'key'=>'f_disp_note',   'label'=>'Status Note (shown to member)',   'name'=>'dispute_note',   'type'=>'textarea', 'rows'=>3 ],
-        ],
-    ] );
+    /* GROUP 8 (Dispute Status, admin use) was removed in v1.14.0: members
+       now track their own letters in the Dispute Center (inc/disputes.php). */
 }
