@@ -41,12 +41,24 @@ function inline(s){
     .replace(/(^|[\s(])([\w.+-]+@[\w-]+\.[\w.-]+\w)/g, '$1<a href="mailto:$2">$2</a>');
 }
 var MD_NUM = /^(\d+)[.)]\s+(.*)$/, MD_DOT = /^[-*•]\s+(.*)$/;
+/**
+ * Other ways replies write a numbered point, turned into a plain "1. " item so the
+ * browser numbers it: "**1. Title**", "**1.** Title", "### 1. Title", "1\. Title".
+ */
+function mdLine(t){
+  var m;
+  if((m = t.match(/^#{1,6}\s+(\d+)[.)]\s+(.+)$/))) return m[1] + '. ' + (/^\*\*/.test(m[2]) ? m[2] : '**' + m[2] + '**');
+  if((m = t.match(/^\*\*(\d+)[.)]\*\*\s*(.+)$/))) return m[1] + '. ' + m[2];
+  if((m = t.match(/^\*\*(\d+)[.)]\s+([^*]+)\*\*(.*)$/))) return m[1] + '. **' + m[2].trim() + '**' + m[3];
+  if((m = t.match(/^(\d+)\\[.)]\s+(.*)$/))) return m[1] + '. ' + m[2];
+  return t;
+}
 /** Number of the numbered item that comes next after the paragraph at line i (skipping blank lines), or 0. */
 function nextNumber(lines, i){
   var j = i;
-  while(j < lines.length && lines[j].trim() !== '' && !MD_NUM.test(lines[j].trim()) && !MD_DOT.test(lines[j].trim())) j++;
+  while(j < lines.length && lines[j].trim() !== '' && !MD_NUM.test(mdLine(lines[j].trim())) && !MD_DOT.test(lines[j].trim())) j++;
   while(j < lines.length && lines[j].trim() === '') j++;
-  var m = j < lines.length ? lines[j].trim().match(MD_NUM) : null;
+  var m = j < lines.length ? mdLine(lines[j].trim()).match(MD_NUM) : null;
   return m ? parseInt(m[1], 10) : 0;
 }
 function md(text){
@@ -77,7 +89,7 @@ function md(text){
     return j < lines.length && done.length > 0 && items[items.length - 1].lines.length === 1 && done.every(function(i){ return i.lines.length > 1; });
   }
   lines.forEach(function(line, idx){
-    var t = line.trim(), m;
+    var t = mdLine(line.trim()), m;
     // a blank line ends a paragraph but not a list: replies often put a blank line between numbered points
     if(!t){ flushPara(); prevItem = false; return; }
     if((m = t.match(/^#{1,6}\s+(.*)$/))){ flushPara(); flushList(); out.push('<h4>' + inline(m[1]) + '</h4>'); prevItem = false; return; }
