@@ -1290,7 +1290,7 @@ var nabQuizData = {
         $cards = [
           ['#1565C0','#e8f0fe','file-text','Credit Report Access',     'Access your credit report through Equifax, TransUnion, Borrowell, or Credit Karma.',         $link_report,  'live', 'link'],
           ['#F57C00','#fff3e0','calendar-days','Book a Credit Specialist', 'Schedule a 1-on-1 session with our certified credit advisors.',                               $link_booking, '',     'link'],
-          ['#dc2626','#fee2e2','shield-check','Credit Dispute Center',   'Upload supporting documents and track your dispute status.',                                   $link_dispute, '',     'link'],
+          ['#dc2626','#fee2e2','shield-check','Credit Dispute Center',   'Create your dispute letter for Equifax or TransUnion, download it and track it.',             $link_dispute, '',     'link'],
           ['#7c3aed','#ede9fe','message-square-text','NAB AI Chatbot',           'Exclusive access to our intelligent credit chatbot for NAB members.',                         $link_chatbot, '',     'link'],
           ['#0891b2','#e0f2fe','gauge','Utilization Checker',      'Visualize your credit utilization and get guidance based on your inputs.',                    $link_util,    '',     'link'],
           ['#059669','#d1fae5','trending-up','Credit Score Simulator',   "Simulate 'what-if' scenarios for your credit score range.",                                   $link_sim,     '',     'link'],
@@ -1723,6 +1723,13 @@ var nabQuizData = {
            page via nab_get_dispute_templates(). ═══════════════════ -->
       <div class="nab-tab-panel" id="nabTab-diy" role="tabpanel">
         <?php $diy_templates = function_exists('nab_get_dispute_templates') ? nab_get_dispute_templates() : []; ?>
+        <?php $diy_builder = function_exists( 'nab_get_nav_links' ) ? ( nab_get_nav_links()['dispute'] ?? '#' ) : '#'; ?>
+        <?php if ( $diy_builder && $diy_builder !== '#' ) : // v1.14.0: the Dispute Center now fills these letters in for the member ?>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:#F3F8FD;border:1px solid #CFE0F1;border-radius:12px;padding:14px 16px;margin-bottom:16px">
+          <div style="font-size:13.5px;color:#1e293b;line-height:1.5"><strong>Want the letter filled in for you?</strong> Answer a few questions in the Dispute Center and download your finished letter.</div>
+          <a href="<?php echo esc_url( $diy_builder ); ?>" style="padding:9px 14px;border-radius:8px;background:#0D5C9B;color:#fff;font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap"><?php echo nab_portal_icon( 'shield-check', 15 ); ?> Create my letter</a>
+        </div>
+        <?php endif; ?>
         <?php if ( $diy_templates ) : ?>
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px">
           <?php foreach ( $diy_templates as $tpl ) : ?>
