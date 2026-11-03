@@ -41,22 +41,32 @@ function inline(s){
     .replace(/(^|[\s(])([\w.+-]+@[\w-]+\.[\w.-]+\w)/g, '$1<a href="mailto:$2">$2</a>');
 }
 function md(text){
-  var out = [], list = null, para = [];
+  var out = [], list = null, para = [], prevItem = false;
   function flushPara(){ if(para.length){ out.push('<p>' + para.map(inline).join('<br>') + '</p>'); para = []; } }
-  function flushList(){ if(list){ out.push('<' + list.tag + '>' + list.items.map(function(i){ return '<li>' + inline(i) + '</li>'; }).join('') + '</' + list.tag + '>'); list = null; } }
+  function flushList(){
+    if(!list) return;
+    // start= keeps the numbering right when a list is split ("3." after a paragraph shows 3, not 1)
+    var open = list.tag === 'ol' && list.start > 1 ? '<ol start="' + list.start + '">' : '<' + list.tag + '>';
+    out.push(open + list.items.map(function(i){ return '<li>' + i.map(inline).join('<br>') + '</li>'; }).join('') + '</' + list.tag + '>');
+    list = null;
+  }
   String(text || '').replace(/\r/g, '').split('\n').forEach(function(line){
     var t = line.trim(), m;
-    if(!t){ flushPara(); flushList(); return; }
-    if((m = t.match(/^#{1,6}\s+(.*)$/))){ flushPara(); flushList(); out.push('<h4>' + inline(m[1]) + '</h4>'); return; }
-    if((m = t.match(/^[-*•]\s+(.*)$/)) || (m = t.match(/^(\d+)[.)]\s+(.*)$/))){
-      var tag = /^\d/.test(t) ? 'ol' : 'ul', item = m[2] !== undefined && /^\d/.test(t) ? m[2] : m[1];
+    // a blank line ends a paragraph but not a list: replies often put a blank line between numbered points
+    if(!t){ flushPara(); prevItem = false; return; }
+    if((m = t.match(/^#{1,6}\s+(.*)$/))){ flushPara(); flushList(); out.push('<h4>' + inline(m[1]) + '</h4>'); prevItem = false; return; }
+    var num = t.match(/^(\d+)[.)]\s+(.*)$/), dot = t.match(/^[-*•]\s+(.*)$/);
+    if(num || dot){
+      var tag = num ? 'ol' : 'ul';
       flushPara();
-      if(!list || list.tag !== tag){ flushList(); list = { tag:tag, items:[] }; }
-      list.items.push(item);
+      if(!list || list.tag !== tag){ flushList(); list = { tag:tag, items:[], start: num ? parseInt(num[1], 10) || 1 : 1 }; }
+      list.items.push([ num ? num[2] : dot[1] ]);
+      prevItem = true;
       return;
     }
-    if(list && /^\s{2,}/.test(line)){ list.items[list.items.length - 1] += ' ' + t; return; }
-    flushList(); para.push(t);
+    // an indented line, or a line straight after an item, belongs to that item
+    if(list && (prevItem || /^\s{2,}/.test(line))){ list.items[list.items.length - 1].push(t); return; }
+    flushList(); para.push(t); prevItem = false;
   });
   flushPara(); flushList();
   return out.join('');
