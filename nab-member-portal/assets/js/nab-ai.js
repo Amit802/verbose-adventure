@@ -119,7 +119,11 @@ function md(text){
 }
 
 /* ── Built-in answers (offline mode, or when the AI can't be reached) ── */
+/* The built-in answers number their points inline ("1) … 2) …"); show them as a list. */
 function offline(q){
+  return offlineText(q).replace(/:?\s+(\d)\)\s+/g, function(m, n){ return (m.charAt(0) === ':' ? ':' : '') + '\n' + n + '. '; });
+}
+function offlineText(q){
   q = q.toLowerCase();
   if(q.indexOf('utiliz')>-1||q.indexOf('utilis')>-1)return 'Credit utilization is the percentage of available credit you\'re using. Keep it **below 30%** on each card and overall. For the best impact, target **below 10%**. Paying before your statement date reduces what gets reported.';
   if(q.indexOf('dispute')>-1||q.indexOf('error')>-1)return 'To dispute an error: 1) Get your free report from **Equifax.ca** and **TransUnion.ca**. 2) Identify the error. 3) Submit a dispute online with supporting documents. 4) The bureau must investigate within 30 days. Use our **Dispute Center** for ready-made templates.';

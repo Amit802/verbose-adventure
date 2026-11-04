@@ -447,7 +447,7 @@ body { margin:0 !important; padding:0 !important; background:var(--nab-bg) !impo
             </div>
             <div class="nab-page-actions">
                 <a href="<?php echo $dashboard_url; ?>" class="nab-ui-btn">Dashboard</a>
-                <a href="<?php echo $url_booking; ?>" class="nab-ui-btn nab-ui-btn-primary"><?php echo nab_portal_icon( 'calendar-days', 16 ); ?> Book a specialist</a>
+                <a href="<?php echo $url_booking; ?>" class="nab-ui-btn nab-ui-btn-accent"><?php echo nab_portal_icon( 'calendar-days', 16 ); ?> Book a specialist</a>
             </div>
         </section>
 
