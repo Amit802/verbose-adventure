@@ -10,14 +10,14 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /* ═══════════════════════════════════════════════════════════
-   HELPER: always returns false — MemberPress not used
+   HELPER: always returns false, MemberPress not used
    ═══════════════════════════════════════════════════════════ */
 if ( ! function_exists( 'nab_mp_active' ) ) {
     function nab_mp_active() { return false; }
 }
 
 /* ═══════════════════════════════════════════════════════════
-   GET MEMBER DATA — from user meta only
+   GET MEMBER DATA, from user meta only
    ═══════════════════════════════════════════════════════════ */
 if ( ! function_exists( 'nab_mp_get_member_data' ) ) {
     function nab_mp_get_member_data( $user_id = 0 ) {
@@ -46,7 +46,7 @@ if ( ! function_exists( 'nab_mp_get_member_data' ) ) {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   SEND EMAIL — reusable wrapper using wp_mail
+   SEND EMAIL, reusable wrapper using wp_mail
    ═══════════════════════════════════════════════════════════ */
 function nab_send_membership_email( $to, $subject, $body ) {
     $headers = [ 'Content-Type: text/html; charset=UTF-8' ];
@@ -112,7 +112,7 @@ add_action( 'wp_ajax_nab_mp_pause', function() {
     // Email to admin
     nab_send_membership_email(
         'billing@nabsolutions.ca',
-        'Member Paused Membership — ' . $name,
+        'Member Paused Membership, ' . $name,
         "Member <strong>{$name}</strong> ({$email}) has paused their membership for {$weeks} week(s).\n\nResume date: <strong>{$resume_fmt}</strong>\n\nUser ID: {$uid}"
     );
 
@@ -155,7 +155,7 @@ add_action( 'nab_mp_auto_resume', function( $uid ) {
     // Email to admin
     nab_send_membership_email(
         'billing@nabsolutions.ca',
-        'Member Membership Auto-Resumed — ' . $name,
+        'Member Membership Auto-Resumed, ' . $name,
         "Member <strong>{$name}</strong> ({$email}) membership has been automatically resumed.\n\nUser ID: {$uid}"
     );
 }, 10, 1 );
@@ -191,13 +191,13 @@ add_action( 'wp_ajax_nab_mp_cancel', function() {
     nab_send_membership_email(
         $email,
         'Your NAB Solutions Membership Has Been Cancelled',
-        "Hi {$name},\n\nWe're sorry to see you go.\n\nThis confirms that your NAB Solutions membership has been successfully cancelled. You'll continue to have full access to your Member Dashboard and all active benefits until your current billing period ends this Friday. After that, you'll lose access to:\n\n- Your NAB Solutions Member Dashboard\n- Credit monitoring and credit score updates\n- Personalized credit rebuilding guidance and support\n- Our self-service matching tools, including the Lending Finder Program (LFP), Auto Loan Matcher, and Credit Card Matcher — helping you find financing options based on your profile\n- Exclusive member resources, educational videos, and tools\n- Priority access to new products, services, and member-exclusive offers\n\n<strong>Changed your mind?</strong> It only takes a minute to reactivate.\n\nPrefer to talk it through first? Our team is happy to help you find the right fit  whether that's pausing, adjusting your plan, or just answering questions. We're here seven days a week, 9:00 AM–3:00 PM (Mountain Time):\n📞 1-855-542-6078\n✉️ billing@nabsolutions.ca\n\nThank you for choosing NAB Solutions. We appreciate the opportunity to have supported your financial journey, and we'd love the chance to keep doing so.\n\nSincerely,\nThe NAB Solutions Team"
+        "Hi {$name},\n\nWe're sorry to see you go.\n\nThis confirms that your NAB Solutions membership has been successfully cancelled. You'll continue to have full access to your Member Dashboard and all active benefits until your current billing period ends this Friday. After that, you'll lose access to:\n\n- Your NAB Solutions Member Dashboard\n- Credit monitoring and credit score updates\n- Personalized credit rebuilding guidance and support\n- Our self-service matching tools, including the Lending Finder Program (LFP), Auto Loan Matcher, and Credit Card Matcher, helping you find financing options based on your profile\n- Exclusive member resources, educational videos, and tools\n- Priority access to new products, services, and member-exclusive offers\n\n<strong>Changed your mind?</strong> It only takes a minute to reactivate.\n\nPrefer to talk it through first? Our team is happy to help you find the right fit  whether that's pausing, adjusting your plan, or just answering questions. We're here seven days a week, 9:00 AM–3:00 PM (Mountain Time):\n📞 1-855-542-6078\n✉️ billing@nabsolutions.ca\n\nThank you for choosing NAB Solutions. We appreciate the opportunity to have supported your financial journey, and we'd love the chance to keep doing so.\n\nSincerely,\nThe NAB Solutions Team"
     );
 
     // Email to admin
     nab_send_membership_email(
         'billing@nabsolutions.ca',
-        'Member Cancelled Membership — ' . $name,
+        'Member Cancelled Membership, ' . $name,
         "Member <strong>{$name}</strong> ({$email}) has cancelled their membership.\n\n" .
         ( $reason ? "Cancellation reason: <strong>{$reason}</strong>\n\n" : '' ) .
         "User ID: {$uid}\nDate: " . current_time( 'M j, Y' )
@@ -242,7 +242,7 @@ add_action( 'wp_ajax_nab_mp_resume', function() {
     // Email to admin
     nab_send_membership_email(
         'billing@nabsolutions.ca',
-        'Member Resumed Membership Manually — ' . $name,
+        'Member Resumed Membership Manually, ' . $name,
         "Member <strong>{$name}</strong> ({$email}) has manually resumed their membership.\n\nUser ID: {$uid}"
     );
 

@@ -16,7 +16,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /* ═══════════════════════════════════════════════════════════
-   CUSTOM POST TYPE — Admin notification authoring
+   CUSTOM POST TYPE, Admin notification authoring
    ═══════════════════════════════════════════════════════════ */
 add_action( 'init', 'nab_register_notification_cpt' );
 function nab_register_notification_cpt() {
@@ -83,7 +83,7 @@ function nab_register_notification_acf_fields() {
                 'key'          => 'f_notif_expires', 'label' => 'Expires On (optional)',
                 'name'         => 'notif_expires', 'type' => 'date_picker',
                 'display_format' => 'd M Y', 'return_format' => 'Y-m-d',
-                'instructions' => 'Leave blank — notification never expires.',
+                'instructions' => 'Leave blank, notification never expires.',
                 'wrapper'      => [ 'width' => '50' ],
             ],
         ],

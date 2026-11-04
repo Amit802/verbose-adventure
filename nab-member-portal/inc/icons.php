@@ -103,25 +103,26 @@ function nab_portal_icon( $name, $size = 20, $class = '' ) {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   ICON TILES (v1.13.0) — a white icon on a soft gradient tile, like
+   ICON TILES (v1.13.0), a white icon on a soft gradient tile, like
    app icons. Used for every tool, category and account type.
    PHP: echo nab_portal_icon_tile( 'wallet', 'green', 40 );
    JS:  window.nabTile( 'wallet', 'green', 40 ) (nab_portal_print_icons_js)
    ═══════════════════════════════════════════════════════════ */
 function nab_portal_tile_tones() {
+    // [ soft background, icon colour ]. v1.15.0: flat, muted tiles (no gradients or gloss).
     return apply_filters( 'nab_portal_tile_tones', [
-        'blue'   => [ '#5AA9FA', '#1C6ED8' ],
-        'navy'   => [ '#3F75AE', '#0B3A6B' ],
-        'indigo' => [ '#8C97FF', '#4F46E5' ],
-        'purple' => [ '#B096FF', '#7044E6' ],
-        'pink'   => [ '#FF8FC4', '#DD3E87' ],
-        'red'    => [ '#FF7E83', '#DC2F38' ],
-        'orange' => [ '#FFAA63', '#F06A0A' ],
-        'yellow' => [ '#FFD75E', '#EFA70A' ],
-        'green'  => [ '#55D892', '#14A058' ],
-        'teal'   => [ '#45DCD2', '#0B9E9C' ],
-        'slate'  => [ '#A9B6C8', '#66768C' ],
-        'gold'   => [ '#F3D68F', '#B98A23' ],
+        'blue'   => [ '#E9F1FB', '#1E62B0' ],
+        'navy'   => [ '#E7EDF5', '#0D4A80' ],
+        'indigo' => [ '#EDEEFB', '#4A4FC0' ],
+        'purple' => [ '#F1ECFA', '#6A45BE' ],
+        'pink'   => [ '#FAEDF3', '#B03A72' ],
+        'red'    => [ '#FBEDEC', '#C0372F' ],
+        'orange' => [ '#FDF0E5', '#BF5A0E' ],
+        'yellow' => [ '#FAF3DE', '#946800' ],
+        'green'  => [ '#E7F4EC', '#1D7648' ],
+        'teal'   => [ '#E4F3F2', '#11736C' ],
+        'slate'  => [ '#EEF1F4', '#4A596C' ],
+        'gold'   => [ '#F7F0E0', '#87631A' ],
     ] );
 }
 
@@ -164,12 +165,9 @@ function nab_portal_tile_css() {
     $tones = '';
     foreach ( nab_portal_tile_tones() as $k => $c ) $tones .= '.nab-tile-' . $k . '{--t1:' . $c[0] . ';--t2:' . $c[1] . '}';
     echo '<style id="nab-tile-css">'
-        . '.nab-tile{--tile:40px;--t1:#5AA9FA;--t2:#1C6ED8;position:relative;display:inline-flex;align-items:center;justify-content:center;flex:none;'
-        . 'width:var(--tile);height:var(--tile);min-width:var(--tile);border-radius:calc(var(--tile) * .3);color:#fff;overflow:hidden;'
-        . 'background:linear-gradient(160deg,var(--t1) 0%,var(--t2) 100%);'
-        . 'box-shadow:inset 0 1px 0 rgba(255,255,255,.38),inset 0 -1px 0 rgba(0,0,0,.10),0 1px 2px rgba(15,27,45,.16),0 6px 14px -8px var(--t2)}'
-        . '.nab-tile::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,.26) 0%,rgba(255,255,255,0) 52%);pointer-events:none}'
-        . '.nab-tile .nab-i{position:relative;z-index:1;filter:drop-shadow(0 1px 1px rgba(0,0,0,.14))}'
+        . '.nab-tile{--tile:40px;--t1:#E9F1FB;--t2:#1E62B0;position:relative;display:inline-flex;align-items:center;justify-content:center;flex:none;'
+        . 'width:var(--tile);height:var(--tile);min-width:var(--tile);border-radius:calc(var(--tile) * .28);color:var(--t2);background:var(--t1);'
+        . 'box-shadow:inset 0 0 0 1px rgba(16,24,40,.04)}'
         . $tones
         // Nabby mascot: round face with a navy ring (the mascot's frame colour)
         . '.nab-nabby{--nabby:40px;display:inline-flex;flex:none;width:var(--nabby);height:var(--nabby);min-width:var(--nabby);border-radius:50%;background:#F7E8CC;'

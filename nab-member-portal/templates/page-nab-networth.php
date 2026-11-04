@@ -34,13 +34,13 @@ $data  = [
 ];
 $types = $dash['types'];
 
-nab_head_open( 'Net Worth Calculator — NAB Member Portal' );
+nab_head_open( 'Net Worth Calculator | NAB Member Portal' );
 ?>
 <style>
 body.nab-networth-page{
-  --nw-bg:#F5F6F8;--nw-card:#fff;--nw-line:#E8EBF0;--nw-line2:#F1F3F6;
-  --nw-text:#0F1B2D;--nw-muted:#6B7685;--nw-faint:#9AA4B2;
-  --nw-blue:#0D5C9B;--nw-blue2:#0A4A7C;--nw-green:#16A35A;--nw-red:#DC2F38;
+  --nw-bg:var(--nab-bg);--nw-card:var(--nab-surface);--nw-line:var(--nab-line);--nw-line2:var(--nab-line-soft);
+  --nw-text:var(--nab-text);--nw-muted:var(--nab-text-2);--nw-faint:var(--nab-text-3);
+  --nw-blue:var(--nab-brand);--nw-blue2:var(--nab-brand-strong);--nw-green:var(--nab-good);--nw-red:var(--nab-bad);
   background:var(--nw-bg)!important;color:var(--nw-text);-webkit-font-smoothing:antialiased
 }
 body.nab-networth-page [hidden]{display:none!important}
@@ -65,16 +65,15 @@ body.nab-networth-page [hidden]{display:none!important}
 
 /* Hero */
 .nw-hero{position:relative;overflow:hidden;border:0;color:#fff;padding:24px 26px;
-  background:radial-gradient(120% 140% at 0% 0%,#1F5A9C 0%,#0E3866 48%,#081C38 100%);box-shadow:0 18px 40px -22px rgba(8,28,56,.8)}
-.nw-hero::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(240,207,122,.22),rgba(240,207,122,0) 70%);pointer-events:none}
+  background:var(--nab-brand-strong);box-shadow:var(--nab-shadow)}
 .nw-hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap}
 .nw-hero-l{font-size:13px;font-weight:600;color:rgba(255,255,255,.72)}
 .nw-hero-v{font-size:40px;font-weight:800;letter-spacing:-.03em;line-height:1.1;margin:4px 0 6px;white-space:nowrap}
 .nw-change{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:650;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.12);color:#fff}
 .nw-change.up{background:rgba(85,216,146,.18);color:#8EF0B9}.nw-change.down{background:rgba(255,126,131,.18);color:#FFB4B7}
 .nw-split{display:flex;height:10px;border-radius:999px;overflow:hidden;background:rgba(255,255,255,.12);margin:20px 0 12px}
-.nw-split .a{background:linear-gradient(90deg,#55D892,#14A058);transition:width .45s ease}
-.nw-split .d{background:linear-gradient(90deg,#FF7E83,#DC2F38);transition:width .45s ease}
+.nw-split .a{background:var(--nab-good);transition:width .45s ease}
+.nw-split .d{background:var(--nab-bad);transition:width .45s ease}
 .nw-hero-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .nw-hs-l{font-size:12px;color:rgba(255,255,255,.68);display:flex;align-items:center;gap:6px}
 .nw-hs-l i{width:8px;height:8px;border-radius:3px;display:block}
@@ -196,7 +195,7 @@ body.nab-networth-page [hidden]{display:none!important}
           <div class="nw-hero-stats">
             <div><div class="nw-hs-l"><i style="background:#55D892"></i>What you own</div><div class="nw-hs-v" id="nwAssets">$0</div></div>
             <div><div class="nw-hs-l"><i style="background:#FF7E83"></i>What you owe</div><div class="nw-hs-v" id="nwDebts">$0</div></div>
-            <div><div class="nw-hs-l">Debt to assets</div><div class="nw-hs-v" id="nwRatio">—</div></div>
+            <div><div class="nw-hs-l">Debt to assets</div><div class="nw-hs-v" id="nwRatio">-</div></div>
           </div>
         </section>
 

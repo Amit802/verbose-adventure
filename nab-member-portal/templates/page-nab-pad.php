@@ -97,37 +97,37 @@ nab_head_open( 'PAD Agreement -- NAB Member Portal' );
 ?>
 <style>
 .nab-pad-wrap{max-width:820px;margin:0 auto}
-.nab-pad-card{background:#fff;border-radius:16px;padding:32px 36px;box-shadow:0 1px 4px rgba(0,0,0,.06);margin-bottom:20px}
+.nab-pad-card{background:var(--nab-surface);border:1px solid var(--nab-line);border-radius:var(--nab-radius);padding:32px 36px;box-shadow:var(--nab-shadow);margin-bottom:20px}
 
-.nab-pad-doc-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;padding-bottom:20px;border-bottom:2px solid #f1f5f9}
-.nab-pad-doc-title{font-size:20px;font-weight:800;color:#1e293b}
-.nab-pad-doc-sub{font-size:12px;color:#64748b;margin-top:4px}
-.nab-pad-logo{font-size:24px;font-weight:900;color:#0D5C9B;display:flex;align-items:center;gap:8px}
+.nab-pad-doc-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;padding-bottom:20px;border-bottom:2px solid var(--nab-line-soft)}
+.nab-pad-doc-title{font-size:20px;font-weight:800;color:var(--nab-text)}
+.nab-pad-doc-sub{font-size:12px;color:var(--nab-text-2);margin-top:4px}
+.nab-pad-logo{font-size:24px;font-weight:900;color:var(--nab-brand);display:flex;align-items:center;gap:8px}
 .nab-pad-logo-badge{width:36px;height:36px;background:#F97316;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;flex-shrink:0}
 
 .nab-pad-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
 .nab-pad-field{display:flex;flex-direction:column;gap:3px}
-.nab-pad-field-label{font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.07em}
-.nab-pad-field-value{font-size:14px;font-weight:600;color:#1e293b}
+.nab-pad-field-label{font-size:10px;font-weight:700;color:var(--nab-text-3);text-transform:uppercase;letter-spacing:.07em}
+.nab-pad-field-value{font-size:14px;font-weight:600;color:var(--nab-text)}
 
-.nab-pad-status{display:inline-flex;align-items:center;gap:6px;background:#dcfce7;color:#166534;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;margin-bottom:20px}
-.nab-pad-highlight{background:#f0f9ff;border-left:3px solid #0D5C9B;border-radius:0 8px 8px 0;padding:12px 16px;margin:16px 0;font-size:13px;color:#1e40af;font-weight:600}
+.nab-pad-status{display:inline-flex;align-items:center;gap:6px;background:var(--nab-good-soft);color:var(--nab-good);font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;margin-bottom:20px}
+.nab-pad-highlight{background:#f0f9ff;border-left:3px solid var(--nab-brand);border-radius:0 8px 8px 0;padding:12px 16px;margin:16px 0;font-size:13px;color:#1e40af;font-weight:600}
 
-.nab-pad-legal{font-size:12.5px;color:#374151;line-height:1.75;max-height:600px;overflow-y:auto;border:1px solid #e2e8f0;border-radius:10px;padding:20px 24px;background:#fafbfc}
-.nab-pad-legal h1{font-size:16px;text-align:center;margin:0 0 16px;color:#1e293b}
-.nab-pad-legal h2{font-size:13px;font-weight:800;margin:18px 0 8px;color:#1e293b;text-decoration:underline}
+.nab-pad-legal{font-size:12.5px;color:#374151;line-height:1.75;max-height:600px;overflow-y:auto;border:1px solid var(--nab-line);border-radius:10px;padding:20px 24px;background:#fafbfc}
+.nab-pad-legal h1{font-size:16px;text-align:center;margin:0 0 16px;color:var(--nab-text)}
+.nab-pad-legal h2{font-size:13px;font-weight:800;margin:18px 0 8px;color:var(--nab-text);text-decoration:underline}
 .nab-pad-legal p{margin:0 0 10px}
 .nab-pad-legal ul{margin:0 0 10px;padding-left:22px}
 .nab-pad-legal li{margin-bottom:4px}
 .nab-pad-legal table{width:100%;border-collapse:collapse;margin:10px 0}
-.nab-pad-legal td{border:1px solid #cbd5e1;padding:8px 10px;vertical-align:top;font-size:12px}
-.nab-pad-legal td.lbl{font-weight:700;width:42%;background:#f1f5f9}
+.nab-pad-legal td{border:1px solid var(--nab-text-3);padding:8px 10px;vertical-align:top;font-size:12px}
+.nab-pad-legal td.lbl{font-weight:700;width:42%;background:var(--nab-line-soft)}
 
-.nab-pad-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;padding-top:20px;border-top:1px solid #f1f5f9}
-.nab-pad-download-btn{display:flex;align-items:center;gap:8px;background:#0D5C9B;color:#fff;padding:11px 22px;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none;transition:.15s}
-.nab-pad-download-btn:hover{background:#0a4a7c;color:#fff}
-.nab-pad-print-btn{display:flex;align-items:center;gap:8px;background:#f1f5f9;color:#374151;padding:11px 22px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid #e2e8f0;transition:.15s}
-.nab-pad-print-btn:hover{background:#e2e8f0}
+.nab-pad-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;padding-top:20px;border-top:1px solid var(--nab-line-soft)}
+.nab-pad-download-btn{display:flex;align-items:center;gap:8px;background:var(--nab-brand);color:#fff;padding:11px 22px;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none;transition:.15s}
+.nab-pad-download-btn:hover{background:var(--nab-brand-strong);color:#fff}
+.nab-pad-print-btn{display:flex;align-items:center;gap:8px;background:var(--nab-line-soft);color:#374151;padding:11px 22px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--nab-line);transition:.15s}
+.nab-pad-print-btn:hover{background:var(--nab-line)}
 
 @media(max-width:600px){
   .nab-pad-grid{grid-template-columns:1fr}
@@ -138,7 +138,7 @@ nab_head_open( 'PAD Agreement -- NAB Member Portal' );
 @media print{
   .nab-sidebar,.nab-topbar,.nab-pad-actions,.nab-hamburger,.nab-sidebar-overlay{display:none!important}
   .nab-main{margin:0!important}
-  .nab-pad-card{box-shadow:none!important;border:1px solid #e2e8f0}
+  .nab-pad-card{box-shadow:none!important;border:1px solid var(--nab-line)}
   .nab-pad-legal{max-height:none;overflow:visible}
 }
 </style>
@@ -152,7 +152,7 @@ nab_head_open( 'PAD Agreement -- NAB Member Portal' );
   <main class="nab-main">
 
     <header class="nab-topbar">
-      <div class="nab-topbar-title">📄 PAD Agreement</div>
+      <div class="nab-topbar-title"><?php echo nab_portal_icon( 'file-check', 20 ); ?> PAD Agreement</div>
       <div class="nab-topbar-right">
         <?php nab_render_notification_bell(); ?>
       </div>
@@ -166,7 +166,7 @@ nab_head_open( 'PAD Agreement -- NAB Member Portal' );
           <div class="nab-pad-doc-header">
             <div>
               <div class="nab-pad-doc-title">Membership Agreement &amp; Pre-Authorised Debit</div>
-              <div class="nab-pad-doc-sub">Your executed agreement -- keep this for your records</div>
+              <div class="nab-pad-doc-sub">Your signed agreement. Keep a copy for your records.</div>
             </div>
             <div class="nab-pad-logo">
               <div class="nab-pad-logo-badge">N</div>
@@ -174,7 +174,7 @@ nab_head_open( 'PAD Agreement -- NAB Member Portal' );
             </div>
           </div>
 
-          <div class="nab-pad-status">✅ Active Agreement</div>
+          <div class="nab-pad-status"><?php echo nab_portal_icon( 'circle-check', 14 ); ?> Active agreement</div>
 
           <div class="nab-pad-grid">
             <div class="nab-pad-field">
@@ -216,10 +216,10 @@ nab_head_open( 'PAD Agreement -- NAB Member Portal' );
 
           <div class="nab-pad-actions">
             <a class="nab-pad-download-btn" href="<?php echo esc_url( add_query_arg( [ 'nab_pad_download' => '1', 'nab_pad_nonce' => wp_create_nonce('nab_pad_dl') ], get_permalink() ) ); ?>">
-              ⬇ Download PDF
+              Download PDF
             </a>
             <button class="nab-pad-print-btn" onclick="window.print()" type="button">
-              🖨 Print Agreement
+              Print Agreement
             </button>
           </div>
 

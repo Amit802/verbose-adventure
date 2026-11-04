@@ -335,7 +335,7 @@ function nab_dispute_letter_blocks( $l ) {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   PDF — a small, dependency-free writer for a text letter:
+   PDF, a small, dependency-free writer for a text letter:
    US Letter, Helvetica 11 pt, word wrap and page breaks.
    ═══════════════════════════════════════════════════════════ */
 
@@ -477,7 +477,7 @@ function nab_dispute_pdf( $blocks, $title ) {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   REMINDER — once a day, when the member opens any portal page:
+   REMINDER, once a day, when the member opens any portal page:
    a bell notification for each letter marked as sent 30+ days ago
    with no response yet. Each letter reminds once.
    ═══════════════════════════════════════════════════════════ */

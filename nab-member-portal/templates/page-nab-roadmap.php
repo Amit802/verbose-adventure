@@ -40,45 +40,40 @@ $hero_sub   = get_field( 'roadmap_hero_sub' ) ?: "A personalised checklist built
 
 $notifications = function_exists( 'nab_get_user_notifications' ) ? nab_get_user_notifications( $uid ) : [];
 
-nab_head_open( 'Financial Roadmap — NAB Member Portal' );
+nab_head_open( 'Financial Roadmap | NAB Member Portal' );
 ?>
 <style>
 .nab-rm-wrap{max-width:820px;margin:0 auto;padding-bottom:40px}
-.nab-rm-hero{background:linear-gradient(135deg,#4338ca,#3730a3);border-radius:16px;padding:24px 28px;color:#fff;display:flex;align-items:center;gap:20px;margin-bottom:24px;flex-wrap:wrap}
-.nab-rm-hero-icon{font-size:44px;flex-shrink:0}
-.nab-rm-hero-title{font-size:20px;font-weight:800;margin:0 0 4px}
-.nab-rm-hero-sub{font-size:13px;opacity:.85;margin:0;line-height:1.5;max-width:520px}
 
-.nab-rm-progress-card{background:#fff;border-radius:16px;padding:24px 28px;box-shadow:0 2px 16px rgba(0,0,0,.07);margin-bottom:20px}
+.nab-rm-progress-card{background:var(--nab-surface);border:1px solid var(--nab-line);border-radius:var(--nab-radius);padding:24px 28px;box-shadow:var(--nab-shadow);margin-bottom:20px}
 .nab-rm-progress-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;flex-wrap:wrap;gap:6px}
-.nab-rm-progress-label{font-size:14px;font-weight:700;color:#1e293b}
-.nab-rm-progress-count{font-size:13px;color:#64748b;font-weight:600}
-.nab-rm-progress-track{background:#f1f5f9;border-radius:999px;height:16px;overflow:hidden}
-.nab-rm-progress-fill{background:linear-gradient(90deg,#4338ca,#6366f1);height:100%;border-radius:999px;transition:width .4s ease}
+.nab-rm-progress-label{font-size:14px;font-weight:700;color:var(--nab-text)}
+.nab-rm-progress-count{font-size:13px;color:var(--nab-text-2);font-weight:600}
+.nab-rm-progress-track{background:var(--nab-line-soft);border-radius:999px;height:16px;overflow:hidden}
+.nab-rm-progress-fill{background:var(--nab-brand);height:100%;border-radius:999px;transition:width .4s ease}
 
-.nab-rm-next{margin-top:16px;background:#eef2ff;border:1.5px solid #c7d2fe;border-radius:12px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.nab-rm-next-txt{font-size:13px;color:#3730a3}
+.nab-rm-next{margin-top:16px;background:var(--nab-brand-soft);border:0;border-radius:12px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.nab-rm-next-txt{font-size:13px;color:var(--nab-text-2)}
 .nab-rm-next-txt strong{display:block;font-size:14px;color:#1e1b4b;margin-bottom:2px}
-.nab-rm-next-btn{background:#4338ca;color:#fff;border:none;border-radius:8px;padding:9px 18px;font-size:12.5px;font-weight:700;text-decoration:none;white-space:nowrap}
-.nab-rm-next-btn:hover{background:#3730a3}
+.nab-rm-next-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--nab-brand);color:#fff;border:none;border-radius:10px;padding:9px 16px;font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap}
+.nab-rm-next-btn:hover{background:var(--nab-brand-strong);color:#fff}
 .nab-rm-complete{margin-top:16px;background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:12px;padding:16px 18px;text-align:center;color:#166534;font-size:13.5px;font-weight:600}
 
 .nab-rm-list{display:flex;flex-direction:column;gap:12px}
-.nab-rm-row{background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 1px 4px rgba(0,0,0,.06);display:flex;align-items:center;gap:14px;text-decoration:none;transition:.15s;border:1.5px solid transparent}
-.nab-rm-row:hover{box-shadow:0 4px 14px rgba(0,0,0,.09);border-color:#e0e7ff}
+.nab-rm-row{background:var(--nab-surface);border:1px solid var(--nab-line);border-radius:var(--nab-radius);padding:16px 18px;box-shadow:var(--nab-shadow);display:flex;align-items:center;gap:14px;text-decoration:none;transition:.15s}
+.nab-rm-row:hover{box-shadow:0 6px 18px rgba(16,24,40,.06);border-color:#D0D5DD}
 .nab-rm-row.done{opacity:.7}
-.nab-rm-check{width:34px;height:34px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px;background:#f1f5f9;color:#94a3b8}
-.nab-rm-row.done .nab-rm-check{background:#dcfce7;color:#16a34a}
+.nab-rm-check{width:34px;height:34px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px;background:var(--nab-line-soft);color:var(--nab-text-3)}
+.nab-rm-row.done .nab-rm-check{background:var(--nab-good-soft);color:var(--nab-good)}
 .nab-rm-body{flex:1;min-width:0}
-.nab-rm-title{font-size:14px;font-weight:700;color:#1e293b;margin-bottom:2px}
-.nab-rm-row.done .nab-rm-title{text-decoration:line-through;text-decoration-color:#cbd5e1}
-.nab-rm-desc{font-size:12.5px;color:#64748b;line-height:1.4}
-.nab-rm-arrow{font-size:16px;color:#94a3b8;flex-shrink:0}
+.nab-rm-title{font-size:14px;font-weight:700;color:var(--nab-text);margin-bottom:2px}
+.nab-rm-row.done .nab-rm-title{text-decoration:line-through;text-decoration-color:var(--nab-text-3)}
+.nab-rm-desc{font-size:12.5px;color:var(--nab-text-2);line-height:1.4}
+.nab-rm-arrow{display:flex;color:var(--nab-text-3);flex-shrink:0;margin-left:auto}
 .nab-rm-row.done .nab-rm-arrow{visibility:hidden}
-.nab-rm-icon{font-size:20px;flex-shrink:0}
+.nab-rm-icon{flex-shrink:0}
 
 @media(max-width:640px){
-  .nab-rm-hero{padding:20px}
   .nab-rm-row{padding:14px}
   .nab-rm-desc{display:none}
   .nab-rm-next{flex-direction:column;align-items:stretch}
@@ -94,7 +89,7 @@ nab_head_open( 'Financial Roadmap — NAB Member Portal' );
 
   <main class="nab-main">
     <header class="nab-topbar">
-      <div class="nab-topbar-title">🗺 Financial Roadmap</div>
+      <div class="nab-topbar-title"><?php echo nab_portal_icon( 'map', 20 ); ?> Financial Roadmap</div>
       <div class="nab-topbar-right">
         <?php nab_render_notification_bell(); ?>
       </div>
@@ -103,13 +98,13 @@ nab_head_open( 'Financial Roadmap — NAB Member Portal' );
     <div class="nab-content">
       <div class="nab-rm-wrap">
 
-        <div class="nab-rm-hero">
-          <div class="nab-rm-hero-icon">🗺</div>
+        <section class="nab-page-head">
           <div>
-            <div class="nab-rm-hero-title"><?php echo esc_html( $hero_title ); ?></div>
-            <p class="nab-rm-hero-sub"><?php echo esc_html( $hero_sub ); ?></p>
+            <div class="nab-page-eyebrow">Your progress</div>
+            <h1 class="nab-page-title"><?php echo esc_html( $hero_title ); ?></h1>
+            <p class="nab-page-sub"><?php echo esc_html( $hero_sub ); ?></p>
           </div>
-        </div>
+        </section>
 
         <div class="nab-rm-progress-card">
           <div class="nab-rm-progress-top">
@@ -128,11 +123,11 @@ nab_head_open( 'Financial Roadmap — NAB Member Portal' );
             </div>
             <?php $next_url = $next['link']; $next_dis = ( $next_url === '#' ); ?>
             <a class="nab-rm-next-btn" href="<?php echo $next_dis ? 'javascript:void(0)' : esc_url( $next_url ); ?>" <?php echo $next_dis ? 'aria-disabled="true"' : ''; ?>>
-              <?php echo $next['icon']; ?> Go now →
+              Go now <?php echo nab_portal_icon( 'arrow-right', 16 ); ?>
             </a>
           </div>
           <?php else : ?>
-          <div class="nab-rm-complete">🏆 You've completed every step on your roadmap right now — nice work!</div>
+          <div class="nab-rm-complete">You've completed every step on your roadmap right now, nice work!</div>
           <?php endif; ?>
         </div>
 
@@ -144,13 +139,13 @@ nab_head_open( 'Financial Roadmap — NAB Member Portal' );
           <a class="nab-rm-row<?php echo $s['done'] ? ' done' : ''; ?>"
              href="<?php echo $dis ? 'javascript:void(0)' : esc_url( $url ); ?>"
              <?php echo $dis ? 'aria-disabled="true" style="cursor:default"' : ''; ?>>
-            <span class="nab-rm-check"><?php echo $s['done'] ? '✓' : ''; ?></span>
-            <span class="nab-rm-icon"><?php echo $s['icon']; ?></span>
+            <span class="nab-rm-check"><?php echo $s['done'] ? nab_portal_icon( 'check', 16 ) : ''; ?></span>
+            <?php echo nab_portal_icon_tile( $s['icon'], $s['done'] ? 'green' : 'blue', 36, 'nab-rm-icon' ); ?>
             <span class="nab-rm-body">
               <span class="nab-rm-title"><?php echo esc_html( $s['title'] ); ?></span>
               <span class="nab-rm-desc"><?php echo esc_html( $s['desc'] ); ?></span>
             </span>
-            <span class="nab-rm-arrow">→</span>
+            <span class="nab-rm-arrow"><?php echo nab_portal_icon( 'chevron-right', 18 ); ?></span>
           </a>
           <?php endforeach; ?>
         </div>

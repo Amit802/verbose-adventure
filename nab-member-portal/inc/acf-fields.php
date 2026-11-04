@@ -20,12 +20,12 @@ function nab_register_all_acf_fields() {
     if ( ! function_exists( 'acf_add_local_field_group' ) ) return;
 
     /* ════════════════════════════════════════════════════════════
-       GROUP 0 — GLOBAL SITE SETTINGS
+       GROUP 0, GLOBAL SITE SETTINGS
        Shown on Dashboard page. ONE place to update contact details.
     ════════════════════════════════════════════════════════════ */
     acf_add_local_field_group( [
         'key'        => 'group_nab_global_v1',
-        'title'      => 'NAB Portal — Global Site Settings',
+        'title'      => 'NAB Portal, Global Site Settings',
         'location'   => [ [ [ 'param' => 'page_template', 'operator' => '==', 'value' => 'nab-dashboard' ] ] ],
         'position'   => 'normal',
         'menu_order' => 0,
@@ -60,7 +60,7 @@ function nab_register_all_acf_fields() {
     ] );
 
     /* ════════════════════════════════════════════════════════════
-       GROUP 1 — DASHBOARD SETTINGS
+       GROUP 1, DASHBOARD SETTINGS
        Nav links, LoanConnect API, blog categories, UM form IDs.
     ════════════════════════════════════════════════════════════ */
     acf_add_local_field_group( [
@@ -127,10 +127,10 @@ function nab_register_all_acf_fields() {
             /* ── Tab: Blog & Content ── */
             [ 'key'=>'f_nab_t_blog', 'label'=>'Blog & Content', 'name'=>'', 'type'=>'tab', 'placement'=>'left', 'endpoint'=>0 ],
 
-            [ 'key'=>'f_nab_blog_cat', 'label'=>'Education Blog — Category Slug', 'name'=>'nab_blog_category_slug',
+            [ 'key'=>'f_nab_blog_cat', 'label'=>'Education Blog, Category Slug', 'name'=>'nab_blog_category_slug',
               'type'=>'text', 'default_value'=>'credit-education', 'wrapper'=>['width'=>'50'],
               'instructions'=>'WP category slug. Posts in this category show in the Education Blog tab. Find slug: WP Admin → Posts → Categories.' ],
-            [ 'key'=>'f_nab_diy_cat', 'label'=>'DIY Guide — Category Slug', 'name'=>'nab_diy_category_slug',
+            [ 'key'=>'f_nab_diy_cat', 'label'=>'DIY Guide, Category Slug', 'name'=>'nab_diy_category_slug',
               'type'=>'text', 'default_value'=>'diy-guide', 'wrapper'=>['width'=>'50'],
               'instructions'=>'WP category slug. Posts in this category show in the DIY Guide tab.' ],
 
@@ -182,7 +182,7 @@ function nab_register_all_acf_fields() {
 
             [ 'key'=>'f_nab_ai_model', 'label'=>'AI Model', 'name'=>'nab_ai_model',
               'type'=>'select', 'wrapper'=>['width'=>'50'],
-              'choices'=>['gpt-4o-mini'=>'GPT-4o Mini (recommended — fast & affordable)','gpt-4o'=>'GPT-4o (more powerful, higher cost)'],
+              'choices'=>['gpt-4o-mini'=>'GPT-4o Mini (recommended, fast & affordable)','gpt-4o'=>'GPT-4o (more powerful, higher cost)'],
               'default_value'=>'gpt-4o-mini',
               'instructions'=>'GPT-4o Mini is recommended for most use cases. Switch to GPT-4o for more detailed AI responses.' ],
 
@@ -231,10 +231,10 @@ function nab_register_all_acf_fields() {
 
             [ 'key'=>'f_nab_lc_affid', 'label'=>'Affiliate ID (affid)', 'name'=>'nab_lc_affid',
               'type'=>'text', 'wrapper'=>['width'=>'50'],
-              'instructions'=>'From LoanConnect Partner Dashboard → API Credentials. KEEP SECRET — do not share.' ],
+              'instructions'=>'From LoanConnect Partner Dashboard → API Credentials. KEEP SECRET, do not share.' ],
             [ 'key'=>'f_nab_lc_key', 'label'=>'API Key (key)', 'name'=>'nab_lc_key',
               'type'=>'password', 'wrapper'=>['width'=>'50'],
-              'instructions'=>'From LoanConnect Partner Dashboard → API Credentials. KEEP SECRET — do not share.' ],
+              'instructions'=>'From LoanConnect Partner Dashboard → API Credentials. KEEP SECRET, do not share.' ],
             [ 'key'=>'f_nab_lc_decline', 'label'=>'Loan Decline Redirect URL', 'name'=>'nab_lc_decline_url',
               'type'=>'url', 'wrapper'=>['width'=>'100'],
               'instructions'=>'Where to send members when no loan offers return. Leave blank → shows "Book Specialist" button using the booking URL above.' ],
@@ -250,11 +250,11 @@ function nab_register_all_acf_fields() {
     ] );
 
     /* ════════════════════════════════════════════════════════════
-       GROUP 2 — CREDIT SCORE SIMULATOR
+       GROUP 2, CREDIT SCORE SIMULATOR
     ════════════════════════════════════════════════════════════ */
     acf_add_local_field_group( [
         'key'      => 'group_nab_simulator_v2',
-        'title'    => 'Score Simulator — Editable Text',
+        'title'    => 'Score Simulator, Editable Text',
         'location' => [ [ [ 'param' => 'page_template', 'operator' => '==', 'value' => 'nab-simulator' ] ] ],
         'position' => 'normal',
         'fields'   => [
@@ -276,11 +276,11 @@ function nab_register_all_acf_fields() {
     ] );
 
     /* ════════════════════════════════════════════════════════════
-       GROUP 3 — UTILIZATION CHECKER
+       GROUP 3, UTILIZATION CHECKER
     ════════════════════════════════════════════════════════════ */
     acf_add_local_field_group( [
         'key'      => 'group_nab_util_v2',
-        'title'    => 'Utilization Checker — Editable Text',
+        'title'    => 'Utilization Checker, Editable Text',
         'location' => [ [ [ 'param' => 'page_template', 'operator' => '==', 'value' => 'nab-utilization' ] ] ],
         'position' => 'normal',
         'fields'   => [
@@ -297,11 +297,11 @@ function nab_register_all_acf_fields() {
     ] );
 
     /* ════════════════════════════════════════════════════════════
-       GROUP 4 — CREDIT REPORT ACCESS
+       GROUP 4, CREDIT REPORT ACCESS
     ════════════════════════════════════════════════════════════ */
     acf_add_local_field_group( [
         'key'      => 'group_nab_report_v2',
-        'title'    => 'Credit Report Access — Editable Text',
+        'title'    => 'Credit Report Access, Editable Text',
         'location' => [ [ [ 'param' => 'page_template', 'operator' => '==', 'value' => 'nab-credit-report' ] ] ],
         'position' => 'normal',
         'fields'   => [
@@ -323,11 +323,11 @@ function nab_register_all_acf_fields() {
     ] );
 
     /* ════════════════════════════════════════════════════════════
-       GROUP 5 — DISPUTE CENTER
+       GROUP 5, DISPUTE CENTER
     ════════════════════════════════════════════════════════════ */
     acf_add_local_field_group( [
         'key'      => 'group_nab_dispute_v2',
-        'title'    => 'Dispute Center — Editable Text',
+        'title'    => 'Dispute Center, Editable Text',
         'location' => [ [ [ 'param' => 'page_template', 'operator' => '==', 'value' => 'nab-dispute-center' ] ] ],
         'position' => 'normal',
         'fields'   => [
@@ -343,11 +343,11 @@ function nab_register_all_acf_fields() {
     ] );
 
     /* ════════════════════════════════════════════════════════════
-       GROUP 6 — AUTO LOAN TOOL
+       GROUP 6, AUTO LOAN TOOL
     ════════════════════════════════════════════════════════════ */
     acf_add_local_field_group( [
         'key'      => 'group_nab_loan_v1',
-        'title'    => 'Auto Loan Tool — Editable Text',
+        'title'    => 'Auto Loan Tool, Editable Text',
         'location' => [ [ [ 'param' => 'page_template', 'operator' => '==', 'value' => 'nab-loan' ] ] ],
         'position' => 'normal',
         'fields'   => [
@@ -364,11 +364,11 @@ function nab_register_all_acf_fields() {
     ] );
 
     /* ════════════════════════════════════════════════════════════
-       GROUP 7 — PAD AGREEMENT
+       GROUP 7, PAD AGREEMENT
     ════════════════════════════════════════════════════════════ */
     acf_add_local_field_group( [
         'key'      => 'group_nab_pad_v1',
-        'title'    => 'PAD Agreement — Settings',
+        'title'    => 'PAD Agreement, Settings',
         'location' => [ [ [ 'param' => 'page_template', 'operator' => '==', 'value' => 'nab-pad' ] ] ],
         'position' => 'normal',
         'fields'   => [
@@ -387,10 +387,10 @@ function nab_register_all_acf_fields() {
     ] );
 
     /* ════════════════════════════════════════════════════════════
-       GROUP 7B — FINANCIAL ROADMAP
+       GROUP 7B, FINANCIAL ROADMAP
        Hero text only. The checklist steps themselves (titles, links,
        auto-complete logic) are defined in nab_get_roadmap_steps() in
-       inc/helpers.php, NOT here — they read real portal data (credit
+       inc/helpers.php, NOT here, they read real portal data (credit
        score, EF goal, loan history, etc.) so they can't be configured
        as flat ACF text fields without duplicating that logic. Keeping
        them in code also avoids needing a repeater field, which ACF
@@ -398,7 +398,7 @@ function nab_register_all_acf_fields() {
     ════════════════════════════════════════════════════════════ */
     acf_add_local_field_group( [
         'key'      => 'group_nab_roadmap_v1',
-        'title'    => 'Financial Roadmap — Editable Text',
+        'title'    => 'Financial Roadmap, Editable Text',
         'location' => [ [ [ 'param' => 'page_template', 'operator' => '==', 'value' => 'nab-roadmap' ] ] ],
         'position' => 'normal',
         'fields'   => [

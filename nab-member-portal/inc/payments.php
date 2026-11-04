@@ -121,7 +121,7 @@ function nab_cal_page_data( $uid ) {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   REMINDERS — once a day, when the member opens any portal page,
+   REMINDERS, once a day, when the member opens any portal page,
    add a bell notification for each unpaid bill that is overdue
    (last 7 days) or due in the next 3 days. Autopay bills are skipped.
    ═══════════════════════════════════════════════════════════ */

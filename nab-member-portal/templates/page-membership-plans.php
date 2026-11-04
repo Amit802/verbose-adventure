@@ -22,8 +22,8 @@ $plans = [
         'id'      => nab_mp_plan_id('basic'),
         'name'    => 'Basic',
         'price'   => nab_mp_price_label('basic'),
-        'color'   => '#455a64',
-        'icon'    => '🌱',
+        'color'   => '#4A596C',
+        'icon'    => 'star',
         'tagline' => 'Perfect for getting started',
         'features'=> [ 'Credit Score Dashboard', '3 Dispute Templates / month', 'Basic Education Modules', 'Financial Roadmap', 'Email Support' ],
         'missing' => [ 'AI Credit Assistant', 'Loan Matching Tool', 'Priority Support' ],
@@ -33,8 +33,8 @@ $plans = [
         'name'    => 'Standard',
         'price'   => nab_mp_price_label('standard'),
         'color'   => '#0D5C9B',
-        'icon'    => '⚡',
-        'tagline' => 'Most popular — best value',
+        'icon'    => 'trending-up',
+        'tagline' => 'Most popular, best value',
         'badge'   => 'Most Popular',
         'features'=> [ 'Everything in Basic', 'Unlimited Dispute Templates', 'All Education Modules', 'Points, Levels & Badges', 'Loan Matching Tool', 'Rent Reporting Display', 'Priority Support' ],
         'missing' => [ 'AI Credit Assistant', 'Dedicated Account Manager' ],
@@ -43,55 +43,59 @@ $plans = [
         'id'      => nab_mp_plan_id('premium'),
         'name'    => 'Premium',
         'price'   => nab_mp_price_label('premium'),
-        'color'   => '#b8860b',
-        'icon'    => '👑',
+        'color'   => '#87631A',
+        'icon'    => 'trophy',
         'tagline' => 'Everything, plus AI coaching',
         'features'=> [ 'Everything in Standard', 'AI NAB Assistant (Chatbot)', 'AI Credit Decision Explainer', 'Dedicated Account Manager', 'Emergency Fund Planner', 'Phone & Chat Support', 'Early Access to New Features' ],
         'missing' => [],
     ],
 ];
 
-nab_head_open( 'Membership Plans — NAB Member Portal' );
+nab_head_open( 'Membership Plans | NAB Member Portal' );
 ?>
 <style>
-body{background:#F0F4FA!important}
+body{background:var(--nab-bg)!important}
 .nab-plans-page{max-width:1060px;margin:0 auto;padding:40px 24px}
 .nab-plans-hero{text-align:center;padding:0 0 40px}
-.nab-plans-hero h1{font-size:32px;color:#0D5C9B;margin:0 0 10px}
-.nab-plans-hero p{font-size:16px;color:#64748b;margin:0 0 24px}
+.nab-plans-hero h1{font-size:30px;font-weight:700;letter-spacing:-.02em;color:var(--nab-text);margin:0 0 10px}
+.nab-plans-hero p{font-size:16px;color:var(--nab-text-2);margin:0 0 24px}
 .nab-toggle-row{display:flex;align-items:center;gap:10px;justify-content:center;font-size:14px}
-.nab-toggle-lbl{cursor:pointer;color:#64748b;padding:5px 0}
-.nab-toggle-lbl.active{color:#0D5C9B;font-weight:700;border-bottom:2px solid #0D5C9B}
+.nab-toggle-lbl{cursor:pointer;color:var(--nab-text-2);padding:5px 0}
+.nab-toggle-lbl.active{color:var(--nab-brand);font-weight:700;border-bottom:2px solid var(--nab-brand)}
 .nab-save-tag{background:#dcfce7;color:#15803d;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:700}
 .nab-plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:40px}
-.nab-plan-card{background:#fff;border-radius:14px;padding:32px 26px;box-shadow:0 2px 16px rgba(0,0,0,.07);position:relative;border-top:4px solid var(--pc,#0D5C9B);transition:.2s}
-.nab-plan-card:hover{transform:translateY(-3px);box-shadow:0 6px 32px rgba(0,0,0,.1)}
-.nab-plan-card.featured{border-top-width:6px;transform:scale(1.03)}
-.nab-plan-card.featured:hover{transform:scale(1.03) translateY(-3px)}
-.nab-plan-top-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:#0D5C9B;color:#fff;padding:3px 14px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;white-space:nowrap}
+.nab-plan-card{background:var(--nab-surface);border:1px solid var(--nab-line);border-radius:16px;padding:30px 26px;box-shadow:var(--nab-shadow);position:relative;transition:border-color .15s,box-shadow .15s}
+.nab-plan-card:hover{border-color:#D0D5DD;box-shadow:0 8px 24px rgba(16,24,40,.08)}
+.nab-plan-card.featured{border:2px solid var(--nab-brand)}
+.nab-plan-card.featured:hover{border-color:var(--nab-brand)}
+.nab-plan-top-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--nab-brand);color:#fff;padding:3px 14px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;white-space:nowrap}
 .nab-plan-top-badge.current{background:#166534}
-.nab-plan-icon{font-size:34px;margin-bottom:10px}
-.nab-plan-card h2{font-size:20px;color:#1e293b;margin:0 0 4px}
-.nab-plan-card .tagline{font-size:13px;color:#64748b;margin:0 0 18px}
+.nab-plan-icon{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;color:var(--pc);background:color-mix(in srgb,var(--pc) 12%,#fff)}
+.nab-plan-card h2{font-size:20px;color:var(--nab-text);margin:0 0 4px}
+.nab-plan-card .tagline{font-size:13px;color:var(--nab-text-2);margin:0 0 18px}
 .nab-price-row{display:flex;align-items:baseline;gap:2px;margin-bottom:4px}
-.nab-price-cur{font-size:18px;color:#0D5C9B;font-weight:700}
-.nab-price-amt{font-size:44px;font-weight:800;color:#0D5C9B;line-height:1}
-.nab-price-per{font-size:13px;color:#94a3b8;margin-left:4px}
-.nab-annual-note{font-size:11px;color:#64748b;margin-bottom:18px}
-.nab-plan-features{list-style:none;padding:0;margin:16px 0 24px;border-top:1px solid #f1f5f9;padding-top:16px}
-.nab-plan-features li{padding:7px 0;font-size:13px;border-bottom:1px solid #f8fafc;display:flex;gap:8px}
-.nab-feat-yes{color:#1e293b}
-.nab-feat-no{color:#cbd5e1}
+.nab-price-cur{font-size:18px;color:var(--nab-brand);font-weight:700}
+.nab-price-amt{font-size:44px;font-weight:800;color:var(--nab-brand);line-height:1}
+.nab-price-per{font-size:13px;color:var(--nab-text-3);margin-left:4px}
+.nab-annual-note{font-size:11px;color:var(--nab-text-2);margin-bottom:18px}
+.nab-plan-features{list-style:none;padding:0;margin:16px 0 24px;border-top:1px solid var(--nab-line-soft);padding-top:16px}
+.nab-plan-features li{padding:7px 0;font-size:13.5px;border-bottom:1px solid var(--nab-line-soft);display:flex;gap:8px;align-items:flex-start}
+.nab-feat-yes .nab-i{color:var(--nab-good);margin-top:1px}
+.nab-feat-no .nab-i{margin-top:1px}
+.nab-feat-yes{color:var(--nab-text)}
+.nab-feat-no{color:var(--nab-text-3)}
 .nab-plan-cta .nab-btn-plan{display:block;text-align:center;padding:13px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;transition:.2s}
-.nab-plan-cta .nab-btn-plan.primary{background:#0D5C9B;color:#fff}
-.nab-plan-cta .nab-btn-plan.primary:hover{background:#0a4a7c}
-.nab-plan-cta .nab-btn-plan.outline{border:2px solid #0D5C9B;color:#0D5C9B}
-.nab-trust-row{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;padding:20px;background:#e8f0fb;border-radius:10px;margin-bottom:48px;font-size:13px;color:#0D5C9B;font-weight:600}
-.nab-faq-section h2{text-align:center;color:#0D5C9B;margin:0 0 28px}
+.nab-plan-cta .nab-btn-plan.primary{background:var(--nab-brand);color:#fff}
+.nab-plan-cta .nab-btn-plan.primary:hover{background:var(--nab-brand-strong)}
+.nab-plan-cta .nab-btn-plan.outline{border:2px solid var(--nab-brand);color:var(--nab-brand)}
+.nab-trust-row{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;padding:16px 20px;background:var(--nab-surface);border:1px solid var(--nab-line);border-radius:var(--nab-radius);margin-bottom:48px;font-size:13px;color:var(--nab-text-2);font-weight:600}
+.nab-trust-row span{display:inline-flex;align-items:center;gap:6px}
+.nab-trust-row .nab-i{color:var(--nab-brand)}
+.nab-faq-section h2{text-align:center;color:var(--nab-text);font-size:22px;margin:0 0 24px}
 .nab-faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.nab-faq-item{background:#fff;border-radius:10px;padding:20px;box-shadow:0 1px 6px rgba(0,0,0,.06)}
-.nab-faq-item h4{margin:0 0 6px;color:#1e293b;font-size:14px}
-.nab-faq-item p{margin:0;color:#64748b;font-size:13px;line-height:1.6}
+.nab-faq-item{background:var(--nab-surface);border:1px solid var(--nab-line);border-radius:var(--nab-radius);padding:20px;box-shadow:var(--nab-shadow)}
+.nab-faq-item h4{margin:0 0 6px;color:var(--nab-text);font-size:14px}
+.nab-faq-item p{margin:0;color:var(--nab-text-2);font-size:13px;line-height:1.6}
 @media(max-width:768px){
   .nab-plans-grid{grid-template-columns:1fr}
   .nab-faq-grid{grid-template-columns:1fr}
@@ -132,7 +136,7 @@ body{background:#F0F4FA!important}
                 <div class="nab-plan-top-badge"><?php echo esc_html($plan['badge']); ?></div>
             <?php endif; ?>
 
-            <div class="nab-plan-icon"><?php echo $plan['icon']; ?></div>
+            <div class="nab-plan-icon"><?php echo nab_portal_icon( $plan['icon'], 22 ); ?></div>
             <h2><?php echo esc_html($plan['name']); ?></h2>
             <p class="tagline"><?php echo esc_html($plan['tagline']); ?></p>
 
@@ -146,10 +150,10 @@ body{background:#F0F4FA!important}
 
             <ul class="nab-plan-features">
                 <?php foreach ($plan['features'] as $f): ?>
-                    <li class="nab-feat-yes">✓ <?php echo esc_html($f); ?></li>
+                    <li class="nab-feat-yes"><?php echo nab_portal_icon( 'check', 16 ); ?> <?php echo esc_html($f); ?></li>
                 <?php endforeach; ?>
                 <?php foreach ($plan['missing'] as $f): ?>
-                    <li class="nab-feat-no">✗ <?php echo esc_html($f); ?></li>
+                    <li class="nab-feat-no"><?php echo nab_portal_icon( 'x', 16 ); ?> <?php echo esc_html($f); ?></li>
                 <?php endforeach; ?>
             </ul>
 
@@ -167,11 +171,11 @@ body{background:#F0F4FA!important}
     </div>
 
     <div class="nab-trust-row">
-        <span>🔒 Secure Payments via Stripe</span>
-        <span>↩️ Cancel Anytime</span>
-        <span>⏸ Pause Anytime</span>
-        <span>🇨🇦 Made for Canadians</span>
-        <span>💰 7-Day Money-Back Guarantee</span>
+        <span><?php echo nab_portal_icon( 'lock', 16 ); ?> Secure payments via Stripe</span>
+        <span><?php echo nab_portal_icon( 'circle-x', 16 ); ?> Cancel anytime</span>
+        <span><?php echo nab_portal_icon( 'pause', 16 ); ?> Pause anytime</span>
+        <span><?php echo nab_portal_icon( 'house', 16 ); ?> Made for Canadians</span>
+        <span><?php echo nab_portal_icon( 'shield-check', 16 ); ?> 7-day money-back guarantee</span>
     </div>
 
     <div class="nab-faq-section">
@@ -179,7 +183,7 @@ body{background:#F0F4FA!important}
         <div class="nab-faq-grid">
             <?php
             $faqs = [
-                ['Can I cancel anytime?','Yes. Cancel from your account page anytime. Access continues until the end of your billing period — no penalty.'],
+                ['Can I cancel anytime?','Yes. Cancel from your account page anytime. Access continues until the end of your billing period, no penalty.'],
                 ['What payments are accepted?','All major credit/debit cards (Visa, Mastercard, Amex) via Stripe. PAD available for annual plans.'],
                 ['Can I upgrade or downgrade?','Yes. Upgrades activate instantly. Downgrades take effect at your next billing date.'],
                 ['Is my data safe?','All data is encrypted and stored on Canadian servers. We never share your information with third parties.'],

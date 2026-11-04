@@ -26,9 +26,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /* ═══════════════════════════════════════════════════════════
    1. PAGE TEMPLATES
    key = value stored in the page's _wp_page_template meta.
-     name  — label in Page Attributes → Template
-     file  — file in /templates
-     cache — false = never page-cache (default false: portal pages
+     name, label in Page Attributes → Template
+     file, file in /templates
+     cache, false = never page-cache (default false: portal pages
              show member-specific data and nonces)
    Order = order in the template dropdown.
    ═══════════════════════════════════════════════════════════ */
@@ -68,14 +68,14 @@ function nab_portal_current_tool() {
 /* ═══════════════════════════════════════════════════════════
    2. SIDEBAR + SEARCH
    Each item:
-     key      — id used for the active state (nab_render_sidebar( $key ))
+     key, id used for the active state (nab_render_sidebar( $key ))
                 and the link lookup in nab_get_nav_links()
-     label    — sidebar text
-     icon     — name from inc/icons.php
-     tab      — (optional) dashboard tab to open instead of a page
-     template — (optional) page template to link to when nab_get_nav_links()
-                has no entry for this key — new tools need no ACF field
-     desc / keywords — shown / matched by the dashboard search
+     label, sidebar text
+     icon, name from inc/icons.php
+     tab, (optional) dashboard tab to open instead of a page
+     template, (optional) page template to link to when nab_get_nav_links()
+                has no entry for this key, new tools need no ACF field
+     desc / keywords, shown / matched by the dashboard search
    ═══════════════════════════════════════════════════════════ */
 function nab_portal_nav_sections() {
     static $sections = null;

@@ -68,13 +68,13 @@ $last_util  = get_user_meta( $user_id, 'nab_last_utilization_pct',   true );
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Utilization Checker — <?php bloginfo( 'name' ); ?></title>
+<title>Utilization Checker, <?php bloginfo( 'name' ); ?></title>
 <?php wp_head(); ?>
 <style>
 /* ── Hide theme chrome (Hello Elementor / other themes) ─────────── */
 .site-header,.site-footer,.elementor-location-header,
 .elementor-location-footer,#masthead,#colophon { display:none !important; }
-body { margin:0 !important; padding:0 !important; background:#F0F4FA !important; }
+body { margin:0 !important; padding:0 !important; background:var(--nab-bg) !important; }
 .elementor-page .elementor-section-wrap,
 .e-page-settings .elementor-section-wrap { padding:0 !important; }
 
@@ -87,11 +87,11 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
 }
 
 /* ══════════════════════════════════════════════════════════════════
-   SIDEBAR — copied exactly from Dispute Center
+   SIDEBAR, copied exactly from Dispute Center
 ══════════════════════════════════════════════════════════════════ */
 .nab-sidebar {
     width:260px; min-width:260px;
-    background:linear-gradient(160deg,#0D5C9B 0%,#0a4a7c 100%);
+    background:linear-gradient(160deg,var(--nab-brand) 0%,var(--nab-brand-strong) 100%);
     display:flex; flex-direction:column;
     position:sticky; top:0; height:100vh; overflow-y:auto; z-index:100;
 }
@@ -155,7 +155,7 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
 /* ══ HAMBURGER + OVERLAY ════════════════════════════════════════════ */
 .nab-hamburger {
     display:none; position:fixed; top:14px; left:14px; z-index:200;
-    background:#0D5C9B; color:#fff; border:none;
+    background:var(--nab-brand); color:#fff; border:none;
     width:40px; height:40px; border-radius:10px;
     font-size:1.2rem; cursor:pointer;
     align-items:center; justify-content:center;
@@ -183,7 +183,7 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
     border-bottom:1px solid #e8edf5;
     position:sticky; top:0; z-index:50;
 }
-.nab-topbar-title { font-weight:700; font-size:1rem; color:#1a202c; }
+.nab-topbar-title { font-weight:700; font-size:1rem; color:var(--nab-text); }
 .nab-topbar-right { display:flex; align-items:center; gap:12px; }
 .nab-status-badge { font-size:.75rem; font-weight:600; padding:4px 12px; border-radius:50px; }
 .nab-status-active    { background:#d1fae5; color:#065f46; }
@@ -204,46 +204,6 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
 /* ══ PAGE CONTENT ═══════════════════════════════════════════════════ */
 .uc-content { padding:24px 28px 60px; }
 
-/* ── Hero ── */
-.uc-hero {
-    background:linear-gradient(135deg,#1a3a8f 0%,#2563eb 55%,#1d4ed8 100%);
-    border-radius:16px; padding:28px 32px; color:#fff;
-    margin-bottom:24px; display:flex;
-    align-items:flex-end; justify-content:space-between;
-    flex-wrap:wrap; gap:20px;
-    position:relative; overflow:hidden;
-}
-.uc-hero::before {
-    content:''; position:absolute; right:-60px; top:-80px;
-    width:300px; height:300px; background:rgba(255,255,255,.04);
-    border-radius:50%; pointer-events:none;
-}
-.uc-hero-greeting { font-size:.82rem; color:rgba(255,255,255,.7); margin-bottom:3px; }
-.uc-hero-name     { font-size:1.5rem; font-weight:700; margin-bottom:8px; }
-.uc-hero-desc     { font-size:.85rem; color:rgba(255,255,255,.75); max-width:520px; line-height:1.6; }
-.uc-hero-pills    { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
-.uc-hero-pill {
-    background:rgba(255,255,255,.14);
-    border:1px solid rgba(255,255,255,.2);
-    border-radius:20px; padding:4px 12px;
-    font-size:.75rem; font-weight:500;
-}
-.uc-hero-actions { display:flex; gap:10px; flex-shrink:0; position:relative; z-index:1; }
-.btn-outline-white {
-    border:1.5px solid rgba(255,255,255,.5); color:#fff;
-    background:transparent; border-radius:8px; padding:8px 18px;
-    font-size:.83rem; font-weight:500; cursor:pointer;
-    text-decoration:none; transition:background .15s;
-}
-.btn-outline-white:hover { background:rgba(255,255,255,.1); color:#fff; }
-.btn-orange {
-    background:#F5A623; color:#fff; border:none;
-    border-radius:8px; padding:8px 18px;
-    font-size:.83rem; font-weight:600; cursor:pointer;
-    text-decoration:none; transition:background .15s;
-}
-.btn-orange:hover { background:#e09415; }
-
 /* ── Main grid ── */
 .uc-grid {
     display:grid; grid-template-columns:1fr 340px;
@@ -253,16 +213,16 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
 
 /* ── Cards ── */
 .uc-card {
-    background:#fff; border-radius:14px;
-    border:1px solid #e8edf5; overflow:hidden;
+    background:var(--nab-surface); border-radius:var(--nab-radius);
+    border:1px solid var(--nab-line); box-shadow:var(--nab-shadow); overflow:hidden;
 }
 .uc-card-head {
     display:flex; align-items:flex-start;
     justify-content:space-between; gap:12px;
     padding:20px 24px 0;
 }
-.uc-card-title    { font-size:.95rem; font-weight:700; color:#1a202c; margin-bottom:3px; }
-.uc-card-subtitle { font-size:.78rem; color:#718096; }
+.uc-card-title    { font-size:.95rem; font-weight:700; color:var(--nab-text); margin-bottom:3px; }
+.uc-card-subtitle { font-size:.78rem; color:var(--nab-text-2); }
 .uc-card-body     { padding:16px 24px 24px; }
 
 .btn-clear {
@@ -278,20 +238,20 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
 .uc-section { margin-bottom:14px; }
 .uc-section-header {
     display:flex; align-items:center; gap:8px;
-    padding-bottom:9px; border-bottom:1px solid #f0f4fa; margin-bottom:11px;
+    padding-bottom:9px; border-bottom:1px solid var(--nab-bg); margin-bottom:11px;
 }
 .uc-section-num {
     width:22px; height:22px; border-radius:50%;
     display:flex; align-items:center; justify-content:center;
     font-size:.7rem; font-weight:700; color:#fff; flex-shrink:0;
 }
-.uc-section-title { font-size:.83rem; font-weight:600; color:#1a202c; }
-.uc-optional-tag  { font-size:.68rem; color:#718096; background:#f1f5f9; padding:2px 7px; border-radius:4px; }
-.uc-required-tag  { font-size:.68rem; color:#0D5C9B; background:#EEF3FA; padding:2px 7px; border-radius:4px; }
+.uc-section-title { font-size:.83rem; font-weight:600; color:var(--nab-text); }
+.uc-optional-tag  { font-size:.68rem; color:var(--nab-text-2); background:var(--nab-line-soft); padding:2px 7px; border-radius:4px; }
+.uc-required-tag  { font-size:.68rem; color:var(--nab-brand); background:var(--nab-bg); padding:2px 7px; border-radius:4px; }
 .uc-mini-badge    { font-size:.7rem; font-weight:700; padding:2px 9px; border-radius:20px; margin-left:auto; }
 
 .uc-card-row {
-    background:#f8fafc; border:1px solid #e8edf5;
+    background:var(--nab-surface-2); border:1px solid #e8edf5;
     border-radius:10px; padding:12px 14px;
 }
 .uc-card-row-label {
@@ -307,23 +267,23 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
 }
 .uc-field label {
     display:block; font-size:.72rem; font-weight:500;
-    color:#718096; margin-bottom:5px;
+    color:var(--nab-text-2); margin-bottom:5px;
 }
 .uc-field input {
-    width:100%; border:1.5px solid #e2e8f0; border-radius:8px;
+    width:100%; border:1.5px solid var(--nab-line); border-radius:8px;
     padding:8px 11px; font-size:.85rem; font-family:inherit;
-    color:#1a202c; background:#fff; outline:none;
+    color:var(--nab-text); background:#fff; outline:none;
     transition:border-color .15s, box-shadow .15s;
 }
 .uc-field input:focus {
-    border-color:#0D5C9B;
+    border-color:var(--nab-brand);
     box-shadow:0 0 0 3px rgba(13,92,155,.1);
 }
 .uc-field input::placeholder { color:#c0ccd8; }
 
 /* ── Buttons ── */
 .uc-calc-btn {
-    width:100%; background:#0D5C9B; color:#fff;
+    width:100%; background:var(--nab-brand); color:#fff;
     border:none; border-radius:10px; padding:13px 20px;
     font-size:.9rem; font-weight:700; font-family:inherit;
     cursor:pointer; margin-top:16px;
@@ -345,18 +305,18 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
 .uc-save-btn:active   { transform:scale(.99); }
 .uc-save-btn:disabled { opacity:.6; cursor:not-allowed; }
 
-.uc-last-saved { text-align:center; font-size:.72rem; color:#718096; margin-top:10px; }
+.uc-last-saved { text-align:center; font-size:.72rem; color:var(--nab-text-2); margin-top:10px; }
 
 /* ── Results card ── */
 .uc-result-card { position:sticky; top:76px; }
 
-.uc-placeholder { text-align:center; padding:28px 20px; color:#718096; }
-.uc-placeholder-icon { font-size:2.5rem; margin-bottom:10px; }
+.uc-placeholder { text-align:center; padding:28px 20px; color:var(--nab-text-2); }
+.uc-placeholder-icon { color:var(--nab-text-3); margin-bottom:10px; display:flex; justify-content:center; }
 .uc-placeholder-text { font-size:.83rem; line-height:1.6; }
 .uc-last-hint {
-    margin-top:14px; background:#EEF3FA;
+    margin-top:14px; background:var(--nab-bg);
     border:1px solid #bfdbfe; border-radius:8px;
-    padding:10px 14px; font-size:.78rem; color:#0D5C9B;
+    padding:10px 14px; font-size:.78rem; color:var(--nab-brand);
 }
 
 /* Ring */
@@ -368,24 +328,24 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
     align-items:center; justify-content:center;
 }
 .uc-score-num  { font-size:1.9rem; font-weight:800; line-height:1; }
-.uc-score-unit { font-size:.72rem; color:#718096; }
+.uc-score-unit { font-size:.72rem; color:var(--nab-text-2); }
 .uc-score-lbl  { font-size:.95rem; font-weight:700; margin-bottom:3px; }
-.uc-score-sub  { font-size:.78rem; color:#718096; }
+.uc-score-sub  { font-size:.78rem; color:var(--nab-text-2); }
 
 /* Meter */
-.uc-meter { background:#f1f5f9; border-radius:8px; padding:12px 14px; margin:16px 0; }
+.uc-meter { background:var(--nab-line-soft); border-radius:8px; padding:12px 14px; margin:16px 0; }
 .uc-meter-labels {
     display:flex; justify-content:space-between;
-    font-size:.68rem; color:#94a3b8; margin-bottom:7px;
+    font-size:.68rem; color:var(--nab-text-3); margin-bottom:7px;
 }
-.uc-meter-track { height:10px; background:#e2e8f0; border-radius:10px; overflow:hidden; }
+.uc-meter-track { height:10px; background:var(--nab-line); border-radius:10px; overflow:hidden; }
 .uc-meter-fill  {
     height:100%; border-radius:10px; width:0%;
     transition:width .8s cubic-bezier(.4,0,.2,1), background .4s;
 }
 .uc-meter-ticks {
     display:flex; justify-content:space-between;
-    font-size:.65rem; color:#94a3b8; margin-top:5px;
+    font-size:.65rem; color:var(--nab-text-3); margin-top:5px;
 }
 
 /* Status boxes */
@@ -393,7 +353,7 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
     border-radius:10px; padding:12px 14px;
     margin-top:14px; font-size:.78rem; line-height:1.6; display:none;
 }
-.uc-status-icon  { font-size:.95rem; margin-bottom:3px; display:block; }
+.uc-status-icon  { margin-bottom:4px; display:flex; }
 .uc-status-title { font-weight:700; font-size:.83rem; margin-bottom:3px; }
 .uc-status.green  { background:#f0fdf4; border:1px solid #bbf7d0; color:#15803d; }
 .uc-status.yellow { background:#fefce8; border:1px solid #fde68a; color:#a16207; }
@@ -401,18 +361,18 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
 
 /* Breakdown */
 .uc-breakdown-head {
-    font-size:.72rem; font-weight:600; color:#718096;
+    font-size:.72rem; font-weight:600; color:var(--nab-text-2);
     text-transform:uppercase; letter-spacing:.06em; margin:16px 0 8px;
 }
 .uc-bd-item {
     display:flex; align-items:center; justify-content:space-between;
-    padding:7px 0; border-bottom:1px solid #f1f5f9; font-size:.78rem;
+    padding:7px 0; border-bottom:1px solid var(--nab-line-soft); font-size:.78rem;
 }
 .uc-bd-item:last-child { border-bottom:none; }
-.uc-bd-left  { display:flex; align-items:center; gap:8px; font-weight:500; color:#1a202c; }
+.uc-bd-left  { display:flex; align-items:center; gap:8px; font-weight:500; color:var(--nab-text); }
 .uc-bd-dot   { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
 .uc-bd-right { display:flex; align-items:center; gap:6px; }
-.uc-bd-amt   { font-size:.72rem; color:#718096; }
+.uc-bd-amt   { font-size:.72rem; color:var(--nab-text-2); }
 
 .uc-badge { font-size:.72rem; font-weight:700; padding:2px 8px; border-radius:20px; }
 .badge-green  { background:#dcfce7; color:#15803d; }
@@ -422,22 +382,22 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
 /* Totals */
 .uc-totals {
     display:flex; justify-content:space-between;
-    background:#f8fafc; border:1px solid #e8edf5;
+    background:var(--nab-surface-2); border:1px solid #e8edf5;
     border-radius:8px; padding:12px 14px;
     margin-top:10px; font-size:.78rem;
 }
-.uc-total-lbl { color:#718096; margin-bottom:2px; }
-.uc-total-val { font-weight:700; font-size:.95rem; color:#1a202c; }
+.uc-total-lbl { color:var(--nab-text-2); margin-bottom:2px; }
+.uc-total-val { font-weight:700; font-size:.95rem; color:var(--nab-text); }
 
 /* Tips card */
 .uc-tips {
-    background:linear-gradient(135deg,#0D5C9B,#1d4ed8);
-    border-radius:14px; padding:18px 20px; color:#fff; margin-top:16px;
+    background:var(--nab-surface); border:1px solid var(--nab-line); box-shadow:var(--nab-shadow);
+    border-radius:var(--nab-radius); padding:18px 20px; color:var(--nab-text); margin-top:16px;
 }
-.uc-tips-title { font-size:.83rem; font-weight:700; margin-bottom:12px; opacity:.9; }
-.uc-tip { display:flex; gap:10px; margin-bottom:10px; font-size:.78rem; color:rgba(255,255,255,.85); line-height:1.5; }
+.uc-tips-title { font-size:.95rem; font-weight:700; margin-bottom:12px; }
+.uc-tip { display:flex; gap:10px; margin-bottom:10px; font-size:.84rem; color:var(--nab-text-2); line-height:1.5; }
 .uc-tip-num {
-    width:18px; height:18px; background:rgba(255,255,255,.15); border-radius:50%;
+    width:20px; height:20px; background:var(--nab-brand-soft); color:var(--nab-brand); border-radius:50%;
     display:flex; align-items:center; justify-content:center;
     font-size:.65rem; font-weight:700; flex-shrink:0;
 }
@@ -449,9 +409,9 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
 <div class="nab-portal-wrap">
 
 <!-- ══════════════════════════════════════════════════════════════════
-     SIDEBAR — now rendered via shared nab_render_sidebar() so all
+     SIDEBAR, now rendered via shared nab_render_sidebar() so all
      templates stay in sync automatically (was hardcoded before, and
-     was missing the "Learning Center" link — now included)
+     was missing the "Learning Center" link, now included)
 ══════════════════════════════════════════════════════════════════ -->
 <?php nab_render_sidebar( 'util' ); ?>
 
@@ -461,7 +421,7 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
 <main class="nab-main">
 
     <header class="nab-topbar">
-        <div class="nab-topbar-title">📊 Utilization Checker</div>
+        <div class="nab-topbar-title"><?php echo nab_portal_icon( 'gauge', 20 ); ?> Utilization Checker</div>
         <div class="nab-topbar-right">
             <span class="nab-status-badge nab-status-<?php echo esc_attr( strtolower( $member_status ) ); ?>">
                 ● <?php echo esc_html( $member_status ); ?>
@@ -474,23 +434,22 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
 
     <div class="uc-content">
 
-        <!-- Hero Banner -->
-        <div class="uc-hero">
+        <section class="nab-page-head">
             <div>
-                <div class="uc-hero-greeting">👋 Good Evening,</div>
-                <div class="uc-hero-name"><?php echo esc_html( $first_name ); ?></div>
-                <div class="uc-hero-desc">Check your revolving credit utilization across all cards. Many scoring models consider under 30% as generally favorable, while under 10% is often associated with stronger score outcomes. Results are estimates, not guarantees of any specific credit score or approval.</div>
-                <div class="uc-hero-pills">
-                    <span class="uc-hero-pill">✅ <?php echo esc_html( $member_status ); ?> Member</span>
-                    <span class="uc-hero-pill">🔒 Secured</span>
-                    <span class="uc-hero-pill">Member ID: #<?php echo esc_html( $member_id ); ?></span>
+                <div class="nab-page-eyebrow">Credit tools</div>
+                <h1 class="nab-page-title">Utilization Checker</h1>
+                <p class="nab-page-sub">See how much of your available credit you're using across your cards. Many scoring models treat under 30% as healthy and under 10% as strong. Results are estimates, not a guarantee of any score or approval.</p>
+                <div class="nab-page-meta">
+                    <span class="nab-chip nab-chip-good"><?php echo esc_html( $member_status ); ?> member</span>
+                    <span class="nab-chip"><?php echo nab_portal_icon( 'lock', 14 ); ?> Saved privately to your profile</span>
+                    <span class="nab-chip">ID #<?php echo esc_html( $member_id ); ?></span>
                 </div>
             </div>
-            <div class="uc-hero-actions">
-                <a href="<?php echo $dashboard_url; ?>" class="btn-outline-white">View Profile</a>
-                <a href="<?php echo $url_booking; ?>"  class="btn-orange">Book Specialist</a>
+            <div class="nab-page-actions">
+                <a href="<?php echo $dashboard_url; ?>" class="nab-ui-btn">Dashboard</a>
+                <a href="<?php echo $url_booking; ?>" class="nab-ui-btn nab-ui-btn-primary"><?php echo nab_portal_icon( 'calendar-days', 16 ); ?> Book a specialist</a>
             </div>
-        </div>
+        </section>
 
         <!-- Grid -->
         <div class="uc-grid">
@@ -503,7 +462,7 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
                             <div class="uc-card-title">Enter Your Card Details</div>
                             <div class="uc-card-subtitle">You can add up to 5 revolving credit cards. The information you enter is saved securely to your account and used only to calculate your utilization within this tool.</div>
                         </div>
-                        <button class="btn-clear" onclick="ucClearAll()">🗑 Clear All</button>
+                        <button class="btn-clear" onclick="ucClearAll()">Clear All</button>
                     </div>
                     <div class="uc-card-body">
 
@@ -531,7 +490,7 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
                             </div>
                             <div class="uc-card-row">
                                 <div class="uc-card-row-label" style="color:<?php echo $color; ?>">
-                                    💳 <?php echo esc_html( $label ); ?>
+                                    <?php echo esc_html( $label ); ?>
                                 </div>
                                 <div class="uc-fields">
                                     <div class="uc-field">
@@ -563,12 +522,12 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
                         <?php endfor; ?>
 
                         <button class="uc-calc-btn" onclick="ucCalculate()">
-                            📊 Calculate My Utilization
+                            Calculate My Utilization
                         </button>
 
                         <?php if ( $last_saved ) : ?>
                         <div class="uc-last-saved">
-                            🕐 Last saved: <?php echo esc_html( date_i18n( 'M j, Y g:i a', strtotime( $last_saved ) ) ); ?>
+                            Last saved: <?php echo esc_html( date_i18n( 'M j, Y g:i a', strtotime( $last_saved ) ) ); ?>
                         </div>
                         <?php endif; ?>
 
@@ -588,7 +547,7 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
                     <div class="uc-card-body">
 
                         <div id="ucPlaceholder" class="uc-placeholder">
-                            <div class="uc-placeholder-icon">📊</div>
+                            <div class="uc-placeholder-icon"><?php echo nab_portal_icon( 'gauge', 36 ); ?></div>
                             <div class="uc-placeholder-text">Enter your card balances and limits, then click <strong>Calculate</strong> to see your score.</div>
                             <?php if ( $last_util !== '' ) : ?>
                             <div class="uc-last-hint">
@@ -613,8 +572,8 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
                                         <div class="uc-score-unit">utilization</div>
                                     </div>
                                 </div>
-                                <div id="ucScoreLbl" class="uc-score-lbl">—</div>
-                                <div id="ucScoreSub" class="uc-score-sub">—</div>
+                                <div id="ucScoreLbl" class="uc-score-lbl">-</div>
+                                <div id="ucScoreSub" class="uc-score-sub">-</div>
                             </div>
 
                             <div class="uc-meter">
@@ -630,17 +589,17 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
                             </div>
 
                             <div id="ucStatusGreen"  class="uc-status green">
-                                <span class="uc-status-icon">✅</span>
+                                <span class="uc-status-icon"><?php echo nab_portal_icon( 'circle-check', 18 ); ?></span>
                                 <div class="uc-status-title">Excellent Utilization!</div>
-                                Below 30% — lenders see you as a responsible borrower. Keep balances low to maintain or improve your score.
+                                Below 30%, lenders see you as a responsible borrower. Keep balances low to maintain or improve your score.
                             </div>
                             <div id="ucStatusYellow" class="uc-status yellow">
-                                <span class="uc-status-icon">⚠️</span>
+                                <span class="uc-status-icon"><?php echo nab_portal_icon( 'triangle-alert', 18 ); ?></span>
                                 <div class="uc-status-title">Moderate, Room to Improve</div>
                                 Between 30–75%. Pay down your highest-balance cards first. A 10–15% reduction can boost your score meaningfully.
                             </div>
                             <div id="ucStatusRed"    class="uc-status red">
-                                <span class="uc-status-icon">🚨</span>
+                                <span class="uc-status-icon"><?php echo nab_portal_icon( 'circle-x', 18 ); ?></span>
                                 <div class="uc-status-title">High Utilization, Action Needed</div>
                                 Above 75%. This is actively hurting your score. Prioritize paying down balances or request a limit increase now.
                             </div>
@@ -664,7 +623,7 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
                             </div>
 
                             <button class="uc-save-btn" id="ucSaveBtn" onclick="ucSave()">
-                                💾 Save My Results
+                                Save My Results
                             </button>
 
                         </div><!-- /ucResults -->
@@ -672,7 +631,7 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
                 </div>
 
                 <div class="uc-tips">
-                    <div class="uc-tips-title">💡 Pro Tips to Lower Utilization</div>
+                    <div class="uc-tips-title">Pro Tips to Lower Utilization</div>
                     <div class="uc-tip"><span class="uc-tip-num">1</span>Prioritize paying down cards with the highest utilization percentage first.</div>
                     <div class="uc-tip"><span class="uc-tip-num">2</span>Consider requesting a credit limit increase; if approved, this may reduce your utilization.</div>
                     <div class="uc-tip"><span class="uc-tip-num">3</span>Make multiple payments each month to keep reported balances lower.</div>
@@ -742,10 +701,10 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
         el('ucScoreNum').style.color = c;
 
         var lbl, sub;
-        if      (ov < 10) { lbl='🌟 Exceptional'; sub='Below 10% — ideal for maximum score impact'; }
-        else if (ov < 30) { lbl='✅ Excellent';   sub='Below 30% — well within safe range'; }
-        else if (ov < 75) { lbl='⚠️ Moderate';   sub='Between 30–75% — consider paying down balances'; }
-        else              { lbl='🚨 High Risk';   sub='Above 75% — this is hurting your score'; }
+        if      (ov < 10) { lbl='Exceptional'; sub='Below 10%, ideal for maximum score impact'; }
+        else if (ov < 30) { lbl='Excellent';   sub='Below 30%, well within safe range'; }
+        else if (ov < 75) { lbl='Moderate';   sub='Between 30–75%, consider paying down balances'; }
+        else              { lbl='High Risk';   sub='Above 75%, this is hurting your score'; }
         el('ucScoreLbl').textContent = lbl; el('ucScoreLbl').style.color = c;
         el('ucScoreSub').textContent = sub;
 
@@ -776,7 +735,7 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
         if (!nonce || !url) return;
         var saveBtn = el('ucSaveBtn');
         saveBtn.disabled    = true;
-        saveBtn.textContent = '⏳ Saving…';
+        saveBtn.textContent = 'Saving…';
         var fd = new FormData();
         fd.append('action','nab_save_utilization_data');
         fd.append('_wpnonce',nonce);
@@ -793,11 +752,11 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
         fetch(url,{method:'POST',body:fd})
             .then(function(r){return r.json();})
             .then(function(d){
-                if(d.success){ notice('✅ '+(d.data&&d.data.message||'Saved successfully!'),'success'); var ls=document.querySelector('.uc-last-saved'); if(ls) ls.textContent='🕐 Last saved: just now'; }
-                else          { notice('❌ '+(d.data&&d.data.message||'Could not save.'),'error'); }
+                if(d.success){ notice(''+(d.data&&d.data.message||'Saved successfully!'),'success'); var ls=document.querySelector('.uc-last-saved'); if(ls) ls.textContent='Last saved: just now'; }
+                else          { notice(''+(d.data&&d.data.message||'Could not save.'),'error'); }
             })
-            .catch(function(){ notice('❌ Network error. Check your connection.','error'); })
-            .finally(function(){ saveBtn.disabled=false; saveBtn.innerHTML='💾 Save My Results'; });
+            .catch(function(){ notice('Network error. Check your connection.','error'); })
+            .finally(function(){ saveBtn.disabled=false; saveBtn.innerHTML='Save My Results'; });
     };
 
     window.ucClearAll = function () {

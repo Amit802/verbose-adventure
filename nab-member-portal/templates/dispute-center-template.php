@@ -31,13 +31,13 @@ if ( $disclosure === '' ) {
     $disclosure = 'NAB Solutions helps you prepare your dispute letter. We are not a credit bureau, lender, collection agency or law firm, and we do not send anything to the bureaus on your behalf. You can dispute information directly with Equifax and TransUnion at no cost. Creating a letter does not guarantee any specific outcome or change to your credit report.';
 }
 
-nab_head_open( 'Dispute Center — NAB Member Portal' );
+nab_head_open( 'Dispute Center | NAB Member Portal' );
 ?>
 <style>
 body.nab-dispute-page{
-  --dl-bg:#F5F6F8;--dl-card:#fff;--dl-line:#E8EBF0;--dl-line2:#F1F3F6;
-  --dl-text:#0F1B2D;--dl-muted:#6B7685;--dl-faint:#9AA4B2;
-  --dl-blue:#0D5C9B;--dl-blue2:#0A4A7C;--dl-green:#22A06B;--dl-amber:#E4A11B;--dl-red:#E5484D;
+  --dl-bg:var(--nab-bg);--dl-card:var(--nab-surface);--dl-line:var(--nab-line);--dl-line2:var(--nab-line-soft);
+  --dl-text:var(--nab-text);--dl-muted:var(--nab-text-2);--dl-faint:var(--nab-text-3);
+  --dl-blue:var(--nab-brand);--dl-blue2:var(--nab-brand-strong);--dl-green:var(--nab-good);--dl-amber:var(--nab-accent);--dl-red:var(--nab-bad);
   background:var(--dl-bg)!important;color:var(--dl-text);-webkit-font-smoothing:antialiased
 }
 body.nab-dispute-page [hidden]{display:none!important}

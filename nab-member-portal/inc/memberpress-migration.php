@@ -27,7 +27,7 @@ function nab_migration_page() {
     <div class="wrap">
         <h1>NAB: Ultimate Member → MemberPress Migration</h1>
         <div style="background:#fff3cd;border-left:4px solid #ffc107;padding:14px 18px;margin:20px 0;border-radius:4px;">
-            <strong>⚠️ Run a Dry Run first.</strong> This migration COPIES data only — it never deletes UM meta.
+            <strong>⚠️ Run a Dry Run first.</strong> This migration COPIES data only, it never deletes UM meta.
             All existing dashboard features keep working after migration.
         </div>
         <?php if ($result): ?>

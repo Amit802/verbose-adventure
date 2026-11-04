@@ -190,7 +190,7 @@ function nab_dispatch_welcome_email( $user_id ) {
     $body  = '<!DOCTYPE html><html><body style="margin:0;padding:0;background:#f4f6f9;font-family:Arial,sans-serif;">
 <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:40px 20px;">
 <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 20px rgba(0,0,0,.08);">
-<tr><td style="background:linear-gradient(135deg,#0D5C9B,#0a4a7c);padding:28px 40px;text-align:center;"><h1 style="color:#fff;margin:0;font-size:20px;font-weight:700;">NAB Solutions — Member Portal</h1></td></tr>
+<tr><td style="background:linear-gradient(135deg,#0D5C9B,#0a4a7c);padding:28px 40px;text-align:center;"><h1 style="color:#fff;margin:0;font-size:20px;font-weight:700;">NAB Solutions, Member Portal</h1></td></tr>
 <tr><td style="padding:36px 40px;">
 <p style="color:#424242;line-height:1.7;margin:0 0 16px;">Hi '.esc_html($first).',</p>
 <h2 style="color:#0D5C9B;margin:0 0 14px;">Welcome to NAB Solutions!</h2>

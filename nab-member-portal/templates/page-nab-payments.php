@@ -23,16 +23,16 @@ do_action( 'litespeed_control_set_nocache', 'Payment calendar shows member-speci
 $uid  = get_current_user_id();
 $data = nab_cal_page_data( $uid );
 
-nab_head_open( 'Payment Calendar — NAB Member Portal' );
+nab_head_open( 'Payment Calendar | NAB Member Portal' );
 ?>
 <style>
 body.nab-payments-page{
-  --pc-bg:#F5F6F8;--pc-card:#fff;--pc-line:#E8EBF0;--pc-line2:#F1F3F6;
-  --pc-text:#0F1B2D;--pc-muted:#6B7685;--pc-faint:#9AA4B2;
-  --pc-blue:#0D5C9B;--pc-blue2:#0A4A7C;
-  --pc-paid:#22A06B;--pc-paid-bg:#E9F7F0;--pc-paid-tx:#146C45;
-  --pc-soon:#E4A11B;--pc-soon-bg:#FFF6E0;--pc-soon-tx:#7A5200;
-  --pc-late:#E5484D;--pc-late-bg:#FDECEC;--pc-late-tx:#9E1D22;
+  --pc-bg:var(--nab-bg);--pc-card:var(--nab-surface);--pc-line:var(--nab-line);--pc-line2:var(--nab-line-soft);
+  --pc-text:var(--nab-text);--pc-muted:var(--nab-text-2);--pc-faint:var(--nab-text-3);
+  --pc-blue:var(--nab-brand);--pc-blue2:var(--nab-brand-strong);
+  --pc-paid:var(--nab-good);--pc-paid-bg:var(--nab-good-soft);--pc-paid-tx:var(--nab-good);
+  --pc-soon:var(--nab-accent);--pc-soon-bg:var(--nab-warn-soft);--pc-soon-tx:var(--nab-warn);
+  --pc-late:var(--nab-bad);--pc-late-bg:var(--nab-bad-soft);--pc-late-tx:var(--nab-bad);
   --pc-auto:#3B82F6;--pc-auto-bg:#EAF2FE;--pc-auto-tx:#1E4FA8;
   --pc-up:#8A94A3;--pc-up-bg:#F1F3F6;--pc-up-tx:#475467;
   background:var(--pc-bg)!important;color:var(--pc-text);-webkit-font-smoothing:antialiased

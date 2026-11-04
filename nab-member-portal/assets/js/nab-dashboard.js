@@ -302,7 +302,13 @@ window.nabMarkModuleComplete=nabMarkModuleComplete;
 
   // Close on Escape
   searchInput.addEventListener('keydown', function(e){
-    if(e.key === 'Escape') searchResults.classList.remove('visible');
+    if(e.key === 'Escape'){ searchResults.classList.remove('visible'); searchInput.blur(); }
+  });
+
+  // "/" jumps to the search box (unless the member is typing somewhere else)
+  document.addEventListener('keydown', function(e){
+    var t = e.target, typing = t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName));
+    if(e.key === '/' && !typing && !e.ctrlKey && !e.metaKey && !e.altKey){ e.preventDefault(); searchInput.focus(); }
   });
 })();
 
@@ -385,7 +391,7 @@ window.nabMarkModuleComplete=nabMarkModuleComplete;
           err.style.display = 'block';
         }
       }).catch(function(){
-        if(err){ err.textContent='Connection error — your score was not saved.'; err.style.display='block'; }
+        if(err){ err.textContent='Connection error, your score was not saved.'; err.style.display='block'; }
       });
     }
   }

@@ -77,13 +77,13 @@ function nab_enqueue_portal_js() {
 
 /* ═══════════════════════════════════════════════════════════
    SAVE CREDIT SCORE
-   v1.7.8: fixed a mismatched AJAX action name — the dashboard's
+   v1.7.8: fixed a mismatched AJAX action name, the dashboard's
    Check-score button was calling 'nab_save_score' (unregistered),
    so nab_credit_score user meta was never actually written. Score
    looked saved (client-side gauge update) but reset on refresh,
    and the Financial Roadmap's "Add Your Credit Score" step could
    never check off as a result. Pre-existing bug, not introduced
-   by the Roadmap feature — just surfaced by it.
+   by the Roadmap feature, just surfaced by it.
    ═══════════════════════════════════════════════════════════ */
 add_action( 'wp_ajax_nab_save_credit_score', function () {
     check_ajax_referer( 'nab_portal_nonce', 'nonce' );
@@ -174,7 +174,7 @@ add_action( 'wp_ajax_nab_save_simulation', function () {
 } );
 
 /* ═══════════════════════════════════════════════════════════
-   GET POST CONTENT — in-dashboard blog/DIY reader
+   GET POST CONTENT, in-dashboard blog/DIY reader
    ═══════════════════════════════════════════════════════════ */
 add_action( 'wp_ajax_nab_get_post_content', function () {
     check_ajax_referer( 'nab_portal_nonce', 'nonce' );
@@ -225,7 +225,7 @@ add_action( 'wp_ajax_nab_get_post_content', function () {
    LOANCONNECT AUTO LOAN SEARCH
    API: POST https://loanconnect.ca/api/submit-application (v1.4)
    Loan type hardcoded = 8 (Buy a Car) per client requirement.
-   Credentials stored in ACF on Dashboard page — never in code.
+   Credentials stored in ACF on Dashboard page, never in code.
    ═══════════════════════════════════════════════════════════ */
 add_action( 'wp_ajax_nab_loanconnect_search', function () {
     check_ajax_referer( 'nab_portal_nonce', 'nonce' );
@@ -371,7 +371,7 @@ add_action( 'wp_ajax_nab_loanconnect_search', function () {
     // ── Auto-notification ─────────────────────────────────
     $notif_msg = count( $offers ) > 0
         ? 'Your loan search found ' . count( $offers ) . ' offer(s). View your results in the Auto Loan Tool.'
-        : 'Your loan search is complete. No offers matched right now — book a specialist session for personalised help.';
+        : 'Your loan search is complete. No offers matched right now, book a specialist session for personalised help.';
     // Only add loan notification if not already added in last hour
     nab_add_auto_notification( $uid, 'loan', 'Auto Loan Results Ready', $notif_msg, 3600 );
 
@@ -383,7 +383,7 @@ add_action( 'wp_ajax_nab_loanconnect_search', function () {
 } );
 
 /* ═══════════════════════════════════════════════════════════
-   AUTO-NOTIFICATION CREATOR — used by all portal events
+   AUTO-NOTIFICATION CREATOR, used by all portal events
    Stores up to 20 notifications per member in user meta.
    Deduplicates by title within 24 hours to prevent flooding.
    ═══════════════════════════════════════════════════════════ */
@@ -402,7 +402,7 @@ if ( ! function_exists( 'nab_add_auto_notification' ) ) {
                 $n['title'] === $title &&
                 $n['ts'] > $cutoff
             ) {
-                return; // already have this notification — skip
+                return; // already have this notification, skip
             }
         }
 
@@ -442,7 +442,7 @@ add_action( 'user_register', function ( $uid ) {
 /* AI CHATBOT — nab_ai_chat moved to inc/ai-assistant.php in v1.12.0 */
 
 /* ═══════════════════════════════════════════════════════════════════
-   CREDIT CARD ASSISTANT — nab_card_assistant
+   CREDIT CARD ASSISTANT, nab_card_assistant
    Used by the Credit Card Finder results page chatbox.
    ═══════════════════════════════════════════════════════════════════ */
 add_action( 'wp_ajax_nab_card_assistant', function() {
@@ -499,7 +499,7 @@ add_action( 'wp_ajax_nab_card_assistant', function() {
 } );
 
 /* ═══════════════════════════════════════════════════════════════════
-   FRESHDESK — SUBMIT TICKET
+   FRESHDESK, SUBMIT TICKET
    ═══════════════════════════════════════════════════════════════════ */
 add_action( 'wp_ajax_nab_freshdesk_submit', function() {
     // Prevent any caching of this AJAX response
@@ -572,7 +572,7 @@ add_action( 'wp_ajax_nab_freshdesk_submit', function() {
 } );
 
 /* ═══════════════════════════════════════════════════════════════════
-   FRESHDESK — GET MEMBER TICKETS
+   FRESHDESK, GET MEMBER TICKETS
    ═══════════════════════════════════════════════════════════════════ */
 add_action( 'wp_ajax_nab_freshdesk_tickets', function() {
     if ( ! wp_verify_nonce( $_POST['nonce'] ?? '', 'nab_freshdesk_action' ) && ! wp_verify_nonce( $_POST['nonce'] ?? '', 'nab_portal_nonce' ) ) {
@@ -614,7 +614,7 @@ add_action( 'wp_ajax_nab_freshdesk_tickets', function() {
 } );
 
 /* ═══════════════════════════════════════════════════════════
-   NONCE REFRESH — nab_get_nonce
+   NONCE REFRESH, nab_get_nonce
    Provides fresh nonces for cached pages
    ═══════════════════════════════════════════════════════════ */
 add_action( 'wp_ajax_nab_get_nonce', function() {
@@ -633,7 +633,7 @@ add_action( 'wp_ajax_nopriv_nab_get_nonce', function() {
 } );
 
 /* ═══════════════════════════════════════════════════════════
-   EDUCATION — COMPLETE MODULE
+   EDUCATION, COMPLETE MODULE
    ═══════════════════════════════════════════════════════════ */
 add_action( 'wp_ajax_nab_complete_module', function() {
     check_ajax_referer( 'nab_portal_nonce', 'nonce' );
@@ -782,7 +782,7 @@ function nab_rest_create_member( $request ) {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   EMERGENCY FUND PLANNER — save member inputs (monthly amount, goal,
+   EMERGENCY FUND PLANNER, save member inputs (monthly amount, goal,
    current saved) to user meta. Client spec (Matt, v1.7.4): member
    enters monthly savings + goal, tool shows progress bar + milestone
    messages at 25/50/75/100%, plus a static savings tips section.

@@ -3,7 +3,7 @@
  * Plugin Name:  NAB Member Portal
  * Plugin URI:   https://nabsolutions.ca
  * Description:  Full member portal for NAB Solutions — Dashboard, Credit Tools, Auto Loan (LoanConnect v1.4), Credit Card Matcher, PAD Agreement, MemberPress integration, Notification system.
- * Version:      1.14.4
+ * Version:      1.15.0
  * Author:       NAB Solutions
  * Author URI:   https://nabsolutions.ca
  * License:      Private — All Rights Reserved
@@ -140,7 +140,7 @@ if ( $nab_conflict ) {
 }
 unset( $nab_conflict );
 
-define( 'NAB_VERSION', '1.14.4' );
+define( 'NAB_VERSION', '1.15.0' );
 define( 'NAB_DIR',     plugin_dir_path( __FILE__ ) );
 define( 'NAB_URL',     plugin_dir_url( __FILE__ ) );
 
@@ -148,6 +148,7 @@ define( 'NAB_URL',     plugin_dir_url( __FILE__ ) );
 require_once NAB_DIR . 'inc/lifecycle.php';
 require_once NAB_DIR . 'inc/helpers.php';
 require_once NAB_DIR . 'inc/icons.php';
+require_once NAB_DIR . 'inc/ui.php';
 require_once NAB_DIR . 'inc/tools.php';
 require_once NAB_DIR . 'inc/dashboard-data.php';
 require_once NAB_DIR . 'inc/budget.php';

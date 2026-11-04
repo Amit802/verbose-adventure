@@ -29,7 +29,7 @@ function tile(type, size){
 }
 function groupOf(type){ return (TYPES[type] || {}).group === 'debt' ? 'debt' : 'asset'; }
 function fmtMonth(m, long){ var p = m.split('-'); return new Date(Date.UTC(+p[0], +p[1] - 1, 15)).toLocaleDateString('en-US', { month: long ? 'long' : 'short', year: long ? 'numeric' : undefined, timeZone:'UTC' }); }
-function toneColor(type){ var c = TONES[(TYPES[type] || {}).tone]; return c ? 'linear-gradient(90deg,' + c[0] + ',' + c[1] + ')' : '#94A3B8'; }
+function toneColor(type){ var c = TONES[(TYPES[type] || {}).tone]; return c ? c[1] : '#98A2B3'; }
 
 /* ── Render ───────────────────────────────────────────── */
 function render(){
@@ -41,7 +41,7 @@ function render(){
   v.style.color = nw.net < 0 ? '#FFB4B7' : '';
   setText('nwAssets', money(nw.assets));
   setText('nwDebts', money(nw.debts));
-  setText('nwRatio', nw.assets > 0 ? Math.round(100 * nw.debts / nw.assets) + '%' : (nw.debts > 0 ? 'No assets yet' : '—'));
+  setText('nwRatio', nw.assets > 0 ? Math.round(100 * nw.debts / nw.assets) + '%' : (nw.debts > 0 ? 'No assets yet' : '-'));
   var tot = nw.assets + nw.debts;
   $('nwSplitA').style.width = tot ? (100 * nw.assets / tot) + '%' : '0';
   $('nwSplitD').style.width = tot ? (100 * nw.debts / tot) + '%' : '0';
@@ -89,10 +89,10 @@ function renderChart(hist, has){
   if(!ok){ if(chart){ chart.destroy(); chart = null; } return; }
   var ctx = $('nwChart').getContext('2d');
   var grad = ctx.createLinearGradient(0, 0, 0, 240);
-  grad.addColorStop(0, 'rgba(79,70,229,.28)'); grad.addColorStop(1, 'rgba(79,70,229,0)');
+  grad.addColorStop(0, 'rgba(13,92,155,.18)'); grad.addColorStop(1, 'rgba(13,92,155,0)');
   var cfg = {
     type:'line',
-    data:{ labels: hist.map(function(p){ return fmtMonth(p.m); }), datasets:[{ data: hist.map(function(p){ return p.v; }), borderColor:'#4F46E5', borderWidth:2.5, tension:.35, fill:true, backgroundColor:grad, pointRadius:3, pointHoverRadius:6, pointBackgroundColor:'#4F46E5' }] },
+    data:{ labels: hist.map(function(p){ return fmtMonth(p.m); }), datasets:[{ data: hist.map(function(p){ return p.v; }), borderColor:'#0D5C9B', borderWidth:2.5, tension:.35, fill:true, backgroundColor:grad, pointRadius:3, pointHoverRadius:6, pointBackgroundColor:'#0D5C9B' }] },
     options:{
       responsive:true, maintainAspectRatio:false, animation:{ duration:400 },
       interaction:{ mode:'index', intersect:false },

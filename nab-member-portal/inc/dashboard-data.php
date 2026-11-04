@@ -28,11 +28,11 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /* ═══════════════════════════════════════════════════════════
-   MEMBER SINCE — the member's WordPress registration date,
+   MEMBER SINCE, the member's WordPress registration date,
    shown in the site's timezone. Used by every page that shows
    a join date (Dashboard, Simulator, PAD, Account) so they can
    never disagree again.
-   Replaces: get_the_date( 'Y-m-d', $user_id ) — that call treats
+   Replaces: get_the_date( 'Y-m-d', $user_id ), that call treats
    the user ID as a POST ID and returned an unrelated page's date.
    ═══════════════════════════════════════════════════════════ */
 if ( ! function_exists( 'nab_get_member_since' ) ) {
@@ -174,7 +174,7 @@ function nab_dash_snapshot_networth( $uid, $accounts ) {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   EVERYTHING THE DASHBOARD CHARTS NEED — one snapshot
+   EVERYTHING THE DASHBOARD CHARTS NEED, one snapshot
    ═══════════════════════════════════════════════════════════ */
 function nab_dash_get_chart_data( $uid ) {
     $accounts = nab_dash_get_accounts( $uid );

@@ -23,7 +23,7 @@ $prompts  = nab_portal_ai_prompts();
 $hour     = (int) current_time( 'G' );
 $greeting = $hour < 12 ? 'Good morning' : ( $hour < 17 ? 'Good afternoon' : 'Good evening' );
 
-nab_head_open( 'Nabby, NAB AI Assistant — NAB Member Portal' );
+nab_head_open( 'Nabby, NAB AI Assistant | NAB Member Portal' );
 nab_portal_ai_message_css();
 ?>
 <style>

@@ -94,13 +94,13 @@ $partners = ! empty( $partners_acf ) ? $partners_acf : $default_partners;
 <head>
 <meta charset="<?php bloginfo('charset'); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Credit Report Access — NAB Solutions</title>
+<title>Credit Report Access | NAB Solutions</title>
 <?php wp_head(); ?>
 <style>
 /* ── Hide Hello Elementor chrome ──────────────────────────────────── */
 .site-header,.site-footer,.elementor-location-header,
 .elementor-location-footer,#masthead,#colophon { display:none !important; }
-body { margin:0 !important; padding:0 !important; background:#F0F4FA !important; }
+body { margin:0 !important; padding:0 !important; background:var(--nab-bg) !important; }
 .elementor-page .elementor-section-wrap,
 .e-page-settings .elementor-section-wrap { padding:0 !important; }
 
@@ -110,7 +110,7 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
 /* Sidebar */
 .nab-sidebar {
     width:260px; min-width:260px;
-    background:linear-gradient(160deg,#0D5C9B 0%,#0a4a7c 100%);
+    background:linear-gradient(160deg,var(--nab-brand) 0%,var(--nab-brand-strong) 100%);
     display:flex; flex-direction:column;
     position:sticky; top:0; height:100vh; overflow-y:auto; z-index:100;
 }
@@ -166,7 +166,7 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
     background:#fff; border-bottom:1px solid #e8edf5;
     position:sticky; top:0; z-index:50;
 }
-.nab-topbar-title { font-weight:700; font-size:1rem; color:#1a202c; }
+.nab-topbar-title { font-weight:700; font-size:1rem; color:var(--nab-text); }
 .nab-topbar-right { display:flex; align-items:center; gap:12px; }
 .nab-status-badge { font-size:.75rem; font-weight:600; padding:4px 12px; border-radius:50px; }
 .nab-status-active    { background:#d1fae5; color:#065f46; }
@@ -177,7 +177,7 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
 /* Mobile */
 .nab-hamburger {
     display:none; position:fixed; top:14px; left:14px; z-index:200;
-    background:#0D5C9B; color:#fff; border:none;
+    background:var(--nab-brand); color:#fff; border:none;
     width:40px; height:40px; border-radius:10px;
     font-size:1.2rem; cursor:pointer; align-items:center; justify-content:center;
 }
@@ -196,88 +196,39 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
 :root {
     --brand-dark:   <?php echo esc_attr( $hero_bg_color ); ?>;
     --brand-orange: #F07120;
-    --brand-light:  #EEF3FA;
+    --brand-light:  var(--nab-bg);
     --text-dark:    #1A1A2E;
-    --text-mid:     #4A5568;
+    --text-mid:     var(--nab-text-2);
     --radius:       16px;
     --shadow-card:  0 4px 24px rgba(26,60,110,.10);
     --transition:   .25s cubic-bezier(.4,0,.2,1);
 }
 
-.cr-hero {
-    background:var(--brand-dark); padding:52px 32px 60px;
-    text-align:center; position:relative; overflow:hidden;
-}
-.cr-hero::before {
-    content:''; position:absolute; inset:0; pointer-events:none;
-    background:
-        radial-gradient(ellipse 80% 60% at 20% 50%,rgba(240,113,32,.18) 0%,transparent 60%),
-        radial-gradient(ellipse 60% 80% at 80% 40%,rgba(255,255,255,.06) 0%,transparent 55%);
-}
-.cr-hero__eyebrow {
-    display:inline-flex; align-items:center; gap:8px;
-    background:rgba(240,113,32,.18); border:1px solid rgba(240,113,32,.4);
-    color:#FFB87A; font-size:.75rem; font-weight:700;
-    letter-spacing:.1em; text-transform:uppercase;
-    padding:6px 16px; border-radius:50px; margin-bottom:18px;
-}
-.cr-hero__title {
-    font-size:clamp(1.6rem,4vw,2.6rem); font-weight:800;
-    color:#fff; line-height:1.15; margin-bottom:14px;
-}
-.cr-hero__sub {
-    font-size:1rem; color:rgba(255,255,255,.75);
-    max-width:520px; margin:0 auto 24px; line-height:1.7;
-}
-.cr-hero__lock {
-    display:inline-flex; align-items:center; gap:8px;
-    background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15);
-    color:rgba(255,255,255,.7); font-size:.82rem; padding:7px 16px; border-radius:50px;
-}
-
-.cr-section { max-width:1060px; margin:0 auto; padding:48px 28px 64px; }
-.cr-section__head { text-align:center; margin-bottom:40px; }
-.cr-section__head h2 { font-size:clamp(1.3rem,2.5vw,1.9rem); font-weight:700; color:var(--text-dark); margin-bottom:8px; }
-.cr-section__head p  { color:var(--text-mid); font-size:.95rem; }
-
-.cr-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:24px; }
-
-.cr-card {
-    background:#fff; border-radius:var(--radius); box-shadow:var(--shadow-card);
-    display:flex; flex-direction:column; overflow:hidden;
-    transition:transform var(--transition),box-shadow var(--transition);
-}
-.cr-card:hover { transform:translateY(-5px); box-shadow:0 12px 36px rgba(26,60,110,.15); }
-.cr-card__accent { height:5px; background:var(--card-accent,var(--brand-dark)); }
-.cr-card__body { padding:24px 24px 16px; flex:1; }
-.cr-card__logo-wrap { height:48px; display:flex; align-items:center; margin-bottom:16px; }
-.cr-card__logo { max-height:48px; max-width:48px; object-fit:contain; border-radius:8px; }
-.cr-card__logo-fallback { font-size:1.1rem; font-weight:700; color:var(--card-accent,var(--brand-dark)); }
-.cr-card__badge {
-    display:inline-flex; align-items:center; gap:5px;
-    background:var(--brand-light); color:var(--brand-dark);
-    font-size:.7rem; font-weight:600; letter-spacing:.04em;
-    padding:3px 10px; border-radius:50px; margin-bottom:12px;
-}
-.cr-card__name { font-size:1rem; font-weight:700; color:var(--text-dark); margin-bottom:8px; }
-.cr-card__desc { font-size:.875rem; color:var(--text-mid); line-height:1.6; }
-.cr-card__footer { padding:0 24px 24px; }
-.cr-card__btn {
-    display:flex; align-items:center; justify-content:center; gap:8px;
-    width:100%; background:var(--card-accent,var(--brand-dark)); color:#fff;
-    font-size:.85rem; font-weight:600; text-decoration:none;
-    padding:12px 18px; border-radius:10px;
-    transition:filter var(--transition),transform var(--transition);
-}
-.cr-card__btn:hover { filter:brightness(1.1); transform:scale(1.02); color:#fff; }
-
-.cr-infobar {
-    background:var(--brand-dark); color:rgba(255,255,255,.75);
-    text-align:center; padding:18px 24px; font-size:.85rem;
-}
-.cr-infobar strong { color:#fff; }
-.cr-infobar a { color:#F07120; text-decoration:none; }
-.cr-infobar a:hover { text-decoration:underline; }
+.cr-note{display:flex;gap:10px;align-items:flex-start;background:var(--nab-brand-soft);color:var(--nab-text-2);border-radius:var(--nab-radius);padding:12px 14px;font-size:13.5px;line-height:1.55;margin:0 0 20px}
+.cr-note .nab-i{color:var(--nab-brand);flex-shrink:0;margin-top:1px}
+.cr-section{margin:0}
+.cr-section__head{margin:0 0 14px}
+.cr-section__head h2{font-size:16px;font-weight:700;color:var(--nab-text);margin:0 0 4px}
+.cr-section__head p{color:var(--nab-text-2);font-size:13.5px;margin:0}
+.cr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.cr-card{background:var(--nab-surface);border:1px solid var(--nab-line);border-radius:var(--nab-radius);box-shadow:var(--nab-shadow);display:flex;flex-direction:column;overflow:hidden;transition:border-color .15s,box-shadow .15s}
+.cr-card:hover{border-color:#D0D5DD;box-shadow:0 6px 18px rgba(16,24,40,.06)}
+.cr-card__body{padding:20px 20px 14px;flex:1}
+.cr-card__logo-wrap{height:40px;display:flex;align-items:center;margin-bottom:14px}
+.cr-card__logo{max-height:40px;max-width:120px;object-fit:contain;border-radius:6px}
+.cr-card__logo-fallback{display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:700;color:var(--nab-text)}
+.cr-card__logo-fallback::before{content:"";width:10px;height:10px;border-radius:3px;background:var(--card-accent,var(--nab-brand))}
+.cr-card__badge{display:inline-flex;align-items:center;gap:5px;background:var(--nab-good-soft);color:var(--nab-good);font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;margin-bottom:10px}
+.cr-card__name{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;color:var(--nab-text);margin-bottom:6px}
+.cr-card__name::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--card-accent,var(--nab-brand));flex:none}
+.cr-card__desc{font-size:13.5px;color:var(--nab-text-2);line-height:1.55;margin:0}
+.cr-card__footer{padding:0 20px 20px}
+.cr-card__btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;box-sizing:border-box;height:40px;background:var(--nab-brand);color:#fff;font-size:13.5px;font-weight:600;text-decoration:none;border-radius:10px;transition:background .15s}
+.cr-card__btn:hover{background:var(--nab-brand-strong);color:#fff}
+.cr-infobar{margin-top:20px;color:var(--nab-text-2);font-size:12.5px;line-height:1.6;padding:14px 16px;border:1px solid var(--nab-line);border-radius:var(--nab-radius);background:var(--nab-surface)}
+.cr-infobar strong{color:var(--nab-text)}
+.cr-infobar a{color:var(--nab-brand);text-decoration:none;font-weight:600}
+.cr-infobar a:hover{text-decoration:underline}
 </style>
 </head>
 <body <?php body_class('nab-portal-body'); ?>>
@@ -292,29 +243,25 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
   <!-- ── MAIN ─────────────────────────────────────────────────── -->
   <main class="nab-main">
     <header class="nab-topbar">
-      <div class="nab-topbar-title">Credit Report Access</div>
+      <div class="nab-topbar-title"><?php echo nab_portal_icon( 'file-text', 20 ); ?> Credit Report Access</div>
       <div class="nab-topbar-right">
         <span class="nab-status-badge nab-status-<?php echo esc_attr( strtolower( $member_status ) ); ?>">
-          ● <?php echo esc_html( $member_status ); ?>
+          <?php echo esc_html( $member_status ); ?>
         </span>
       </div>
     </header>
 
     <div class="nab-content">
 
-      <!-- Hero Banner -->
-      <section class="cr-hero">
-        <div class="cr-hero__eyebrow">
-          <span class="dashicons dashicons-lock"></span>
-          Members Only Resource
-        </div>
-        <h1 class="cr-hero__title"><?php echo esc_html( $hero_title ); ?></h1>
-        <p class="cr-hero__sub"><?php echo esc_html( $hero_subtitle ); ?></p>
-        <div class="cr-hero__lock">
-          <span class="dashicons dashicons-shield-alt"></span>
-          These are official, secure services that include free access options. Some providers may offer or advertise paid plans or add-ons.
+      <section class="nab-page-head">
+        <div>
+          <div class="nab-page-eyebrow">Credit tools</div>
+          <h1 class="nab-page-title"><?php echo esc_html( $hero_title ); ?></h1>
+          <p class="nab-page-sub"><?php echo esc_html( $hero_subtitle ); ?></p>
         </div>
       </section>
+
+      <div class="cr-note" role="note"><?php echo nab_portal_icon( 'shield-check', 18 ); ?><span>These are official, secure services that include free access options. Some providers may also offer paid plans or add-ons.</span></div>
 
       <!-- Partner Cards -->
       <div class="cr-section">
@@ -334,19 +281,15 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
             $icon   = esc_attr( $p['icon_class'] );
           ?>
           <div class="cr-card" style="--card-accent:<?php echo $accent; ?>">
-            <div class="cr-card__accent"></div>
             <div class="cr-card__body">
+              <?php if ( $logo ) : ?>
               <div class="cr-card__logo-wrap">
-                <?php if ( $logo ) : ?>
-                  <img src="<?php echo $logo; ?>" alt="<?php echo $name; ?> logo" class="cr-card__logo" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-                  <span class="cr-card__logo-fallback" style="display:none"><?php echo $name; ?></span>
-                <?php else : ?>
-                  <span class="cr-card__logo-fallback"><?php echo $name; ?></span>
-                <?php endif; ?>
+                <img src="<?php echo $logo; ?>" alt="<?php echo $name; ?> logo" class="cr-card__logo" loading="lazy" onerror="this.parentNode.style.display='none'">
               </div>
+              <?php endif; ?>
               <?php if ( $badge ) : ?>
               <span class="cr-card__badge">
-                <span class="dashicons dashicons-yes-alt"></span>
+                <?php echo nab_portal_icon( 'check', 13 ); ?>
                 <?php echo $badge; ?>
               </span>
               <?php endif; ?>
@@ -355,8 +298,7 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
             </div>
             <div class="cr-card__footer">
               <a href="<?php echo $url; ?>" class="cr-card__btn" target="_blank" rel="noopener noreferrer">
-                <span class="<?php echo $icon; ?>"></span>
-                <?php echo $label; ?>
+                <?php echo $label; ?> <?php echo nab_portal_icon( 'arrow-right', 16 ); ?>
               </a>
             </div>
           </div>
@@ -366,7 +308,7 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
 
       <!-- Info bar -->
       <div class="cr-infobar">
-        <strong>Note:</strong> All links open third&#8209;party websites. NAB Solutions is not affiliated with, endorsed by, or compensated by these providers. We do not control their content, terms, or privacy practices. For questions about this resource page, contact us.
+        <strong>Note:</strong> All links open third-party websites. NAB Solutions is not affiliated with, endorsed by, or paid by these providers, and we don't control their content, terms or privacy practices.
         Questions? <a href="<?php echo esc_url( home_url('/contact') ); ?>">Contact us</a>.
       </div>
 

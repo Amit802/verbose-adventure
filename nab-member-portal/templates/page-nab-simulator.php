@@ -70,12 +70,12 @@ $greeting     = $hour < 12 ? 'Morning' : ( $hour < 17 ? 'Afternoon' : 'Evening' 
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Credit Score Impact Simulator — NAB Member Portal</title>
+<title>Credit Score Impact Simulator | NAB Member Portal</title>
 <?php wp_head(); ?>
 <style>
 .site-header,.site-footer,.elementor-location-header,
 .elementor-location-footer,#masthead,#colophon { display:none !important; }
-body { margin:0 !important; padding:0 !important; background:#F0F4FA !important; }
+body { margin:0 !important; padding:0 !important; background:var(--nab-bg) !important; }
 .elementor-page .elementor-section-wrap,
 .e-page-settings .elementor-section-wrap { padding:0 !important; }
 
@@ -84,7 +84,7 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
 
 .nab-sidebar {
     width:260px; min-width:260px;
-    background:linear-gradient(160deg,#0D5C9B 0%,#0a4a7c 100%);
+    background:linear-gradient(160deg,var(--nab-brand) 0%,var(--nab-brand-strong) 100%);
     display:flex; flex-direction:column;
     position:sticky; top:0; height:100vh; overflow-y:auto; z-index:100;
 }
@@ -107,7 +107,7 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
 .nab-logout-btn  { color:rgba(255,255,255,.5); font-size:1.1rem; text-decoration:none; transition:color .2s; }
 .nab-logout-btn:hover { color:#F5A623; }
 
-.nab-hamburger { display:none; position:fixed; top:14px; left:14px; z-index:200; background:#0D5C9B; color:#fff; border:none; width:40px; height:40px; border-radius:10px; font-size:1.2rem; cursor:pointer; align-items:center; justify-content:center; }
+.nab-hamburger { display:none; position:fixed; top:14px; left:14px; z-index:200; background:var(--nab-brand); color:#fff; border:none; width:40px; height:40px; border-radius:10px; font-size:1.2rem; cursor:pointer; align-items:center; justify-content:center; }
 .nab-sidebar-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:99; }
 @media (max-width:768px) {
     .nab-hamburger { display:flex; }
@@ -120,112 +120,99 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
 
 .nab-main { flex:1; min-width:0; display:flex; flex-direction:column; }
 .nab-topbar { display:flex; align-items:center; justify-content:space-between; padding:0 28px; height:60px; background:#fff; border-bottom:1px solid #e8edf5; position:sticky; top:0; z-index:50; }
-.nab-topbar-title { font-weight:700; font-size:1rem; color:#1a202c; }
+.nab-topbar-title { font-weight:700; font-size:1rem; color:var(--nab-text); }
 .nab-topbar-right { display:flex; align-items:center; gap:12px; }
 .nab-status-badge { font-size:.75rem; font-weight:600; padding:4px 12px; border-radius:50px; }
 .nab-status-active    { background:#d1fae5; color:#065f46; }
 .nab-status-suspended { background:#fee2e2; color:#991b1b; }
 .nab-content { padding:24px 28px 60px; }
 
-.sim-hero { background:linear-gradient(135deg,#1a3a8f 0%,#2563eb 55%,#1d4ed8 100%); border-radius:16px; padding:28px 32px; color:#fff; margin-bottom:24px; display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:20px; position:relative; overflow:hidden; }
-.sim-hero::before { content:''; position:absolute; right:-60px; top:-80px; width:300px; height:300px; background:rgba(255,255,255,.04); border-radius:50%; pointer-events:none; }
-.sim-hero-greeting { font-size:.82rem; color:rgba(255,255,255,.7); margin-bottom:3px; }
-.sim-hero-name     { font-size:1.5rem; font-weight:700; margin-bottom:8px; }
-.sim-hero-desc     { font-size:.85rem; color:rgba(255,255,255,.75); max-width:520px; line-height:1.6; }
-.sim-hero-pills    { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
-.sim-hero-pill { background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.2); border-radius:20px; padding:4px 12px; font-size:.75rem; font-weight:500; }
-.sim-hero-actions { display:flex; gap:10px; flex-shrink:0; position:relative; z-index:1; }
-.btn-outline-white { border:1.5px solid rgba(255,255,255,.5); color:#fff; background:transparent; border-radius:8px; padding:8px 18px; font-size:.83rem; font-weight:500; cursor:pointer; text-decoration:none; transition:background .15s; }
-.btn-outline-white:hover { background:rgba(255,255,255,.1); color:#fff; }
-.btn-orange { background:#F5A623; color:#fff; border:none; border-radius:8px; padding:8px 18px; font-size:.83rem; font-weight:600; cursor:pointer; text-decoration:none; transition:background .15s; }
-.btn-orange:hover { background:#e09415; }
-
 .sim-grid { display:grid; grid-template-columns:1fr 540px; gap:20px; align-items:start; }
 @media (max-width:960px) { .sim-grid { grid-template-columns:1fr; } }
 
-.sim-card { background:#fff; border-radius:14px; border:1px solid #e8edf5; overflow:hidden; }
-.sim-card-head { padding:20px 24px 16px; border-bottom:1px solid #f0f4fa; }
-.sim-card-title    { font-size:.95rem; font-weight:700; color:#1a202c; margin-bottom:3px; }
-.sim-card-subtitle { font-size:.78rem; color:#718096; }
+.sim-card { background:var(--nab-surface); border-radius:var(--nab-radius); border:1px solid var(--nab-line); box-shadow:var(--nab-shadow); overflow:hidden; }
+.sim-card-head { padding:20px 24px 16px; border-bottom:1px solid var(--nab-bg); }
+.sim-card-title    { font-size:.95rem; font-weight:700; color:var(--nab-text); margin-bottom:3px; }
+.sim-card-subtitle { font-size:.78rem; color:var(--nab-text-2); }
 .sim-card-body     { padding:20px 24px 24px; }
 
 .sim-form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px; }
 @media (max-width:600px) { .sim-form-row { grid-template-columns:1fr; } }
 
-.sim-field label { display:block; font-size:.72rem; font-weight:600; color:#718096; text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px; }
+.sim-field label { display:block; font-size:.72rem; font-weight:600; color:var(--nab-text-2); text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px; }
 .sim-field input,
-.sim-field select { width:100%; border:1.5px solid #e2e8f0; border-radius:8px; padding:10px 13px; font-size:.88rem; font-family:inherit; color:#1a202c; background:#fff; outline:none; transition:border-color .15s,box-shadow .15s; }
-.sim-field input:focus, .sim-field select:focus { border-color:#0D5C9B; box-shadow:0 0 0 3px rgba(13,92,155,.1); }
+.sim-field select { width:100%; border:1.5px solid var(--nab-line); border-radius:8px; padding:10px 13px; font-size:.88rem; font-family:inherit; color:var(--nab-text); background:#fff; outline:none; transition:border-color .15s,box-shadow .15s; }
+.sim-field input:focus, .sim-field select:focus { border-color:var(--nab-brand); box-shadow:0 0 0 3px rgba(13,92,155,.1); }
 .sim-field input::placeholder { color:#c0ccd8; }
 .sim-field-error { border-color:#ef4444 !important; box-shadow:0 0 0 3px rgba(239,68,68,.1) !important; }
 .sim-error-msg   { font-size:.72rem; color:#b91c1c; margin-top:4px; display:none; }
 
-.sim-run-btn { width:100%; background:#0D5C9B; color:#fff; border:none; border-radius:10px; padding:13px 20px; font-size:.92rem; font-weight:700; font-family:inherit; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:filter .15s,transform .1s; }
+.sim-run-btn { width:100%; background:var(--nab-brand); color:#fff; border:none; border-radius:10px; padding:13px 20px; font-size:.92rem; font-weight:700; font-family:inherit; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:filter .15s,transform .1s; }
 .sim-run-btn:hover  { filter:brightness(1.1); }
 .sim-run-btn:active { transform:scale(.99); }
 
-.sim-result-panel { display:none; margin-top:24px; background:#f8fafc; border-radius:12px; border:1.5px solid #e2e8f0; padding:24px; }
+.sim-result-panel { display:none; margin-top:24px; background:var(--nab-surface-2); border-radius:12px; border:1.5px solid var(--nab-line); padding:24px; }
 @keyframes simFadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
 
-.sim-scenario-tag { display:inline-flex; align-items:center; gap:6px; background:#eff6ff; color:#0D5C9B; border-radius:20px; padding:5px 14px; font-size:.78rem; font-weight:700; margin-bottom:20px; }
+.sim-scenario-tag { display:inline-flex; align-items:center; gap:6px; background:#eff6ff; color:var(--nab-brand); border-radius:20px; padding:5px 14px; font-size:.78rem; font-weight:700; margin-bottom:20px; }
 
 .sim-dual-gauge { display:flex; gap:24px; justify-content:center; align-items:flex-end; margin-bottom:20px; flex-wrap:wrap; }
 .sim-gauge-wrap { text-align:center; }
 .sim-gauge-wrap svg { overflow:visible; display:block; margin:0 auto; }
 .sim-gauge-num { font-size:1.6rem; font-weight:800; margin-top:6px; }
-.sim-gauge-lbl { font-size:.72rem; color:#718096; font-weight:600; margin-top:2px; }
-.sim-gauge-arrow { font-size:2rem; color:#94a3b8; padding-bottom:28px; }
+.sim-gauge-lbl { font-size:.72rem; color:var(--nab-text-2); font-weight:600; margin-top:2px; }
+.sim-gauge-arrow { font-size:2rem; color:var(--nab-text-3); padding-bottom:28px; }
 
 .sim-ba-grid { display:grid; grid-template-columns:1fr auto 1fr; gap:12px; align-items:center; margin-bottom:20px; }
 @media (max-width:520px) { .sim-ba-grid { grid-template-columns:1fr; text-align:center; } .sim-ba-arrow-cell { transform:rotate(90deg); } }
-.sim-ba-box { background:#fff; border-radius:10px; padding:16px; border:1.5px solid #e2e8f0; text-align:center; }
-.sim-ba-label  { font-size:.68rem; font-weight:700; color:#718096; text-transform:uppercase; letter-spacing:.06em; margin-bottom:8px; }
+.sim-ba-box { background:#fff; border-radius:10px; padding:16px; border:1.5px solid var(--nab-line); text-align:center; }
+.sim-ba-label  { font-size:.68rem; font-weight:700; color:var(--nab-text-2); text-transform:uppercase; letter-spacing:.06em; margin-bottom:8px; }
 .sim-ba-score  { font-size:2.2rem; font-weight:900; line-height:1; }
-.sim-ba-rating { font-size:.75rem; color:#718096; margin-top:4px; font-weight:600; }
+.sim-ba-rating { font-size:.75rem; color:var(--nab-text-2); margin-top:4px; font-weight:600; }
 
 .sim-impact-pill { display:inline-block; padding:3px 14px; border-radius:20px; font-size:.78rem; font-weight:800; margin-top:8px; }
 .sim-impact-pos { background:#dcfce7; color:#15803d; }
 .sim-impact-neg { background:#fee2e2; color:#b91c1c; }
 
-.sim-tip-box  { background:#eff6ff; border:1.5px solid #bfdbfe; border-radius:10px; padding:14px 18px; display:flex; gap:12px; align-items:flex-start; margin-top:16px; }
-.sim-tip-icon  { font-size:1.3rem; flex-shrink:0; }
-.sim-tip-title { font-size:.72rem; font-weight:700; color:#0D5C9B; text-transform:uppercase; letter-spacing:.05em; margin-bottom:4px; }
-.sim-tip-text  { font-size:.8rem; color:#1e40af; line-height:1.55; }
+.sim-tip-box  { background:var(--nab-brand-soft); border:1px solid transparent; border-radius:10px; padding:14px 18px; display:flex; gap:12px; align-items:flex-start; margin-top:16px; }
+.sim-tip-icon  { flex-shrink:0; color:var(--nab-brand); display:flex; padding-top:1px; }
+.sim-tip-title { font-size:.72rem; font-weight:700; color:var(--nab-brand); text-transform:uppercase; letter-spacing:.05em; margin-bottom:4px; }
+.sim-tip-text  { font-size:.84rem; color:var(--nab-text-2); line-height:1.55; }
 
-.sim-disclaimer { background:#fefce8; border:1px solid #fde68a; border-radius:8px; padding:10px 14px; font-size:.73rem; color:#92400e; margin-top:14px; line-height:1.5; display:flex; gap:8px; }
+.sim-disclaimer { background:var(--nab-warn-soft); border:0; border-radius:8px; padding:10px 14px; font-size:.76rem; color:var(--nab-warn); align-items:flex-start; margin-top:14px; line-height:1.5; display:flex; gap:8px; }
 
-.sim-save-btn { width:100%; background:#065f46; color:#fff; border:none; border-radius:10px; padding:12px 20px; font-size:.88rem; font-weight:700; font-family:inherit; cursor:pointer; margin-top:16px; display:flex; align-items:center; justify-content:center; gap:8px; transition:filter .15s,transform .1s; }
+.sim-save-btn { width:100%; background:var(--nab-good); color:#fff; border:none; border-radius:10px; padding:12px 20px; font-size:.88rem; font-weight:700; font-family:inherit; cursor:pointer; margin-top:16px; display:flex; align-items:center; justify-content:center; gap:8px; transition:filter .15s,transform .1s; }
 .sim-save-btn:hover    { filter:brightness(1.1); }
 .sim-save-btn:active   { transform:scale(.99); }
 .sim-save-btn:disabled { opacity:.6; cursor:not-allowed; }
 
 .sim-right { position:sticky; top:76px; }
 
-.sim-history-empty { text-align:center; padding:28px 16px; color:#718096; font-size:.83rem; }
+.sim-history-empty { text-align:center; padding:28px 16px; color:var(--nab-text-2); font-size:.83rem; }
 #simHistoryCardBody { overflow-x:auto; -webkit-overflow-scrolling:touch; }
 .sim-history-table { width:100%; border-collapse:collapse; font-size:.78rem; }
 @media (max-width:480px) { .sim-history-table { min-width:480px; } }
-.sim-history-table th { text-align:left; font-size:.68rem; font-weight:700; color:#718096; text-transform:uppercase; letter-spacing:.06em; padding:0 10px 10px; border-bottom:1.5px solid #e8edf5; }
-.sim-history-table td { padding:10px; border-bottom:1px solid #f1f5f9; color:#1a202c; }
+.sim-history-table th { text-align:left; font-size:.68rem; font-weight:700; color:var(--nab-text-2); text-transform:uppercase; letter-spacing:.06em; padding:0 10px 10px; border-bottom:1.5px solid #e8edf5; }
+.sim-history-table td { padding:10px; border-bottom:1px solid var(--nab-line-soft); color:var(--nab-text); }
 .sim-history-table tr:last-child td { border-bottom:none; }
-.sim-history-table tr:hover td { background:#f8fafc; }
+.sim-history-table tr:hover td { background:var(--nab-surface-2); }
 .hist-pos { color:#15803d; font-weight:700; }
 .hist-neg { color:#b91c1c; font-weight:700; }
 .sim-hist-new td { animation:simFadeIn .4s ease; }
 
-.sim-tips { background:linear-gradient(135deg,#0D5C9B,#1d4ed8); border-radius:14px; padding:18px 20px; color:#fff; margin-top:16px; }
-.sim-tips-title { font-size:.83rem; font-weight:700; margin-bottom:12px; opacity:.9; }
-.sim-tip-row { display:flex; gap:10px; margin-bottom:10px; font-size:.78rem; color:rgba(255,255,255,.85); line-height:1.5; }
-.sim-tip-num { width:18px; height:18px; background:rgba(255,255,255,.15); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.65rem; font-weight:700; flex-shrink:0; }
+.sim-tips { background:var(--nab-surface); border:1px solid var(--nab-line); box-shadow:var(--nab-shadow); border-radius:var(--nab-radius); padding:18px 20px; color:var(--nab-text); margin-top:16px; }
+.sim-tips-title { font-size:.95rem; font-weight:700; margin-bottom:12px; }
+.sim-tip-row { display:flex; gap:10px; margin-bottom:10px; font-size:.84rem; color:var(--nab-text-2); line-height:1.5; }
+.sim-tip-num { width:20px; height:20px; background:var(--nab-brand-soft); color:var(--nab-brand); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.65rem; font-weight:700; flex-shrink:0; }
 
-.sim-toast { position:fixed; bottom:24px; right:24px; background:#1e293b; color:#fff; padding:11px 20px; border-radius:10px; font-size:.83rem; font-weight:600; opacity:0; transform:translateY(8px); transition:all .3s; z-index:9999; pointer-events:none; }
+.sim-toast { position:fixed; bottom:24px; right:24px; background:var(--nab-text); color:#fff; padding:11px 20px; border-radius:10px; font-size:.83rem; font-weight:600; opacity:0; transform:translateY(8px); transition:all .3s; z-index:9999; pointer-events:none; }
 .sim-toast.show { opacity:1; transform:translateY(0); }
 
-.sim-suspension-screen { min-height:100vh; display:grid; place-items:center; background:#F0F4FA; padding:24px; }
+.sim-suspension-screen { min-height:100vh; display:grid; place-items:center; background:var(--nab-bg); padding:24px; }
 .sim-suspension-box { background:#fff; border-radius:14px; border:1px solid #e8edf5; padding:48px 40px; max-width:480px; text-align:center; }
-.sim-susp-icon { font-size:3.5rem; margin-bottom:16px; }
-.sim-suspension-box h2 { color:#1a202c; margin:0 0 12px; font-size:1.3rem; }
-.sim-suspension-box p  { color:#718096; line-height:1.6; margin:0 0 24px; }
+.sim-susp-icon { color:var(--nab-text-3); margin-bottom:16px; display:flex; justify-content:center; }
+.sim-suspension-box h2 { color:var(--nab-text); margin:0 0 12px; font-size:1.3rem; }
+.sim-suspension-box p  { color:var(--nab-text-2); line-height:1.6; margin:0 0 24px; }
 </style>
 </head>
 <body <?php body_class( 'nab-portal-body' ); ?>>
@@ -234,7 +221,7 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
 <?php if ( $is_suspended ) : ?>
 <div class="sim-suspension-screen">
   <div class="sim-suspension-box">
-    <div class="sim-susp-icon">🔒</div>
+    <div class="sim-susp-icon"><?php echo nab_portal_icon( 'lock', 44 ); ?></div>
     <h2>Account Temporarily Suspended</h2>
     <p><?php echo wp_kses_post( $suspension_msg ?: 'Please settle your payment to regain access.' ); ?></p>
     <?php $nab_se=nab_get_global_setting('nab_support_email','admin@nabsolutions.ca'); ?>
@@ -251,33 +238,33 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
 
   <main class="nab-main">
     <header class="nab-topbar">
-      <div class="nab-topbar-title">📈 Credit Score Impact Simulator</div>
+      <div class="nab-topbar-title"><?php echo nab_portal_icon( 'trending-up', 20 ); ?> Score Simulator</div>
       <div class="nab-topbar-right">
         <span class="nab-status-badge nab-status-<?php echo esc_attr( strtolower( $member_status ) ); ?>">
-          ● <?php echo esc_html( $member_status ); ?>
+          <?php echo esc_html( $member_status ); ?>
         </span>
       </div>
     </header>
 
     <div class="nab-content">
 
-      <div class="sim-hero">
+      <section class="nab-page-head">
         <div>
-          <div class="sim-hero-greeting">👋 Good <?php echo esc_html( $greeting ); ?>,</div>
-          <div class="sim-hero-name"><?php echo esc_html( $first_name ); ?></div>
-          <div class="sim-hero-desc">Enter your current score, choose a financial action, and instantly see the estimated impact on your credit score.</div>
-          <div class="sim-hero-pills">
-            <span class="sim-hero-pill">✅ <?php echo esc_html( $member_status ); ?> Member</span>
-            <?php if ( $member_since ) : ?><span class="sim-hero-pill">📅 Since <?php echo esc_html( $member_since ); ?></span><?php endif; ?>
-            <span class="sim-hero-pill">🔒 <?php echo esc_html( $payment_status ); ?></span>
-            <span class="sim-hero-pill">ID: <?php echo esc_html( $member_id ); ?></span>
+          <div class="nab-page-eyebrow">Credit tools</div>
+          <h1 class="nab-page-title">Credit Score Simulator</h1>
+          <p class="nab-page-sub">Enter your current score, choose a financial action, and see the estimated impact on your credit score.</p>
+          <div class="nab-page-meta">
+            <span class="nab-chip nab-chip-good"><?php echo esc_html( $member_status ); ?> member</span>
+            <?php if ( $member_since ) : ?><span class="nab-chip"><?php echo nab_portal_icon( 'calendar', 14 ); ?> Since <?php echo esc_html( $member_since ); ?></span><?php endif; ?>
+            <span class="nab-chip"><?php echo nab_portal_icon( 'lock', 14 ); ?> <?php echo esc_html( $payment_status ); ?></span>
+            <span class="nab-chip">ID <?php echo esc_html( $member_id ); ?></span>
           </div>
         </div>
-        <div class="sim-hero-actions">
-          <a href="<?php echo $dashboard_url; ?>" class="btn-outline-white">Dashboard</a>
-          <a href="<?php echo $url_booking; ?>"   class="btn-orange">Book Specialist</a>
+        <div class="nab-page-actions">
+          <a href="<?php echo $dashboard_url; ?>" class="nab-ui-btn">Dashboard</a>
+          <a href="<?php echo $url_booking; ?>" class="nab-ui-btn nab-ui-btn-primary"><?php echo nab_portal_icon( 'calendar-days', 16 ); ?> Book a specialist</a>
         </div>
-      </div>
+      </section>
 
       <div class="sim-grid">
 
@@ -285,9 +272,8 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
         <div>
           <div class="sim-card">
             <div class="sim-card-head">
-              <div class="sim-card-title"><p style="font-size:12px;color:#64748b;margin-bottom:10px;">For personalized guidance, consider speaking with our qualified credit expert.</p>
-          ⚡ Run a Simulation</div>
-              <div class="sim-card-subtitle">Enter your score and pick a scenario, results are instant</div>
+              <div class="sim-card-title">Run a simulation</div>
+              <div class="sim-card-subtitle">Enter your score and pick a scenario. Results are instant. For personal guidance, speak with one of our credit specialists.</div>
             </div>
             <div class="sim-card-body">
 
@@ -301,26 +287,26 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
                 <div class="sim-field">
                   <label for="simScenario">What are you planning to do?</label>
                   <select id="simScenario">
-                    <option value="">— Select a scenario —</option>
-                    <option value="payoff">💳 Pay off a credit card</option>
+                    <option value="">Select a scenario</option>
+                    <option value="payoff">Pay off a credit card</option>
                     <option value="open_card">🆕 Open a new credit card</option>
-                    <option value="miss_payment">⚠️ Miss a payment</option>
-                    <option value="increase_limit">⬆️ Increase credit limit</option>
-                    <option value="close_card">✂️ Close a credit card</option>
-                    <option value="collections">🚨 Account goes to collections</option>
-                    <option value="bankruptcy">💥 File for bankruptcy</option>
-                    <option value="consumer_proposal">📋 Consumer proposal filed</option>
-                    <option value="authorized_user">👥 Added as authorized user</option>
-                    <option value="credit_builder">🏗️ Open a credit-builder loan</option>
+                    <option value="miss_payment">Miss a payment</option>
+                    <option value="increase_limit">Increase credit limit</option>
+                    <option value="close_card">Close a credit card</option>
+                    <option value="collections">Account goes to collections</option>
+                    <option value="bankruptcy">File for bankruptcy</option>
+                    <option value="consumer_proposal">Consumer proposal filed</option>
+                    <option value="authorized_user">Added as authorized user</option>
+                    <option value="credit_builder">Open a credit-builder loan</option>
                   </select>
                   <div class="sim-error-msg" id="simScenarioErr">Please select a scenario.</div>
                 </div>
               </div>
 
-              <button class="sim-run-btn" onclick="simRun()">⚡ Run Simulation</button>
+              <button class="sim-run-btn" onclick="simRun()">Run Simulation</button>
 
               <div class="sim-result-panel" id="simResultPanel">
-                <div class="sim-scenario-tag" id="simScenarioTag">📋 Scenario</div>
+                <div class="sim-scenario-tag" id="simScenarioTag">Scenario</div>
 
                 <div class="sim-dual-gauge">
                   <div class="sim-gauge-wrap">
@@ -331,7 +317,7 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
                       <path d="M10 62 A50 50 0 0 1 110 62" fill="none" stroke="#e2e8f0" stroke-width="10" stroke-linecap="round"/>
                       <path id="gaugeArcB" d="M10 62 A50 50 0 0 1 110 62" fill="none" stroke="url(#gGradB)" stroke-width="10" stroke-linecap="round" stroke-dasharray="157" stroke-dashoffset="157" style="transition:stroke-dashoffset 1s ease"/>
                     </svg>
-                    <div class="sim-gauge-num" id="gaugeBeforeNum" style="color:#1a202c">—</div>
+                    <div class="sim-gauge-num" id="gaugeBeforeNum" style="color:#1a202c">-</div>
                     <div class="sim-gauge-lbl">Current Score</div>
                   </div>
                   <div class="sim-gauge-arrow">→</div>
@@ -343,7 +329,7 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
                       <path d="M10 62 A50 50 0 0 1 110 62" fill="none" stroke="#e2e8f0" stroke-width="10" stroke-linecap="round"/>
                       <path id="gaugeArcA" d="M10 62 A50 50 0 0 1 110 62" fill="none" stroke="url(#gGradA)" stroke-width="10" stroke-linecap="round" stroke-dasharray="157" stroke-dashoffset="157" style="transition:stroke-dashoffset 1s ease"/>
                     </svg>
-                    <div class="sim-gauge-num" id="gaugeAfterNum" style="color:#059669">—</div>
+                    <div class="sim-gauge-num" id="gaugeAfterNum" style="color:#059669">-</div>
                     <div class="sim-gauge-lbl">Estimated After</div>
                   </div>
                 </div>
@@ -355,28 +341,28 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
                 <div class="sim-ba-grid">
                   <div class="sim-ba-box">
                     <div class="sim-ba-label">Current Score</div>
-                    <div class="sim-ba-score" id="baCurrentScore" style="color:#1a202c">—</div>
+                    <div class="sim-ba-score" id="baCurrentScore" style="color:#1a202c">-</div>
                     <div class="sim-ba-rating" id="baCurrentRating"></div>
                   </div>
                   <div class="sim-ba-arrow-cell" style="text-align:center;font-size:1.6rem;" id="baArrow">→</div>
                   <div class="sim-ba-box">
                     <div class="sim-ba-label">Estimated After</div>
-                    <div class="sim-ba-score" id="baResultScore">—</div>
+                    <div class="sim-ba-score" id="baResultScore">-</div>
                     <div class="sim-ba-rating" id="baResultRating"></div>
                     <div><span class="sim-impact-pill" id="simImpactPill2"></span></div>
                   </div>
                 </div>
 
                 <div class="sim-tip-box">
-                  <div class="sim-tip-icon" id="simTipIcon">💡</div>
+                  <div class="sim-tip-icon" id="simTipIcon"><?php echo nab_portal_icon( 'info', 18 ); ?></div>
                   <div>
                     <div class="sim-tip-title">Credit Expert Tip</div>
                     <div class="sim-tip-text" id="simTipText"></div>
                   </div>
                 </div>
 
-                <div class="sim-disclaimer">⚠️ <?php echo esc_html( $sim_disclaimer ); ?></div>
-                <button class="sim-save-btn" id="simSaveBtn">💾 Save This Simulation</button>
+                <div class="sim-disclaimer"><?php echo esc_html( $sim_disclaimer ); ?></div>
+                <button class="sim-save-btn" id="simSaveBtn">Save This Simulation</button>
               </div>
 
             </div>
@@ -387,13 +373,13 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
         <div class="sim-right">
           <div class="sim-card">
             <div class="sim-card-head">
-              <div class="sim-card-title">🕐 Simulation History</div>
+              <div class="sim-card-title">Simulation History</div>
               <div class="sim-card-subtitle">Your last 10 saved simulations</div>
             </div>
             <div class="sim-card-body" id="simHistoryCardBody" style="padding-top:12px">
               <?php if ( empty( $sim_history ) ) : ?>
                 <div class="sim-history-empty" id="simHistoryEmpty">
-                  📊 No simulations saved yet.<br>Run your first simulation to see results here.
+                  No simulations saved yet.<br>Run your first simulation to see results here.
                 </div>
               <?php else : ?>
                 <table class="sim-history-table">
@@ -424,11 +410,11 @@ body { margin:0 !important; padding:0 !important; background:#F0F4FA !important;
           </div>
 
           <div class="sim-tips">
-            <div class="sim-tips-title">💡 How Credit Score Factors Work</div>
-            <div class="sim-tip-row"><span class="sim-tip-num">1</span>Payment history (35%) — biggest factor. Never miss a payment.</div>
-            <div class="sim-tip-row"><span class="sim-tip-num">2</span>Credit utilization (30%) — keep below 30%, ideally under 10%.</div>
-            <div class="sim-tip-row"><span class="sim-tip-num">3</span>Credit history length (15%) — older accounts help your score.</div>
-            <div class="sim-tip-row"><span class="sim-tip-num">4</span>New credit (10%) — hard inquiries cause a short-term dip.</div>
+            <div class="sim-tips-title">How Credit Score Factors Work</div>
+            <div class="sim-tip-row"><span class="sim-tip-num">1</span>Payment history (35%), biggest factor. Never miss a payment.</div>
+            <div class="sim-tip-row"><span class="sim-tip-num">2</span>Credit utilization (30%), keep below 30%, ideally under 10%.</div>
+            <div class="sim-tip-row"><span class="sim-tip-num">3</span>Credit history length (15%), older accounts help your score.</div>
+            <div class="sim-tip-row"><span class="sim-tip-num">4</span>New credit (10%), hard inquiries cause a short-term dip.</div>
           </div>
         </div>
 
@@ -463,16 +449,16 @@ var nabSimAjax = {
 
   /* ── Scenario data ── */
   var SC = {
-    payoff:            { label:'Pay off a credit card',       min:20,  max:45,  pos:true,  icon:'💳', tip:'Paying off a card reduces your utilization ratio — one of the biggest factors (30%) in your score. If utilization drops below 30% you could see gains quickly. Keep the card open to preserve your available credit limit.' },
+    payoff:            { label:'Pay off a credit card',       min:20,  max:45,  pos:true,  icon:'', tip:'Paying off a card reduces your utilization ratio, one of the biggest factors (30%) in your score. If utilization drops below 30% you could see gains quickly. Keep the card open to preserve your available credit limit.' },
     open_card:         { label:'Open a new credit card',      min:2,   max:8,   pos:false, icon:'🆕', tip:'Opening a new card triggers a hard inquiry (avg -5 pts) and temporarily lowers your average account age. However it increases total available credit which can improve utilization long-term. The dip usually recovers within 3-6 months.' },
-    miss_payment:      { label:'Miss a payment',              min:60,  max:110, pos:false, icon:'⚠️', tip:'Payment history is the #1 credit factor (35%). A single missed payment can stay on your Canadian credit report for 6 years. Act immediately — pay as soon as possible and ask the lender to note "late" rather than "missed".' },
-    increase_limit:    { label:'Increase credit limit',       min:5,   max:20,  pos:true,  icon:'⬆️', tip:'Increasing your limit lowers utilization without changing your balance. If you carry $1,500 on a $3,000 limit (50%) and increase to $6,000, utilization drops to 25% — a meaningful improvement with no extra spending.' },
-    close_card:        { label:'Close a credit card',         min:15,  max:35,  pos:false, icon:'✂️', tip:'Closing a card removes its available credit, raising your utilization ratio, and can shorten your credit history. Avoid closing your oldest or highest-limit card. Pay down other balances first if you must close one.' },
-    collections:       { label:'Account goes to collections', min:80,  max:130, pos:false, icon:'🚨', tip:'A collection account stays on your Canadian credit report for 6 years from first delinquency. Act immediately — negotiate a "pay for delete" with the collector, or settle the debt and dispute the remaining mark.' },
-    bankruptcy:        { label:'File for bankruptcy',         min:150, max:200, pos:false, icon:'💥', tip:'Bankruptcy stays on Equifax for 6 years (14 for a 2nd) and TransUnion for 6-7 years. Many members rebuild to 650+ within 2 years using secured cards and credit-builder loans while making every payment on time.' },
-    consumer_proposal: { label:'Consumer proposal filed',     min:100, max:150, pos:false, icon:'📋', tip:'A consumer proposal is reported for 3 years after completion (or 6 years from filing, whichever comes first). Start rebuilding immediately with secured credit cards and consistent on-time payments.' },
-    authorized_user:   { label:'Added as authorized user',    min:10,  max:40,  pos:true,  icon:'👥', tip:'Being added to an account with a long history, low utilization, and no missed payments can meaningfully boost your score in Canada. Make sure the primary cardholder has excellent credit habits before agreeing.' },
-    credit_builder:    { label:'Open a credit-builder loan',  min:15,  max:35,  pos:true,  icon:'🏗️', tip:'Credit-builder loans (KOHO, Refresh Financial, credit unions) report monthly payments to the bureaus without requiring good credit upfront. Over 12 months of on-time payments they can significantly improve your score.' },
+    miss_payment:      { label:'Miss a payment',              min:60,  max:110, pos:false, icon:'', tip:'Payment history is the #1 credit factor (35%). A single missed payment can stay on your Canadian credit report for 6 years. Act immediately, pay as soon as possible and ask the lender to note "late" rather than "missed".' },
+    increase_limit:    { label:'Increase credit limit',       min:5,   max:20,  pos:true,  icon:'', tip:'Increasing your limit lowers utilization without changing your balance. If you carry $1,500 on a $3,000 limit (50%) and increase to $6,000, utilization drops to 25%, a meaningful improvement with no extra spending.' },
+    close_card:        { label:'Close a credit card',         min:15,  max:35,  pos:false, icon:'', tip:'Closing a card removes its available credit, raising your utilization ratio, and can shorten your credit history. Avoid closing your oldest or highest-limit card. Pay down other balances first if you must close one.' },
+    collections:       { label:'Account goes to collections', min:80,  max:130, pos:false, icon:'', tip:'A collection account stays on your Canadian credit report for 6 years from first delinquency. Act immediately, negotiate a "pay for delete" with the collector, or settle the debt and dispute the remaining mark.' },
+    bankruptcy:        { label:'File for bankruptcy',         min:150, max:200, pos:false, icon:'', tip:'Bankruptcy stays on Equifax for 6 years (14 for a 2nd) and TransUnion for 6-7 years. Many members rebuild to 650+ within 2 years using secured cards and credit-builder loans while making every payment on time.' },
+    consumer_proposal: { label:'Consumer proposal filed',     min:100, max:150, pos:false, icon:'', tip:'A consumer proposal is reported for 3 years after completion (or 6 years from filing, whichever comes first). Start rebuilding immediately with secured credit cards and consistent on-time payments.' },
+    authorized_user:   { label:'Added as authorized user',    min:10,  max:40,  pos:true,  icon:'', tip:'Being added to an account with a long history, low utilization, and no missed payments can meaningfully boost your score in Canada. Make sure the primary cardholder has excellent credit habits before agreeing.' },
+    credit_builder:    { label:'Open a credit-builder loan',  min:15,  max:35,  pos:true,  icon:'', tip:'Credit-builder loans (KOHO, Refresh Financial, credit unions) report monthly payments to the bureaus without requiring good credit upfront. Over 12 months of on-time payments they can significantly improve your score.' },
   };
 
   function el(id)  { return document.getElementById(id); }
@@ -600,7 +586,7 @@ var nabSimAjax = {
 
     lastResult = { score:score, result:result, label:sc.label, impact:impact };
 
-    setText('simScenarioTag', sc.icon + ' ' + sc.label);
+    setText('simScenarioTag', sc.label);
 
     setTimeout(function () { animGauge('gaugeArcB', score);  }, 80);
     setTimeout(function () { animGauge('gaugeArcA', result); }, 280);
@@ -629,7 +615,6 @@ var nabSimAjax = {
       if (p) { p.textContent = txt; p.className = 'sim-impact-pill ' + pc; }
     });
 
-    setText('simTipIcon', sc.icon);
     setText('simTipText', sc.tip);
 
     var panel = el('simResultPanel');

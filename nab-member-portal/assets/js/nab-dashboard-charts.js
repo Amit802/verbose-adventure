@@ -86,7 +86,7 @@ function renderScore(){
 
   // Subtitle + KPI
   var sub = $('ndScoreSub');
-  var kpi = setText('ndKpiScore', h.length ? h[h.length-1].s : '—');
+  var kpi = setText('ndKpiScore', h.length ? h[h.length-1].s : '-');
   var kpiSub = $('ndKpiScoreSub');
   if(h.length){
     var last = h[h.length-1];
@@ -180,7 +180,7 @@ function renderCashflow(){
     kv.textContent = signed(n2); setTone(kv, n2);
     ks.textContent = latest.inc > 0 ? (n2 >= 0 ? 'Saved ' : 'Overspent ') + Math.abs(Math.round(100 * n2 / latest.inc)) + '% of income' : 'Expenses ' + money(e2);
   } else {
-    setText('ndKpiCfLabel', 'Cash flow'); kv.textContent = '—'; setTone(kv, 0); ks.textContent = 'Add this month';
+    setText('ndKpiCfLabel', 'Cash flow'); kv.textContent = '-'; setTone(kv, 0); ks.textContent = 'Add this month';
   }
 
   draw('cashflow', 'ndCashflowChart', {
@@ -272,7 +272,7 @@ function renderNetworth(){
       ks.textContent = (d >= 0 ? '▲ ' : '▼ ') + money(Math.abs(d)) + ' since ' + fmtMonth(hh[hh.length-2].m);
       setTone(ks, d);
     } else { ks.textContent = acc.length + (acc.length === 1 ? ' account' : ' accounts'); setTone(ks, 0); }
-  } else { kv.textContent = '—'; ks.textContent = 'Add your accounts'; setTone(ks, 0); }
+  } else { kv.textContent = '-'; ks.textContent = 'Add your accounts'; setTone(ks, 0); }
 
   // Account list, grouped like Monarch
   var list = $('ndAccountList');
@@ -328,7 +328,7 @@ function renderUtil(){
     var e = el('div', 'nd-empty nd-empty-inline');
     e.appendChild(el('div', 'nd-empty-txt', 'Save your cards in the Utilization Checker and your usage will show here.'));
     body.appendChild(e);
-    setText('ndKpiUtil', '—'); setText('ndKpiUtilSub', 'Use the Utilization Checker');
+    setText('ndKpiUtil', '-'); setText('ndKpiUtilSub', 'Use the Utilization Checker');
     return;
   }
   var pct = Math.round(100 * bal / lim), tone = utilTone(pct);
@@ -466,7 +466,7 @@ function post(params){
     .then(function(r){ return r.text(); })
     .then(function(t){
       try { return JSON.parse(t); }
-      catch(e){ return { success:false, data:{ message: t.trim() === '-1' ? 'Your session expired — please refresh the page.' : 'Something went wrong. Please try again.' } }; }
+      catch(e){ return { success:false, data:{ message: t.trim() === '-1' ? 'Your session expired, please refresh the page.' : 'Something went wrong. Please try again.' } }; }
     })
     .catch(function(){ return { success:false, data:{ message:'Connection error. Please check your internet and try again.' } }; });
 }

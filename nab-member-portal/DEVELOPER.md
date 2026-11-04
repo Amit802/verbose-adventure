@@ -25,6 +25,7 @@ Our function names are scanned once per release and cached in the `nab_function_
 |---|---|
 | `nab-member-portal.php` | Bootstrap: constants, `require`s, activation/deactivation, small admin tweaks. Bump **both** the header `Version` and `NAB_VERSION` on every release. A version change triggers the LiteSpeed purge-all automatically. |
 | `inc/tools.php` | **Tool registry.** Every page template (`nab_portal_tools()`) and every sidebar/search entry (`nab_portal_nav_sections()`). |
+| `inc/ui.php` | **Shared look (v1.15.0).** One colour palette as CSS tokens (`--nab-bg`, `--nab-surface`, `--nab-line`, `--nab-text`, `--nab-brand`, status colours, radius, shadow, font) printed on every portal page, plus the shared top bar, search box, page header (`.nab-page-head`), card (`.nab-panel`) and buttons (`.nab-ui-btn`). Page templates take their colours from these tokens; change a colour here once. The left sidebar keeps its own styles in `nab_portal_head_css()`. UI text has no emoji and no em dashes; use `nab_portal_icon()` for icons. |
 | `inc/icons.php` | The only icon set (Lucide, ISC licence). `nab_portal_icon( 'name', $size )`. No emoji in the UI. **v1.13.0:** `nab_portal_icon_tile( 'name', 'tone', $size )` draws the icon white on a gradient tile (tones in `nab_portal_tile_tones()`; JS `window.nabTile()`), and `nab_portal_nabby_mark( $size )` draws Nabby, the NAB mascot used as the AI Assistant's face (the face from the official mascot artwork, `assets/img/nabby.png`; an admin can upload a different picture in the ACF field "Nabby mascot image"). Each sidebar item, spending category and account type has an `icon` and a `tone`. |
 | `inc/helpers.php` | Shared layout (`nab_head_open`, `nab_render_sidebar`, shared CSS/JS), nav links, roadmap, templates. |
 | `inc/template-loader.php` | Maps page templates to files. Driven by the registry, so you don't need to edit it. |
@@ -123,7 +124,7 @@ This is the full list the client has asked for, in the order it will be built, w
 
 | # | Item | Estimate | Plan / status |
 |---|---|---|---|
-| 17 | Updated colour palette across the portal to match the landing page | 2–3 days | The dashboard already uses CSS variables (`--nd-*`). Move the shared CSS in `nab_portal_head_css()` to the same variables, so the landing-page palette is a one-place change. |
+| 17 | Updated colour palette across the portal to match the landing page | 2–3 days | **Done in v1.15.0.** `inc/ui.php` holds the palette and shared styles; every portal page uses its tokens. Icon tiles are flat (no gradients), page banners became a plain page header, emoji were replaced with Lucide icons, and the dashboard search box was rebuilt (press / to search). Once the landing page palette is final, adjust the tokens in `inc/ui.php`. |
 
 ## Known issues (not yet fixed — need a decision)
 

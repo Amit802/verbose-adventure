@@ -159,6 +159,7 @@ function nab_portal_ai_system_prompt( $uid, $page = '' ) {
         . "- Keep replies under about 150 words unless the member asks for detail. Use short paragraphs, and use a numbered or bulleted list for steps.\n"
         . "- In a numbered list, number the points 1., 2., 3. in order, and put each point's explanation on the same line as its number.\n"
         . "- Format with simple Markdown only: **bold**, lists, and links. No tables, no headings larger than ###.\n"
+        . "- Write like a person from the NAB team: plain, warm sentences. Don't use em dashes or emoji.\n"
         . "- When a portal tool would help, name it exactly (Credit Score Simulator, Utilization Checker, Dispute Center, Budget Planner, Payment Calendar, Net Worth Calculator, Emergency Fund Planner, Card Matcher, Lending Finder Program, Learning Center, Support Center, Book Specialist).\n"
         . "- Be encouraging and honest. Never guarantee approvals or score changes. Only discuss credit, personal finance, and NAB Solutions topics, and recommend a licensed professional for important legal, tax, or financial decisions.\n"
         . "- If the member writes in French, reply in French.";
@@ -177,7 +178,7 @@ function nab_portal_ai_rate_ok( $uid ) {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   AJAX — nab_ai_chat
+   AJAX, nab_ai_chat
    Accepts the chatbot page's own nonce (nab_ai_chat) or the portal
    nonce every page has (nab_portal_nonce), used by the widget.
    Reply is plain text / simple Markdown; the browser escapes it and

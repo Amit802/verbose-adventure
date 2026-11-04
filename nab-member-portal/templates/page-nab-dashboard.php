@@ -116,7 +116,7 @@ $edu_modules = [
         'thumb'    => $did && get_field('nab_vid1_thumb',$did) ? get_field('nab_vid1_thumb',$did) : NAB_URL.'assets/img/modules/module-1.png',
         'overview' => 'Credit is more than just a number; it is a formal transactional relationship built on documented trust. This module explores how credit works in Canada, why interest exists, and how your financial reputation is tracked.',
         'concepts' => ['The Price of Speed: Interest is the fee you pay for the convenience of using someone else\'s money now.','The Lender\'s Perspective: Every time you borrow, the lender is making a bet on your reliability.','Credit Bureaus as Historians: In Canada, Equifax and TransUnion collect data to build your financial file.','The Credit Score: A three-digit number (300–900) summarizing your financial reputation.'],
-        'steps'    => ['Check Both Reports Annually — Equifax and TransUnion do not share data.','Monitor for Accuracy — Review both reports once a year.','Don\'t Fear Checking Your Own Score — it is a soft inquiry with zero impact.'],
+        'steps'    => ['Check Both Reports Annually, Equifax and TransUnion do not share data.','Monitor for Accuracy, Review both reports once a year.','Don\'t Fear Checking Your Own Score, it is a soft inquiry with zero impact.'],
     ],
     2 => [
         'title'    => 'The Trust Recipe: How Credit Scores Are Calculated',
@@ -124,9 +124,9 @@ $edu_modules = [
         'category' => 'Credit Scores',
         'url'      => ($did && get_field('nab_vid2_url',$did)) ? get_field('nab_vid2_url',$did) : 'https://www.youtube.com/embed/aAMOEmWziak',
         'thumb'    => $did && get_field('nab_vid2_thumb',$did) ? get_field('nab_vid2_thumb',$did) : NAB_URL.'assets/img/modules/module-2.png',
-        'overview' => 'Your credit score is not a mystery — it is a "trust recipe" built from your everyday financial habits. This module breaks down the five main ingredients used to calculate your score in Canada.',
-        'concepts' => ['Payment History (35%): The largest piece — measures your consistency in paying bills on time.','Credit Utilization (30%): Keep balances below 30% of your available credit limit.','Length of Credit History (15%): The age of your oldest and newest accounts matters.','Credit Mix & Inquiries (10% each): Different loan types and application frequency make up the final 20%.'],
-        'steps'    => ['Prioritize On-Time Payments — set up autopay.','Manage Statement Closings — pay down balances before your statement closes.','Preserve Old Accounts — keep your oldest card open even if rarely used.','Space Out Applications — avoid a rush of new credit applications.'],
+        'overview' => 'Your credit score is not a mystery, it is a "trust recipe" built from your everyday financial habits. This module breaks down the five main ingredients used to calculate your score in Canada.',
+        'concepts' => ['Payment History (35%): The largest piece, measures your consistency in paying bills on time.','Credit Utilization (30%): Keep balances below 30% of your available credit limit.','Length of Credit History (15%): The age of your oldest and newest accounts matters.','Credit Mix & Inquiries (10% each): Different loan types and application frequency make up the final 20%.'],
+        'steps'    => ['Prioritize On-Time Payments, set up autopay.','Manage Statement Closings, pay down balances before your statement closes.','Preserve Old Accounts, keep your oldest card open even if rarely used.','Space Out Applications, avoid a rush of new credit applications.'],
     ],
     3 => [
         'title'    => 'The Escalating Cost of Bad Advice',
@@ -135,8 +135,8 @@ $edu_modules = [
         'url'      => ($did && get_field('nab_vid3_url',$did)) ? get_field('nab_vid3_url',$did) : 'https://www.youtube.com/embed/KNhx-HFivNA',
         'thumb'    => $did && get_field('nab_vid3_thumb',$did) ? get_field('nab_vid3_thumb',$did) : NAB_URL.'assets/img/modules/module-3.png',
         'overview' => 'This module replaces financial guesswork with algorithmic facts by tackling the three most dangerous credit myths that can lower scores and drain wealth.',
-        'concepts' => ['Hard vs. Soft Inquiries: Applying for new debt triggers a hard inquiry; checking your own score is a harmless soft inquiry.','The 15% History Anchor: Closing old accounts deletes history and spikes your risk profile.','The Utilization Fraction: Closing a card shrinks your total available credit and raises your utilization %.','Payment History Binary: The formula simply asks — did you make at least the minimum payment on time?','The Interest Myth: Carrying a balance earns zero algorithmic favor — interest is tracked in a separate column.'],
-        'steps'    => ['Monitor Freely — check your own score frequently.','Preserve Old Accounts — keep them open with at least one small purchase per year.','Avoid Unnecessary Interest — pay your statement balance in full every month.','Stop relying on myths — use mathematical facts to manage your credit profile.'],
+        'concepts' => ['Hard vs. Soft Inquiries: Applying for new debt triggers a hard inquiry; checking your own score is a harmless soft inquiry.','The 15% History Anchor: Closing old accounts deletes history and spikes your risk profile.','The Utilization Fraction: Closing a card shrinks your total available credit and raises your utilization %.','Payment History Binary: The formula simply asks, did you make at least the minimum payment on time?','The Interest Myth: Carrying a balance earns zero algorithmic favor, interest is tracked in a separate column.'],
+        'steps'    => ['Monitor Freely, check your own score frequently.','Preserve Old Accounts, keep them open with at least one small purchase per year.','Avoid Unnecessary Interest, pay your statement balance in full every month.','Stop relying on myths, use mathematical facts to manage your credit profile.'],
     ],
     4 => [
         'title'    => 'Free Canadian Credit Reports: The Complete Guide',
@@ -145,8 +145,8 @@ $edu_modules = [
         'url'      => ($did && get_field('nab_vid4_url',$did)) ? get_field('nab_vid4_url',$did) : 'https://www.youtube.com/embed/5Sc4L2lIOxo',
         'thumb'    => $did && get_field('nab_vid4_thumb',$did) ? get_field('nab_vid4_thumb',$did) : NAB_URL.'assets/img/modules/module-4.png',
         'overview' => 'Every Canadian is legally entitled to a free copy of their credit report from both Equifax and TransUnion. This module provides the exact step-by-step process to secure these documents at no cost.',
-        'concepts' => ['Legal Entitlement: You have a legal right to access your credit disclosure from both major bureaus for free.','Zero Score Impact: Pulling your own report is a soft inquiry — no penalty.','Security Prerequisites: You will need your SIN, address history, and answers to security questions.','Consumer Disclosure vs. Monitoring: On TransUnion, look for "Consumer Disclosure" not "Credit Monitoring" to avoid fees.','Dispute Rights: Both bureaus provide free online dispute forms if you find errors.'],
-        'steps'    => ['Pull Official Baselines from equifax.ca and transunion.ca.','Audit Every Line for incorrect addresses, unfamiliar accounts, or wrong late payment records.','Staggered Strategy — check one bureau in January and the other in July.','Correct to Boost — dispute inaccuracies immediately; corrections can boost your score in 30 days.'],
+        'concepts' => ['Legal Entitlement: You have a legal right to access your credit disclosure from both major bureaus for free.','Zero Score Impact: Pulling your own report is a soft inquiry, no penalty.','Security Prerequisites: You will need your SIN, address history, and answers to security questions.','Consumer Disclosure vs. Monitoring: On TransUnion, look for "Consumer Disclosure" not "Credit Monitoring" to avoid fees.','Dispute Rights: Both bureaus provide free online dispute forms if you find errors.'],
+        'steps'    => ['Pull Official Baselines from equifax.ca and transunion.ca.','Audit Every Line for incorrect addresses, unfamiliar accounts, or wrong late payment records.','Staggered Strategy, check one bureau in January and the other in July.','Correct to Boost, dispute inaccuracies immediately; corrections can boost your score in 30 days.'],
     ],
     5 => [
         'title'    => 'Securing Your Free Canadian Credit Reports',
@@ -155,8 +155,8 @@ $edu_modules = [
         'url'      => ($did && get_field('nab_vid5_url',$did)) ? get_field('nab_vid5_url',$did) : 'https://www.youtube.com/embed/8_ns3DHBVII',
         'thumb'    => $did && get_field('nab_vid5_thumb',$did) ? get_field('nab_vid5_thumb',$did) : NAB_URL.'assets/img/modules/module-5.png',
         'overview' => 'This module guides you through the process of securing official, comprehensive digital copies of your reports from Equifax and TransUnion while avoiding aggressive marketing traps and industry-specific terminology to access your free legal disclosures.',
-        'concepts' => ['Preparation is Critical: Credit bureaus use strict security timers — have your documents ready before you start.','Identity Verification: You will be asked time-sensitive questions about exact account balances or loan opening dates.','The Upsell Trap: Bureau websites prioritize paid services — look past these to find the free options.','Consumer Disclosure: On TransUnion, look specifically for the phrase "consumer disclosure".','Delayed Review: Raw credit reports use industry shorthand — organize them first, then decode with guidance.'],
-        'steps'    => ['Gather Documents — have your legal name, address, birth date, and a recent statement ready.','Access Equifax at consumer.equifax.ca — select "create a free My Equifax account".','Access TransUnion at transunion.ca — locate the "consumer disclosure" link.','Download and Organize — save both reports as PDFs in a dedicated folder.','Resist Immediate Analysis — wait for proper guidance to decode the data.'],
+        'concepts' => ['Preparation is Critical: Credit bureaus use strict security timers, have your documents ready before you start.','Identity Verification: You will be asked time-sensitive questions about exact account balances or loan opening dates.','The Upsell Trap: Bureau websites prioritize paid services, look past these to find the free options.','Consumer Disclosure: On TransUnion, look specifically for the phrase "consumer disclosure".','Delayed Review: Raw credit reports use industry shorthand, organize them first, then decode with guidance.'],
+        'steps'    => ['Gather Documents, have your legal name, address, birth date, and a recent statement ready.','Access Equifax at consumer.equifax.ca, select "create a free My Equifax account".','Access TransUnion at transunion.ca, locate the "consumer disclosure" link.','Download and Organize, save both reports as PDFs in a dedicated folder.','Resist Immediate Analysis, wait for proper guidance to decode the data.'],
     ],
     6 => [
         'title'    => 'The Credit Inquiry Guide: Understanding Hard and Soft Pulls',
@@ -165,7 +165,7 @@ $edu_modules = [
         'url'      => ($did && get_field('nab_vid6_url',$did)) ? get_field('nab_vid6_url',$did) : 'https://www.youtube.com/embed/idthInO6S98',
         'thumb'    => $did && get_field('nab_vid6_thumb',$did) ? get_field('nab_vid6_thumb',$did) : NAB_URL.'assets/img/modules/module-6.png',
         'overview' => 'Every time your credit file is accessed, it leaves a digital footprint that can either be harmless or a silent drain on your financial standing. This module teaches you to audit every inquiry on your report.',
-        'concepts' => ['Inquiry Retention: Credit bureaus log up to 3 years of credit checking history.','Soft Inquiries (Green): Routine checks — invisible to lenders, zero score impact.','Hard Inquiries (Orange): Triggered when you actively apply for new credit — slightly lowers your score.','Penalty Decay: The score penalty from a hard inquiry completely fades within 12 months.','Rate Shopping Exception: Multiple inquiries for the same loan type within 14–45 days count as one hit.','Fraud Detection (Red): Any unrecognized hard inquiry is a warning sign of identity theft.'],
+        'concepts' => ['Inquiry Retention: Credit bureaus log up to 3 years of credit checking history.','Soft Inquiries (Green): Routine checks, invisible to lenders, zero score impact.','Hard Inquiries (Orange): Triggered when you actively apply for new credit, slightly lowers your score.','Penalty Decay: The score penalty from a hard inquiry completely fades within 12 months.','Rate Shopping Exception: Multiple inquiries for the same loan type within 14–45 days count as one hit.','Fraud Detection (Red): Any unrecognized hard inquiry is a warning sign of identity theft.'],
         'steps'    => ['Perform a Color-Coded Audit: green for soft, orange for authorized hard, red for unrecognized inquiries.','Cluster Applications: Consolidate loan shopping into a tight two-week window.','Space Out Credit Cards: Multiple card applications do not qualify for rate shopping exceptions.','Dispute Fraud immediately if you find unauthorized inquiries on your report.'],
     ],
     7 => [
@@ -175,8 +175,8 @@ $edu_modules = [
         'url'      => ($did && get_field('nab_vid7_url',$did)) ? get_field('nab_vid7_url',$did) : 'https://www.youtube.com/embed/eZW2-mcXqz4',
         'thumb'    => $did && get_field('nab_vid7_thumb',$did) ? get_field('nab_vid7_thumb',$did) : NAB_URL.'assets/img/modules/module-7.png',
         'overview' => 'This module shifts the focus from unattainable perfection to building resilience through realistic, adaptable, and consistent daily habits that protect your credit profile.',
-        'concepts' => ['The Diagnostic Budget: A budget is a diagnostic tool — not a pass/fail test.','The 50/30/20 Framework: 50% needs, 30% wants, 20% savings — adjust as needed for Canadian living costs.','Payment History Core: Consistent on-time payments demonstrate reliability over time.','Active Autopay Management: Autopay requires active engagement — missing alerts can lead to failed payments.','Rent Payment Reporting: Report eligible rent payments to credit bureaus to turn existing habits into credit history.','The Savings Shock Absorber: An emergency fund absorbs financial shocks without damaging your credit.'],
-        'steps'    => ['Shift Mindsets — focus on long-term stability through adaptable habits.','Monitor Accounts Regularly — actively engage with automated systems.','Document Existing Habits — use NAB\'\2 rent reporting tool.','Scale Savings Strategically — start with 1 month of essential expenses, then build to 3–6 months.'],
+        'concepts' => ['The Diagnostic Budget: A budget is a diagnostic tool, not a pass/fail test.','The 50/30/20 Framework: 50% needs, 30% wants, 20% savings, adjust as needed for Canadian living costs.','Payment History Core: Consistent on-time payments demonstrate reliability over time.','Active Autopay Management: Autopay requires active engagement, missing alerts can lead to failed payments.','Rent Payment Reporting: Report eligible rent payments to credit bureaus to turn existing habits into credit history.','The Savings Shock Absorber: An emergency fund absorbs financial shocks without damaging your credit.'],
+        'steps'    => ['Shift Mindsets, focus on long-term stability through adaptable habits.','Monitor Accounts Regularly, actively engage with automated systems.','Document Existing Habits, use NAB\'\2 rent reporting tool.','Scale Savings Strategically, start with 1 month of essential expenses, then build to 3–6 months.'],
     ],
 ];
 $completed_modules = json_decode( get_user_meta($uid,'nab_modules_completed',true) ?: '[]', true );
@@ -241,70 +241,70 @@ if ( isset( $_GET['nab_tab'] ) ) {
     }
 }
 
-nab_head_open( 'Dashboard — NAB Member Portal' );
+nab_head_open( 'Dashboard | NAB Member Portal' );
 ?>
 <style>
 /* ══ LAYOUT ══════════════════════════════════════════════ */
 .nab-top-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px}
 .nab-welcome-card,.nab-score-card{background:#fff;border-radius:16px;padding:24px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
 .nab-welcome-card{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
-.nab-welcome-greeting{font-size:13px;color:#64748b;margin-bottom:4px}
-.nab-welcome-name{font-size:26px;font-weight:800;color:#1e293b;line-height:1.1;margin-bottom:12px}
+.nab-welcome-greeting{font-size:13px;color:var(--nab-text-2);margin-bottom:4px}
+.nab-welcome-name{font-size:26px;font-weight:800;color:var(--nab-text);line-height:1.1;margin-bottom:12px}
 .nab-welcome-meta{display:flex;flex-wrap:wrap;gap:8px}
-.nab-meta-pill{font-size:11px;background:#f1f5f9;color:#475569;padding:4px 10px;border-radius:20px;display:flex;align-items:center;gap:5px}
+.nab-meta-pill{font-size:11px;background:var(--nab-line-soft);color:var(--nab-text-2);padding:4px 10px;border-radius:20px;display:flex;align-items:center;gap:5px}
 .ndot{width:7px;height:7px;background:#22c55e;border-radius:50%;display:inline-block}
 .nab-welcome-right{text-align:right;flex-shrink:0}
-.nab-member-since-label{font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
-.nab-member-id{font-size:20px;font-weight:800;color:#0D5C9B;margin-bottom:14px;font-family:monospace}
+.nab-member-since-label{font-size:10px;color:var(--nab-text-3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.nab-member-id{font-size:20px;font-weight:800;color:var(--nab-brand);margin-bottom:14px;font-family:monospace}
 .nab-quick-btns{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
-.nab-qbtn{font-size:12px;font-weight:600;padding:7px 14px;border-radius:8px;text-decoration:none;background:#f1f5f9;color:#374151;transition:.15s;border:1px solid #e2e8f0;cursor:pointer}
-.nab-qbtn:hover{background:#e2e8f0;color:#1e293b}
+.nab-qbtn{font-size:12px;font-weight:600;padding:7px 14px;border-radius:8px;text-decoration:none;background:var(--nab-line-soft);color:#374151;transition:.15s;border:1px solid var(--nab-line);cursor:pointer}
+.nab-qbtn:hover{background:var(--nab-line);color:var(--nab-text)}
 .nab-qbtn-orange{background:#F97316;color:#fff!important;border-color:#F97316}
 .nab-qbtn-orange:hover{background:#ea6c0a}
 
 /* ══ SCORE ═══════════════════════════════════════════════ */
-.nab-score-title{font-size:14px;font-weight:700;color:#1e293b;margin-bottom:12px}
+.nab-score-title{font-size:14px;font-weight:700;color:var(--nab-text);margin-bottom:12px}
 .nab-score-input-wrap{display:flex;gap:8px;margin-bottom:6px}
-.nab-score-input{flex:1;padding:8px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:14px;outline:none;transition:.15s}
-.nab-score-input:focus{border-color:#0D5C9B}
-.nab-btn-check{background:#0D5C9B;color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;transition:.15s}
-.nab-btn-check:hover{background:#0a4a7c}
+.nab-score-input{flex:1;padding:8px 12px;border:1.5px solid var(--nab-line);border-radius:8px;font-size:14px;outline:none;transition:.15s}
+.nab-score-input:focus{border-color:var(--nab-brand)}
+.nab-btn-check{background:var(--nab-brand);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;transition:.15s}
+.nab-btn-check:hover{background:var(--nab-brand-strong)}
 .nab-score-error{font-size:12px;color:#ef4444;margin-bottom:6px;display:none}
 .nab-score-self-label{font-size:11px;color:#f97316;margin-bottom:6px;display:none}
 .nab-score-gauge{position:relative;display:flex;justify-content:center;margin:10px 0 4px}
-.nab-score-number{position:absolute;bottom:0;left:50%;transform:translateX(-50%);font-size:28px;font-weight:800;color:#1e293b}
+.nab-score-number{position:absolute;bottom:0;left:50%;transform:translateX(-50%);font-size:28px;font-weight:800;color:var(--nab-text)}
 .nab-score-label{text-align:center;font-size:13px;font-weight:700;margin-bottom:4px}
-.nab-score-msg{text-align:center;font-size:11px;color:#64748b;margin-bottom:10px;line-height:1.4}
-.nab-score-range{display:flex;justify-content:space-between;font-size:9px;color:#94a3b8;margin-top:4px}
+.nab-score-msg{text-align:center;font-size:11px;color:var(--nab-text-2);margin-bottom:10px;line-height:1.4}
+.nab-score-range{display:flex;justify-content:space-between;font-size:9px;color:var(--nab-text-3);margin-top:4px}
 .nab-ri{display:flex;flex-direction:column;align-items:center;gap:1px}
 .nab-ri span{font-weight:700;font-size:10px}
 .nab-score-providers{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
-.nab-provider-chip{display:flex;align-items:center;gap:5px;padding:4px 10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:20px;font-size:11px;font-weight:600;color:#374151;text-decoration:none;transition:.15s}
-.nab-provider-chip:hover{background:#f1f5f9}
+.nab-provider-chip{display:flex;align-items:center;gap:5px;padding:4px 10px;background:var(--nab-surface-2);border:1px solid var(--nab-line);border-radius:20px;font-size:11px;font-weight:600;color:#374151;text-decoration:none;transition:.15s}
+.nab-provider-chip:hover{background:var(--nab-line-soft)}
 .nab-pdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
 
 /* ══ TABS ════════════════════════════════════════════════ */
 .nab-tab-bar{display:flex;gap:4px;background:#fff;border-radius:12px;padding:6px;box-shadow:0 1px 4px rgba(0,0,0,.06);margin-bottom:24px;flex-wrap:wrap}
-.nab-tab-btn{padding:8px 18px;border-radius:8px;border:none;background:transparent;font-size:13px;font-weight:600;color:#64748b;cursor:pointer;transition:.15s;white-space:nowrap}
-.nab-tab-btn:hover{background:#f1f5f9;color:#1e293b}
-.nab-tab-btn.active{background:#0D5C9B;color:#fff}
+.nab-tab-btn{padding:8px 18px;border-radius:8px;border:none;background:transparent;font-size:13px;font-weight:600;color:var(--nab-text-2);cursor:pointer;transition:.15s;white-space:nowrap}
+.nab-tab-btn:hover{background:var(--nab-line-soft);color:var(--nab-text)}
+.nab-tab-btn.active{background:var(--nab-brand);color:#fff}
 .nab-tab-panel{display:none}
 .nab-tab-panel.active{display:block}
 
 /* ══ QUICK ACCESS CARDS ══════════════════════════════════ */
-.nab-section-heading{font-size:13px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px}
+.nab-section-heading{font-size:13px;font-weight:700;color:var(--nab-text-2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px}
 .nab-cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px;margin-bottom:28px}
 .nab-feat-card{display:flex;align-items:center;gap:14px;background:#fff;border-radius:14px;padding:16px;text-decoration:none;border:1.5px solid transparent;transition:.18s;position:relative;border-top:3px solid var(--ncard-accent);cursor:pointer}
 .nab-feat-card:hover{border-color:var(--ncard-accent);box-shadow:0 4px 16px rgba(0,0,0,.08);transform:translateY(-2px)}
 .nab-card-disabled{opacity:.55;cursor:not-allowed;pointer-events:none}
 .nab-card-icon{width:42px;height:42px;border-radius:10px;background:var(--ncard-iconbg);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
 .nab-card-body{flex:1;min-width:0}
-.nab-card-title{font-size:13px;font-weight:700;color:#1e293b;margin-bottom:3px}
-.nab-card-desc{font-size:11px;color:#64748b;line-height:1.4}
-.nab-card-arrow{font-size:16px;color:#cbd5e1;transition:.15s}
+.nab-card-title{font-size:13px;font-weight:700;color:var(--nab-text);margin-bottom:3px}
+.nab-card-desc{font-size:11px;color:var(--nab-text-2);line-height:1.4}
+.nab-card-arrow{font-size:16px;color:var(--nab-text-3);transition:.15s}
 .nab-feat-card:hover .nab-card-arrow{color:var(--ncard-accent);transform:translateX(3px)}
 .nab-badge{font-size:9px;font-weight:700;letter-spacing:.05em;padding:2px 7px;border-radius:20px;text-transform:uppercase;position:absolute;top:10px;right:10px}
-.nab-badge-soon{background:#e2e8f0;color:#64748b}
+.nab-badge-soon{background:var(--nab-line);color:var(--nab-text-2)}
 .nab-badge-live{background:#dbeafe;color:#1d4ed8}
 
 /* ══ SPLIT-PANEL READER (Blog & DIY) ═════════════════════
@@ -312,44 +312,44 @@ nab_head_open( 'Dashboard — NAB Member Portal' );
 .nab-reader{display:grid;grid-template-columns:300px 1fr;gap:0;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06);min-height:520px}
 
 /* Left list */
-.nab-reader-list{border-right:1px solid #f1f5f9;overflow-y:auto;max-height:700px}
-.nab-reader-list-header{padding:16px 18px 12px;font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid #f1f5f9;position:sticky;top:0;background:#fff;z-index:1;display:flex;justify-content:space-between;align-items:center}
-.nab-reader-list-header a{font-size:11px;font-weight:600;color:#0D5C9B;text-decoration:none;text-transform:none;letter-spacing:0}
+.nab-reader-list{border-right:1px solid var(--nab-line-soft);overflow-y:auto;max-height:700px}
+.nab-reader-list-header{padding:16px 18px 12px;font-size:11px;font-weight:700;color:var(--nab-text-2);text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--nab-line-soft);position:sticky;top:0;background:#fff;z-index:1;display:flex;justify-content:space-between;align-items:center}
+.nab-reader-list-header a{font-size:11px;font-weight:600;color:var(--nab-brand);text-decoration:none;text-transform:none;letter-spacing:0}
 .nab-reader-list-header a:hover{text-decoration:underline}
-.nab-reader-row{display:flex;gap:12px;padding:14px 16px;cursor:pointer;border-bottom:1px solid #f8fafc;transition:.15s;align-items:flex-start}
-.nab-reader-row:hover{background:#f8fafc}
-.nab-reader-row.active{background:#eff6ff;border-left:3px solid #0D5C9B}
-.nab-reader-row-thumb{width:56px;height:56px;border-radius:8px;object-fit:cover;flex-shrink:0;background:#f1f5f9}
+.nab-reader-row{display:flex;gap:12px;padding:14px 16px;cursor:pointer;border-bottom:1px solid var(--nab-surface-2);transition:.15s;align-items:flex-start}
+.nab-reader-row:hover{background:var(--nab-surface-2)}
+.nab-reader-row.active{background:#eff6ff;border-left:3px solid var(--nab-brand)}
+.nab-reader-row-thumb{width:56px;height:56px;border-radius:8px;object-fit:cover;flex-shrink:0;background:var(--nab-line-soft)}
 .nab-reader-row-thumb-ph{width:56px;height:56px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px}
-.nab-reader-row-thumb-ph.blog-ph{background:linear-gradient(135deg,#fef3c7,#fde68a)}
-.nab-reader-row-thumb-ph.diy-ph{background:linear-gradient(135deg,#dcfce7,#bbf7d0)}
+.nab-reader-row-thumb-ph.blog-ph{background:var(--nab-warn-soft)}
+.nab-reader-row-thumb-ph.diy-ph{background:var(--nab-good-soft)}
 .nab-reader-row-body{flex:1;min-width:0}
-.nab-reader-row-title{font-size:12px;font-weight:700;color:#1e293b;line-height:1.4;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.nab-reader-row-meta{font-size:10px;color:#94a3b8}
-.nab-reader-row.active .nab-reader-row-title{color:#0D5C9B}
+.nab-reader-row-title{font-size:12px;font-weight:700;color:var(--nab-text);line-height:1.4;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.nab-reader-row-meta{font-size:10px;color:var(--nab-text-3)}
+.nab-reader-row.active .nab-reader-row-title{color:var(--nab-brand)}
 
 /* Right article */
 .nab-reader-article{overflow-y:auto;max-height:700px;padding:32px 36px}
-.nab-reader-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:#cbd5e1;text-align:center;padding:40px}
+.nab-reader-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--nab-text-3);text-align:center;padding:40px}
 .nab-reader-placeholder-icon{font-size:48px;margin-bottom:16px;opacity:.5}
-.nab-reader-placeholder-text{font-size:13px;color:#94a3b8;line-height:1.6}
+.nab-reader-placeholder-text{font-size:13px;color:var(--nab-text-3);line-height:1.6}
 .nab-article-back{display:none;margin-bottom:16px}
-.nab-article-cat{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#0D5C9B;margin-bottom:8px}
-.nab-article-title{font-size:22px;font-weight:800;color:#1e293b;line-height:1.3;margin-bottom:12px}
-.nab-article-meta{font-size:12px;color:#94a3b8;margin-bottom:20px;display:flex;gap:12px;flex-wrap:wrap}
+.nab-article-cat{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--nab-brand);margin-bottom:8px}
+.nab-article-title{font-size:22px;font-weight:800;color:var(--nab-text);line-height:1.3;margin-bottom:12px}
+.nab-article-meta{font-size:12px;color:var(--nab-text-3);margin-bottom:20px;display:flex;gap:12px;flex-wrap:wrap}
 .nab-article-thumb{width:100%;max-height:280px;object-fit:cover;border-radius:12px;margin-bottom:24px;display:block}
 .nab-article-body{font-size:14px;color:#374151;line-height:1.8}
-.nab-article-body h1,.nab-article-body h2,.nab-article-body h3{color:#1e293b;font-weight:700;margin:24px 0 10px;line-height:1.3}
+.nab-article-body h1,.nab-article-body h2,.nab-article-body h3{color:var(--nab-text);font-weight:700;margin:24px 0 10px;line-height:1.3}
 .nab-article-body h2{font-size:18px}
 .nab-article-body h3{font-size:16px}
 .nab-article-body p{margin:0 0 14px}
 .nab-article-body ul,.nab-article-body ol{margin:0 0 14px;padding-left:20px}
 .nab-article-body li{margin-bottom:6px}
 .nab-article-body img{max-width:100%;border-radius:8px;margin:12px 0}
-.nab-article-body a{color:#0D5C9B}
-.nab-article-body blockquote{border-left:3px solid #0D5C9B;margin:16px 0;padding:10px 16px;background:#eff6ff;border-radius:0 8px 8px 0;font-style:italic}
-.nab-article-loading{display:flex;align-items:center;justify-content:center;height:200px;color:#94a3b8;font-size:13px;gap:10px}
-.nab-spinner{width:18px;height:18px;border:2px solid #e2e8f0;border-top-color:#0D5C9B;border-radius:50%;animation:nabSpin .7s linear infinite;flex-shrink:0}
+.nab-article-body a{color:var(--nab-brand)}
+.nab-article-body blockquote{border-left:3px solid var(--nab-brand);margin:16px 0;padding:10px 16px;background:#eff6ff;border-radius:0 8px 8px 0;font-style:italic}
+.nab-article-loading{display:flex;align-items:center;justify-content:center;height:200px;color:var(--nab-text-3);font-size:13px;gap:10px}
+.nab-spinner{width:18px;height:18px;border:2px solid var(--nab-line);border-top-color:var(--nab-brand);border-radius:50%;animation:nabSpin .7s linear infinite;flex-shrink:0}
 @keyframes nabSpin{to{transform:rotate(360deg)}}
 
 /* ══ PROFILE TAB ═════════════════════════════════════════ */
@@ -359,90 +359,90 @@ nab_head_open( 'Dashboard — NAB Member Portal' );
 /* ══ EDUCATION MODULES ══════════════════════════════════ */
 .nab-edu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:24px}
 .nab-edu-card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 1px 8px rgba(0,0,0,.07);transition:.2s;cursor:pointer;border:2px solid transparent;position:relative}
-.nab-edu-card:hover{transform:translateY(-3px);box-shadow:0 6px 24px rgba(0,0,0,.1);border-color:#0D5C9B}
+.nab-edu-card:hover{transform:translateY(-3px);box-shadow:0 6px 24px rgba(0,0,0,.1);border-color:var(--nab-brand)}
 .nab-edu-card.completed{border-color:#16a34a;opacity:.85}
-.nab-edu-thumb{width:100%;height:140px;object-fit:cover;background:linear-gradient(135deg,#0D5C9B,#0a4a7c);display:flex;align-items:center;justify-content:center;font-size:48px;color:rgba(255,255,255,.3)}
+.nab-edu-thumb{width:100%;height:140px;object-fit:cover;background:var(--nab-brand);display:flex;align-items:center;justify-content:center;font-size:48px;color:rgba(255,255,255,.3)}
 .nab-edu-thumb img{width:100%;height:100%;object-fit:cover}
 .nab-edu-body{padding:14px 16px}
-.nab-edu-cat{font-size:10px;font-weight:700;color:#0D5C9B;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
-.nab-edu-title{font-size:13px;font-weight:700;color:#1e293b;line-height:1.4;margin-bottom:8px}
+.nab-edu-cat{font-size:10px;font-weight:700;color:var(--nab-brand);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.nab-edu-title{font-size:13px;font-weight:700;color:var(--nab-text);line-height:1.4;margin-bottom:8px}
 .nab-edu-meta{display:flex;align-items:center;justify-content:space-between}
-.nab-edu-dur{font-size:11px;color:#94a3b8}
+.nab-edu-dur{font-size:11px;color:var(--nab-text-3)}
 .nab-edu-status{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px}
 .nab-edu-status.done{background:#dcfce7;color:#166534}
 .nab-edu-status.todo{background:#dbeafe;color:#1e40af}
 .nab-edu-status.next{background:#fef9c3;color:#854d0e}
-.nab-edu-progress-bar{height:4px;background:#f1f5f9;border-radius:2px;margin-top:8px}
-.nab-edu-progress-fill{height:100%;background:#0D5C9B;border-radius:2px;transition:.4s}
+.nab-edu-progress-bar{height:4px;background:var(--nab-line-soft);border-radius:2px;margin-top:8px}
+.nab-edu-progress-fill{height:100%;background:var(--nab-brand);border-radius:2px;transition:.4s}
 
 /* Featured video */
 .nab-featured-video{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 1px 8px rgba(0,0,0,.07);margin-bottom:24px}
 .nab-featured-inner{display:grid;grid-template-columns:1fr 1fr;gap:0}
 .nab-video-player-wrap{position:relative;background:#000;aspect-ratio:16/9;overflow:hidden}
 .nab-video-player-wrap iframe{width:100%;height:100%;border:0}
-.nab-video-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#0D5C9B,#0a4a7c);color:rgba(255,255,255,.7);font-size:13px;text-align:center;gap:12px;cursor:pointer}
+.nab-video-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--nab-brand);color:rgba(255,255,255,.7);font-size:13px;text-align:center;gap:12px;cursor:pointer}
 .nab-video-placeholder img{width:100%;height:100%;object-fit:cover}
 .nab-play-btn{width:56px;height:56px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;backdrop-filter:blur(4px);border:2px solid rgba(255,255,255,.4)}
 .nab-featured-info{padding:24px}
-.nab-featured-label{font-size:10px;font-weight:700;color:#0D5C9B;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
-.nab-featured-title{font-size:17px;font-weight:800;color:#1e293b;line-height:1.3;margin-bottom:10px}
-.nab-featured-desc{font-size:12px;color:#64748b;line-height:1.6;margin-bottom:14px}
+.nab-featured-label{font-size:10px;font-weight:700;color:var(--nab-brand);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.nab-featured-title{font-size:17px;font-weight:800;color:var(--nab-text);line-height:1.3;margin-bottom:10px}
+.nab-featured-desc{font-size:12px;color:var(--nab-text-2);line-height:1.6;margin-bottom:14px}
 .nab-featured-meta{display:flex;gap:14px;margin-bottom:16px}
-.nab-featured-meta-item{font-size:11px;color:#94a3b8;display:flex;align-items:center;gap:4px}
+.nab-featured-meta-item{font-size:11px;color:var(--nab-text-3);display:flex;align-items:center;gap:4px}
 .nab-featured-progress{margin-bottom:14px}
-.nab-featured-progress-bar{height:5px;background:#f1f5f9;border-radius:3px;margin-top:6px}
-.nab-featured-progress-fill{height:100%;background:#0D5C9B;border-radius:3px;transition:.4s}
-.nab-btn-continue{background:#0D5C9B;color:#fff;border:none;border-radius:8px;padding:10px 22px;font-size:13px;font-weight:700;cursor:pointer;transition:.15s;text-decoration:none;display:inline-block}
-.nab-btn-continue:hover{background:#0a4a7c;color:#fff}
-.nab-btn-view-all{background:#f1f5f9;color:#374151;border:none;border-radius:8px;padding:10px 18px;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;transition:.15s;margin-left:8px}
-.nab-btn-view-all:hover{background:#e2e8f0}
+.nab-featured-progress-bar{height:5px;background:var(--nab-line-soft);border-radius:3px;margin-top:6px}
+.nab-featured-progress-fill{height:100%;background:var(--nab-brand);border-radius:3px;transition:.4s}
+.nab-btn-continue{background:var(--nab-brand);color:#fff;border:none;border-radius:8px;padding:10px 22px;font-size:13px;font-weight:700;cursor:pointer;transition:.15s;text-decoration:none;display:inline-block}
+.nab-btn-continue:hover{background:var(--nab-brand-strong);color:#fff}
+.nab-btn-view-all{background:var(--nab-line-soft);color:#374151;border:none;border-radius:8px;padding:10px 18px;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;transition:.15s;margin-left:8px}
+.nab-btn-view-all:hover{background:var(--nab-line)}
 
 /* Learning progress widget */
 .nab-learn-progress{background:#fff;border-radius:16px;padding:20px;box-shadow:0 1px 8px rgba(0,0,0,.07);margin-bottom:20px}
-.nab-learn-progress-title{font-size:13px;font-weight:700;color:#1e293b;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
-.nab-learn-progress-title a{font-size:11px;color:#0D5C9B;font-weight:600;text-decoration:none}
+.nab-learn-progress-title{font-size:13px;font-weight:700;color:var(--nab-text);margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
+.nab-learn-progress-title a{font-size:11px;color:var(--nab-brand);font-weight:600;text-decoration:none}
 .nab-progress-circle{position:relative;width:70px;height:70px;flex-shrink:0}
 .nab-progress-circle svg{transform:rotate(-90deg)}
-.nab-progress-pct{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:14px;font-weight:800;color:#0D5C9B}
-.nab-learn-next{background:#f8fafc;border-radius:10px;padding:12px 14px;margin-top:12px}
-.nab-learn-next-label{font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
-.nab-learn-next-title{font-size:12px;font-weight:700;color:#1e293b;margin-bottom:4px}
-.nab-learn-next-sub{font-size:11px;color:#64748b}
+.nab-progress-pct{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:14px;font-weight:800;color:var(--nab-brand)}
+.nab-learn-next{background:var(--nab-surface-2);border-radius:10px;padding:12px 14px;margin-top:12px}
+.nab-learn-next-label{font-size:10px;font-weight:700;color:var(--nab-text-3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+.nab-learn-next-title{font-size:12px;font-weight:700;color:var(--nab-text);margin-bottom:4px}
+.nab-learn-next-sub{font-size:11px;color:var(--nab-text-2)}
 
 /* Quiz */
 .nab-quiz-wrap{background:#fff;border-radius:16px;padding:28px;box-shadow:0 1px 8px rgba(0,0,0,.07)}
 .nab-quiz-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
-.nab-quiz-title{font-size:16px;font-weight:800;color:#1e293b}
-.nab-quiz-progress{font-size:12px;color:#64748b}
-.nab-quiz-bar{height:4px;background:#f1f5f9;border-radius:2px;margin-bottom:24px}
-.nab-quiz-bar-fill{height:100%;background:#0D5C9B;border-radius:2px;transition:.3s}
-.nab-quiz-q{font-size:15px;font-weight:700;color:#1e293b;margin-bottom:6px;line-height:1.4}
-.nab-quiz-hint{font-size:12px;color:#94a3b8;margin-bottom:20px;font-style:italic}
+.nab-quiz-title{font-size:16px;font-weight:800;color:var(--nab-text)}
+.nab-quiz-progress{font-size:12px;color:var(--nab-text-2)}
+.nab-quiz-bar{height:4px;background:var(--nab-line-soft);border-radius:2px;margin-bottom:24px}
+.nab-quiz-bar-fill{height:100%;background:var(--nab-brand);border-radius:2px;transition:.3s}
+.nab-quiz-q{font-size:15px;font-weight:700;color:var(--nab-text);margin-bottom:6px;line-height:1.4}
+.nab-quiz-hint{font-size:12px;color:var(--nab-text-3);margin-bottom:20px;font-style:italic}
 .nab-quiz-opts{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
-.nab-quiz-opt{background:#f8fafc;border:2px solid #e2e8f0;border-radius:10px;padding:13px 16px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;transition:.15s;text-align:left;display:flex;align-items:center;gap:10px}
-.nab-quiz-opt:hover{border-color:#0D5C9B;background:#f0f7ff}
-.nab-quiz-opt.selected{border-color:#0D5C9B;background:#dbeafe;font-weight:700}
+.nab-quiz-opt{background:var(--nab-surface-2);border:2px solid var(--nab-line);border-radius:10px;padding:13px 16px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;transition:.15s;text-align:left;display:flex;align-items:center;gap:10px}
+.nab-quiz-opt:hover{border-color:var(--nab-brand);background:#f0f7ff}
+.nab-quiz-opt.selected{border-color:var(--nab-brand);background:#dbeafe;font-weight:700}
 .nab-quiz-opt.correct{border-color:#16a34a;background:#dcfce7;color:#166534}
 .nab-quiz-opt.wrong{border-color:#dc2626;background:#fee2e2;color:#991b1b}
-.nab-quiz-opt-letter{width:24px;height:24px;border-radius:50%;background:#e2e8f0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.nab-quiz-opt-letter{width:24px;height:24px;border-radius:50%;background:var(--nab-line);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
 .nab-quiz-opt.correct .nab-quiz-opt-letter{background:#16a34a;color:#fff}
 .nab-quiz-opt.wrong .nab-quiz-opt-letter{background:#dc2626;color:#fff}
-.nab-quiz-opt.selected .nab-quiz-opt-letter{background:#0D5C9B;color:#fff}
+.nab-quiz-opt.selected .nab-quiz-opt-letter{background:var(--nab-brand);color:#fff}
 .nab-quiz-feedback{padding:12px 14px;border-radius:8px;font-size:13px;margin-bottom:16px;display:none;line-height:1.5}
 .nab-quiz-feedback.correct{background:#dcfce7;color:#166534;border-left:4px solid #16a34a}
 .nab-quiz-feedback.wrong{background:#fee2e2;color:#991b1b;border-left:4px solid #dc2626}
 .nab-quiz-nav{display:flex;justify-content:space-between;align-items:center}
-.nab-quiz-btn{background:#0D5C9B;color:#fff;border:none;border-radius:8px;padding:11px 24px;font-size:13px;font-weight:700;cursor:pointer;transition:.15s}
-.nab-quiz-btn:hover{background:#0a4a7c}
-.nab-quiz-btn:disabled{background:#cbd5e1;cursor:not-allowed}
+.nab-quiz-btn{background:var(--nab-brand);color:#fff;border:none;border-radius:8px;padding:11px 24px;font-size:13px;font-weight:700;cursor:pointer;transition:.15s}
+.nab-quiz-btn:hover{background:var(--nab-brand-strong)}
+.nab-quiz-btn:disabled{background:var(--nab-text-3);cursor:not-allowed}
 .nab-quiz-result{text-align:center;padding:32px 20px}
 .nab-quiz-result-icon{font-size:56px;margin-bottom:12px}
-.nab-quiz-result-score{font-size:32px;font-weight:900;color:#0D5C9B;margin-bottom:4px}
-.nab-quiz-result-label{font-size:14px;color:#64748b;margin-bottom:20px}
+.nab-quiz-result-score{font-size:32px;font-weight:900;color:var(--nab-brand);margin-bottom:4px}
+.nab-quiz-result-label{font-size:14px;color:var(--nab-text-2);margin-bottom:20px}
 .nab-quiz-result-msg{font-size:13px;color:#374151;margin-bottom:24px;line-height:1.6}
 
 /* Ask AI floating button */
-.nab-ask-ai-btn{position:fixed;bottom:28px;right:28px;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;border:none;border-radius:50px;padding:13px 20px;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(124,58,237,.4);z-index:999;display:flex;align-items:center;gap:8px;transition:.2s;text-decoration:none}
+.nab-ask-ai-btn{position:fixed;bottom:28px;right:28px;background:var(--nab-brand);color:#fff;border:none;border-radius:50px;padding:13px 20px;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(124,58,237,.4);z-index:999;display:flex;align-items:center;gap:8px;transition:.2s;text-decoration:none}
 .nab-ask-ai-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(124,58,237,.5);color:#fff}
 .nab-ask-ai-btn-dot{width:8px;height:8px;background:#22c55e;border-radius:50%;animation:nabPulse 2s infinite}
 @keyframes nabPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.85)}}
@@ -453,35 +453,35 @@ nab_head_open( 'Dashboard — NAB Member Portal' );
 
 /* ══ SEARCH BAR ══════════════════════════════════════════ */
 .nab-search-wrap{position:relative;max-width:360px;flex:1;min-width:0}
-.nab-search-input{width:100%;padding:10px 16px 10px 40px;border:1.5px solid #e2e8f0;border-radius:50px;font-size:13px;background:#f8fafc;outline:none;transition:.2s;box-sizing:border-box;font-family:inherit}
-.nab-search-input:focus{border-color:#0D5C9B;background:#fff;box-shadow:0 0 0 3px rgba(13,92,155,.1)}
-.nab-search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#94a3b8;font-size:14px;pointer-events:none}
-.nab-search-results{position:absolute;top:calc(100% + 6px);left:0;right:0;background:#fff;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.12);border:1px solid #e2e8f0;z-index:999;display:none;max-height:360px;overflow-y:auto}
+.nab-search-input{width:100%;padding:10px 16px 10px 40px;border:1.5px solid var(--nab-line);border-radius:50px;font-size:13px;background:var(--nab-surface-2);outline:none;transition:.2s;box-sizing:border-box;font-family:inherit}
+.nab-search-input:focus{border-color:var(--nab-brand);background:#fff;box-shadow:0 0 0 3px rgba(13,92,155,.1)}
+.nab-search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--nab-text-3);font-size:14px;pointer-events:none}
+.nab-search-results{position:absolute;top:calc(100% + 6px);left:0;right:0;background:#fff;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.12);border:1px solid var(--nab-line);z-index:999;display:none;max-height:360px;overflow-y:auto}
 .nab-search-results.visible{display:block}
-.nab-search-result-item{padding:12px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:.15s;border-bottom:1px solid #f1f5f9}
+.nab-search-result-item{padding:12px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:.15s;border-bottom:1px solid var(--nab-line-soft)}
 .nab-search-result-item:last-child{border-bottom:none}
 .nab-search-result-item:hover{background:#f0f7ff}
-.nab-search-result-icon{width:36px;height:36px;border-radius:8px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.nab-search-result-title{font-size:13px;font-weight:700;color:#1e293b}
-.nab-search-result-desc{font-size:11px;color:#94a3b8;margin-top:1px}
-.nab-search-no-results{padding:20px;text-align:center;color:#94a3b8;font-size:13px}
+.nab-search-result-icon{width:36px;height:36px;border-radius:8px;background:var(--nab-line-soft);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.nab-search-result-title{font-size:13px;font-weight:700;color:var(--nab-text)}
+.nab-search-result-desc{font-size:11px;color:var(--nab-text-3);margin-top:1px}
+.nab-search-no-results{padding:20px;text-align:center;color:var(--nab-text-3);font-size:13px}
 
 /* ══ MY FINANCIAL JOURNEY ════════════════════════════════ */
 .nab-journey-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:28px}
-.nab-journey-card{background:#fff;border-radius:14px;padding:18px;box-shadow:0 1px 8px rgba(0,0,0,.06);border:1.5px solid #e2e8f0;cursor:pointer;transition:.2s;text-decoration:none;display:block}
-.nab-journey-card:hover{border-color:#0D5C9B;transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,0,0,.1)}
+.nab-journey-card{background:#fff;border-radius:14px;padding:18px;box-shadow:0 1px 8px rgba(0,0,0,.06);border:1.5px solid var(--nab-line);cursor:pointer;transition:.2s;text-decoration:none;display:block}
+.nab-journey-card:hover{border-color:var(--nab-brand);transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,0,0,.1)}
 .nab-journey-card-icon{font-size:28px;margin-bottom:10px}
-.nab-journey-card-title{font-size:14px;font-weight:700;color:#1e293b;margin-bottom:4px}
-.nab-journey-card-desc{font-size:12px;color:#64748b;line-height:1.5}
+.nab-journey-card-title{font-size:14px;font-weight:700;color:var(--nab-text);margin-bottom:4px}
+.nab-journey-card-desc{font-size:12px;color:var(--nab-text-2);line-height:1.5}
 
 /* ══ EMPTY ═══════════════════════════════════════════════ */
-.nab-no-posts{padding:40px 24px;background:#fff;border-radius:12px;text-align:center;color:#94a3b8;font-size:13px;line-height:1.7}
+.nab-no-posts{padding:40px 24px;background:#fff;border-radius:12px;text-align:center;color:var(--nab-text-3);font-size:13px;line-height:1.7}
 
 /* ══ RESPONSIVE ══════════════════════════════════════════ */
 @media(max-width:900px){
   .nab-top-row{grid-template-columns:1fr}
   .nab-reader{grid-template-columns:1fr}
-  .nab-reader-list{max-height:none;border-right:none;border-bottom:1px solid #f1f5f9}
+  .nab-reader-list{max-height:none;border-right:none;border-bottom:1px solid var(--nab-line-soft)}
   .nab-reader-article{padding:20px}
 }
 @media(max-width:640px){
@@ -499,13 +499,13 @@ nab_head_open( 'Dashboard — NAB Member Portal' );
 }
 
 /* ════════════════════════════════════════════════════════════
-   v1.9.0 VISUAL DASHBOARD — Monarch-inspired design layer.
+   v1.9.0 VISUAL DASHBOARD, Monarch-inspired design layer.
    Scoped to this page only (other portal pages are unchanged).
    ════════════════════════════════════════════════════════════ */
 body.nab-portal-body{
-  --nd-bg:#F5F6F8;--nd-card:#fff;--nd-line:#E8EBF0;--nd-line2:#F1F3F6;
-  --nd-text:#0F1B2D;--nd-muted:#6B7685;--nd-faint:#9AA4B2;
-  --nd-blue:#0D5C9B;--nd-blue2:#0A4A7C;--nd-orange:#F97316;--nd-green:#22A06B;--nd-red:#E5484D;
+  --nd-bg:var(--nab-bg);--nd-card:var(--nab-surface);--nd-line:var(--nab-line);--nd-line2:var(--nab-line-soft);
+  --nd-text:var(--nab-text);--nd-muted:var(--nab-text-2);--nd-faint:var(--nab-text-3);
+  --nd-blue:var(--nab-brand);--nd-blue2:var(--nab-brand-strong);--nd-orange:var(--nab-accent);--nd-green:var(--nab-good);--nd-red:var(--nab-bad);
   --nd-radius:14px;--nd-shadow:0 1px 2px rgba(16,24,40,.04),0 1px 3px rgba(16,24,40,.03);
   background:var(--nd-bg)!important;color:var(--nd-text);-webkit-font-smoothing:antialiased
 }
@@ -516,7 +516,7 @@ body.nab-portal-body [hidden]{display:none!important}
 
 /* Buttons + pills */
 .nd-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font:inherit;font-size:13px;font-weight:600;line-height:1;padding:10px 14px;border-radius:10px;border:1px solid var(--nd-line);background:#fff;color:var(--nd-text);cursor:pointer;text-decoration:none;transition:background .15s,border-color .15s,box-shadow .15s;white-space:nowrap}
-.nd-btn:hover{background:#F8F9FB;border-color:#D9DEE6;color:var(--nd-text)}
+.nd-btn:hover{background:var(--nab-surface-2);border-color:var(--nab-line);color:var(--nd-text)}
 .nd-btn-primary{background:var(--nd-blue);border-color:var(--nd-blue);color:#fff}
 .nd-btn-primary:hover{background:var(--nd-blue2);border-color:var(--nd-blue2);color:#fff}
 .nd-btn-orange{background:var(--nd-orange);border-color:var(--nd-orange);color:#fff!important}
@@ -568,7 +568,7 @@ body.nab-portal-body [hidden]{display:none!important}
 .nd-chart-lg{height:280px}
 .nd-chart-sm{height:120px;margin:4px 0 12px}
 .nd-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;background:rgba(255,255,255,.92);border-radius:12px;padding:16px}
-.nd-empty-inline{position:static;background:#F8F9FB;border:1px dashed #DCE1E8;margin-top:6px}
+.nd-empty-inline{position:static;background:var(--nab-surface-2);border:1px dashed #DCE1E8;margin-top:6px}
 .nd-empty-ico{font-size:28px}
 .nd-empty-txt{font-size:13px;color:var(--nd-muted);max-width:300px;line-height:1.5}
 
@@ -623,7 +623,7 @@ body.nab-portal-body [hidden]{display:none!important}
 /* Goals */
 .nd-goals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .nd-goal{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;padding:10px 4px;border-radius:12px;text-decoration:none;color:inherit;transition:background .15s}
-.nd-goal:hover{background:#F8F9FB}
+.nd-goal:hover{background:var(--nab-surface-2)}
 .nd-goal-ring{position:relative;width:64px;height:64px}
 .nd-goal-ring span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:750}
 .nd-ring{width:64px;height:64px}.nd-ring circle{transition:stroke-dashoffset .6s}
@@ -680,7 +680,7 @@ body.nab-portal-body [hidden]{display:none!important}
 .nd-sheet-x{border:0;background:var(--nd-line2);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:14px;color:var(--nd-muted)}
 .nd-sheet-body{overflow-y:auto;padding:4px 22px 24px;-webkit-overflow-scrolling:touch}
 .nd-form label{display:block;font-size:12.5px;font-weight:600;color:#475467;margin-bottom:12px}
-.nd-form input,.nd-form select{display:block;width:100%;box-sizing:border-box;height:44px;margin-top:6px;padding:0 12px;border:1px solid #D9DEE6;border-radius:10px;font:inherit;font-size:15px;color:var(--nd-text);background:#fff;outline:none;transition:border-color .15s,box-shadow .15s}
+.nd-form input,.nd-form select{display:block;width:100%;box-sizing:border-box;height:44px;margin-top:6px;padding:0 12px;border:1px solid var(--nab-line);border-radius:10px;font:inherit;font-size:15px;color:var(--nd-text);background:#fff;outline:none;transition:border-color .15s,box-shadow .15s}
 .nd-form input:focus,.nd-form select:focus{border-color:var(--nd-blue);box-shadow:0 0 0 3px rgba(13,92,155,.12)}
 .nd-money{position:relative;display:block}
 .nd-money::before{content:'$';position:absolute;left:12px;top:50%;transform:translateY(-50%);margin-top:3px;color:var(--nd-faint);font-weight:600;font-size:14px;pointer-events:none}
@@ -706,7 +706,7 @@ body.nab-portal-body [hidden]{display:none!important}
 .nd-quick button{display:grid;grid-template-columns:44px 1fr;grid-template-rows:auto auto;column-gap:12px;align-items:center;text-align:left;font:inherit;padding:14px;border:1px solid var(--nd-line);border-radius:14px;background:#fff;cursor:pointer;transition:border-color .15s,background .15s}
 .nd-quick button:hover{border-color:var(--nd-blue);background:#F6F9FD}
 .nd-quick button>span{grid-row:1/3;width:44px;height:44px;border-radius:12px;background:var(--nd-line2);display:flex;align-items:center;justify-content:center;font-size:20px}
-/* v1.13.0 gradient icon tiles carry their own background */
+/* icon tiles carry their own background */
 .nab-portal-body .nab-card-icon.is-tile,.nab-portal-body .nab-journey-card-icon.is-tile,.nd-quick button>span.is-tile,.nab-search-result-icon.is-tile{background:none;width:auto;height:auto;border-radius:0}
 .nab-portal-body .nab-journey-card-icon.is-tile{display:inline-flex}
 .nd-acc-ico.is-tile{background:none!important;width:auto;height:auto}
@@ -755,7 +755,7 @@ body.nab-portal-body [hidden]{display:none!important}
   /* bottom sheet */
   .nd-modal{align-items:flex-end}
   .nd-sheet{width:100%;max-height:92vh;border-radius:20px 20px 0 0;animation:ndUp .24s cubic-bezier(.2,.8,.2,1)}
-  .nd-sheet-grip{display:block;width:40px;height:5px;border-radius:3px;background:#D9DEE6;margin:8px auto 0}
+  .nd-sheet-grip{display:block;width:40px;height:5px;border-radius:3px;background:var(--nab-line);margin:8px auto 0}
   .nd-sheet-head{padding:10px 18px 8px}
   .nd-sheet-body{padding:4px 18px calc(24px + env(safe-area-inset-bottom))}
   .nd-form input,.nd-form select{font-size:16px}
@@ -878,16 +878,17 @@ var nabQuizData = {
 
     <!-- ── TOPBAR ───────────────────────────────────── -->
     <header class="nab-topbar">
-      <div class="nab-topbar-title">Member Dashboard</div>
-      <div class="nab-search-wrap" id="nabSearchWrap">
-        <span class="nab-search-icon"><?php echo nab_portal_icon( 'search', 16 ); ?></span>
-        <input type="text" class="nab-search-input" id="nabSearchInput" placeholder="Search tools, modules, resources..." autocomplete="off">
+      <div class="nab-topbar-title"><?php echo nab_portal_icon( 'house', 20 ); ?> Member Dashboard</div>
+      <div class="nab-search-wrap" id="nabSearchWrap" role="search">
+        <span class="nab-search-icon"><?php echo nab_portal_icon( 'search', 17 ); ?></span>
+        <input type="search" class="nab-search-input" id="nabSearchInput" placeholder="Search tools, lessons and resources" autocomplete="off" aria-label="Search the portal">
+        <kbd class="nab-search-kbd" aria-hidden="true">/</kbd>
         <div class="nab-search-results" id="nabSearchResults"></div>
       </div>
       <div class="nab-topbar-right">
         <?php nab_render_notification_bell(); ?>
         <span class="nab-status-badge nab-status-<?php echo esc_attr( strtolower( $member_status ) ); ?>">
-          ● <?php echo esc_html( $member_status ); ?>
+          <span class="ndot" aria-hidden="true"></span><?php echo esc_html( $member_status ); ?>
         </span>
         <button class="nab-qbtn" style="margin:0" data-tab-open="profile" type="button"><?php echo nab_portal_icon( 'user', 15 ); ?> Profile</button>
       </div>
@@ -922,22 +923,22 @@ var nabQuizData = {
       <section class="nd-kpis" aria-label="Your numbers at a glance">
         <button type="button" class="nd-kpi" data-nd-open="score">
           <span class="nd-kpi-label">Credit score</span>
-          <span class="nd-kpi-value" id="ndKpiScore"><?php echo $saved_score ? esc_html( $saved_score ) : '—'; ?></span>
+          <span class="nd-kpi-value" id="ndKpiScore"><?php echo $saved_score ? esc_html( $saved_score ) : '-'; ?></span>
           <span class="nd-kpi-sub" id="ndKpiScoreSub">Log your score</span>
         </button>
         <button type="button" class="nd-kpi" data-nd-open="account">
           <span class="nd-kpi-label">Net worth</span>
-          <span class="nd-kpi-value" id="ndKpiNet">—</span>
+          <span class="nd-kpi-value" id="ndKpiNet">-</span>
           <span class="nd-kpi-sub" id="ndKpiNetSub">Add your accounts</span>
         </button>
         <button type="button" class="nd-kpi" data-nd-open="cashflow">
           <span class="nd-kpi-label" id="ndKpiCfLabel">Cash flow</span>
-          <span class="nd-kpi-value" id="ndKpiCf">—</span>
+          <span class="nd-kpi-value" id="ndKpiCf">-</span>
           <span class="nd-kpi-sub" id="ndKpiCfSub">Add this month</span>
         </button>
         <a class="nd-kpi" href="<?php echo esc_url( $nav_links['util'] !== '#' ? $nav_links['util'] : '#nd-util' ); ?>">
           <span class="nd-kpi-label">Credit utilization</span>
-          <span class="nd-kpi-value" id="ndKpiUtil">—</span>
+          <span class="nd-kpi-value" id="ndKpiUtil">-</span>
           <span class="nd-kpi-sub" id="ndKpiUtilSub">Use the Utilization Checker</span>
         </a>
       </section>
@@ -1038,7 +1039,7 @@ var nabQuizData = {
             <header class="nd-card-head">
               <div>
                 <h2 class="nd-card-title">Cash flow</h2>
-                <div class="nd-card-sub">Income vs. expenses — last 6 months</div>
+                <div class="nd-card-sub">Income vs. expenses, last 6 months</div>
               </div>
               <button type="button" class="nd-btn nd-btn-sm" data-nd-open="cashflow"><?php echo nab_portal_icon( 'plus', 15 ); ?> Add month</button>
             </header>
@@ -1063,7 +1064,7 @@ var nabQuizData = {
             </header>
             <div class="nd-donut-wrap">
               <div class="nd-chart nd-chart-donut"><canvas id="ndSpendChart" aria-label="Spending by category" role="img"></canvas>
-                <div class="nd-donut-center"><span id="ndSpendTotal">—</span><small>spent</small></div>
+                <div class="nd-donut-center"><span id="ndSpendTotal">-</span><small>spent</small></div>
               </div>
               <ul class="nd-legend" id="ndSpendLegend"></ul>
             </div>
@@ -1085,7 +1086,7 @@ var nabQuizData = {
               </div>
             </header>
             <div class="nd-nw-top">
-              <div class="nd-nw-value" id="ndNwValue">—</div>
+              <div class="nd-nw-value" id="ndNwValue">-</div>
               <div class="nd-nw-bar" id="ndNwBar" aria-hidden="true"><span class="a"></span><span class="d"></span></div>
               <div class="nd-nw-legend">
                 <span><i style="background:#22A06B"></i>Assets <b id="ndNwAssets">$0</b></span>
@@ -1265,7 +1266,7 @@ var nabQuizData = {
           <a href="<?php echo $roadmap_dis ? 'javascript:void(0)' : esc_url( $roadmap_url ); ?>" class="nab-journey-card" <?php echo $roadmap_dis ? 'style="cursor:default;opacity:.6" aria-disabled="true"' : ''; ?>>
             <div class="nab-journey-card-icon is-tile"><?php echo nab_portal_icon_tile( 'map', 'purple', 42 ); ?></div>
             <div class="nab-journey-card-title">Financial Roadmap</div>
-            <div class="nab-journey-card-desc"><?php echo $roadmap_dis ? 'Personalized action plan — link the Roadmap page in Dashboard settings' : esc_html( $roadmap_progress['done'] . ' of ' . $roadmap_progress['total'] . ' steps complete' ); ?></div>
+            <div class="nab-journey-card-desc"><?php echo $roadmap_dis ? 'Personalized action plan, link the Roadmap page in Dashboard settings' : esc_html( $roadmap_progress['done'] . ' of ' . $roadmap_progress['total'] . ' steps complete' ); ?></div>
           </a>
           <a href="<?php echo esc_url(nab_resolve_url(get_field('nab_link_simulator', nab_get_dash_page_id()) ?: get_page_link(get_page_by_path('score-simulator')))); ?>" class="nab-journey-card">
             <div class="nab-journey-card-icon is-tile"><?php echo nab_portal_icon_tile( 'trending-up', 'green', 42 ); ?></div>
@@ -1280,7 +1281,7 @@ var nabQuizData = {
           <a href="#" class="nab-journey-card" style="cursor:default;opacity:.6">
             <div class="nab-journey-card-icon is-tile"><?php echo nab_portal_icon_tile( 'target', 'pink', 42 ); ?></div>
             <div class="nab-journey-card-title">Goal Tracker</div>
-            <div class="nab-journey-card-desc">Home, Car, Business Funding — coming soon</div>
+            <div class="nab-journey-card-desc">Home, Car, Business Funding, coming soon</div>
           </a>
         </div>
 
@@ -1294,16 +1295,16 @@ var nabQuizData = {
           ['#7c3aed','#ede9fe','message-square-text','NAB AI Chatbot',           'Exclusive access to our intelligent credit chatbot for NAB members.',                         $link_chatbot, '',     'link'],
           ['#0891b2','#e0f2fe','gauge','Utilization Checker',      'Visualize your credit utilization and get guidance based on your inputs.',                    $link_util,    '',     'link'],
           ['#059669','#d1fae5','trending-up','Credit Score Simulator',   "Simulate 'what-if' scenarios for your credit score range.",                                   $link_sim,     '',     'link'],
-          ['#1e40af','#dbeafe','car','Auto Loan Matcher',        'Find auto loan offers from Canadian lenders — powered by LoanConnect.',                       $link_loan,    'new',  'link'],
+          ['#1e40af','#dbeafe','car','Auto Loan Matcher',        'Find auto loan offers from Canadian lenders, powered by LoanConnect.',                       $link_loan,    'new',  'link'],
           ['#7c2d92','#f3e8ff','credit-card','Credit Card Matcher',      'Answer 4 questions and get matched to the best Canadian credit card for your profile.',        $link_cards,   'new',  'link'],
-          ['#d97706','#fef3c7','book-open','Credit Education Blog',    'Browse articles and tips on credit rebuilding — read right here on your dashboard.',          null,          '',     'blog'],
-          ['#be185d','#fce7f3','file-pen-line','DIY Dispute Letter',  'Download ready-to-use dispute letter templates — available right here on your dashboard.',         null,          '',     'diy' ],
+          ['#d97706','#fef3c7','book-open','Credit Education Blog',    'Browse articles and tips on credit rebuilding, read right here on your dashboard.',          null,          '',     'blog'],
+          ['#be185d','#fce7f3','file-pen-line','DIY Dispute Letter',  'Download ready-to-use dispute letter templates, available right here on your dashboard.',         null,          '',     'diy' ],
           ['#0f766e','#d1fae5','wallet','Monthly Budget Planner', 'Set a monthly budget for each category and see how your spending compares.', $budget_url, 'new', 'link'],
           ['#1d4ed8','#dbeafe','calendar','Payment Calendar', 'See all your bill due dates in one calendar and get reminders before payments are due.', $payments_url, 'new', 'link'],
           ['#4f46e5','#e0e7ff','scale','Net Worth Calculator', 'Add up what you own and what you owe, and watch your net worth grow over time.', $networth_url, 'new', 'link'],
           ['#0d9488','#ccfbf1','piggy-bank','Emergency Fund Planner',  'Set a savings goal and track your progress toward financial security.',                      $link_ef,      '',     'link'],
         ];
-        // v1.13.0 gradient icon tiles: one colour per tool (same as the sidebar)
+        // icon tiles: one colour per tool
         $card_tones = [ 'Credit Report Access' => 'blue', 'Book a Credit Specialist' => 'orange', 'Credit Dispute Center' => 'indigo', 'NAB AI Chatbot' => 'gold',
           'Utilization Checker' => 'teal', 'Credit Score Simulator' => 'green', 'Auto Loan Matcher' => 'orange', 'Credit Card Matcher' => 'purple', 'Credit Education Blog' => 'yellow',
           'DIY Dispute Letter' => 'pink', 'Monthly Budget Planner' => 'green', 'Payment Calendar' => 'red', 'Net Worth Calculator' => 'indigo', 'Emergency Fund Planner' => 'teal' ];
@@ -1438,7 +1439,7 @@ var nabQuizData = {
                         <label style="display:block;font-size:12px;font-weight:600;color:#475569;margin-bottom:5px">Education Track</label>
                         <select name="nab_tr" style="width:100%;padding:10px 13px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px;box-sizing:border-box;background:#fff">
                             <option value="">Select track</option>
-                            <?php foreach(['renter'=>'🏠 Renter','student'=>'🎓 Student','immigrant'=>'✈️ New to Canada'] as $v=>$l): ?>
+                            <?php foreach(['renter'=>'Renter','student'=>'Student','immigrant'=>'New to Canada'] as $v=>$l): ?>
                             <option value="<?php echo esc_attr($v); ?>"<?php selected($pf_track,$v); ?>><?php echo esc_html($l); ?></option>
                             <?php endforeach; ?>
                         </select>
@@ -1511,7 +1512,7 @@ var nabQuizData = {
               <?php endif; ?>
               <?php if ($is_paused && $resume_date) : ?>
               <div style="background:#fef9c3;border-radius:8px;padding:10px 12px;font-size:12px;color:#854d0e">
-                Paused — resumes <?php echo esc_html(date('M j, Y',strtotime($resume_date))); ?>
+                Paused, resumes <?php echo esc_html(date('M j, Y',strtotime($resume_date))); ?>
               </div>
               <?php endif; ?>
             </div>
@@ -1622,7 +1623,7 @@ var nabQuizData = {
 
         <style>
         .nab-profile-grid{grid-template-columns:1fr 1fr}
-        .nab-mp-pause-btn{padding:8px 14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;color:#374151;transition:.15s;flex:1}
+        .nab-mp-pause-btn{padding:8px 14px;background:var(--nab-surface-2);border:1px solid var(--nab-line);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;color:#374151;transition:.15s;flex:1}
         .nab-mp-pause-btn:hover{background:#fef9c3;border-color:#fde047;color:#854d0e}
         @media(max-width:700px){.nab-profile-grid{grid-template-columns:1fr!important}}
         </style>
@@ -1786,7 +1787,7 @@ var nabQuizData = {
           <label>Score<input type="number" name="score" min="300" max="900" inputmode="numeric" placeholder="e.g. 712" required></label>
           <label>Date<input type="date" name="date" max="<?php echo esc_attr( $dash_data['today'] ); ?>" value="<?php echo esc_attr( $dash_data['today'] ); ?>" required></label>
         </div>
-        <p class="nd-hint">Find your score free on Borrowell or Credit Karma. One entry per day — saving the same date again replaces it.</p>
+        <p class="nd-hint">Find your score free on Borrowell or Credit Karma. One entry per day, saving the same date again replaces it.</p>
         <div class="nd-form-msg" role="status"></div>
         <button type="submit" class="nd-btn nd-btn-primary nd-btn-block">Save score</button>
         <h4 class="nd-list-title">Your score history</h4>

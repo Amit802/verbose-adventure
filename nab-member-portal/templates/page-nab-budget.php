@@ -24,13 +24,13 @@ do_action( 'litespeed_control_set_nocache', 'Budget planner shows member-specifi
 $uid  = get_current_user_id();
 $data = nab_budget_page_data( $uid );
 
-nab_head_open( 'Monthly Budget Planner — NAB Member Portal' );
+nab_head_open( 'Monthly Budget Planner | NAB Member Portal' );
 ?>
 <style>
 body.nab-budget-page{
-  --bp-bg:#F5F6F8;--bp-card:#fff;--bp-line:#E8EBF0;--bp-line2:#F1F3F6;
-  --bp-text:#0F1B2D;--bp-muted:#6B7685;--bp-faint:#9AA4B2;
-  --bp-blue:#0D5C9B;--bp-blue2:#0A4A7C;--bp-green:#22A06B;--bp-amber:#E4A11B;--bp-red:#E5484D;
+  --bp-bg:var(--nab-bg);--bp-card:var(--nab-surface);--bp-line:var(--nab-line);--bp-line2:var(--nab-line-soft);
+  --bp-text:var(--nab-text);--bp-muted:var(--nab-text-2);--bp-faint:var(--nab-text-3);
+  --bp-blue:var(--nab-brand);--bp-blue2:var(--nab-brand-strong);--bp-green:var(--nab-good);--bp-amber:var(--nab-accent);--bp-red:var(--nab-bad);
   background:var(--bp-bg)!important;color:var(--bp-text);-webkit-font-smoothing:antialiased
 }
 body.nab-budget-page [hidden]{display:none!important}

@@ -30,69 +30,64 @@ $has_fd     = !empty($fd_key) && !empty($fd_domain);
 
 $notifications = function_exists('nab_get_user_notifications') ? nab_get_user_notifications($uid) : [];
 
-nab_head_open('Support Center — NAB Member Portal');
+nab_head_open('Support Center | NAB Member Portal');
 ?>
 <style>
 .nab-support-wrap{max-width:860px;margin:0 auto;padding-bottom:40px}
-.nab-support-hero{background:linear-gradient(135deg,#0D5C9B,#0a4a7c);border-radius:16px;padding:24px 28px;color:#fff;display:flex;align-items:center;gap:20px;margin-bottom:24px;flex-wrap:wrap}
-.nab-support-hero-icon{font-size:44px;flex-shrink:0}
-.nab-support-hero-title{font-size:20px;font-weight:800;margin:0 0 4px}
-.nab-support-hero-sub{font-size:13px;opacity:.85;margin:0;line-height:1.5}
 
 /* Tabs */
-.nab-support-tabs{display:flex;gap:4px;border-bottom:2px solid #e2e8f0;margin-bottom:24px}
-.nab-support-tab{background:none;border:none;padding:11px 22px;font-size:14px;color:#64748b;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;font-weight:500;transition:.15s}
-.nab-support-tab.active,.nab-support-tab:hover{color:#0D5C9B;border-bottom-color:#0D5C9B}
+.nab-support-tabs{display:flex;gap:4px;border-bottom:2px solid var(--nab-line);margin-bottom:24px}
+.nab-support-tab{display:inline-flex;align-items:center;gap:6px;background:none;border:none;padding:11px 22px;font-size:14px;color:var(--nab-text-2);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;font-weight:500;transition:.15s}
+.nab-support-tab.active,.nab-support-tab:hover{color:var(--nab-brand);border-bottom-color:var(--nab-brand)}
 .nab-support-pane{display:none}
 .nab-support-pane.active{display:block}
 
 /* Form */
-.nab-support-card{background:#fff;border-radius:16px;padding:28px 32px;box-shadow:0 2px 16px rgba(0,0,0,.07);margin-bottom:20px}
-.nab-support-card h3{margin:0 0 20px;color:#1e293b;font-size:17px}
+.nab-support-card{background:var(--nab-surface);border:1px solid var(--nab-line);border-radius:var(--nab-radius);padding:28px 32px;box-shadow:var(--nab-shadow);margin-bottom:20px}
+.nab-support-card h3{margin:0 0 20px;color:var(--nab-text);font-size:17px}
 .nab-sf-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
 .nab-sf-row{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
-.nab-sf-row label{font-size:12px;font-weight:700;color:#475569}
+.nab-sf-row label{font-size:12px;font-weight:700;color:var(--nab-text-2)}
 .nab-sf-row.full{grid-column:1/-1}
-.nab-sf-input{width:100%;padding:11px 14px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px;transition:.15s;box-sizing:border-box;font-family:inherit}
-.nab-sf-input:focus{outline:none;border-color:#0D5C9B}
+.nab-sf-input{width:100%;padding:11px 14px;border:1.5px solid var(--nab-line);border-radius:8px;font-size:13px;transition:.15s;box-sizing:border-box;font-family:inherit}
+.nab-sf-input:focus{outline:none;border-color:var(--nab-brand)}
 .nab-sf-textarea{min-height:120px;resize:vertical}
 .nab-sf-select{appearance:none;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394a3b8' stroke-width='1.5' fill='none'/%3E%3C/svg%3E") no-repeat right 14px center}
-.nab-submit-btn{background:#0D5C9B;color:#fff;border:none;border-radius:10px;padding:13px 32px;font-size:14px;font-weight:700;cursor:pointer;transition:.15s}
-.nab-submit-btn:hover{background:#0a4a7c}
-.nab-submit-btn:disabled{background:#cbd5e1;cursor:not-allowed}
+.nab-submit-btn{background:var(--nab-brand);color:#fff;border:none;border-radius:10px;padding:13px 32px;font-size:14px;font-weight:700;cursor:pointer;transition:.15s}
+.nab-submit-btn:hover{background:var(--nab-brand-strong)}
+.nab-submit-btn:disabled{background:var(--nab-text-3);cursor:not-allowed}
 
 /* Success */
 .nab-ticket-success{background:#dcfce7;border:1.5px solid #16a34a;border-radius:12px;padding:24px;text-align:center;display:none}
-.nab-ticket-success-icon{font-size:48px;margin-bottom:12px}
+.nab-ticket-success-icon{color:var(--nab-good);margin-bottom:12px;display:flex;justify-content:center}
 .nab-ticket-success-title{font-size:18px;font-weight:800;color:#166534;margin-bottom:6px}
 .nab-ticket-success-sub{font-size:13px;color:#15803d}
-.nab-ticket-id{background:#fff;border-radius:8px;padding:8px 16px;display:inline-block;margin:12px 0;font-weight:700;color:#0D5C9B;font-size:15px}
+.nab-ticket-id{background:#fff;border-radius:8px;padding:8px 16px;display:inline-block;margin:12px 0;font-weight:700;color:var(--nab-brand);font-size:15px}
 
 /* Ticket list */
-.nab-ticket-item{background:#fff;border-radius:12px;padding:18px 22px;box-shadow:0 1px 8px rgba(0,0,0,.06);margin-bottom:12px;border-left:4px solid #e2e8f0;transition:.15s;cursor:pointer}
-.nab-ticket-item:hover{box-shadow:0 4px 20px rgba(0,0,0,.1);border-left-color:#0D5C9B}
-.nab-ticket-item.open{border-left-color:#0D5C9B}
+.nab-ticket-item{background:var(--nab-surface);border:1px solid var(--nab-line);border-radius:var(--nab-radius);padding:18px 22px;box-shadow:var(--nab-shadow);margin-bottom:12px;border-left:4px solid var(--nab-line);transition:.15s;cursor:pointer}
+.nab-ticket-item:hover{box-shadow:0 4px 20px rgba(0,0,0,.1);border-left-color:var(--nab-brand)}
+.nab-ticket-item.open{border-left-color:var(--nab-brand)}
 .nab-ticket-item.pending{border-left-color:#f59e0b}
 .nab-ticket-item.resolved{border-left-color:#16a34a}
-.nab-ticket-item.closed{border-left-color:#94a3b8}
+.nab-ticket-item.closed{border-left-color:var(--nab-text-3)}
 .nab-ticket-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
-.nab-ticket-subject{font-size:14px;font-weight:700;color:#1e293b;margin-bottom:4px}
-.nab-ticket-meta{font-size:12px;color:#94a3b8}
+.nab-ticket-subject{font-size:14px;font-weight:700;color:var(--nab-text);margin-bottom:4px}
+.nab-ticket-meta{font-size:12px;color:var(--nab-text-3)}
 .nab-ticket-badge{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;flex-shrink:0;white-space:nowrap}
 .nab-badge-open{background:#dbeafe;color:#1e40af}
 .nab-badge-pending{background:#fef9c3;color:#854d0e}
 .nab-badge-resolved{background:#dcfce7;color:#166534}
-.nab-badge-closed{background:#f1f5f9;color:#64748b}
-.nab-tickets-empty{text-align:center;padding:48px 20px;color:#94a3b8}
+.nab-badge-closed{background:var(--nab-line-soft);color:var(--nab-text-2)}
+.nab-tickets-empty{text-align:center;padding:48px 20px;color:var(--nab-text-3)}
 .nab-tickets-empty-icon{font-size:48px;margin-bottom:12px}
-.nab-tickets-loading{text-align:center;padding:32px;color:#94a3b8;font-size:14px}
+.nab-tickets-loading{text-align:center;padding:32px;color:var(--nab-text-3);font-size:14px}
 
 /* Alert */
 .nab-alert-error{background:#fee2e2;border-left:4px solid #c62828;padding:12px 16px;border-radius:8px;font-size:13px;color:#c62828;margin-bottom:16px;display:none}
 
 @media(max-width:640px){
   .nab-sf-grid{grid-template-columns:1fr}
-  .nab-support-hero{flex-direction:column;text-align:center}
 }
 </style>
 </head>
@@ -104,7 +99,7 @@ nab_head_open('Support Center — NAB Member Portal');
 
   <main class="nab-main">
     <header class="nab-topbar">
-      <div class="nab-topbar-title">🎫 Support Center</div>
+      <div class="nab-topbar-title"><?php echo nab_portal_icon( 'life-buoy', 20 ); ?> Support Center</div>
       <div class="nab-topbar-right">
         <?php if(function_exists('nab_render_notification_bell')) nab_render_notification_bell(); ?>
       </div>
@@ -113,19 +108,18 @@ nab_head_open('Support Center — NAB Member Portal');
     <div class="nab-content">
       <div class="nab-support-wrap">
 
-        <!-- Hero -->
-        <div class="nab-support-hero">
-          <div class="nab-support-hero-icon">🎫</div>
+        <section class="nab-page-head">
           <div>
-            <div class="nab-support-hero-title">How can we help you?</div>
-            <p class="nab-support-hero-sub">Submit a support request and our team will get back to you as soon as possible. You can also track your existing tickets here.</p>
+            <div class="nab-page-eyebrow">Member support</div>
+            <h1 class="nab-page-title">How can we help?</h1>
+            <p class="nab-page-sub">Send us a support request and our team will get back to you as soon as possible. You can also track your existing tickets here.</p>
           </div>
-        </div>
+        </section>
 
         <!-- Tabs -->
         <div class="nab-support-tabs">
-          <button class="nab-support-tab active" data-tab="new-ticket" type="button">➕ New Ticket</button>
-          <button class="nab-support-tab" data-tab="my-tickets" type="button">📋 My Tickets</button>
+          <button class="nab-support-tab active" data-tab="new-ticket" type="button"><?php echo nab_portal_icon( 'plus', 15 ); ?> New ticket</button>
+          <button class="nab-support-tab" data-tab="my-tickets" type="button"><?php echo nab_portal_icon( 'file-text', 15 ); ?> My tickets</button>
         </div>
 
         <!-- NEW TICKET TAB -->
@@ -134,7 +128,7 @@ nab_head_open('Support Center — NAB Member Portal');
             <h3>Submit a Support Request</h3>
             <div class="nab-alert-error" id="nabSfError"></div>
             <div class="nab-ticket-success" id="nabSfSuccess">
-              <div class="nab-ticket-success-icon">✅</div>
+              <div class="nab-ticket-success-icon"><?php echo nab_portal_icon( 'circle-check', 40 ); ?></div>
               <div class="nab-ticket-success-title">Ticket Submitted Successfully!</div>
               <div class="nab-ticket-id" id="nabSfTicketId"></div>
               <div class="nab-ticket-success-sub">Our team will respond within 1-2 business days. You can track this ticket in the My Tickets tab.</div>
@@ -281,7 +275,7 @@ document.getElementById('nabSupportForm').addEventListener('submit', function(e)
 // Load tickets
 function loadTickets(){
   var list = document.getElementById('nabTicketsList');
-  list.innerHTML='<div class="nab-tickets-loading">⏳ Loading your tickets…</div>';
+  list.innerHTML='<div class="nab-tickets-loading">Loading your tickets…</div>';
   fetch(AJAX,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
     body:'action=nab_freshdesk_tickets&nonce='+NONCE
   })
@@ -305,9 +299,9 @@ function loadTickets(){
       });
       list.innerHTML=html;
     } else if(data.success){
-      list.innerHTML='<div class="nab-tickets-empty"><div class="nab-tickets-empty-icon">🎫</div><div style="font-weight:700;color:#64748b;margin-bottom:6px">No tickets yet</div><div style="font-size:13px">Submit a request using the New Ticket tab and we\'ll get back to you shortly.</div></div>';
+      list.innerHTML='<div class="nab-tickets-empty"><div class="nab-tickets-empty-icon"></div><div style="font-weight:700;color:#64748b;margin-bottom:6px">No tickets yet</div><div style="font-size:13px">Submit a request using the New Ticket tab and we\'ll get back to you shortly.</div></div>';
     } else {
-      list.innerHTML='<div class="nab-tickets-empty"><div class="nab-tickets-empty-icon">⚠️</div><div style="font-weight:700;color:#64748b;margin-bottom:6px">Could not load tickets</div><div style="font-size:13px">'+( data.data.message||'Please try again shortly.')+'</div></div>';
+      list.innerHTML='<div class="nab-tickets-empty"><div class="nab-tickets-empty-icon"></div><div style="font-weight:700;color:#64748b;margin-bottom:6px">Could not load tickets</div><div style="font-size:13px">'+( data.data.message||'Please try again shortly.')+'</div></div>';
     }
   })
   .catch(function(){

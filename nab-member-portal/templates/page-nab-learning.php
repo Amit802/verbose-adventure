@@ -31,7 +31,7 @@ $edu_modules = [
     1 => [ 'title'=>'What is Credit, Really?',                                        'duration'=>'8 Min',  'category'=>'Credit Basics',    'desc'=>'Understand what credit is and why it matters in your financial life.', 'url'=>($did&&get_field('nab_vid1_url',$did))?get_field('nab_vid1_url',$did):'https://www.youtube.com/embed/9wjyyDtHZu4',  'thumb'=>($did&&get_field('nab_vid1_thumb',$did))?get_field('nab_vid1_thumb',$did):NAB_URL.'assets/img/modules/module-1.png', 'overview'=>'Credit is more than just a number; it is a formal transactional relationship built on documented trust.', 'concepts'=>['The Price of Speed: Interest is the fee you pay for the convenience of using someone else money now.','The Lender\'s Perspective: Every time you borrow, the lender is making a bet on your reliability.','Credit Bureaus as Historians: In Canada, Equifax and TransUnion collect data to build your financial file.'], 'steps'=>['Check Both Reports Annually.','Monitor for Accuracy.','Do Not Fear Checking Your Own Score.'] ],
     2 => [ 'title'=>'The Trust Recipe: How Credit Scores Are Calculated',               'duration'=>'10 Min', 'category'=>'Credit Scores',    'desc'=>'Explore Equifax, TransUnion, Borrowell, and Credit Karma.', 'url'=>($did&&get_field('nab_vid2_url',$did))?get_field('nab_vid2_url',$did):'https://www.youtube.com/embed/aAMOEmWziak',  'thumb'=>($did&&get_field('nab_vid2_thumb',$did))?get_field('nab_vid2_thumb',$did):NAB_URL.'assets/img/modules/module-2.png', 'overview'=>'Your credit score is a trust recipe built from your everyday financial habits.', 'concepts'=>['Payment History (35%): Measures your consistency in paying bills on time.','Credit Utilization (30%): Keep balances below 30% of your available credit limit.','Length of Credit History (15%): The age of your oldest and newest accounts matters.'], 'steps'=>['Prioritize On-Time Payments.','Preserve Old Accounts.','Space Out Applications.'] ],
     3 => [ 'title'=>'The Escalating Cost of Bad Advice',                               'duration'=>'9 Min',  'category'=>'Credit Education', 'desc'=>'Learn the difference between hard and soft inquiries and their impact.', 'url'=>($did&&get_field('nab_vid3_url',$did))?get_field('nab_vid3_url',$did):'https://www.youtube.com/embed/KNhx-HFivNA',  'thumb'=>($did&&get_field('nab_vid3_thumb',$did))?get_field('nab_vid3_thumb',$did):NAB_URL.'assets/img/modules/module-3.png', 'overview'=>'This module replaces financial guesswork with algorithmic facts.', 'concepts'=>['Hard vs Soft Inquiries: Applying for new debt triggers a hard inquiry.','The 15% History Anchor: Closing old accounts deletes history.','The Utilization Fraction: Closing a card shrinks your available credit.'], 'steps'=>['Monitor Freely.','Preserve Old Accounts.','Avoid Unnecessary Interest.'] ],
-    4 => [ 'title'=>'Free Canadian Credit Reports: The Complete Guide',                 'duration'=>'12 Min', 'category'=>'Credit Reports',   'desc'=>'Step-by-step guide to access your free Canadian credit reports.', 'url'=>($did&&get_field('nab_vid4_url',$did))?get_field('nab_vid4_url',$did):'https://www.youtube.com/embed/5Sc4L2lIOxo',  'thumb'=>($did&&get_field('nab_vid4_thumb',$did))?get_field('nab_vid4_thumb',$did):NAB_URL.'assets/img/modules/module-4.png', 'overview'=>'Every Canadian is legally entitled to a free copy of their credit report from both bureaus.', 'concepts'=>['Legal Entitlement: Free access from Equifax and TransUnion.','Zero Score Impact: Pulling your own report is a soft inquiry.','Security Prerequisites: You will need your SIN and address history.'], 'steps'=>['Pull from equifax.ca and transunion.ca.','Audit Every Line.','Correct to Boost — dispute inaccuracies.'] ],
+    4 => [ 'title'=>'Free Canadian Credit Reports: The Complete Guide',                 'duration'=>'12 Min', 'category'=>'Credit Reports',   'desc'=>'Step-by-step guide to access your free Canadian credit reports.', 'url'=>($did&&get_field('nab_vid4_url',$did))?get_field('nab_vid4_url',$did):'https://www.youtube.com/embed/5Sc4L2lIOxo',  'thumb'=>($did&&get_field('nab_vid4_thumb',$did))?get_field('nab_vid4_thumb',$did):NAB_URL.'assets/img/modules/module-4.png', 'overview'=>'Every Canadian is legally entitled to a free copy of their credit report from both bureaus.', 'concepts'=>['Legal Entitlement: Free access from Equifax and TransUnion.','Zero Score Impact: Pulling your own report is a soft inquiry.','Security Prerequisites: You will need your SIN and address history.'], 'steps'=>['Pull from equifax.ca and transunion.ca.','Audit Every Line.','Correct to Boost, dispute inaccuracies.'] ],
     5 => [ 'title'=>'Securing Your Free Canadian Credit Reports',                       'duration'=>'7 Min',  'category'=>'Credit Reports',   'desc'=>'Actionable strategies to strengthen your credit over time.', 'url'=>($did&&get_field('nab_vid5_url',$did))?get_field('nab_vid5_url',$did):'https://www.youtube.com/embed/8_ns3DHBVII',  'thumb'=>($did&&get_field('nab_vid5_thumb',$did))?get_field('nab_vid5_thumb',$did):NAB_URL.'assets/img/modules/module-5.png', 'overview'=>'This module guides you through securing your official credit reports safely.', 'concepts'=>['Preparation is Critical: Have your documents ready before you start.','Identity Verification: You will be asked time-sensitive questions.','The Upsell Trap: Look past paid services to find the free options.'], 'steps'=>['Gather Documents.','Access Equifax at consumer.equifax.ca.','Download and Organize both reports.'] ],
     6 => [ 'title'=>'The Credit Inquiry Guide: Understanding Hard and Soft Pulls',      'duration'=>'11 Min', 'category'=>'Credit Inquiries', 'desc'=>'Avoid costly credit mistakes that could hold you back.', 'url'=>($did&&get_field('nab_vid6_url',$did))?get_field('nab_vid6_url',$did):'https://www.youtube.com/embed/idthInO6S98',  'thumb'=>($did&&get_field('nab_vid6_thumb',$did))?get_field('nab_vid6_thumb',$did):NAB_URL.'assets/img/modules/module-6.png', 'overview'=>'Every time your credit file is accessed, it leaves a digital footprint.', 'concepts'=>['Soft Inquiries: Routine checks with zero score impact.','Hard Inquiries: Triggered when you apply for new credit.','Penalty Decay: Hard inquiry penalty fades within 12 months.'], 'steps'=>['Perform a Color-Coded Audit.','Cluster Applications.','Dispute Fraud immediately.'] ],
     7 => [ 'title'=>'Building Better Financial Habits',                                 'duration'=>'13 Min', 'category'=>'Financial Habits', 'desc'=>'Build habits that support long-term financial success and peace of mind.', 'url'=>($did&&get_field('nab_vid7_url',$did))?get_field('nab_vid7_url',$did):'https://www.youtube.com/embed/eZW2-mcXqz4',  'thumb'=>($did&&get_field('nab_vid7_thumb',$did))?get_field('nab_vid7_thumb',$did):NAB_URL.'assets/img/modules/module-7.png', 'overview'=>'This module shifts the focus from perfection to building resilience through consistent daily habits.', 'concepts'=>['The Diagnostic Budget: A budget is a diagnostic tool.','The 50/30/20 Framework: 50% needs, 30% wants, 20% savings.','The Savings Shock Absorber: An emergency fund protects your credit.'], 'steps'=>['Shift Mindsets.','Monitor Accounts Regularly.','Scale Savings Strategically.'] ],
@@ -39,7 +39,7 @@ $edu_modules = [
 
 $notifications = function_exists('nab_get_user_notifications') ? nab_get_user_notifications($uid) : [];
 
-nab_head_open( 'Learning Center — NAB Member Portal' );
+nab_head_open( 'Learning Center | NAB Member Portal' );
 ?>
 <style>
 /* ── Learning Center v2 ──────────────────────────────────── */
@@ -47,77 +47,77 @@ nab_head_open( 'Learning Center — NAB Member Portal' );
 
 /* Hero */
 .nab-lc-hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
-.nab-lc-welcome{background:#fff;border-radius:16px;padding:28px;box-shadow:0 1px 8px rgba(0,0,0,.07)}
-.nab-lc-welcome-icon{font-size:36px;margin-bottom:10px}
-.nab-lc-welcome-title{font-size:20px;font-weight:800;color:#1e293b;margin:0 0 8px}
-.nab-lc-welcome-sub{font-size:13px;color:#64748b;line-height:1.6;margin:0 0 20px}
+.nab-lc-welcome{background:var(--nab-surface);border:1px solid var(--nab-line);border-radius:var(--nab-radius);padding:28px;box-shadow:var(--nab-shadow)}
+.nab-lc-welcome-icon{margin-bottom:12px;display:flex}
+.nab-lc-welcome-title{font-size:20px;font-weight:700;color:var(--nab-text);margin:0 0 8px}
+.nab-lc-welcome-sub{font-size:13px;color:var(--nab-text-2);line-height:1.6;margin:0 0 20px}
 .nab-lc-prog-label{font-size:12px;font-weight:600;color:#374151;margin-bottom:6px}
-.nab-lc-prog-bar{height:8px;background:#e2e8f0;border-radius:4px;margin-bottom:6px}
-.nab-lc-prog-fill{height:100%;background:#0D5C9B;border-radius:4px;transition:.6s}
-.nab-lc-prog-count{font-size:12px;color:#64748b}
+.nab-lc-prog-bar{height:8px;background:var(--nab-line);border-radius:4px;margin-bottom:6px}
+.nab-lc-prog-fill{height:100%;background:var(--nab-brand);border-radius:4px;transition:.6s}
+.nab-lc-prog-count{font-size:12px;color:var(--nab-text-2)}
 
-.nab-lc-why{background:#fff;border-radius:16px;padding:28px;box-shadow:0 1px 8px rgba(0,0,0,.07)}
-.nab-lc-why-title{font-size:16px;font-weight:800;color:#1e293b;margin:0 0 16px}
+.nab-lc-why{background:var(--nab-surface);border:1px solid var(--nab-line);border-radius:var(--nab-radius);padding:28px;box-shadow:var(--nab-shadow)}
+.nab-lc-why-title{font-size:16px;font-weight:800;color:var(--nab-text);margin:0 0 16px}
 .nab-lc-why-item{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
-.nab-lc-why-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.nab-lc-why-text strong{display:block;font-size:13px;font-weight:700;color:#1e293b;margin-bottom:2px}
-.nab-lc-why-text span{font-size:12px;color:#64748b}
+.nab-lc-why-icon{display:flex;flex-shrink:0}
+.nab-lc-why-text strong{display:block;font-size:13px;font-weight:700;color:var(--nab-text);margin-bottom:2px}
+.nab-lc-why-text span{font-size:12px;color:var(--nab-text-2)}
 
 /* Main layout */
 .nab-lc-main{display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start}
 
 /* Video series */
-.nab-lc-series-card{background:#fff;border-radius:16px;padding:24px;box-shadow:0 1px 8px rgba(0,0,0,.07)}
-.nab-lc-series-title{font-size:16px;font-weight:800;color:#1e293b;margin:0 0 20px}
+.nab-lc-series-card{background:var(--nab-surface);border:1px solid var(--nab-line);border-radius:var(--nab-radius);padding:24px;box-shadow:var(--nab-shadow)}
+.nab-lc-series-title{font-size:16px;font-weight:800;color:var(--nab-text);margin:0 0 20px}
 
 /* Module grid - 3 columns */
 .nab-lc-module-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.nab-lc-mod{border:1.5px solid #e2e8f0;border-radius:12px;overflow:hidden;cursor:pointer;transition:.2s;position:relative}
-.nab-lc-mod:hover{border-color:#0D5C9B;box-shadow:0 4px 16px rgba(13,92,155,.1)}
+.nab-lc-mod{border:1.5px solid var(--nab-line);border-radius:12px;overflow:hidden;cursor:pointer;transition:.2s;position:relative}
+.nab-lc-mod:hover{border-color:var(--nab-brand);box-shadow:0 4px 16px rgba(13,92,155,.1)}
 .nab-lc-mod.completed{border-color:#16a34a}
 .nab-lc-mod.locked{opacity:.6;cursor:not-allowed;pointer-events:none}
-.nab-lc-mod.active-mod{border-color:#0D5C9B;box-shadow:0 4px 16px rgba(13,92,155,.15)}
-.nab-lc-mod-thumb{width:100%;height:100px;object-fit:cover;display:block;background:#e2e8f0}
-.nab-lc-mod-thumb-placeholder{width:100%;height:100px;background:linear-gradient(135deg,#0D5C9B,#0a4a7c);display:flex;align-items:center;justify-content:center;font-size:28px}
+.nab-lc-mod.active-mod{border-color:var(--nab-brand);box-shadow:0 4px 16px rgba(13,92,155,.15)}
+.nab-lc-mod-thumb{width:100%;height:100px;object-fit:cover;display:block;background:var(--nab-line)}
+.nab-lc-mod-thumb-placeholder{width:100%;height:100px;background:var(--nab-brand-soft);color:var(--nab-brand);display:flex;align-items:center;justify-content:center;font-size:28px}
 .nab-lc-mod-badge{position:absolute;top:8px;right:8px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px}
 .badge-completed{background:#16a34a;color:#fff}
-.badge-inprogress{background:#0D5C9B;color:#fff}
+.badge-inprogress{background:var(--nab-brand);color:#fff}
 .badge-locked{background:rgba(0,0,0,.5);color:#fff}
 .nab-lc-mod-body{padding:10px 12px}
-.nab-lc-mod-num{font-size:10px;color:#94a3b8;margin-bottom:2px}
-.nab-lc-mod-title{font-size:12px;font-weight:700;color:#1e293b;line-height:1.3;margin-bottom:4px}
-.nab-lc-mod-desc{font-size:11px;color:#64748b;line-height:1.4}
+.nab-lc-mod-num{font-size:10px;color:var(--nab-text-3);margin-bottom:2px}
+.nab-lc-mod-title{font-size:12px;font-weight:700;color:var(--nab-text);line-height:1.3;margin-bottom:4px}
+.nab-lc-mod-desc{font-size:11px;color:var(--nab-text-2);line-height:1.4}
 .nab-lc-mod-status{font-size:10px;font-weight:700;margin-top:6px;padding:2px 8px;border-radius:20px;display:inline-block}
 .status-completed{background:#dcfce7;color:#166534}
 .status-inprogress{background:#dbeafe;color:#1e40af}
-.status-locked{background:#f1f5f9;color:#94a3b8}
+.status-locked{background:var(--nab-line-soft);color:var(--nab-text-3)}
 
 /* Stay consistent bar */
 .nab-lc-tip{background:#fffbeb;border:1.5px solid #fbbf24;border-radius:10px;padding:12px 16px;margin-top:20px;display:flex;align-items:center;gap:10px;font-size:13px;color:#78350f}
-.nab-lc-tip-icon{font-size:18px;flex-shrink:0}
+.nab-lc-tip-icon{display:flex;color:var(--nab-brand);flex-shrink:0}
 
 /* Financial Roadmap sidebar */
-.nab-lc-roadmap{background:#fff;border-radius:16px;padding:24px;box-shadow:0 1px 8px rgba(0,0,0,.07);position:sticky;top:20px}
+.nab-lc-roadmap{background:var(--nab-surface);border:1px solid var(--nab-line);border-radius:var(--nab-radius);padding:24px;box-shadow:var(--nab-shadow);position:sticky;top:20px}
 .nab-lc-roadmap-badge{background:#16a34a;color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;display:inline-block;margin-bottom:12px}
-.nab-lc-roadmap-title{font-size:16px;font-weight:800;color:#1e293b;margin:0 0 8px}
+.nab-lc-roadmap-title{font-size:16px;font-weight:800;color:var(--nab-text);margin:0 0 8px}
 .nab-lc-roadmap-img{width:80px;height:80px;margin:12px auto;display:block}
-.nab-lc-roadmap-desc{font-size:12px;color:#64748b;line-height:1.6;margin-bottom:14px}
+.nab-lc-roadmap-desc{font-size:12px;color:var(--nab-text-2);line-height:1.6;margin-bottom:14px}
 .nab-lc-roadmap-check{display:flex;align-items:center;gap:8px;font-size:12px;color:#374151;margin-bottom:8px}
-.nab-lc-roadmap-check::before{content:"✅";font-size:14px}
+.nab-lc-roadmap-check::before{content:"";width:16px;height:16px;border-radius:50%;flex:none;background:var(--nab-good-soft) url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%2316805A%27 stroke-width=%273%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M20 6 9 17l-5-5%27/%3E%3C/svg%3E") center/10px no-repeat}
 .nab-lc-roadmap-btn{background:#F97316;color:#fff;border:none;border-radius:8px;padding:12px 20px;font-size:13px;font-weight:700;cursor:pointer;width:100%;margin-top:16px;transition:.15s}
 .nab-lc-roadmap-btn:hover{background:#ea6c00}
-.nab-lc-roadmap-sub{font-size:11px;color:#94a3b8;text-align:center;margin-top:8px}
+.nab-lc-roadmap-sub{font-size:11px;color:var(--nab-text-3);text-align:center;margin-top:8px}
 
 /* Module detail panel — full width below grid */
 .nab-lc-detail{display:none}
-.nab-lc-fullpanel{display:none;margin-top:20px;background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(13,92,155,.12);border:2px solid #0D5C9B;overflow:hidden}
+.nab-lc-fullpanel{display:none;margin-top:20px;background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(13,92,155,.12);border:2px solid var(--nab-brand);overflow:hidden}
 .nab-lc-fullpanel.open{display:block}
 .nab-lc-fullpanel-inner{display:flex;flex-direction:column;gap:0}
 .nab-lc-fullpanel-video-row{padding:24px 24px 0}
 .nab-lc-fullpanel-bottom{display:flex;flex-direction:column}
-.nab-lc-fullpanel-left{padding:24px;border-bottom:1px solid #f1f5f9}
+.nab-lc-fullpanel-left{padding:24px;border-bottom:1px solid var(--nab-line-soft)}
 .nab-lc-fullpanel-right{padding:24px}
-.nab-lc-fullpanel-header{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;background:linear-gradient(135deg,#0D5C9B,#0a4a7c);color:#fff}
+.nab-lc-fullpanel-header{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;background:var(--nab-brand);color:#fff}
 .nab-lc-fullpanel-title{font-size:16px;font-weight:800;margin:0}
 .nab-lc-fullpanel-close{background:rgba(255,255,255,.2);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:.15s}
 .nab-lc-fullpanel-close:hover{background:rgba(255,255,255,.35)}
@@ -126,40 +126,40 @@ nab_head_open( 'Learning Center — NAB Member Portal' );
 .nab-lc-detail-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56px;height:56px;background:rgba(255,0,0,.9);border-radius:50%;display:flex;align-items:center;justify-content:center}
 .nab-lc-detail-play div{width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-left:18px solid #fff;margin-left:4px}
 
-.nab-lc-section-lbl{font-size:10px;font-weight:700;color:#0D5C9B;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.nab-lc-section-lbl{font-size:10px;font-weight:700;color:var(--nab-brand);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
 .nab-lc-overview-text{font-size:13px;color:#374151;line-height:1.7;margin-bottom:16px}
 .nab-lc-list{padding-left:18px;margin:6px 0 16px}
 .nab-lc-list li{font-size:13px;color:#374151;line-height:1.6;margin-bottom:4px}
-.nab-lc-quiz-section{background:#f8fafc;border-radius:10px;padding:16px;margin-top:8px}
+.nab-lc-quiz-section{background:var(--nab-surface-2);border-radius:10px;padding:16px;margin-top:8px}
 .nab-lc-quiz-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.nab-lc-btn{background:#0D5C9B;color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;transition:.15s}
-.nab-lc-btn:hover{background:#0a4a7c}
+.nab-lc-btn{background:var(--nab-brand);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;transition:.15s}
+.nab-lc-btn:hover{background:var(--nab-brand-strong)}
 .nab-lc-btn-green{background:#16a34a}
 .nab-lc-btn-green:hover{background:#15803d}
 
 /* Quiz */
 .nab-lc-quiz-ui{margin-top:14px}
-.nab-lc-quiz-bar{height:4px;background:#e2e8f0;border-radius:2px;margin-bottom:16px}
-.nab-lc-quiz-bar-fill{height:100%;background:#0D5C9B;border-radius:2px;transition:.3s}
-.nab-lc-quiz-q{font-size:15px;font-weight:700;color:#1e293b;margin-bottom:6px}
-.nab-lc-quiz-hint{font-size:12px;color:#94a3b8;font-style:italic;margin-bottom:14px}
+.nab-lc-quiz-bar{height:4px;background:var(--nab-line);border-radius:2px;margin-bottom:16px}
+.nab-lc-quiz-bar-fill{height:100%;background:var(--nab-brand);border-radius:2px;transition:.3s}
+.nab-lc-quiz-q{font-size:15px;font-weight:700;color:var(--nab-text);margin-bottom:6px}
+.nab-lc-quiz-hint{font-size:12px;color:var(--nab-text-3);font-style:italic;margin-bottom:14px}
 .nab-lc-quiz-opts{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
-.nab-lc-quiz-opt{background:#fff;border:2px solid #e2e8f0;border-radius:10px;padding:11px 14px;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:10px;transition:.15s;width:100%}
-.nab-lc-quiz-opt:hover{border-color:#0D5C9B;background:#f0f7ff}
+.nab-lc-quiz-opt{background:#fff;border:2px solid var(--nab-line);border-radius:10px;padding:11px 14px;font-size:13px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:10px;transition:.15s;width:100%}
+.nab-lc-quiz-opt:hover{border-color:var(--nab-brand);background:#f0f7ff}
 .nab-lc-quiz-opt.correct{border-color:#16a34a;background:#dcfce7;color:#166534;font-weight:700}
 .nab-lc-quiz-opt.wrong{border-color:#dc2626;background:#fee2e2;color:#991b1b}
-.nab-lc-opt-letter{width:24px;height:24px;border-radius:50%;background:#f1f5f9;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nab-lc-opt-letter{width:24px;height:24px;border-radius:50%;background:var(--nab-line-soft);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .nab-lc-quiz-opt.correct .nab-lc-opt-letter{background:#16a34a;color:#fff}
 .nab-lc-quiz-opt.wrong .nab-lc-opt-letter{background:#dc2626;color:#fff}
 .nab-lc-feedback{padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:12px;display:none}
 .nab-lc-feedback.correct{background:#dcfce7;color:#166534;border-left:4px solid #16a34a}
 .nab-lc-feedback.wrong{background:#fee2e2;color:#991b1b;border-left:4px solid #dc2626}
 .nab-lc-quiz-nav{display:flex;justify-content:flex-end}
-.nab-lc-quiz-next{background:#0D5C9B;color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer}
-.nab-lc-quiz-next:disabled{background:#cbd5e1;cursor:not-allowed}
+.nab-lc-quiz-next{background:var(--nab-brand);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer}
+.nab-lc-quiz-next:disabled{background:var(--nab-text-3);cursor:not-allowed}
 .nab-lc-result{text-align:center;padding:20px}
-.nab-lc-result-score{font-size:28px;font-weight:900;color:#0D5C9B}
-.nab-lc-result-label{font-size:14px;color:#64748b;margin:4px 0 16px}
+.nab-lc-result-score{font-size:28px;font-weight:900;color:var(--nab-brand)}
+.nab-lc-result-label{font-size:14px;color:var(--nab-text-2);margin:4px 0 16px}
 
 @media(max-width:900px){
   .nab-lc-hero-grid,.nab-lc-main{grid-template-columns:1fr}
@@ -188,7 +188,7 @@ window.nabLcMarkComplete=function(mid){window._nabLcQ.push({t:'done',mid:mid});}
 
   <main class="nab-main">
     <header class="nab-topbar">
-      <div class="nab-topbar-title">🎓 Learning Center</div>
+      <div class="nab-topbar-title"><?php echo nab_portal_icon( 'graduation-cap', 20 ); ?> Learning Center</div>
       <div class="nab-topbar-right"><?php if(function_exists('nab_render_notification_bell')) nab_render_notification_bell(); ?></div>
     </header>
 
@@ -199,15 +199,15 @@ window.nabLcMarkComplete=function(mid){window._nabLcQ.push({t:'done',mid:mid});}
         <div class="nab-lc-hero-grid">
           <!-- Welcome + Progress -->
           <div class="nab-lc-welcome">
-            <div class="nab-lc-welcome-icon">🎓</div>
-            <div class="nab-lc-welcome-title">Welcome to Your Education Hub</div>
+            <div class="nab-lc-welcome-icon"><?php echo nab_portal_icon_tile( 'graduation-cap', 'blue', 44 ); ?></div>
+            <h1 class="nab-lc-welcome-title">Your learning hub</h1>
             <p class="nab-lc-welcome-sub">Learn how Canadian credit works through our step-by-step video series. Complete each lesson at your own pace and build a stronger financial future.</p>
             <div class="nab-lc-prog-label">Course Progress</div>
             <div class="nab-lc-prog-bar">
               <div class="nab-lc-prog-fill" id="nabLcProgressBar" style="width:<?php echo $progress_pct; ?>%"></div>
             </div>
             <div class="nab-lc-prog-count" id="nabLcProgressLabel">
-              ✅ <?php echo $completed_count; ?> of <?php echo $total_modules; ?> Lessons Completed
+              <?php echo $completed_count; ?> of <?php echo $total_modules; ?> lessons completed
             </div>
           </div>
 
@@ -215,19 +215,19 @@ window.nabLcMarkComplete=function(mid){window._nabLcQ.push({t:'done',mid:mid});}
           <div class="nab-lc-why">
             <div class="nab-lc-why-title">Why Learn With NAB Solutions?</div>
             <div class="nab-lc-why-item">
-              <div class="nab-lc-why-icon" style="background:#dbeafe">📊</div>
+              <div class="nab-lc-why-icon"><?php echo nab_portal_icon_tile( 'chart-column', 'blue', 36 ); ?></div>
               <div class="nab-lc-why-text"><strong>Understand credit reports and scores</strong><span>Learn how lenders evaluate your credit.</span></div>
             </div>
             <div class="nab-lc-why-item">
-              <div class="nab-lc-why-icon" style="background:#dcfce7">💚</div>
+              <div class="nab-lc-why-icon"><?php echo nab_portal_icon_tile( 'heart-pulse', 'green', 36 ); ?></div>
               <div class="nab-lc-why-text"><strong>Build better financial habits</strong><span>Discover strategies to strengthen your credit.</span></div>
             </div>
             <div class="nab-lc-why-item">
-              <div class="nab-lc-why-icon" style="background:#fef9c3">🧠</div>
+              <div class="nab-lc-why-icon"><?php echo nab_portal_icon_tile( 'target', 'yellow', 36 ); ?></div>
               <div class="nab-lc-why-text"><strong>Make informed financial decisions</strong><span>Knowledge empowers you to achieve your goals.</span></div>
             </div>
             <div class="nab-lc-why-item">
-              <div class="nab-lc-why-icon" style="background:#fee2e2">🔒</div>
+              <div class="nab-lc-why-icon"><?php echo nab_portal_icon_tile( 'lock', 'red', 36 ); ?></div>
               <div class="nab-lc-why-text"><strong>Exclusive member content</strong><span>Access expert videos and resources only for members.</span></div>
             </div>
           </div>
@@ -238,7 +238,7 @@ window.nabLcMarkComplete=function(mid){window._nabLcQ.push({t:'done',mid:mid});}
 
           <!-- Left: 7-Part Video Series -->
           <div class="nab-lc-series-card">
-            <div class="nab-lc-series-title">🎥 7-Part Video Series</div>
+            <div class="nab-lc-series-title">7-Part Video Series</div>
             <div class="nab-lc-module-grid" id="nabLcGrid">
               <?php foreach($edu_modules as $mid => $mod):
                 $is_done   = in_array($mid, $completed_modules);
@@ -255,10 +255,10 @@ window.nabLcMarkComplete=function(mid){window._nabLcQ.push({t:'done',mid:mid});}
                 <?php if($thumb): ?>
                 <img class="nab-lc-mod-thumb" src="<?php echo esc_url($thumb); ?>" alt="<?php echo esc_attr($mod['title']); ?>" loading="lazy">
                 <?php else: ?>
-                <div class="nab-lc-mod-thumb-placeholder">🎓</div>
+                <div class="nab-lc-mod-thumb-placeholder"><?php echo nab_portal_icon( 'graduation-cap', 28 ); ?></div>
                 <?php endif; ?>
                 <div class="nab-lc-mod-badge <?php echo $is_done?'badge-completed':($is_locked?'badge-locked':'badge-inprogress'); ?>">
-                  <?php echo $is_done?'✓ Completed':($is_locked?'🔒 Locked':'▶ In Progress'); ?>
+                  <?php echo $is_done?'✓ Completed':($is_locked?'Locked':'▶ In Progress'); ?>
                 </div>
                 <div class="nab-lc-mod-body">
                   <div class="nab-lc-mod-num">Lesson <?php echo $mid; ?></div>
@@ -290,7 +290,7 @@ window.nabLcMarkComplete=function(mid){window._nabLcQ.push({t:'done',mid:mid});}
                 <!-- Bottom: Description left, Quiz right -->
                 <div class="nab-lc-fullpanel-bottom">
                 <div class="nab-lc-fullpanel-left">
-                  <div class="nab-lc-section-lbl">📚 Lesson Overview</div>
+                  <div class="nab-lc-section-lbl">Lesson Overview</div>
                   <p class="nab-lc-overview-text" id="nabLcPanelOverview"></p>
                   <div id="nabLcPanelConcepts"></div>
                   <div id="nabLcPanelSteps"></div>
@@ -300,7 +300,7 @@ window.nabLcMarkComplete=function(mid){window._nabLcQ.push({t:'done',mid:mid});}
                   <div id="nabLcPanelQuizWrap">
                     <div class="nab-lc-quiz-section">
                       <div class="nab-lc-quiz-row" id="nabLcPanelQuizStart">
-                        <div><strong style="font-size:15px;color:#1e293b">📝 Test Your Knowledge</strong><br><span style="font-size:13px;color:#64748b">Complete the quiz to earn 10 points.</span></div>
+                        <div><strong style="font-size:15px;color:#1e293b">Test Your Knowledge</strong><br><span style="font-size:13px;color:#64748b">Complete the quiz to earn 10 points.</span></div>
                         <button class="nab-lc-btn" id="nabLcPanelQuizBtn" type="button">Start Quiz →</button>
                       </div>
                       <div class="nab-lc-quiz-ui" id="nabLcPanelQuizUI" style="display:none"></div>
@@ -313,7 +313,7 @@ window.nabLcMarkComplete=function(mid){window._nabLcQ.push({t:'done',mid:mid});}
 
             <!-- Tip bar -->
             <div class="nab-lc-tip">
-              <div class="nab-lc-tip-icon">💡</div>
+              <div class="nab-lc-tip-icon"><?php echo nab_portal_icon( 'info', 18 ); ?></div>
               <div><strong>Stay Consistent!</strong> Learning a little each day can lead to big financial improvements. Keep going!</div>
             </div>
           </div>
@@ -323,7 +323,7 @@ window.nabLcMarkComplete=function(mid){window._nabLcQ.push({t:'done',mid:mid});}
             <div class="nab-lc-roadmap-badge">NEW</div>
             <div class="nab-lc-roadmap-title">Personalized Financial Roadmap</div>
             <div style="text-align:center;padding:16px 0">
-              <div style="font-size:64px">🗺</div>
+              <?php echo nab_portal_icon_tile( 'map', 'purple', 64 ); ?>
             </div>
             <p class="nab-lc-roadmap-desc">Receive a tailored, step-by-step guide designed specifically for your unique financial situation. This roadmap outlines actionable steps to help you achieve your goals and build long-term financial health.</p>
             <div class="nab-lc-roadmap-check">Personalized Action Plan</div>
@@ -477,7 +477,7 @@ window._nabLcToggleModule=function(mid){
   var conEl=document.getElementById('nabLcPanelConcepts');
   if(conEl){
     if(mod.concepts&&mod.concepts.length){
-      var h='<div class="nab-lc-section-lbl">🔑 Key Takeaways</div><ul class="nab-lc-list">';
+      var h='<div class="nab-lc-section-lbl">Key Takeaways</div><ul class="nab-lc-list">';
       mod.concepts.forEach(function(c){h+='<li>'+escH(c)+'</li>';});
       h+='</ul>';
       conEl.innerHTML=h;
@@ -488,7 +488,7 @@ window._nabLcToggleModule=function(mid){
   var stEl=document.getElementById('nabLcPanelSteps');
   if(stEl){
     if(mod.steps&&mod.steps.length){
-      var sh='<div class="nab-lc-section-lbl">✅ Actionable Steps</div><ol class="nab-lc-list">';
+      var sh='<div class="nab-lc-section-lbl">Actionable Steps</div><ol class="nab-lc-list">';
       mod.steps.forEach(function(s){sh+='<li>'+escH(s)+'</li>';});
       sh+='</ol>';
       stEl.innerHTML=sh;
@@ -502,9 +502,9 @@ window._nabLcToggleModule=function(mid){
   if(qBtn){
     qBtn.setAttribute('data-panel-quiz-mid', mid);
     if(mod.done){
-      qStart.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px"><div><strong style="color:#166534">✅ Module Complete!</strong><br><span style="font-size:13px;color:#64748b">You have already completed this module.</span></div><button class="nab-lc-btn" style="background:#64748b" data-panel-quiz-mid="'+mid+'" type="button">🔄 Retake Quiz</button></div>';
+      qStart.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px"><div><strong style="color:#166534">Module Complete!</strong><br><span style="font-size:13px;color:#64748b">You have already completed this module.</span></div><button class="nab-lc-btn" style="background:#64748b" data-panel-quiz-mid="'+mid+'" type="button">Retake Quiz</button></div>';
     } else {
-      qStart.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px"><div><strong style="font-size:15px;color:#1e293b">📝 Test Your Knowledge</strong><br><span style="font-size:13px;color:#64748b">Complete the quiz to earn 10 points.</span></div><button class="nab-lc-btn" data-panel-quiz-mid="'+mid+'" type="button">Start Quiz →</button></div>';
+      qStart.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px"><div><strong style="font-size:15px;color:#1e293b">Test Your Knowledge</strong><br><span style="font-size:13px;color:#64748b">Complete the quiz to earn 10 points.</span></div><button class="nab-lc-btn" data-panel-quiz-mid="'+mid+'" type="button">Start Quiz →</button></div>';
     }
     if(qUI){ qUI.style.display='none'; qUI.innerHTML=''; }
   }
@@ -542,7 +542,7 @@ function _nabLcRenderQPanel(mid){
   var letters=['A','B','C','D'];
   var html='<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;color:#64748b">Question '+(st.qIndex+1)+' of '+total+'</span><span style="font-size:12px;color:#64748b">'+st.score+' correct</span></div><div class="nab-lc-quiz-bar"><div class="nab-lc-quiz-bar-fill" style="width:'+pct+'%"></div></div></div>';
   html+='<div class="nab-lc-quiz-q">'+escH(q.q)+'</div>';
-  html+='<div class="nab-lc-quiz-hint">💡 '+escH(q.hint)+'</div>';
+  html+='<div class="nab-lc-quiz-hint">'+escH(q.hint)+'</div>';
   html+='<div class="nab-lc-quiz-opts">';
   q.opts.forEach(function(opt,i){
     html+='<button class="nab-lc-quiz-opt" data-lc-panel-mid="'+mid+'" data-lc-idx="'+i+'" type="button"><span class="nab-lc-opt-letter">'+letters[i]+'</span>'+escH(opt)+'</button>';
@@ -571,7 +571,7 @@ function _nabLcRenderQ(mid){
   var letters=['A','B','C','D'];
   var html='<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;color:#64748b">Question '+(st.qIndex+1)+' of '+total+'</span><span style="font-size:12px;color:#64748b">'+st.score+' correct</span></div><div class="nab-lc-quiz-bar"><div class="nab-lc-quiz-bar-fill" style="width:'+pct+'%"></div></div></div>';
   html+='<div class="nab-lc-quiz-q">'+escH(q.q)+'</div>';
-  html+='<div class="nab-lc-quiz-hint">💡 '+escH(q.hint)+'</div>';
+  html+='<div class="nab-lc-quiz-hint">'+escH(q.hint)+'</div>';
   html+='<div class="nab-lc-quiz-opts">';
   q.opts.forEach(function(opt,i){
     html+='<button class="nab-lc-quiz-opt" data-lc-mid="'+mid+'" data-lc-idx="'+i+'" type="button"><span class="nab-lc-opt-letter">'+letters[i]+'</span>'+escH(opt)+'</button>';
@@ -642,11 +642,11 @@ function _nabLcShowResultPanel(mid){
   var total=nabLcQuizData[mid].questions.length;
   var pct=Math.round((st.score/total)*100);
   var passed=pct>=60;
-  var html='<div class="nab-lc-result"><div style="font-size:48px;margin-bottom:8px">'+(pct===100?'🏆':passed?'⭐':'📚')+'</div>';
+  var html='<div class="nab-lc-result">';
   html+='<div class="nab-lc-result-score">'+st.score+' / '+total+'</div>';
-  html+='<div class="nab-lc-result-label">'+pct+'% — '+(pct===100?'Perfect!':passed?'Passed':'Keep Learning')+'</div>';
-  if(passed){html+='<button data-lc-complete="'+mid+'" class="nab-lc-btn nab-lc-btn-green" id="nabLcCompleteBtn'+mid+'" type="button" style="margin:8px 4px">✅ Mark Complete & Earn Points</button>';}
-  html+='<button data-lc-retake-panel="'+mid+'" class="nab-lc-btn" style="background:#64748b;margin:8px 4px" type="button">🔄 Retake</button></div>';
+  html+='<div class="nab-lc-result-label">'+pct+'%, '+(pct===100?'Perfect!':passed?'Passed':'Keep Learning')+'</div>';
+  if(passed){html+='<button data-lc-complete="'+mid+'" class="nab-lc-btn nab-lc-btn-green" id="nabLcCompleteBtn'+mid+'" type="button" style="margin:8px 4px">Mark Complete & Earn Points</button>';}
+  html+='<button data-lc-retake-panel="'+mid+'" class="nab-lc-btn" style="background:#64748b;margin:8px 4px" type="button">Retake</button></div>';
   var ui=document.getElementById('nabLcPanelQuizUI');
   if(ui) ui.innerHTML=html;
 }
@@ -657,11 +657,11 @@ function _nabLcShowResult(mid){
   var score=st.score;
   var pct=Math.round((score/total)*100);
   var passed=pct>=60;
-  var html='<div class="nab-lc-result"><div style="font-size:48px;margin-bottom:8px">'+(pct===100?'🏆':passed?'⭐':'📚')+'</div>';
+  var html='<div class="nab-lc-result">';
   html+='<div class="nab-lc-result-score">'+score+' / '+total+'</div>';
-  html+='<div class="nab-lc-result-label">'+pct+'% — '+(pct===100?'Perfect!':passed?'Passed':'Keep Learning')+'</div>';
-  if(passed){html+='<button data-lc-complete="'+mid+'" class="nab-lc-btn nab-lc-btn-green" id="nabLcCompleteBtn'+mid+'" type="button" style="margin-right:8px">✅ Mark as Complete & Earn Points</button>';}
-  html+='<button data-lc-retake="'+mid+'" class="nab-lc-btn" style="background:#64748b;margin-left:8px" type="button">🔄 Retake</button></div>';
+  html+='<div class="nab-lc-result-label">'+pct+'%, '+(pct===100?'Perfect!':passed?'Passed':'Keep Learning')+'</div>';
+  if(passed){html+='<button data-lc-complete="'+mid+'" class="nab-lc-btn nab-lc-btn-green" id="nabLcCompleteBtn'+mid+'" type="button" style="margin-right:8px">Mark as Complete & Earn Points</button>';}
+  html+='<button data-lc-retake="'+mid+'" class="nab-lc-btn" style="background:#64748b;margin-left:8px" type="button">Retake</button></div>';
   document.getElementById('nabLcQuiz'+mid).innerHTML=html;
 }
 
@@ -679,7 +679,7 @@ window._nabLcMarkComplete=function(mid){
       var bar=document.getElementById('nabLcProgressBar');
       var lbl=document.getElementById('nabLcProgressLabel');
       if(bar)bar.style.width=pct+'%';
-      if(lbl)lbl.innerHTML='✅ '+completed+' of '+total+' Lessons Completed';
+      if(lbl)lbl.textContent=completed+' of '+total+' lessons completed';
 
       // Update card in grid
       var modEl=document.getElementById('nabLcMod'+mid);
@@ -710,24 +710,24 @@ window._nabLcMarkComplete=function(mid){
       if(panelUI){
         panelUI.style.display='block';
         var nextBtn=mid<7?'<button data-toggle-mid="'+(mid+1)+'" class="nab-lc-btn" type="button" style="margin:8px 4px">▶ Next Lesson</button>':'';
-        panelUI.innerHTML='<div class="nab-lc-result"><div style="font-size:48px">🎉</div>'
+        panelUI.innerHTML='<div class="nab-lc-result">'
           +'<div class="nab-lc-result-score" style="font-size:20px">Module Complete!</div>'
           +'<div class="nab-lc-result-label">+10 Points Earned &bull; '+pct+'% ('+completed+'/'+total+')</div>'
-          +(mid<7?nextBtn:'<div style="font-weight:700;color:#166534;margin-top:8px">🏆 All modules complete!</div>')
+          +(mid<7?nextBtn:'<div style="font-weight:700;color:#166534;margin-top:8px">All modules complete!</div>')
           +'</div>';
         if(panelStart)panelStart.style.display='none';
       }
 
       // Also update legacy inline quiz div if present
       var quizEl=document.getElementById('nabLcQuiz'+mid);
-      if(quizEl)quizEl.innerHTML='<div class="nab-lc-result"><div style="font-size:48px">🎉</div><div class="nab-lc-result-score" style="font-size:20px">Module Complete!</div><div class="nab-lc-result-label">+10 Points Earned</div></div>';
+      if(quizEl)quizEl.innerHTML='<div class="nab-lc-result"><div class="nab-lc-result-score" style="font-size:20px">Module Complete!</div><div class="nab-lc-result-label">+10 Points Earned</div></div>';
 
     }else{
-      if(btn){btn.disabled=false;btn.textContent='✅ Mark Complete & Earn Points';}
+      if(btn){btn.disabled=false;btn.textContent='Mark Complete & Earn Points';}
       alert('Could not save. Please try again.');
     }
   }).catch(function(err){
-    if(btn){btn.disabled=false;btn.textContent='✅ Mark Complete & Earn Points';}
+    if(btn){btn.disabled=false;btn.textContent='Mark Complete & Earn Points';}
     console.error('NAB complete module error:', err);
     alert('Connection error: '+err.message+'. Please refresh and try again.');
   });

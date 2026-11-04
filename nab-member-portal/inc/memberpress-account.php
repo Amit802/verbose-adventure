@@ -366,14 +366,14 @@ function nab_mp_send_welcome_email( $txn ) {
     <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:40px 20px;">
     <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 20px rgba(0,0,0,.08);">
     <tr><td style="background:linear-gradient(135deg,#0D5C9B,#0a4a7c);padding:28px 40px;text-align:center;">
-    <h1 style="color:#fff;margin:0;font-size:20px;font-weight:700;">NAB Solutions — Member Portal</h1></td></tr>
+    <h1 style="color:#fff;margin:0;font-size:20px;font-weight:700;">NAB Solutions, Member Portal</h1></td></tr>
     <tr><td style="padding:36px 40px;">
     <h2 style="color:#0D5C9B;margin:0 0 16px;">Welcome, '.esc_html($first).'! 🎉</h2>
     <p style="color:#424242;line-height:1.7;">You\'re now a <strong>'.esc_html($pname).'</strong> member. Your credit repair journey starts today.</p>
     <table cellpadding="0" cellspacing="0" width="100%">
-        <tr><td style="padding:10px 0;border-bottom:1px solid #f0f0f0;">✅ <strong>View your Credit Score</strong> — know where you stand</td></tr>
-        <tr><td style="padding:10px 0;border-bottom:1px solid #f0f0f0;">📚 <strong>Start an Education Module</strong> — earn points</td></tr>
-        <tr><td style="padding:10px 0;">🛡️ <strong>Check Dispute Templates</strong> — fix errors on your file</td></tr>
+        <tr><td style="padding:10px 0;border-bottom:1px solid #f0f0f0;">✅ <strong>View your Credit Score</strong>, know where you stand</td></tr>
+        <tr><td style="padding:10px 0;border-bottom:1px solid #f0f0f0;">📚 <strong>Start an Education Module</strong>, earn points</td></tr>
+        <tr><td style="padding:10px 0;">🛡️ <strong>Check Dispute Templates</strong>, fix errors on your file</td></tr>
     </table><br>
     <a href="'.esc_url($dash).'" style="display:inline-block;background:#0D5C9B;color:#fff;padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:700;">Go to Dashboard →</a>
     </td></tr>
