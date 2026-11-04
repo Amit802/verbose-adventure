@@ -97,9 +97,18 @@ function nab_portal_icon( $name, $size = 20, $class = '' ) {
     $paths = nab_portal_icon_paths();
     if ( ! isset( $paths[ $name ] ) ) return '';
     return sprintf(
-        '<svg class="nab-i%s" width="%d" height="%d" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">%s</svg>',
-        $class ? ' ' . esc_attr( $class ) : '', (int) $size, (int) $size, $paths[ $name ]
+        '<svg class="nab-i nab-i-%s%s" width="%d" height="%d" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">%s</svg>',
+        esc_attr( $name ), $class ? ' ' . esc_attr( $class ) : '', (int) $size, (int) $size, nab_portal_icon_drawable( $paths[ $name ] )
     );
+}
+
+/**
+ * v1.17.0: every shape gets pathLength="1", so CSS can "draw" an icon
+ * (stroke-dasharray/-dashoffset 1 → 0) without measuring each path.
+ * It changes nothing when no animation runs.
+ */
+function nab_portal_icon_drawable( $markup ) {
+    return preg_replace( '/<(path|circle|rect|line|polyline|polygon|ellipse) /', '<$1 pathLength="1" ', $markup );
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -166,8 +175,11 @@ function nab_portal_tile_css() {
     foreach ( nab_portal_tile_tones() as $k => $c ) $tones .= '.nab-tile-' . $k . '{--t1:' . $c[0] . ';--t2:' . $c[1] . '}';
     echo '<style id="nab-tile-css">'
         . '.nab-tile{--tile:40px;--t1:#E9F1FB;--t2:#1E62B0;position:relative;display:inline-flex;align-items:center;justify-content:center;flex:none;'
-        . 'width:var(--tile);height:var(--tile);min-width:var(--tile);border-radius:calc(var(--tile) * .28);color:var(--t2);background:var(--t1);'
-        . 'box-shadow:inset 0 0 0 1px rgba(16,24,40,.04)}'
+        . 'width:var(--tile);height:var(--tile);min-width:var(--tile);border-radius:calc(var(--tile) * .3);color:var(--t2);'
+        . 'background:linear-gradient(180deg,#fff 0%,var(--t1) 100%);'
+        . 'box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--t2) 14%,transparent),inset 0 1px 0 #fff,0 1px 2px rgba(14,27,44,.06),0 4px 10px -6px color-mix(in srgb,var(--t2) 40%,transparent);'
+        . 'transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .3s ease}'
+        . '.nab-tile .nab-i{stroke-width:1.9}'
         . $tones
         // Nabby mascot: round face with a navy ring (the mascot's frame colour)
         . '.nab-nabby{--nabby:40px;display:inline-flex;flex:none;width:var(--nabby);height:var(--nabby);min-width:var(--nabby);border-radius:50%;background:#F7E8CC;'
@@ -193,7 +205,7 @@ window.nabTile = function( n, tone, s ) {
 window.nabIcon = function( n, s ) {
   var p = window.nabIconPaths[ n ]; if ( ! p ) return '';
   s = s || 20;
-  return '<svg class="nab-i" width="' + s + '" height="' + s + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' + p + '</svg>';
+  return '<svg class="nab-i nab-i-' + String( n ).replace( /[^a-z0-9-]/g, '' ) + '" width="' + s + '" height="' + s + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' + p.replace( /<(path|circle|rect|line|polyline|polygon|ellipse) /g, '<$1 pathLength="1" ' ) + '</svg>';
 };
 </script>
 <?php

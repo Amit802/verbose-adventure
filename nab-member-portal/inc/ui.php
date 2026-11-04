@@ -140,6 +140,29 @@ body:is(.nab-portal-body,.nab-portal-page) .nab-content>:only-child>:nth-child(3
 body:is(.nab-portal-body,.nab-portal-page) .nab-content>:only-child>:nth-child(4),body:is(.nab-portal-body,.nab-portal-page) .nab-content>:nth-child(4),body:is(.nab-portal-body,.nab-portal-page) .uc-content>:nth-child(4){animation-delay:.15s}
 body:is(.nab-portal-body,.nab-portal-page) .nab-content>:only-child>:nth-child(n+5),body:is(.nab-portal-body,.nab-portal-page) .nab-content>:nth-child(n+5),body:is(.nab-portal-body,.nab-portal-page) .uc-content>:nth-child(n+5){animation-delay:.2s}
 body:is(.nab-portal-body,.nab-portal-page) .nab-topbar{animation:nabFade .35s ease both}
+/* Icons: drawn in once when the page opens, and again when their card is hovered */
+@keyframes nabDraw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes nabDrawHover{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+body:is(.nab-portal-body,.nab-portal-page) :is(.nab-topbar-title>.nab-i,.nab-main .nab-tile .nab-i,.nab-page-head .nab-i,.nab-plans-page .nab-plan-icon .nab-i) :is(path,circle,rect,line,polyline,polygon,ellipse){stroke-dasharray:1 1;stroke-dashoffset:0;animation:nabDraw 1.1s cubic-bezier(.65,0,.35,1) .2s both}
+body:is(.nab-portal-body,.nab-portal-page) .nab-main :is(a,button,label,li,[class*="card"],[class*="row"],[class*="item"]):hover>.nab-tile,
+body:is(.nab-portal-body,.nab-portal-page) .nab-main :is(a,button,label,li,[class*="card"],[class*="row"],[class*="item"]):hover>:not(.nab-tile)>.nab-tile{transform:translateY(-2px) scale(1.06);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--t2) 22%,transparent),inset 0 1px 0 #fff,0 2px 4px rgba(14,27,44,.08),0 10px 18px -8px color-mix(in srgb,var(--t2) 55%,transparent)}
+body:is(.nab-portal-body,.nab-portal-page) .nab-main :is(a,button,label,li,[class*="card"],[class*="row"],[class*="item"]):hover>.nab-tile .nab-i :is(path,circle,rect,line,polyline,polygon,ellipse),
+body:is(.nab-portal-body,.nab-portal-page) .nab-main :is(a,button,label,li,[class*="card"],[class*="row"],[class*="item"]):hover>:not(.nab-tile)>.nab-tile .nab-i :is(path,circle,rect,line,polyline,polygon,ellipse){animation:nabDrawHover .7s cubic-bezier(.65,0,.35,1) both}
+body:is(.nab-portal-body,.nab-portal-page) .nab-topbar-title>.nab-i{transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+body:is(.nab-portal-body,.nab-portal-page) .nab-topbar-title:hover>.nab-i{transform:rotate(-6deg) scale(1.06)}
+
+/* Buttons: lift on hover, arrows lead the way */
+body:is(.nab-portal-body,.nab-portal-page) :is(.nab-main,.nab-plans-page) :is(.nab-ui-btn,.nab-ui-btn-primary,.nab-ui-btn-accent,.bp-btn,.dl-btn,.pc-btn,.nw-btn,.nd-btn,.sim-run-btn,.uc-calc-btn,.cr-card__btn,.nab-submit-btn,.nab-loan-submit,.nab-ef-submit,.nab-lc-btn,.nab-cf-next,.nab-rm-next-btn,.nab-btn-plan,.nab-qbtn,.nab-pad-download-btn,.nab-btn-check,.nab-btn-continue):not(:disabled):hover{transform:translateY(-1px)}
+body:is(.nab-portal-body,.nab-portal-page) :is(.nab-main,.nab-plans-page) :is(a,button) .nab-i:is(.nab-i-arrow-right,.nab-i-chevron-right){transition:transform .25s var(--nab-ease)}
+body:is(.nab-portal-body,.nab-portal-page) :is(.nab-main,.nab-plans-page) :is(a,button):hover .nab-i:is(.nab-i-arrow-right,.nab-i-chevron-right){transform:translateX(3px)}
+body:is(.nab-portal-body,.nab-portal-page) :is(.nab-main,.nab-plans-page) :is(a,button):hover>.nab-i:is(.nab-i-plus){transform:rotate(90deg);transition:transform .35s var(--nab-ease)}
+body:is(.nab-portal-body,.nab-portal-page) :is(.nab-main,.nab-plans-page) :is(a,button)>.nab-i:is(.nab-i-plus,.nab-i-download){transition:transform .35s var(--nab-ease)}
+body:is(.nab-portal-body,.nab-portal-page) :is(.nab-main,.nab-plans-page) :is(a,button):hover>.nab-i-download{transform:translateY(2px)}
+
+/* Cards further down fade up as they scroll into view (browsers that support scroll timelines) */
+@supports (animation-timeline:view()){
+  body:is(.nab-portal-body,.nab-portal-page) :is(.nab-main,.nab-plans-page) :is(.bp-row,.nab-rm-row,.cr-card,.nab-lc-mod,.nab-plan-card,.nab-faq-item,.nab-ticket-item,.dl-row,.nab-feat-card,.nab-edu-card,.nab-lfp-info-card){animation:nabRise linear both;animation-timeline:view();animation-range:entry 0% entry 40%}
+}
 @media (prefers-reduced-motion:reduce){
   body:is(.nab-portal-body,.nab-portal-page) *{animation:none!important;transition:none!important}
 }
