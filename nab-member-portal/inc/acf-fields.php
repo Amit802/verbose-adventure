@@ -339,6 +339,10 @@ function nab_register_all_acf_fields() {
               'type'=>'url', 'instructions'=>'Where members submit their letter. Leave empty to use the default: https://www.consumer.equifax.ca/personal/dispute-credit-report' ],
             [ 'key'=>'f_dc_transunion_url', 'label'=>'TransUnion online dispute page', 'name'=>'dc_transunion_url',
               'type'=>'url', 'instructions'=>'Leave empty to use the default: https://www.transunion.ca/assistance/credit-report-disputes' ],
+            [ 'key'=>'f_dc_equifax_logo',    'label'=>'Equifax logo',    'name'=>'dc_equifax_logo',
+              'type'=>'image', 'return_format'=>'url', 'preview_size'=>'thumbnail', 'instructions'=>'Shown when members pick the bureau. Leave empty to show the name instead.' ],
+            [ 'key'=>'f_dc_transunion_logo', 'label'=>'TransUnion logo', 'name'=>'dc_transunion_logo',
+              'type'=>'image', 'return_format'=>'url', 'preview_size'=>'thumbnail', 'instructions'=>'Shown when members pick the bureau. Leave empty to show the name instead.' ],
         ],
     ] );
 

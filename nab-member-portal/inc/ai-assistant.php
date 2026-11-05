@@ -133,10 +133,10 @@ function nab_portal_ai_member_context( $uid ) {
     if ( function_exists( 'nab_dispute_get_letters' ) && ( $letters = nab_dispute_get_letters( $uid ) ) ) {
         $types   = nab_dispute_types();
         $bureaus = nab_dispute_bureaus();
-        $states  = [ 'created' => 'created, not submitted yet', 'sent' => 'submitted, waiting for a reply', 'response' => 'bureau has replied' ];
+        $states  = [ 'draft' => 'draft, not downloaded yet', 'ready' => 'downloaded, not sent yet', 'sent' => 'sent, waiting for a reply', 'response' => 'bureau has replied', 'resolved' => 'resolved', 'unresolved' => 'not resolved' ];
         $list    = [];
         foreach ( array_slice( array_reverse( $letters ), 0, 6 ) as $l ) {
-            $list[] = ( $types[ $l['type'] ]['label'] ?? 'Dispute' ) . ' to ' . ( $bureaus[ $l['bureau'] ]['name'] ?? 'a bureau' ) . ' (' . ( $states[ $l['status'] ?? '' ] ?? 'created' ) . ( ! empty( $l['sent'] ) ? ', submitted ' . $l['sent'] : '' ) . ')';
+            $list[] = ( $types[ $l['type'] ]['label'] ?? 'Dispute' ) . ' to ' . ( $bureaus[ $l['bureau'] ]['name'] ?? 'a bureau' ) . ' (' . ( $states[ $l['status'] ?? '' ] ?? 'draft' ) . ( ! empty( $l['sent'] ) ? ', sent ' . $l['sent'] : '' ) . ', ' . count( (array) ( $l['f']['items'] ?? [] ) ) . ' item(s)' . ')';
         }
         $lines[] = 'Dispute letters: ' . implode( '; ', $list );
     }
