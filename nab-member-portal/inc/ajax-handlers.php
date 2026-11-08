@@ -64,6 +64,11 @@ function nab_enqueue_portal_js() {
         wp_enqueue_script( 'nab-chartjs', NAB_URL . 'assets/js/vendor/chart.umd.min.js', [], '4.5.1', true );
         wp_enqueue_script( 'nab-networth', NAB_URL . 'assets/js/nab-networth.js', [ 'jquery', 'nab-chartjs' ], NAB_VERSION, true );
     }
+    // v1.20.0 Loan Calculator (Chart.js bundled locally; all maths runs in the browser)
+    if ( $slug === 'nab-loan-calculator' ) {
+        wp_enqueue_script( 'nab-chartjs', NAB_URL . 'assets/js/vendor/chart.umd.min.js', [], '4.5.1', true );
+        wp_enqueue_script( 'nab-loan-calc', NAB_URL . 'assets/js/nab-loan-calc.js', [ 'jquery', 'nab-chartjs' ], NAB_VERSION, true );
+    }
     wp_add_inline_script(
         'jquery',
         'var nabPortal=' . wp_json_encode( [

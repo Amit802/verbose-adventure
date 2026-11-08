@@ -54,6 +54,7 @@ function nab_portal_tools() {
         'nab-budget'         => [ 'name' => 'NAB Monthly Budget Planner',  'file' => 'page-nab-budget.php' ],
         'nab-payments'       => [ 'name' => 'NAB Payment Calendar',        'file' => 'page-nab-payments.php' ],
         'nab-networth'       => [ 'name' => 'NAB Net Worth Calculator',    'file' => 'page-nab-networth.php' ],
+        'nab-loan-calculator' => [ 'name' => 'NAB Loan Calculator',        'file' => 'page-nab-loan-calculator.php' ],
     ] );
     return $tools;
 }
@@ -96,6 +97,7 @@ function nab_portal_nav_sections() {
             [ 'key' => 'support', 'label' => 'Support Center',  'icon' => 'life-buoy', 'tone' => 'pink',           'desc' => 'Submit a support ticket or track existing tickets', 'keywords' => 'support ticket help contact' ],
         ] ],
         'loan' => [ 'label' => 'Loan Tools', 'items' => [
+            [ 'key' => 'loan-calc',  'label' => 'Loan Calculator',        'icon' => 'calculator', 'tone' => 'blue',    'template' => 'nab-loan-calculator', 'desc' => 'See the payment, interest and payoff date of any loan', 'keywords' => 'loan calculator payment interest car mortgage personal amortization' ],
             [ 'key' => 'lfp',        'label' => 'Lending Finder Program', 'icon' => 'landmark', 'tone' => 'navy',    'desc' => 'Find lenders that fit your profile',            'keywords' => 'lending finder lfp lender loan' ],
             [ 'key' => 'loan',       'label' => 'Auto Loan Matcher',      'icon' => 'car', 'tone' => 'orange',         'desc' => 'Auto loan offers from Canadian lenders',          'keywords' => 'auto loan car vehicle lender' ],
             [ 'key' => 'card-match', 'label' => 'Card Matcher',           'icon' => 'credit-card', 'tone' => 'purple', 'desc' => 'Get matched to the best credit card for you',    'keywords' => 'credit card matcher best card' ],
