@@ -39,6 +39,8 @@ if ( ! function_exists( 'nab_mp_get_member_data' ) ) {
             'started_at'        => $joined ? date( 'M j, Y', strtotime( $joined ) ) : null,
             'is_paused'         => ( $status === 'paused' ),
             'resume_date'       => $resume_date ? date( 'M j, Y', strtotime( $resume_date ) ) : null,
+            'access_ends'       => function_exists( 'nab_access_end_date' ) ? nab_access_end_date( $user_id ) : '',
+            'access_state'      => function_exists( 'nab_access_state' ) ? nab_access_state( $user_id ) : $status,
             'recent_txns'       => [],
             'sub_id'            => null,
         ];
@@ -172,18 +174,27 @@ add_action( 'wp_ajax_nab_mp_cancel', function() {
     $email  = $user->user_email;
     $name   = get_user_meta( $uid, 'nab_first_name', true ) ?: $user->first_name ?: 'Member';
 
-    update_user_meta( $uid, 'nab_membership_status', 'cancelled' );
-    update_user_meta( $uid, 'nab_cancel_reason', $reason );
-    update_user_meta( $uid, 'nab_cancel_date', current_time( 'mysql' ) );
+    // Already cancelled with an end date: keep that date, don't send the emails again.
+    if ( nab_access_state( $uid ) === 'ending' ) {
+        $kept = nab_access_end_date( $uid );
+        wp_send_json_success( [
+            'message'     => 'Your membership is already cancelled. You can keep using the portal until ' . nab_access_fmt( $kept, 'l, F j' ) . '.',
+            'status'      => 'cancelled',
+            'access_ends' => $kept,
+        ] );
+    }
 
-    // Clear any pending resume
-    wp_clear_scheduled_hook( 'nab_mp_auto_resume', [$uid] );
-    delete_user_meta( $uid, 'nab_mp_resume_date' );
+    // v1.19.0: access ends after the current billing week (next Friday).
+    // nab_access_cancel() also saves the status, date and reason and clears any pause.
+    update_user_meta( $uid, 'nab_cancel_date', current_time( 'mysql' ) );
+    $ends     = nab_access_next_billing_day();
+    $ends_fmt = nab_access_fmt( $ends, 'l, F j' );
+    nab_access_cancel( $uid, $ends, $reason, 'portal' );
 
     if ( function_exists( 'nab_add_auto_notification' ) ) {
         nab_add_auto_notification( $uid, 'billing',
             '❌ Membership Cancelled',
-            'Your membership has been cancelled. You retain access until the end of your current billing period.'
+            'Your membership has been cancelled. You can keep using the portal until ' . $ends_fmt . '.'
         );
     }
 
@@ -191,7 +202,7 @@ add_action( 'wp_ajax_nab_mp_cancel', function() {
     nab_send_membership_email(
         $email,
         'Your NAB Solutions Membership Has Been Cancelled',
-        "Hi {$name},\n\nWe're sorry to see you go.\n\nThis confirms that your NAB Solutions membership has been successfully cancelled. You'll continue to have full access to your Member Dashboard and all active benefits until your current billing period ends this Friday. After that, you'll lose access to:\n\n- Your NAB Solutions Member Dashboard\n- Credit monitoring and credit score updates\n- Personalized credit rebuilding guidance and support\n- Our self-service matching tools, including the Lending Finder Program (LFP), Auto Loan Matcher, and Credit Card Matcher, helping you find financing options based on your profile\n- Exclusive member resources, educational videos, and tools\n- Priority access to new products, services, and member-exclusive offers\n\n<strong>Changed your mind?</strong> It only takes a minute to reactivate.\n\nPrefer to talk it through first? Our team is happy to help you find the right fit  whether that's pausing, adjusting your plan, or just answering questions. We're here seven days a week, 9:00 AM–3:00 PM (Mountain Time):\n📞 1-855-542-6078\n✉️ billing@nabsolutions.ca\n\nThank you for choosing NAB Solutions. We appreciate the opportunity to have supported your financial journey, and we'd love the chance to keep doing so.\n\nSincerely,\nThe NAB Solutions Team"
+        "Hi {$name},\n\nWe're sorry to see you go.\n\nThis confirms that your NAB Solutions membership has been successfully cancelled. You'll continue to have full access to your Member Dashboard and all active benefits until your current billing period ends on <strong>{$ends_fmt}</strong>. After that, you'll lose access to:\n\n- Your NAB Solutions Member Dashboard\n- Credit monitoring and credit score updates\n- Personalized credit rebuilding guidance and support\n- Our self-service matching tools, including the Lending Finder Program (LFP), Auto Loan Matcher, and Credit Card Matcher, helping you find financing options based on your profile\n- Exclusive member resources, educational videos, and tools\n- Priority access to new products, services, and member-exclusive offers\n\n<strong>Changed your mind?</strong> It only takes a minute to reactivate.\n\nPrefer to talk it through first? Our team is happy to help you find the right fit  whether that's pausing, adjusting your plan, or just answering questions. We're here seven days a week, 9:00 AM–3:00 PM (Mountain Time):\n📞 1-855-542-6078\n✉️ billing@nabsolutions.ca\n\nThank you for choosing NAB Solutions. We appreciate the opportunity to have supported your financial journey, and we'd love the chance to keep doing so.\n\nSincerely,\nThe NAB Solutions Team"
     );
 
     // Email to admin
@@ -199,13 +210,15 @@ add_action( 'wp_ajax_nab_mp_cancel', function() {
         'billing@nabsolutions.ca',
         'Member Cancelled Membership, ' . $name,
         "Member <strong>{$name}</strong> ({$email}) has cancelled their membership.\n\n" .
+        "Portal access ends after: <strong>{$ends_fmt}</strong>\n\n" .
         ( $reason ? "Cancellation reason: <strong>{$reason}</strong>\n\n" : '' ) .
         "User ID: {$uid}\nDate: " . current_time( 'M j, Y' )
     );
 
     wp_send_json_success( [
-        'message' => 'Your membership has been cancelled. You retain access until your billing period ends.',
-        'status'  => 'cancelled',
+        'message'     => 'Your membership has been cancelled. You can keep using the portal until ' . $ends_fmt . '.',
+        'status'      => 'cancelled',
+        'access_ends' => $ends,
     ] );
 } );
 
@@ -273,11 +286,8 @@ add_filter( 'wp_authenticate_user', function( $user, $password ) {
         );
     }
 
-    // NOTE: cancelled members intentionally keep login access — the cancel
-    // email/notification promises "access until the end of your current
-    // billing period." Only "paused" blocks login. If a hard cutoff for
-    // cancelled members is wanted later, that needs a real billing-period
-    // end date to check against, not an immediate block.
+    // Cancelled members keep access until their "access ends on" date;
+    // inc/member-access.php refuses the login after that date.
 
     return $user;
 }, 20, 2 );

@@ -1211,3 +1211,17 @@ Every answer should leave the reader thinking:
 KB;
     }
 }
+
+/**
+ * A "Global Site Settings" value (ACF group on the Dashboard page), or $default.
+ * v1.19.0: the suspension screens called this but it was never defined.
+ */
+function nab_get_global_setting( $key, $default = '' ) {
+    static $page_id = null;
+    if ( $page_id === null ) {
+        $pages   = get_pages( [ 'meta_key' => '_wp_page_template', 'meta_value' => 'nab-dashboard', 'number' => 1 ] );
+        $page_id = $pages ? (int) $pages[0]->ID : 0;
+    }
+    $value = ( $page_id && function_exists( 'get_field' ) ) ? get_field( $key, $page_id ) : '';
+    return ( $value !== null && $value !== '' && $value !== false ) ? $value : $default;
+}

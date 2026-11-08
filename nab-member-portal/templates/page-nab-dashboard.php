@@ -57,7 +57,12 @@ if ( $mp_data && $mp_data['has_subscription'] ) {
     $is_paused      = $mp_data['is_paused'];
     $resume_date    = $mp_data['resume_date'];
     $recent_txns    = $mp_data['recent_txns'];
-    $is_suspended   = ($member_status === 'Cancelled');
+    // v1.19.0: a cancelled member keeps the portal until their access end date
+    // (after it, they can't log in at all). Only members cancelled before
+    // v1.19 without an end date still get the closed screen here.
+    $is_cancelled   = ($member_status === 'Cancelled');
+    $access_ends    = $mp_data['access_ends'] ?? '';
+    $is_suspended   = ($is_cancelled && ! $access_ends);
 } else {
     // ACF fallback for sites not yet using MemberPress
     $member_status  = get_user_meta( $uid, 'nab_member_status', true ) ?: ( get_field('nab_member_status') ?: 'Active' );
@@ -75,6 +80,8 @@ if ( $mp_data && $mp_data['has_subscription'] ) {
     $resume_date    = null;
     $recent_txns    = [];
     $is_suspended   = ($member_status === 'Suspended');
+    $is_cancelled   = false;
+    $access_ends    = '';
 }
 // v1.9.0: always the member's own registration date (see inc/dashboard-data.php)
 $member_since = nab_get_member_since( $uid );
@@ -860,8 +867,13 @@ var nabQuizData = {
 <div class="nab-suspension-screen">
   <div class="nab-suspension-box">
     <div class="nab-susp-icon"><?php echo nab_portal_icon( 'lock', 40 ); ?></div>
+    <?php if ( $is_cancelled ) : ?>
+    <h2>Your membership is cancelled</h2>
+    <p>Your member portal access has ended. To come back, call us at 1-855-542-6078 (daily, 9:00 AM to 3:00 PM Mountain Time) or email billing@nabsolutions.ca.</p>
+    <?php else : ?>
     <h2>Account Temporarily Suspended</h2>
     <p><?php echo wp_kses_post( $suspension_msg ?: 'Please settle your outstanding payment to regain access to the member portal.' ); ?></p>
+    <?php endif; ?>
     <?php
     $nab_supp_email = nab_get_global_setting('nab_support_email','admin@nabsolutions.ca');
     ?>
@@ -1510,6 +1522,11 @@ var nabQuizData = {
                 <span style="font-size:13px;font-weight:600;color:#1e293b"><?php echo esc_html($next_billing); ?></span>
               </div>
               <?php endif; ?>
+              <?php if ($is_cancelled && $access_ends) : ?>
+              <div style="background:#fee2e2;border-radius:8px;padding:10px 12px;font-size:12px;color:#991b1b">
+                Cancelled. Your last day in the portal is <?php echo esc_html( nab_access_fmt( $access_ends, 'l, F j' ) ); ?>.
+              </div>
+              <?php endif; ?>
               <?php if ($is_paused && $resume_date) : ?>
               <div style="background:#fef9c3;border-radius:8px;padding:10px 12px;font-size:12px;color:#854d0e">
                 Paused, resumes <?php echo esc_html(date('M j, Y',strtotime($resume_date))); ?>
@@ -1517,7 +1534,7 @@ var nabQuizData = {
               <?php endif; ?>
             </div>
 
-            <?php if (!$is_suspended) : ?>
+            <?php if (!$is_suspended && !$is_cancelled) : ?>
             <!-- Pause / Cancel -->
             <div style="margin-top:20px;padding-top:16px;border-top:1px solid #f1f5f9">
               <div style="font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px">Manage Membership</div>
