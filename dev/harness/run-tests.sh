@@ -35,4 +35,14 @@ for s in flows.js loancalc.js cancelflow.js dispute2.js; do
 done
 rm -f meta.json
 
+echo "== Member Access screen (list upload)"
+rm -f admin-state.json
+php -S 127.0.0.1:8093 admin-router.php > admin.log 2>&1 &
+ADM=$!
+trap 'kill $SRV $ADM 2>/dev/null' EXIT
+for i in $(seq 1 30); do curl -s -o /dev/null http://127.0.0.1:8093/admin && break; sleep 0.3; done
+timeout 120 node import-flow.js 2>&1 | grep -E "no file|xlsx|preview:|result:|scrollWidth|ERRORS"
+grep -iE "fatal|warning|deprecated" admin.log && fail=1
+rm -f admin-state.json
+
 [ $fail = 0 ] && echo "== DONE: no lint/page errors (read the flow output above for ERRORS: [])" || echo "== SOME CHECKS FAILED"

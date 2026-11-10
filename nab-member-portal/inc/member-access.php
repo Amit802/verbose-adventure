@@ -370,6 +370,13 @@ add_action( 'admin_post_nab_access_bulk', function () {
     nab_access_check_request( 'nab_access_bulk' );
     $picked = array_map( 'absint', (array) ( $_POST['users'] ?? [] ) );
     $dates  = (array) ( $_POST['ends'] ?? [] );
+    // The page packs the ticked rows into one field, so a long list isn't cut off
+    // by PHP's max_input_vars (1000 fields by default). The plain fields are the fallback.
+    $packed = json_decode( wp_unslash( (string) ( $_POST['packed'] ?? '' ) ), true );
+    if ( is_array( $packed ) ) {
+        $picked = array_map( 'absint', array_keys( $packed ) );
+        $dates  = $packed;
+    }
     $mode   = sanitize_key( $_POST['mode'] ?? 'dates' );
     $done   = 0;
     foreach ( $picked as $uid ) {
@@ -381,6 +388,328 @@ add_action( 'admin_post_nab_access_bulk', function () {
     if ( ! $done ) nab_access_back( 'No members were updated. Tick at least one member.', 'error' );
     nab_access_back( $done . ' member' . ( $done === 1 ? '' : 's' ) . ' updated. Anyone whose date has passed can no longer use the portal.' );
 } );
+
+/* ═══════════════════════════════════════════════════════════
+   UPLOAD A LIST (v1.21.0)
+   For members who cancelled by email or phone. The team uploads a CSV
+   (full name, email, optional last day). Each row is matched to a portal
+   account by email and shown in a preview; nothing changes until the team
+   confirms. The parsed list waits in a transient for one hour.
+   ═══════════════════════════════════════════════════════════ */
+
+/** Most rows one upload may hold. */
+function nab_access_import_max_rows() {
+    return (int) apply_filters( 'nab_access_import_max_rows', 5000 );
+}
+
+/**
+ * A date as written in a spreadsheet → Y-m-d, or ''.
+ * Accepts 2026-11-13, 11/13/2026, 13/11/2026 (day first when the first number
+ * is over 12), Nov 13 2026, 13 Nov 2026. The preview shows how each was read.
+ */
+function nab_access_import_date( $raw ) {
+    $raw = trim( (string) $raw );
+    if ( $raw === '' ) return '';
+    if ( preg_match( '/^(\d{4})[-\/.](\d{1,2})[-\/.](\d{1,2})$/', $raw, $m ) ) {
+        return checkdate( (int) $m[2], (int) $m[3], (int) $m[1] ) ? sprintf( '%04d-%02d-%02d', $m[1], $m[2], $m[3] ) : '';
+    }
+    if ( preg_match( '/^(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{2,4})$/', $raw, $m ) ) {
+        $a = (int) $m[1]; $b = (int) $m[2]; $y = (int) $m[3];
+        if ( $y < 100 ) $y += 2000;
+        list( $mo, $d ) = $a > 12 ? [ $b, $a ] : [ $a, $b ];
+        return checkdate( $mo, $d, $y ) ? sprintf( '%04d-%02d-%02d', $y, $mo, $d ) : '';
+    }
+    foreach ( [ 'M j Y', 'M j, Y', 'F j Y', 'F j, Y', 'j M Y', 'j F Y', 'D, M j, Y' ] as $f ) {
+        $d = DateTime::createFromFormat( '!' . $f, $raw, wp_timezone() );
+        if ( $d && $d->format( $f ) === $raw ) return $d->format( 'Y-m-d' );
+    }
+    return '';
+}
+
+/**
+ * CSV text → [ 'rows' => [ [ 'line', 'name', 'email', 'date_raw' ] ], 'error' => '' ].
+ * Finds the columns from a header row (email / name / first + last name /
+ * last day); without a header, the column holding an "@" is the email.
+ */
+function nab_access_import_parse( $text ) {
+    $text = (string) $text;
+    if ( substr( $text, 0, 3 ) === "\xEF\xBB\xBF" ) $text = substr( $text, 3 );          // Excel's UTF-8 marker
+    if ( ! preg_match( '//u', $text ) ) $text = mb_convert_encoding( $text, 'UTF-8', 'Windows-1252' ); // old Excel exports
+    $lines = preg_split( '/\r\n|\r|\n/', $text );
+    $lines = array_values( array_filter( $lines, function ( $l ) { return trim( $l, " \t,;" ) !== ''; } ) );
+    if ( ! $lines ) return [ 'rows' => [], 'error' => 'The file is empty.' ];
+
+    $first = $lines[0];
+    $delim = ',';
+    foreach ( [ "\t", ';' ] as $d ) {
+        if ( substr_count( $first, $d ) > substr_count( $first, $delim ) ) $delim = $d;
+    }
+
+    $head  = array_map( function ( $h ) { return strtolower( trim( preg_replace( '/[^a-z ]/i', ' ', $h ) ) ); }, str_getcsv( $first, $delim ) );
+    $col   = [ 'email' => -1, 'name' => -1, 'first' => -1, 'last' => -1, 'date' => -1 ];
+    foreach ( $head as $i => $h ) {
+        $h = preg_replace( '/\s+/', ' ', $h );
+        if ( $col['email'] < 0 && preg_match( '/\be ?mail\b/', $h ) ) $col['email'] = $i;
+        elseif ( $col['date'] < 0 && preg_match( '/\b(last day|end date|ends|access end|date)\b/', $h ) ) $col['date'] = $i;
+        elseif ( $col['first'] < 0 && preg_match( '/\bfirst\b/', $h ) ) $col['first'] = $i;
+        elseif ( $col['last'] < 0 && preg_match( '/\b(last|surname)\b/', $h ) ) $col['last'] = $i;
+        elseif ( $col['name'] < 0 && preg_match( '/\bname\b/', $h ) ) $col['name'] = $i;
+    }
+    $has_header = $col['email'] >= 0;
+    if ( ! $has_header ) {
+        // No header: find the email column from the first row.
+        foreach ( str_getcsv( $first, $delim ) as $i => $v ) {
+            if ( strpos( $v, '@' ) !== false ) { $col['email'] = $i; break; }
+        }
+        if ( $col['email'] < 0 ) return [ 'rows' => [], 'error' => 'No email column was found. Add a header row with "Full name", "Email" and (optional) "Last day".' ];
+        $col['name'] = $col['email'] === 0 ? 1 : 0;
+    }
+
+    $rows = [];
+    $max  = nab_access_import_max_rows();
+    foreach ( array_slice( $lines, $has_header ? 1 : 0 ) as $n => $line ) {
+        if ( count( $rows ) >= $max ) return [ 'rows' => [], 'error' => 'The file has more than ' . $max . ' rows. Please split it into smaller files.' ];
+        $c    = str_getcsv( $line, $delim );
+        $get  = function ( $i ) use ( $c ) { return $i >= 0 && isset( $c[ $i ] ) ? trim( $c[ $i ] ) : ''; };
+        $name = $get( $col['name'] );
+        if ( $name === '' ) $name = trim( $get( $col['first'] ) . ' ' . $get( $col['last'] ) );
+        $rows[] = [
+            'line'     => $n + ( $has_header ? 2 : 1 ),
+            'name'     => sanitize_text_field( $name ),
+            'email'    => strtolower( trim( $get( $col['email'] ), " \t<>\"'" ) ),
+            'date_raw' => sanitize_text_field( $get( $col['date'] ) ),
+        ];
+    }
+    if ( ! $rows ) return [ 'rows' => [], 'error' => 'The file has a header row but no members under it.' ];
+    return [ 'rows' => $rows, 'error' => '' ];
+}
+
+/**
+ * Decide what happens to each row. Adds 'uid', 'ends', 'status', 'note', 'tick'.
+ * status: cancel | update | skip
+ */
+function nab_access_import_plan( $rows, $default_ends ) {
+    $seen = [];
+    foreach ( $rows as &$r ) {
+        $r['uid'] = 0; $r['ends'] = ''; $r['status'] = 'skip'; $r['note'] = ''; $r['tick'] = false;
+        if ( ! is_email( $r['email'] ) ) { $r['note'] = $r['email'] === '' ? 'No email' : 'Not a valid email'; continue; }
+        if ( isset( $seen[ $r['email'] ] ) ) { $r['note'] = 'Same email as line ' . $seen[ $r['email'] ]; continue; }
+        $seen[ $r['email'] ] = $r['line'];
+
+        $user = get_user_by( 'email', $r['email'] );
+        if ( ! $user ) { $r['note'] = 'No portal account with this email'; continue; }
+        $r['uid'] = (int) $user->ID;
+        if ( user_can( $user, 'manage_options' ) ) { $r['note'] = 'Admin account, skipped'; continue; }
+
+        if ( $r['date_raw'] !== '' ) {
+            $r['ends'] = nab_access_import_date( $r['date_raw'] );
+            if ( ! $r['ends'] ) { $r['note'] = 'Last day "' . $r['date_raw'] . '" is not a date'; continue; }
+        } else {
+            $r['ends'] = $default_ends;
+        }
+
+        switch ( nab_access_state( $r['uid'] ) ) {
+            case 'ended':
+                $r['note'] = 'Access already closed (' . nab_access_fmt( nab_access_end_date( $r['uid'] ), 'M j, Y' ) . ')';
+                break;
+            case 'ending':
+                $r['status'] = 'update';
+                $r['note']   = 'Already cancelled, last day ' . nab_access_fmt( nab_access_end_date( $r['uid'] ), 'M j, Y' ) . '. Tick to change it';
+                break;
+            default: // active, paused, cancelled without a date
+                $r['status'] = 'cancel';
+                $r['tick']   = true;
+        }
+    }
+    unset( $r );
+    return $rows;
+}
+
+function nab_access_import_key( $token ) {
+    return 'nab_access_import_' . preg_replace( '/[^A-Za-z0-9]/', '', (string) $token );
+}
+
+/** The saved preview for this admin, or null. */
+function nab_access_import_get( $token ) {
+    $data = $token ? get_transient( nab_access_import_key( $token ) ) : false;
+    return ( is_array( $data ) && (int) ( $data['by'] ?? 0 ) === get_current_user_id() ) ? $data : null;
+}
+
+// Upload: read the file, build the preview, then show it.
+add_action( 'admin_post_nab_access_import', function () {
+    nab_access_check_request( 'nab_access_import' );
+    $file = $_FILES['list'] ?? null;
+    if ( ! $file || ! empty( $file['error'] ) || empty( $file['tmp_name'] ) || ! is_uploaded_file( $file['tmp_name'] ) ) {
+        nab_access_back( 'Please choose a CSV file to upload.', 'error' );
+    }
+    if ( (int) $file['size'] > 2 * 1024 * 1024 ) nab_access_back( 'The file is bigger than 2 MB. Please split it into smaller files.', 'error' );
+    $ext = strtolower( pathinfo( (string) $file['name'], PATHINFO_EXTENSION ) );
+    if ( ! in_array( $ext, [ 'csv', 'txt' ], true ) ) {
+        nab_access_back( 'Please upload a .csv file. In Excel or Google Sheets use File, then Save as / Download, then CSV.', 'error' );
+    }
+
+    $parsed = nab_access_import_parse( file_get_contents( $file['tmp_name'] ) );
+    if ( $parsed['error'] ) nab_access_back( $parsed['error'], 'error' );
+
+    $when    = sanitize_key( $_POST['default_when'] ?? 'now' );
+    $default = $when === 'date' ? nab_access_clean_date( wp_unslash( $_POST['default_ends'] ?? '' ) ) : nab_access_yesterday();
+    if ( ! $default ) nab_access_back( 'Please pick the last day of access for rows without a date.', 'error' );
+
+    $token = wp_generate_password( 20, false, false );
+    set_transient( nab_access_import_key( $token ), [
+        'by'      => get_current_user_id(),
+        'file'    => sanitize_file_name( (string) $file['name'] ),
+        'default' => $default,
+        'rows'    => nab_access_import_plan( $parsed['rows'], $default ),
+    ], HOUR_IN_SECONDS );
+
+    wp_safe_redirect( add_query_arg( [ 'page' => 'nab-member-access', 'import' => $token ], admin_url( 'users.php' ) ) . '#nab-acc-import' );
+    exit;
+} );
+
+// Confirm: cancel the ticked rows.
+add_action( 'admin_post_nab_access_import_apply', function () {
+    nab_access_check_request( 'nab_access_import_apply' );
+    $token = sanitize_text_field( wp_unslash( $_POST['token'] ?? '' ) );
+    $data  = nab_access_import_get( $token );
+    if ( ! $data ) nab_access_back( 'This upload has expired. Please upload the file again.', 'error' );
+
+    $packed = json_decode( wp_unslash( (string) ( $_POST['packed'] ?? '' ) ), true );
+    $picked = is_array( $packed ) ? $packed : (array) ( $_POST['rows'] ?? [] );
+    $picked = array_flip( array_map( 'intval', $picked ) );
+
+    $done = 0; $closed = 0; $changed = 0;
+    foreach ( $data['rows'] as $i => $r ) {
+        if ( ! isset( $picked[ $i ] ) || $r['status'] === 'skip' || ! $r['uid'] ) continue;
+        // Check again: the account may have changed since the preview.
+        if ( user_can( $r['uid'], 'manage_options' ) || nab_access_state( $r['uid'] ) === 'ended' ) continue;
+        $was = nab_access_state( $r['uid'] );
+        if ( nab_access_cancel( $r['uid'], $r['ends'], 'Cancelled by customer service (uploaded list: ' . $data['file'] . ')', 'team' ) ) {
+            $done++;
+            if ( $was === 'ending' ) $changed++;
+            if ( nab_access_today() > $r['ends'] ) $closed++;
+        }
+    }
+    delete_transient( nab_access_import_key( $token ) );
+    if ( ! $done ) nab_access_back( 'No members were updated. Tick at least one member.', 'error' );
+    $new = $done - $changed;
+    $msg = $new . ' member' . ( $new === 1 ? '' : 's' ) . ' cancelled from ' . $data['file'] . '.';
+    if ( $changed ) $msg .= ' ' . $changed . ' last day' . ( $changed === 1 ? '' : 's' ) . ' changed.';
+    if ( $closed ) $msg .= ' ' . $closed . ' of them can no longer use the portal.';
+    if ( $done - $closed ) $msg .= ' ' . ( $done - $closed ) . ' keep access until their last day.';
+    nab_access_back( $msg );
+} );
+
+// Download the rows that need a look (not found, bad email, ...) to fix and upload again.
+add_action( 'admin_post_nab_access_import_issues', function () {
+    if ( ! current_user_can( nab_access_cap() ) ) wp_die( 'You are not allowed to do this.', 403 );
+    check_admin_referer( 'nab_access_import_issues' );
+    $data = nab_access_import_get( sanitize_text_field( wp_unslash( $_GET['token'] ?? '' ) ) );
+    if ( ! $data ) nab_access_back( 'This upload has expired. Please upload the file again.', 'error' );
+    $safe = function ( $v ) { $v = (string) $v; return preg_match( '/^[=+\-@\t\r]/', $v ) ? "'" . $v : $v; }; // stop spreadsheet formulas
+    nocache_headers();
+    header( 'Content-Type: text/csv; charset=utf-8' );
+    header( 'Content-Disposition: attachment; filename="members-to-check.csv"' );
+    $out = fopen( 'php://output', 'w' );
+    fputcsv( $out, [ 'Full name', 'Email', 'Last day', 'Line in your file', 'Why it was skipped' ] );
+    foreach ( $data['rows'] as $r ) {
+        if ( $r['status'] !== 'skip' ) continue;
+        fputcsv( $out, array_map( $safe, [ $r['name'], $r['email'], $r['date_raw'], $r['line'], $r['note'] ] ) );
+    }
+    fclose( $out );
+    exit;
+} );
+
+// A sample file to fill in.
+add_action( 'admin_post_nab_access_import_sample', function () {
+    if ( ! current_user_can( nab_access_cap() ) ) wp_die( 'You are not allowed to do this.', 403 );
+    nocache_headers();
+    header( 'Content-Type: text/csv; charset=utf-8' );
+    header( 'Content-Disposition: attachment; filename="cancelled-members-sample.csv"' );
+    echo "Full name,Email,Last day\r\nJane Sample,jane.sample@example.com,\r\nJohn Sample,john.sample@example.com," . esc_html( nab_access_next_billing_day() ) . "\r\n";
+    exit;
+} );
+
+/** The upload card, or the preview of an uploaded list. */
+function nab_access_import_card() {
+    $post  = esc_url( admin_url( 'admin-post.php' ) );
+    $token = isset( $_GET['import'] ) ? sanitize_text_field( wp_unslash( $_GET['import'] ) ) : '';
+    $data  = nab_access_import_get( $token );
+    ?>
+    <div class="nab-acc-card" id="nab-acc-import">
+        <h2>Upload a list of cancelled members</h2>
+    <?php if ( ! $data ) : ?>
+        <?php if ( $token ) : ?><div class="notice notice-error inline"><p>This upload has expired or belongs to someone else. Please upload the file again.</p></div><?php endif; ?>
+        <p class="nab-acc-lead">For members who cancelled by email or phone. Make a spreadsheet with <strong>Full name</strong>, <strong>Email</strong> and, if you like, <strong>Last day</strong>, save it as CSV, and upload it. Each member is found by the email on their portal account. You'll see a preview first; nothing changes until you confirm.</p>
+        <form method="post" action="<?php echo $post; ?>" enctype="multipart/form-data" class="nab-acc-form">
+            <?php wp_nonce_field( 'nab_access_import' ); ?>
+            <input type="hidden" name="action" value="nab_access_import">
+            <input type="file" name="list" accept=".csv,text/csv" required>
+            <label>Rows without a last day
+                <select name="default_when" onchange="this.form.default_ends.disabled=this.value!=='date'">
+                    <option value="now">Close access now</option>
+                    <option value="date">Keep access until</option>
+                </select>
+            </label>
+            <input type="date" name="default_ends" value="<?php echo esc_attr( nab_access_next_billing_day() ); ?>" disabled aria-label="Last day for rows without a date">
+            <button class="button button-primary">Upload and preview</button>
+        </form>
+        <p class="description" style="margin-top:10px"><a href="<?php echo esc_url( admin_url( 'admin-post.php?action=nab_access_import_sample' ) ); ?>">Download a sample file</a>. Dates can be written like 2026-11-13 or 11/13/2026. In Excel or Google Sheets, save with File, then Save as / Download, then CSV.</p>
+    <?php else :
+        $rows   = $data['rows'];
+        $counts = [ 'cancel' => 0, 'update' => 0, 'skip' => 0 ];
+        foreach ( $rows as $r ) $counts[ $r['status'] ]++;
+        $issues = wp_nonce_url( admin_url( 'admin-post.php?action=nab_access_import_issues&token=' . rawurlencode( $token ) ), 'nab_access_import_issues' );
+        ?>
+        <p class="nab-acc-lead">
+            <strong><?php echo esc_html( $data['file'] ); ?></strong>: <?php echo count( $rows ); ?> rows.
+            <strong style="color:#1d6b2c"><?php echo (int) $counts['cancel']; ?> ready to cancel</strong><?php if ( $counts['update'] ) : ?>, <?php echo (int) $counts['update']; ?> already cancelled<?php endif; ?><?php if ( $counts['skip'] ) : ?>, <strong style="color:#8a2424"><?php echo (int) $counts['skip']; ?> skipped</strong> (<a href="<?php echo esc_url( $issues ); ?>">download these to check</a>)<?php endif; ?>.
+            Rows without a last day use <?php echo esc_html( nab_access_today() > $data['default'] ? '"close access now"' : nab_access_fmt( $data['default'] ) ); ?>. Untick anyone who should keep access, then confirm. This preview is kept for one hour.
+        </p>
+        <form method="post" action="<?php echo $post; ?>" id="nab-acc-import-form">
+            <?php wp_nonce_field( 'nab_access_import_apply' ); ?>
+            <input type="hidden" name="action" value="nab_access_import_apply">
+            <input type="hidden" name="token" value="<?php echo esc_attr( $token ); ?>">
+            <input type="hidden" name="packed" value="">
+            <table class="widefat striped">
+                <thead><tr><td class="check-column"><input type="checkbox" checked aria-label="Tick all" onclick="document.querySelectorAll('#nab-acc-import-form tbody input[data-auto]').forEach(c=>c.checked=this.checked)"></td><th>From your file</th><th>Portal account</th><th>What will happen</th></tr></thead>
+                <tbody>
+                <?php foreach ( $rows as $i => $r ) :
+                    $closes = $r['ends'] && nab_access_today() > $r['ends']; ?>
+                    <tr>
+                        <th class="check-column"><?php if ( $r['status'] !== 'skip' ) : ?><input type="checkbox" name="rows[]" value="<?php echo (int) $i; ?>" <?php checked( $r['tick'] ); ?> <?php echo $r['tick'] ? 'data-auto' : ''; ?> aria-label="Include line <?php echo (int) $r['line']; ?>"><?php endif; ?></th>
+                        <td><strong><?php echo esc_html( $r['name'] ?: '(no name)' ); ?></strong><br><span class="description"><?php echo esc_html( $r['email'] ); ?> &middot; line <?php echo (int) $r['line']; ?></span></td>
+                        <td><?php echo $r['uid'] && $r['status'] !== 'skip' ? nab_access_member_cell( $r['uid'] ) . '<br>' . nab_access_badge( $r['uid'] ) : ( $r['uid'] ? nab_access_member_cell( $r['uid'] ) : '<span class="description">Not found</span>' ); ?></td>
+                        <td>
+                        <?php if ( $r['status'] === 'skip' ) : ?>
+                            <span style="color:#8a2424"><?php echo esc_html( $r['note'] ); ?></span>
+                        <?php else : ?>
+                            <?php if ( $r['status'] === 'update' ) : ?><span class="description"><?php echo esc_html( $r['note'] ); ?></span><br><?php endif; ?>
+                            <?php echo $closes ? '<strong style="color:#8a2424">Access closes now</strong>' : 'Cancel, last day <strong>' . esc_html( nab_access_fmt( $r['ends'] ) ) . '</strong>'; ?>
+                            <?php if ( $r['date_raw'] !== '' ) : ?><br><span class="description">Your file: <?php echo esc_html( $r['date_raw'] ); ?></span><?php endif; ?>
+                        <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+            <p class="nab-acc-form" style="margin-top:12px">
+                <button class="button button-primary" onclick="return confirm('Cancel every ticked member?')">Cancel the ticked members</button>
+                <a class="button" href="<?php echo esc_url( admin_url( 'users.php?page=nab-member-access' ) ); ?>">Start over</a>
+            </p>
+        </form>
+        <script>
+        // Send the ticked rows as one field, so a long list isn't cut off by PHP's max_input_vars.
+        document.getElementById('nab-acc-import-form').addEventListener('submit', function () {
+            var boxes = this.querySelectorAll('tbody input[type=checkbox]'), ids = [];
+            boxes.forEach(function (c) { if (c.checked) ids.push(+c.value); c.disabled = true; });
+            this.packed.value = JSON.stringify(ids);
+        });
+        </script>
+    <?php endif; ?>
+    </div>
+    <?php
+}
 
 // Weekly email settings and "send now".
 add_action( 'admin_post_nab_access_report', function () {
@@ -515,7 +844,7 @@ function nab_access_admin_page() {
         </style>
 
         <h1>Member Access</h1>
-        <p class="nab-acc-lead">Cancel members who ask by email or phone, and see whose portal access is ending. When a member's last day passes, they can't log in and are signed out automatically.</p>
+        <p class="nab-acc-lead">Cancel members who ask by email or phone (one at a time, or upload a list), and see whose portal access is ending. When a member's last day passes, they can't log in and are signed out automatically.</p>
 
         <?php if ( $msg ) : ?>
             <div class="notice notice-<?php echo esc_attr( $type ); ?> is-dismissible"><p><?php echo esc_html( $msg ); ?></p></div>
@@ -534,9 +863,10 @@ function nab_access_admin_page() {
         <div class="nab-acc-card" id="nab-acc-old" style="border-color:#d63638">
             <h2>Cancelled members who still have access</h2>
             <p class="nab-acc-lead">These members cancelled before this update, so no end date was saved and they can still use the portal. The suggested date is the billing day after they cancelled. Untick anyone who should keep access, then save.</p>
-            <form method="post" action="<?php echo $post; ?>">
+            <form method="post" action="<?php echo $post; ?>" id="nab-acc-old-form">
                 <?php wp_nonce_field( 'nab_access_bulk' ); ?>
                 <input type="hidden" name="action" value="nab_access_bulk">
+                <input type="hidden" name="packed" value="">
                 <table class="widefat striped">
                     <thead><tr><td class="check-column"><input type="checkbox" checked onclick="document.querySelectorAll('#nab-acc-old tbody input[type=checkbox]').forEach(c=>c.checked=this.checked)"></td><th>Member</th><th>Cancelled on</th><th>Last day of access</th></tr></thead>
                     <tbody>
@@ -556,6 +886,18 @@ function nab_access_admin_page() {
                     <button class="button nab-acc-danger" name="mode" value="now" onclick="return confirm('Close portal access right now for every ticked member?')">Close access now for all ticked</button>
                 </p>
             </form>
+            <script>
+            // Send the ticked rows and their dates as one field, so a long list isn't cut off by PHP's max_input_vars.
+            document.getElementById('nab-acc-old-form').addEventListener('submit', function () {
+                var packed = {};
+                this.querySelectorAll('tbody input[type=checkbox]').forEach(function (c) {
+                    var d = c.form.querySelector('input[name="ends[' + c.value + ']"]');
+                    if (c.checked) packed[c.value] = d ? d.value : '';
+                    c.disabled = true; if (d) d.disabled = true;
+                });
+                this.packed.value = JSON.stringify(packed);
+            });
+            </script>
         </div>
         <?php endif; ?>
 
@@ -582,6 +924,8 @@ function nab_access_admin_page() {
                 <?php endif; ?>
             <?php endif; ?>
         </div>
+
+        <?php nab_access_import_card(); ?>
 
         <div class="nab-acc-card">
             <h2>Access ending soon</h2>

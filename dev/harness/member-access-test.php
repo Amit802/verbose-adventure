@@ -147,4 +147,85 @@ ok( nab_access_report_recipients() === [ 'a@x.com', 'b@y.com' ], 'recipients sav
 // Users list column
 ok( apply_filters( 'manage_users_custom_column', '', 'nab_access', 3 ) !== '' , 'users list column: ' . strip_tags( apply_filters( 'manage_users_custom_column', '', 'nab_access', 3 ) ) );
 
+
+// ── v1.21.0: upload a list of members who cancelled by email or phone
+at( '2026-11-10 10:00' ); $GLOBALS['CUR'] = 1;
+$GLOBALS['USERS'] = []; $GLOBALS['META'] = [];
+mk_user( 1, 'admin@nab.ca', 'Ada', 'Admin', true );
+mk_user( 10, 'mark@mail.com', 'Mark', 'Active' );
+mk_user( 11, 'pia@mail.com', 'Pia', 'Paused' ); update_user_meta( 11, 'nab_membership_status', 'paused' );
+mk_user( 12, 'ed@mail.com', 'Ed', 'Ended' ); nab_access_cancel( 12, '2026-11-01', '', 'portal' );
+mk_user( 13, 'eve@mail.com', 'Eve', 'Ending' ); nab_access_cancel( 13, '2026-11-13', '', 'portal' );
+mk_user( 14, 'olga@mail.com', 'Olga', 'Old' ); update_user_meta( 14, 'nab_membership_status', 'cancelled' );
+mk_user( 15, 'john@mail.com', 'John', 'Smith' );
+mk_user( 16, 'bd@mail.com', 'Bad', 'Date' );
+$csv = "\xEF\xBB\xBFFull Name,Email Address,Last Day\r\n"
+     . "Mark Active,MARK@mail.com,\r\n"
+     . "Pia Paused,pia@mail.com,2026-12-31\r\n"
+     . "Mark Again,mark@mail.com,\r\n"
+     . "Nobody,nobody@mail.com,\r\n"
+     . "Bad,not-an-email,\r\n"
+     . "Ada,admin@nab.ca,\r\n"
+     . "Ed,ed@mail.com,\r\n"
+     . "Eve,eve@mail.com,2026-11-30\r\n"
+     . "Olga,olga@mail.com,13/11/2026\r\n"
+     . "Bad Date,bd@mail.com,someday\r\n"
+     . "\"Smith, John\",john@mail.com,11/20/2026\r\n"
+     . ",,\r\n";
+$pr = nab_access_import_parse( $csv );
+ok( $pr['error'] === '' && count( $pr['rows'] ) === 11, 'parse: 11 rows (BOM, header, blank line ignored)' );
+ok( $pr['rows'][10]['name'] === 'Smith, John' && $pr['rows'][0]['email'] === 'mark@mail.com' && $pr['rows'][0]['line'] === 2, 'quoted name with comma, email lower-cased, line numbers' );
+$plan = nab_access_import_plan( $pr['rows'], nab_access_yesterday() );
+$st = array_map( function ( $r ) { return $r['status'] . ':' . $r['note']; }, $plan );
+$expect = [ 'cancel:', 'cancel:', 'skip:Same email as line 2', 'skip:No portal account with this email', 'skip:Not a valid email', 'skip:Admin account, skipped', 'skip:Access already closed (Nov 1, 2026)', 'update:', 'cancel:', 'skip:Last day "someday" is not a date', 'cancel:' ];
+$okplan = true; foreach ( $expect as $i => $e ) { if ( strpos( $st[ $i ], $e ) !== 0 ) { $okplan = false; echo "   row $i: {$st[$i]} (expected $e)\n"; } }
+ok( $okplan, 'plan: cancel / duplicate / not found / bad email / admin / already closed / already cancelled / bad date' );
+ok( $plan[0]['ends'] === '2026-11-09' && $plan[1]['ends'] === '2026-12-31' && $plan[8]['ends'] === '2026-11-13' && $plan[10]['ends'] === '2026-11-20', 'dates: blank = close now, ISO, day-first 13/11, month-first 11/20' );
+ok( $plan[0]['tick'] && ! $plan[7]['tick'], 'new cancels ticked, already-cancelled not ticked' );
+
+// Other file shapes
+$p2 = nab_access_import_parse( "john@mail.com;John Smith\nmark@mail.com;Mark" );
+ok( $p2['error'] === '' && count( $p2['rows'] ) === 2 && $p2['rows'][0]['email'] === 'john@mail.com' && $p2['rows'][0]['name'] === 'John Smith', 'no header row, semicolons' );
+$p3 = nab_access_import_parse( "First name\tLast name\tE-mail\nJohn\tSmith\tjohn@mail.com" );
+ok( $p3['rows'][0]['name'] === 'John Smith' && $p3['rows'][0]['email'] === 'john@mail.com', 'tabs, first + last name columns, "E-mail" header' );
+$p4 = nab_access_import_parse( "Name,Email\n" . "Ren\xE9e,renee@mail.com" );
+ok( $p4['rows'][0]['name'] === 'Renée', 'old Excel (Windows-1252) text converted' );
+ok( nab_access_import_parse( "Name,Phone\nJohn,555" )['error'] !== '', 'no email column: clear error' );
+ok( nab_access_import_parse( "" )['error'] === 'The file is empty.', 'empty file: clear error' );
+ok( nab_access_import_date( 'Nov 13, 2026' ) === '2026-11-13' && nab_access_import_date( '2026/2/30' ) === '' && nab_access_import_date( '1/2/26' ) === '2026-01-02', 'more date shapes' );
+
+// Preview → confirm
+set_transient( nab_access_import_key( 'tok1' ), [ 'by' => 1, 'file' => 'list.csv', 'default' => nab_access_yesterday(), 'rows' => $plan ], 3600 );
+$GLOBALS['CUR'] = 3; ok( nab_access_import_get( 'tok1' ) === null, 'another user cannot use the preview' ); $GLOBALS['CUR'] = 1;
+// ticks: Mark(0), Pia(1), Olga(8), John(10), plus Eve(7) to change her date, plus a skipped row (3) that must be ignored
+$_POST = [ '_wpnonce' => 'nonce-nab_access_import_apply', 'token' => 'tok1', 'packed' => json_encode( [ 0, 1, 3, 7, 8, 10 ] ) ];
+WP_Session_Tokens::$destroyed = [];
+$r = run( function () { do_action( 'admin_post_nab_access_import_apply' ); } ); parse_str( parse_url( $r['redirect'], PHP_URL_QUERY ), $q );
+echo '  message: ' . rawurldecode( $q['nab_msg'] ) . "\n";
+ok( nab_access_state( 10 ) === 'ended', 'Mark: access closed now' );
+ok( nab_access_state( 11 ) === 'ending' && nab_access_end_date( 11 ) === '2026-12-31', 'Pia: cancelled, last day Dec 31 (pause cleared)' );
+ok( nab_access_end_date( 13 ) === '2026-11-30', 'Eve: date changed because it was ticked' );
+ok( nab_access_end_date( 14 ) === '2026-11-13' && nab_access_state( 14 ) === 'ending', 'Olga: last day Nov 13' );
+ok( nab_access_end_date( 15 ) === '2026-11-20', 'John: last day Nov 20' );
+ok( nab_access_state( 16 ) === 'active' && nab_access_state( 1 ) === 'active', 'skipped rows and admin untouched' );
+ok( strpos( get_user_meta( 10, 'nab_cancel_reason' ), 'uploaded list: list.csv' ) !== false && get_user_meta( 10, 'nab_cancel_source' ) === 'team', 'reason and source recorded' );
+ok( get_transient( nab_access_import_key( 'tok1' ) ) === false, 'preview deleted after confirm' );
+$r = run( function () { do_action( 'admin_post_nab_access_import_apply' ); } ); parse_str( parse_url( $r['redirect'], PHP_URL_QUERY ), $q );
+ok( $q['nab_type'] === 'error' && strpos( rawurldecode( $q['nab_msg'] ), 'expired' ) !== false, 'confirming twice: "expired", nothing changes' );
+$_POST['_wpnonce'] = 'bad'; $r = run( function () { do_action( 'admin_post_nab_access_import_apply' ); } );
+ok( isset( $r['die'] ), 'bad nonce refused' );
+
+// Preview card renders and escapes the file's text
+set_transient( nab_access_import_key( 'tok2' ), [ 'by' => 1, 'file' => 'x.csv', 'default' => nab_access_yesterday(), 'rows' => nab_access_import_plan( nab_access_import_parse( "Name,Email\n<script>alert(1)</script>,zed@mail.com" )['rows'], nab_access_yesterday() ) ], 3600 );
+$_GET = [ 'import' => 'tok2' ]; ob_start(); nab_access_import_card(); $html = ob_get_clean(); $_GET = [];
+ok( strpos( $html, '<script>alert' ) === false && strpos( $html, 'alert(1)' ) !== false, 'tags in the file are stripped, text still shown' );
+ob_start(); nab_access_import_card(); $html = ob_get_clean();
+ok( strpos( $html, 'type="file"' ) !== false, 'upload form shows when there is no preview' );
+
+// Bulk form sends the ticked rows packed into one field
+update_user_meta( 16, 'nab_membership_status', 'cancelled' ); delete_user_meta( 16, 'nab_access_ends' );
+$_POST = [ '_wpnonce' => 'nonce-nab_access_bulk', 'mode' => 'dates', 'packed' => json_encode( [ '16' => '2026-11-27' ] ) ];
+run( function () { do_action( 'admin_post_nab_access_bulk' ); } );
+ok( nab_access_end_date( 16 ) === '2026-11-27', 'bulk save works with the packed field' );
+
 echo $fail ? "\n$fail FAILED\n" : "\nALL PASSED\n";

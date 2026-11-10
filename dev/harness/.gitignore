@@ -2,3 +2,5 @@ meta.json
 server.log
 uploads/
 shots/
+admin-state.json
+admin.log

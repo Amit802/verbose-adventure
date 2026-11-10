@@ -90,7 +90,7 @@ function admin_url( $p = '' ) { return 'https://members.example/wp-admin/' . $p;
 function home_url( $p = '' ) { return 'https://members.example' . $p; }
 function add_query_arg( $args, $url ) { return $url . '?' . http_build_query( $args ); }
 function wp_nonce_field( $a, $n = '_wpnonce', $r = true, $e = true ) { $h = '<input type="hidden" name="' . $n . '" value="nonce-' . $a . '">'; if ( $e ) echo $h; return $h; }
-function check_admin_referer( $a ) { if ( ( $_POST['_wpnonce'] ?? '' ) !== 'nonce-' . $a ) { $GLOBALS['OUT'] = [ 'die' => 'bad nonce' ]; throw new StopRequest; } }
+function check_admin_referer( $a ) { if ( ( $_POST['_wpnonce'] ?? $_GET['_wpnonce'] ?? '' ) !== 'nonce-' . $a ) { $GLOBALS['OUT'] = [ 'die' => 'bad nonce' ]; throw new StopRequest; } }
 function check_ajax_referer() { return true; }
 function wp_die( $m ) { $GLOBALS['OUT'] = [ 'die' => $m ]; throw new StopRequest; }
 function wp_safe_redirect( $u ) { $GLOBALS['OUT'] = [ 'redirect' => $u ]; }
@@ -103,3 +103,16 @@ function nab_add_auto_notification( $uid, $type, $title, $text ) { $GLOBALS['NOT
 // exit() in the plugin would end the test; the plugin calls exit after redirects,
 // so run request handlers through this helper that catches the redirect first.
 function run( callable $fn ) { $GLOBALS['OUT'] = null; try { $fn(); } catch ( StopRequest $e ) {} return $GLOBALS['OUT']; }
+
+// v1.21.0 list upload
+define( 'HOUR_IN_SECONDS', 3600 );
+$GLOBALS['TRANS'] = [];
+function get_user_by( $f, $v ) { foreach ( $GLOBALS['USERS'] as $id => $u ) if ( $f === 'email' && strcasecmp( $u['email'], $v ) === 0 ) return get_userdata( $id ); return false; }
+function set_transient( $k, $v, $t = 0 ) { $GLOBALS['TRANS'][ $k ] = $v; return true; }
+function get_transient( $k ) { return $GLOBALS['TRANS'][ $k ] ?? false; }
+function delete_transient( $k ) { unset( $GLOBALS['TRANS'][ $k ] ); return true; }
+function wp_generate_password( $n = 12 ) { return substr( str_repeat( 'abc123XYZ', 5 ), 0, $n ); }
+function nocache_headers() {}
+function checked( $a, $b = true, $e = true ) { $r = $a == $b ? ' checked="checked"' : ''; if ( $e ) echo $r; return $r; }
+function wp_nonce_url( $u, $a ) { return $u . '&_wpnonce=nonce-' . $a; }
+function sanitize_file_name( $n ) { return preg_replace( '/[^A-Za-z0-9._-]/', '-', $n ); }

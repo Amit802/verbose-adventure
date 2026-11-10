@@ -20,5 +20,4 @@ $20.45/week membership, paid by PAD only, no refunds. Main products: Lending Fin
 
 ## Open items
 - Portal cancel gives access until the next Friday (matches the old cancel email), but the website says 30 days. Waiting for Matt to choose; plan is a "notice period" setting.
-- Matt approved a CSV upload on Users > Member Access (email, name, optional last day) to cancel members who cancelled by email or phone, with a preview before closing accounts.
 - Known security issues are listed at the end of DEVELOPER.md.
