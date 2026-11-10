@@ -773,6 +773,11 @@ function nab_rest_create_member( $request ) {
     update_user_meta( $user_id, 'nab_points',       0 );
     update_user_meta( $user_id, 'nab_temp_password', $password );
 
+    // v1.21.1: the sign up site (nab-brevo-integration.php on nabsolutions.ca) already
+    // emails the login details, so skip the portal's own welcome email for these
+    // accounts. Accounts an admin creates in WordPress still get it.
+    update_user_meta( $user_id, 'nab_welcome_sent', 1 );
+
     // Auto-generate member ID
     $member_id = 'NAB-' . str_pad( $user_id, 4, '0', STR_PAD_LEFT );
     update_user_meta( $user_id, 'nab_member_id', $member_id );

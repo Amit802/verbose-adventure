@@ -118,3 +118,4 @@ function wp_mkdir_p( $d ) { return is_dir( $d ) || mkdir( $d, 0755, true ); }
 function trailingslashit( $s ) { return rtrim( $s, '/\\' ) . '/'; }
 function sanitize_file_name( $n ) { return preg_replace( '/[^A-Za-z0-9._-]/', '-', $n ); }
 function wp_doing_ajax(){return false;} function add_users_page(){}
+function remove_action( $h, $cb, $p = 10 ) { return true; } function remove_filter( $h, $cb, $p = 10 ) { return true; }

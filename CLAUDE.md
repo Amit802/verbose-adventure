@@ -10,6 +10,9 @@ WordPress plugin for NAB Solutions (nabsolutions.ca, member site members.nabsolu
    `git archive --format=zip -o <scratchpad>/nab-member-portal-vX.Y.Z.zip HEAD nab-member-portal`
    The client installs it with Plugins > Add Plugin > Upload > "Replace current with uploaded" (no delete needed; member data is in user meta and survives).
 
+## Main site (nabsolutions.ca)
+`main-site/mu-plugins/nab-brevo-integration.php` is the copy of the sign up mu-plugin that runs on the main site: Gravity Forms 3 and 12 → creates the portal account (`nab/v1/create-member`), adds the Brevo contact, emails the login. The real file holds the Brevo API key; this copy has a placeholder, never commit the key. Each sign up sends 3 emails (v1.21.1): GF "Your Next Steps" (signed agreement), this file's "Your Portal Access", GF admin notification.
+
 ## House rules
 - Member-facing text: plain, human, short. No em dashes, no emoji. Don't change the left sidebar's look.
 - The user writes in Hinglish; answer in Hinglish. Messages drafted for Matt or the boss: short, chat style, English, no lists, not AI-sounding.

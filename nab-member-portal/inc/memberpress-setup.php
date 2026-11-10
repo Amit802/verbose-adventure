@@ -224,6 +224,11 @@ function nab_dispatch_welcome_email( $user_id ) {
 add_filter('wp_send_new_user_notification_to_user', '__return_false');
 add_filter('wp_send_new_user_notification_to_admin', '__return_false');
 
+// v1.21.1: no "[Site] Password Changed" notice to the site admin every time a member
+// sets or resets their password (it used Brevo credits for nothing). The member's own
+// password reset emails are not affected.
+remove_action( 'after_password_reset', 'wp_password_change_notification' );
+
 // Fires when admin manually creates a user (NAB's main flow)
 // Sent at the end of the request, not inside user_register: the REST
 // create-member endpoint saves first/last name AFTER the user is created,
