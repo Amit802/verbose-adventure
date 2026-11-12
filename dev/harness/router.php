@@ -10,7 +10,9 @@ if ( strpos( $uri, '/plugin/' ) === 0 || strpos( $uri, '/vendor/' ) === 0 ) {
 }
 if ( preg_match( '#^/page/([a-z0-9-]+)#', $uri, $m ) ) $GLOBALS['NAB_TPL'] = $m[1];
 require __DIR__ . '/wp.php';
-foreach ( [ 'lifecycle', 'helpers', 'icons', 'ui', 'tools', 'dashboard-data', 'budget', 'payments', 'disputes', 'ai-assistant', 'acf-fields', 'notifications', 'ajax-handlers', 'memberpress', 'member-access', 'memberpress-setup', 'memberpress-account', 'memberpress-migration', 'template-loader' ] as $f ) {
+// Load the same modules, in the same order, as nab-member-portal.php
+preg_match_all( "/require_once NAB_DIR \. 'inc\/([a-z0-9-]+)\.php';/", file_get_contents( $plugin . '/nab-member-portal.php' ), $nab_mods );
+foreach ( $nab_mods[1] as $f ) {
     require $plugin . '/inc/' . $f . '.php';
 }
 do_action( 'plugins_loaded' ); do_action( 'init' );

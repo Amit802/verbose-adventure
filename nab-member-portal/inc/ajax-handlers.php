@@ -64,6 +64,10 @@ function nab_enqueue_portal_js() {
         wp_enqueue_script( 'nab-chartjs', NAB_URL . 'assets/js/vendor/chart.umd.min.js', [], '4.5.1', true );
         wp_enqueue_script( 'nab-networth', NAB_URL . 'assets/js/nab-networth.js', [ 'jquery', 'nab-chartjs' ], NAB_VERSION, true );
     }
+    // v1.22.0 Collection Assistance
+    if ( $slug === 'nab-collections' ) {
+        wp_enqueue_script( 'nab-collections', NAB_URL . 'assets/js/nab-collections.js', [ 'jquery' ], NAB_VERSION, true );
+    }
     // v1.20.0 Loan Calculator (Chart.js bundled locally; all maths runs in the browser)
     if ( $slug === 'nab-loan-calculator' ) {
         wp_enqueue_script( 'nab-chartjs', NAB_URL . 'assets/js/vendor/chart.umd.min.js', [], '4.5.1', true );
@@ -504,6 +508,21 @@ add_action( 'wp_ajax_nab_card_assistant', function() {
 } );
 
 /* ═══════════════════════════════════════════════════════════════════
+   FRESHDESK, settings (one place; used by Support Center and Collection Assistance)
+   ═══════════════════════════════════════════════════════════════════ */
+function nab_freshdesk_config() {
+    $dash_pages = get_pages( [ 'meta_key' => '_wp_page_template', 'meta_value' => 'nab-dashboard', 'number' => 1 ] );
+    $dash_id    = ! empty( $dash_pages ) ? $dash_pages[0]->ID : 0;
+    $fd_key     = ( $dash_id && function_exists( 'get_field' ) ) ? get_field( 'nab_freshdesk_key',    $dash_id ) : '';
+    $fd_domain  = ( $dash_id && function_exists( 'get_field' ) ) ? get_field( 'nab_freshdesk_domain', $dash_id ) : '';
+
+    // Fallback to hardcoded credentials if ACF not configured yet
+    if ( ! $fd_key )    $fd_key    = '0D70ZUpg0Ka68uSDsDk_';
+    if ( ! $fd_domain ) $fd_domain = 'nabsolutions.freshdesk.com';
+    return [ $fd_key, $fd_domain ];
+}
+
+/* ═══════════════════════════════════════════════════════════════════
    FRESHDESK, SUBMIT TICKET
    ═══════════════════════════════════════════════════════════════════ */
 add_action( 'wp_ajax_nab_freshdesk_submit', function() {
@@ -515,14 +534,7 @@ add_action( 'wp_ajax_nab_freshdesk_submit', function() {
         return;
     }
 
-    $dash_pages = get_pages( [ 'meta_key' => '_wp_page_template', 'meta_value' => 'nab-dashboard', 'number' => 1 ] );
-    $dash_id    = ! empty( $dash_pages ) ? $dash_pages[0]->ID : 0;
-    $fd_key     = $dash_id ? get_field( 'nab_freshdesk_key',    $dash_id ) : '';
-    $fd_domain  = $dash_id ? get_field( 'nab_freshdesk_domain', $dash_id ) : '';
-
-    // Fallback to hardcoded credentials if ACF not configured yet
-    if ( ! $fd_key )    $fd_key    = '0D70ZUpg0Ka68uSDsDk_';
-    if ( ! $fd_domain ) $fd_domain = 'nabsolutions.freshdesk.com';
+    list( $fd_key, $fd_domain ) = nab_freshdesk_config();
 
     $first    = sanitize_text_field( $_POST['first']    ?? '' );
     $last     = sanitize_text_field( $_POST['last']     ?? '' );
@@ -585,14 +597,7 @@ add_action( 'wp_ajax_nab_freshdesk_tickets', function() {
         return;
     }
 
-    $dash_pages = get_pages( [ 'meta_key' => '_wp_page_template', 'meta_value' => 'nab-dashboard', 'number' => 1 ] );
-    $dash_id    = ! empty( $dash_pages ) ? $dash_pages[0]->ID : 0;
-    $fd_key     = $dash_id ? get_field( 'nab_freshdesk_key',    $dash_id ) : '';
-    $fd_domain  = $dash_id ? get_field( 'nab_freshdesk_domain', $dash_id ) : '';
-
-    // Fallback to hardcoded credentials if ACF not configured yet
-    if ( ! $fd_key )    $fd_key    = '0D70ZUpg0Ka68uSDsDk_';
-    if ( ! $fd_domain ) $fd_domain = 'nabsolutions.freshdesk.com';
+    list( $fd_key, $fd_domain ) = nab_freshdesk_config();
 
     $email    = get_userdata( get_current_user_id() )->user_email;
     $response = wp_remote_get( 'https://' . $fd_domain . '/api/v2/tickets?email=' . urlencode( $email ) . '&per_page=20&order_by=created_at&order_type=desc', [

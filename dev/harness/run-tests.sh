@@ -22,14 +22,14 @@ trap 'kill $SRV 2>/dev/null' EXIT
 for i in $(seq 1 30); do curl -s -o /dev/null http://127.0.0.1:8092/page/nab-dashboard && break; sleep 0.3; done
 
 echo "== Every portal page renders"
-for t in nab-dashboard nab-lfp nab-simulator nab-utilization nab-credit-report nab-dispute-center nab-loan nab-card-match nab-pad nab-chatbot nab-support nab-learning nab-plans nab-emergency-fund nab-roadmap nab-budget nab-payments nab-networth nab-loan-calculator; do
+for t in nab-dashboard nab-lfp nab-simulator nab-utilization nab-credit-report nab-dispute-center nab-loan nab-card-match nab-pad nab-chatbot nab-support nab-learning nab-plans nab-emergency-fund nab-roadmap nab-budget nab-payments nab-networth nab-loan-calculator nab-collections; do
   out=$(curl -s "http://127.0.0.1:8092/page/$t")
   if [ ${#out} -lt 20000 ] || echo "$out" | grep -q 'Fatal error\|Warning</b>\|Notice</b>'; then echo "PAGE FAIL $t"; fail=1; fi
 done
 grep -i "fatal\|warning\|notice\|deprecated" server.log && fail=1
 
 echo "== Browser flows"
-for s in flows.js loancalc.js cancelflow.js dispute2.js; do
+for s in flows.js loancalc.js cancelflow.js dispute2.js collections.js; do
   rm -f meta.json
   echo "-- $s"; timeout 240 node "$s" 2>&1 | tail -3
 done

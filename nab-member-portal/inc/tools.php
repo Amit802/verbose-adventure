@@ -55,6 +55,7 @@ function nab_portal_tools() {
         'nab-payments'       => [ 'name' => 'NAB Payment Calendar',        'file' => 'page-nab-payments.php' ],
         'nab-networth'       => [ 'name' => 'NAB Net Worth Calculator',    'file' => 'page-nab-networth.php' ],
         'nab-loan-calculator' => [ 'name' => 'NAB Loan Calculator',        'file' => 'page-nab-loan-calculator.php' ],
+        'nab-collections'    => [ 'name' => 'NAB Collection Assistance',   'file' => 'page-nab-collections.php' ],
     ] );
     return $tools;
 }
@@ -95,6 +96,7 @@ function nab_portal_nav_sections() {
             [ 'key' => 'booking', 'label' => 'Book Specialist', 'icon' => 'calendar-days', 'tone' => 'orange',       'desc' => 'Schedule a 1-on-1 session with a credit advisor', 'keywords' => 'book specialist appointment advisor session' ],
             [ 'key' => 'chatbot', 'label' => 'NAB AI Chatbot',  'icon' => 'message-square-text', 'tone' => 'gold', 'desc' => 'Ask the NAB assistant anything about credit',     'keywords' => 'ai chatbot assistant help question' ],
             [ 'key' => 'support', 'label' => 'Support Center',  'icon' => 'life-buoy', 'tone' => 'pink',           'desc' => 'Submit a support ticket or track existing tickets', 'keywords' => 'support ticket help contact' ],
+            [ 'key' => 'collections', 'label' => 'Collection Assistance', 'icon' => 'phone-call', 'tone' => 'orange', 'template' => 'nab-collections', 'desc' => 'Get help with a debt that is with a collection agency', 'keywords' => 'collection agency collections debt calls collector help owe' ],
         ] ],
         'loan' => [ 'label' => 'Loan Tools', 'items' => [
             [ 'key' => 'loan-calc',  'label' => 'Loan Calculator',        'icon' => 'calculator', 'tone' => 'blue',    'template' => 'nab-loan-calculator', 'desc' => 'See the payment, interest and payoff date of any loan', 'keywords' => 'loan calculator payment interest car mortgage personal amortization' ],

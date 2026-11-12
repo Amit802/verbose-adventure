@@ -1,0 +1,36 @@
+// Collection Assistance: validation, send (Freshdesk is offline here, so the email fallback is used), list, mobile.
+const { chromium } = require('playwright');
+const U = 'http://127.0.0.1:8092/page/nab-collections';
+(async () => {
+  const b = await chromium.launch();
+  const p = await b.newPage({ viewport: { width: 1366, height: 900 } });
+  const errs = []; p.on('pageerror', e => errs.push(e.message)); p.on('console', m => { if (m.type() === 'error' && !/Failed to load resource/.test(m.text())) errs.push(m.text()); });
+  await p.goto(U, { waitUntil: 'networkidle' });
+  console.log('sidebar active:', await p.evaluate(() => { const a = document.querySelector('.nab-sidebar .active, .nab-nav-item.active, [aria-current="page"]'); return a ? a.textContent.trim() : 'none'; }));
+  console.log('empty list shown:', await p.isVisible('#clEmpty'));
+  await p.click('#clForm button[type=submit]'); console.log('no agency:', await p.textContent('#clMsg'));
+  await p.fill('[name=agency]', 'Metcredit');
+  await p.click('#clForm button[type=submit]'); console.log('no mine:', await p.textContent('#clMsg'));
+  await p.click('label.cl-chip:has(input[name=mine][value=no])');
+  console.log('not-mine tip:', await p.isVisible('#clNotMine'));
+  await p.click('#clForm button[type=submit]'); console.log('no help:', await p.textContent('#clMsg'));
+  await p.click('label.cl-chip:has(input[name="help[]"][value=validate])'); await p.click('label.cl-chip:has(input[name="help[]"][value=report])');
+  await p.click('#clForm button[type=submit]'); console.log('no consent:', await p.textContent('#clMsg'));
+  await p.fill('[name=creditor]', 'Rogers'); await p.fill('[name=amount]', '842.50');
+  await p.click('label.cl-chip:has(input[name="contact[]"][value=calls])');
+  await p.fill('[name=notes]', 'Calls started in October <b>test</b>');
+  await p.check('[name=consent]');
+  await p.click('#clForm button[type=submit]');
+  await p.waitForFunction(() => !document.querySelector('#clForm button').disabled);
+  console.log('sent:', await p.textContent('#clMsg'));
+  console.log('list:', await p.$$eval('#clRequests li', l => l.map(x => x.innerText.replace(/\s+/g, ' '))));
+  console.log('form reset, name kept:', await p.inputValue('[name=agency]') === '', (await p.inputValue('[name=name]')).length > 0);
+  await p.screenshot({ path: __dirname + '/shots/collections.png', fullPage: true });
+  await p.reload({ waitUntil: 'networkidle' });
+  console.log('after reload:', await p.$$eval('#clRequests li', l => l.length));
+  const m = await b.newPage({ viewport: { width: 390, height: 844 } });
+  await m.goto(U, { waitUntil: 'networkidle' });
+  console.log('mobile scrollWidth', await m.evaluate(() => document.documentElement.scrollWidth));
+  await m.screenshot({ path: __dirname + '/shots/collections-mobile.png', fullPage: true });
+  console.log('ERRORS', errs); await b.close();
+})();
