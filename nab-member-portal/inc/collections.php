@@ -135,10 +135,11 @@ add_action( 'wp_ajax_nab_collection_submit', function () {
     $response = wp_remote_post( 'https://' . $fd_domain . '/api/v2/tickets', [
         'timeout' => 20,
         'headers' => [ 'Content-Type' => 'application/json', 'Authorization' => 'Basic ' . base64_encode( $fd_key . ':X' ) ],
+        // Same fields as the Support Center ticket, which Freshdesk already accepts.
+        // The phone number is in the description; an empty "phone" field would be rejected.
         'body'    => wp_json_encode( [
-            'name'        => $r['name'],
+            'name'        => $r['name'] ?: $user->display_name,
             'email'       => $user->user_email,
-            'phone'       => $r['phone'] ?: null,
             'subject'     => '[Collection Assistance] ' . $r['agency'] . ( $r['amount'] > 0 ? ' ($' . number_format( $r['amount'], 2 ) . ')' : '' ),
             'description' => nab_collection_summary_html( $r, $user ),
             'status'      => 2, // Open
@@ -150,6 +151,7 @@ add_action( 'wp_ajax_nab_collection_submit', function () {
     if ( ! is_wp_error( $response ) && (int) wp_remote_retrieve_response_code( $response ) === 201 && ! empty( $result['id'] ) ) {
         $r['ticket'] = (int) $result['id'];
     } else {
+        error_log( '[NAB Collection Assistance] Freshdesk ticket failed: ' . ( is_wp_error( $response ) ? $response->get_error_message() : wp_remote_retrieve_response_code( $response ) . ' ' . wp_remote_retrieve_body( $response ) ) );
         // Freshdesk unavailable: email the request so it's never lost.
         if ( function_exists( 'nab_send_membership_email' ) ) {
             nab_send_membership_email( 'admin@nabsolutions.ca', 'Collection Assistance request, ' . $r['name'], "Freshdesk could not be reached, so this request came by email instead.\n\n" . nab_collection_summary_html( $r, $user ) );
