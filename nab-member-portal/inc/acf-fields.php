@@ -48,6 +48,10 @@ function nab_register_all_acf_fields() {
               'type'=>'text', 'default_value'=>'Toronto, ON, Canada',
               'instructions'=>'Shown in PAD agreement.' ],
 
+            [ 'key'=>'f_gs_unlock', 'label'=>'Unlock tools step by step', 'name'=>'nab_progressive_unlock',
+              'type'=>'true_false', 'ui'=>1, 'default_value'=>1,
+              'instructions'=>'When on, new members open the money tools one at a time: Budget Planner, then Payment Calendar, Net Worth Calculator and Loan Calculator. Turn off to open every tool for everyone.' ],
+
             [ 'key'=>'f_gs_tagline', 'label'=>'Sidebar Tagline', 'name'=>'nab_portal_tagline',
               'type'=>'text', 'default_value'=>'Member Portal',
               'instructions'=>'The small text under "NAB Solutions" in the sidebar on every page.' ],

@@ -69,6 +69,9 @@ function nab_portal_current_tool() {
 
 /* ═══════════════════════════════════════════════════════════
    2. SIDEBAR + SEARCH
+   v1.23.0 groups (roadmap item 8): Main, Credit Tools, Loan Tools,
+   Money Management, Learning Hub, Member Support, My Progress.
+   An item may carry 'unlock' rules, see inc/unlock.php (item 9).
    Each item:
      key, id used for the active state (nab_render_sidebar( $key ))
                 and the link lookup in nab_get_nav_links()
@@ -92,28 +95,32 @@ function nab_portal_nav_sections() {
             [ 'key' => 'sim',     'label' => 'Score Simulator',      'icon' => 'trending-up', 'tone' => 'green',  'desc' => 'Simulate what-if scenarios for your score',  'keywords' => 'score simulator credit score what if' ],
             [ 'key' => 'dispute', 'label' => 'Dispute Center',       'icon' => 'shield-check', 'tone' => 'indigo', 'desc' => 'Create a dispute letter for Equifax or TransUnion', 'keywords' => 'dispute center credit error letter equifax transunion' ],
         ] ],
-        'services' => [ 'label' => 'Services', 'items' => [
-            [ 'key' => 'booking', 'label' => 'Book Specialist', 'icon' => 'calendar-days', 'tone' => 'orange',       'desc' => 'Schedule a 1-on-1 session with a credit advisor', 'keywords' => 'book specialist appointment advisor session' ],
-            [ 'key' => 'chatbot', 'label' => 'NAB AI Chatbot',  'icon' => 'message-square-text', 'tone' => 'gold', 'desc' => 'Ask the NAB assistant anything about credit',     'keywords' => 'ai chatbot assistant help question' ],
-            [ 'key' => 'support', 'label' => 'Support Center',  'icon' => 'life-buoy', 'tone' => 'pink',           'desc' => 'Submit a support ticket or track existing tickets', 'keywords' => 'support ticket help contact' ],
-            [ 'key' => 'collections', 'label' => 'Collection Assistance', 'icon' => 'phone-call', 'tone' => 'orange', 'template' => 'nab-collections', 'desc' => 'Get help with a debt that is with a collection agency', 'keywords' => 'collection agency collections debt calls collector help owe' ],
-        ] ],
         'loan' => [ 'label' => 'Loan Tools', 'items' => [
             [ 'key' => 'loan-calc',  'label' => 'Loan Calculator',        'icon' => 'calculator', 'tone' => 'blue',    'template' => 'nab-loan-calculator', 'desc' => 'See the payment, interest and payoff date of any loan', 'keywords' => 'loan calculator payment interest car mortgage personal amortization' ],
             [ 'key' => 'lfp',        'label' => 'Lending Finder Program', 'icon' => 'landmark', 'tone' => 'navy',    'desc' => 'Find lenders that fit your profile',            'keywords' => 'lending finder lfp lender loan' ],
             [ 'key' => 'loan',       'label' => 'Auto Loan Matcher',      'icon' => 'car', 'tone' => 'orange',         'desc' => 'Auto loan offers from Canadian lenders',          'keywords' => 'auto loan car vehicle lender' ],
             [ 'key' => 'card-match', 'label' => 'Card Matcher',           'icon' => 'credit-card', 'tone' => 'purple', 'desc' => 'Get matched to the best credit card for you',    'keywords' => 'credit card matcher best card' ],
         ] ],
-        'resources' => [ 'label' => 'Resources', 'items' => [
-            [ 'key' => 'learning', 'label' => 'Learning Center',        'icon' => 'graduation-cap', 'tone' => 'indigo', 'desc' => '7-part credit education video series',   'keywords' => 'learning center education videos modules lessons' ],
-            [ 'key' => 'blog',     'label' => 'Education Blog',         'icon' => 'book-open', 'tone' => 'yellow',      'tab' => 'blog', 'desc' => 'Credit articles and tips',  'keywords' => 'education blog articles credit tips' ],
-            [ 'key' => 'diy',      'label' => 'DIY Repair Guide',       'icon' => 'file-pen-line', 'tone' => 'pink',  'tab' => 'diy',  'desc' => 'Ready-to-use dispute letter templates', 'keywords' => 'diy repair guide dispute letter template' ],
+        'money' => [ 'label' => 'Money Management', 'items' => [
             [ 'key' => 'budget',   'label' => 'Budget Planner',         'icon' => 'wallet', 'tone' => 'green',         'template' => 'nab-budget', 'desc' => 'Set a monthly budget and track your spending', 'keywords' => 'monthly budget planner spending categories' ],
             [ 'key' => 'payments', 'label' => 'Payment Calendar',       'icon' => 'calendar', 'tone' => 'red',       'template' => 'nab-payments', 'desc' => 'See every bill due date and mark payments as paid', 'keywords' => 'payment calendar bills due dates reminders autopay' ],
             [ 'key' => 'networth', 'label' => 'Net Worth Calculator',   'icon' => 'scale', 'tone' => 'indigo', 'template' => 'nab-networth', 'desc' => 'Add up what you own and owe, and track your net worth', 'keywords' => 'net worth calculator assets debts accounts savings' ],
             [ 'key' => 'ef',       'label' => 'Emergency Fund Planner', 'icon' => 'piggy-bank', 'tone' => 'teal',     'desc' => 'Set a savings goal and track progress', 'keywords' => 'emergency fund savings goal planner' ],
-            [ 'key' => 'roadmap',  'label' => 'Financial Roadmap',      'icon' => 'map', 'tone' => 'purple',            'desc' => 'Your personalised action plan',         'keywords' => 'financial roadmap plan goals steps' ],
+        ] ],
+        'learning' => [ 'label' => 'Learning Hub', 'items' => [
+            [ 'key' => 'learning', 'label' => 'Learning Center',        'icon' => 'graduation-cap', 'tone' => 'indigo', 'desc' => '7-part credit education video series',   'keywords' => 'learning center education videos modules lessons' ],
+            [ 'key' => 'blog',     'label' => 'Education Blog',         'icon' => 'book-open', 'tone' => 'yellow',      'tab' => 'blog', 'desc' => 'Credit articles and tips',  'keywords' => 'education blog articles credit tips' ],
+            [ 'key' => 'diy',      'label' => 'DIY Repair Guide',       'icon' => 'file-pen-line', 'tone' => 'pink',  'tab' => 'diy',  'desc' => 'Ready-to-use dispute letter templates', 'keywords' => 'diy repair guide dispute letter template' ],
+        ] ],
+        'support' => [ 'label' => 'Member Support', 'items' => [
+            [ 'key' => 'chatbot', 'label' => 'NAB AI Chatbot',  'icon' => 'message-square-text', 'tone' => 'gold', 'desc' => 'Ask the NAB assistant anything about credit',     'keywords' => 'ai chatbot assistant help question' ],
+            [ 'key' => 'support', 'label' => 'Support Center',  'icon' => 'life-buoy', 'tone' => 'pink',           'desc' => 'Submit a support ticket or track existing tickets', 'keywords' => 'support ticket help contact' ],
+            [ 'key' => 'booking', 'label' => 'Book Specialist', 'icon' => 'calendar-days', 'tone' => 'orange',       'desc' => 'Schedule a 1-on-1 session with a credit advisor', 'keywords' => 'book specialist appointment advisor session' ],
+            [ 'key' => 'collections', 'label' => 'Collection Assistance', 'icon' => 'phone-call', 'tone' => 'orange', 'template' => 'nab-collections', 'desc' => 'Get help with a debt that is with a collection agency', 'keywords' => 'collection agency collections debt calls collector help owe' ],
             [ 'key' => 'pad',      'label' => 'PAD Agreement',          'icon' => 'file-check', 'tone' => 'slate',     'desc' => 'Your Pre-Authorized Debit agreement',   'keywords' => 'pad agreement debit authorization' ],
+        ] ],
+        'progress' => [ 'label' => 'My Progress', 'items' => [
+            [ 'key' => 'roadmap',  'label' => 'Financial Roadmap',      'icon' => 'map', 'tone' => 'purple',            'desc' => 'Your personalised action plan',         'keywords' => 'financial roadmap plan goals steps' ],
         ] ],
     ] );
     return $sections;

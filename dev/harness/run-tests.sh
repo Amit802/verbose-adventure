@@ -29,7 +29,7 @@ done
 grep -i "fatal\|warning\|notice\|deprecated" server.log && fail=1
 
 echo "== Browser flows"
-for s in flows.js loancalc.js cancelflow.js dispute2.js collections.js; do
+for s in flows.js loancalc.js cancelflow.js dispute2.js collections.js unlock.js; do
   rm -f meta.json
   echo "-- $s"; timeout 240 node "$s" 2>&1 | tail -3
 done

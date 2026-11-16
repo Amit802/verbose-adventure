@@ -21,4 +21,5 @@ do_action( 'template_redirect' );
 $tools = nab_portal_tools();
 $tpl   = $GLOBALS['W']['tpl'];
 if ( ! isset( $tools[ $tpl ] ) ) { echo 'unknown template'; exit; }
-require $plugin . '/templates/' . $tools[ $tpl ]['file'];
+// Same as WordPress: let the plugin's template_include filters pick the file (e.g. a locked tool page)
+require apply_filters( 'template_include', $plugin . '/templates/' . $tools[ $tpl ]['file'] );

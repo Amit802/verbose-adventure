@@ -243,7 +243,10 @@ if ( ! function_exists( 'nab_render_sidebar' ) ) {
         // v1.9.1: items come from nab_portal_nav_sections() in inc/tools.php.
         // Blog/DIY-style items carry a 'tab': they are never disabled — on the
         // dashboard they switch tab via JS, elsewhere they link to dashboard?nab_tab=…
-        $render_item = function( $it ) use ( $active, $dash_url ) {
+        // v1.23.0: tools that open step by step (inc/unlock.php) show a small lock.
+        $unlocked = function_exists( 'nab_unlock_sync' ) ? nab_unlock_sync( get_current_user_id() ) : [];
+        $steps    = function_exists( 'nab_unlock_steps' ) ? nab_unlock_steps() : [];
+        $render_item = function( $it ) use ( $active, $dash_url, $unlocked, $steps ) {
             $label = nab_portal_icon( $it['icon'] ?? '', 18 ) . '<span>' . esc_html( $it['label'] ) . '</span>';
             if ( ! empty( $it['tab'] ) ) {
                 if ( $active === 'dashboard' ) {
@@ -253,11 +256,18 @@ if ( ! function_exists( 'nab_render_sidebar' ) ) {
                 }
                 return;
             }
-            $url  = nab_portal_nav_item_url( $it );
-            $dis  = ( $url === '#' );
-            $cls  = 'nab-nav-item' . ( $active === $it['key'] ? ' nab-active' : '' ) . ( $dis ? ' nab-nav-disabled' : '' );
-            $href = $dis ? 'javascript:void(0)' : esc_url( $url );
-            echo '<a class="' . esc_attr( $cls ) . '" href="' . $href . '"' . ( $active === $it['key'] ? ' aria-current="page"' : '' ) . '>' . $label . '</a>';
+            $url    = nab_portal_nav_item_url( $it );
+            $dis    = ( $url === '#' );
+            $locked = ! $dis && isset( $unlocked[ $it['key'] ] ) && ! $unlocked[ $it['key'] ];
+            $cls    = 'nab-nav-item' . ( $active === $it['key'] ? ' nab-active' : '' ) . ( $dis ? ' nab-nav-disabled' : '' ) . ( $locked ? ' nab-nav-locked' : '' );
+            $href   = $dis ? 'javascript:void(0)' : esc_url( $url );
+            $title  = '';
+            if ( $locked ) {
+                $prev   = $steps[ $it['key'] ]['after'] ?? '';
+                $title  = ' title="' . esc_attr( 'Unlocks after: ' . ( $steps[ $prev ]['task'] ?? 'the step before' ) ) . '"';
+                $label .= '<span class="nab-nav-lock" aria-label="Locked">' . nab_portal_icon( 'lock', 13 ) . '</span>';
+            }
+            echo '<a class="' . esc_attr( $cls ) . '" href="' . $href . '"' . $title . ( $active === $it['key'] ? ' aria-current="page"' : '' ) . '>' . $label . '</a>';
         };
         nab_portal_tile_css();
         ?>
@@ -397,6 +407,8 @@ body{margin:0!important;padding:0!important;background:var(--nab-bg,#F6F7F9)!imp
 .nab-nav-item:hover{background:rgba(255,255,255,.12);color:#fff}
 .nab-nav-item.nab-active{background:rgba(255,255,255,.18);color:#fff;font-weight:600}
 .nab-nav-disabled{opacity:.4;cursor:not-allowed;pointer-events:none}
+.nab-nav-locked{opacity:.62}
+.nab-nav-lock{margin-left:auto;display:inline-flex;align-items:center;opacity:.9}
 .nab-i{display:inline-block;vertical-align:middle;flex-shrink:0}
 .nab-nav-item .nab-i{opacity:.85}
 .nab-nav-item.nab-active .nab-i{opacity:1}
