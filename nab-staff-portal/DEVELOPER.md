@@ -4,13 +4,11 @@ Private workspace for the NAB Customer Care team, at members.nabsolutions.ca/sta
 Built by Amit. Runs next to the NAB Member Portal plugin on the same site.
 
 ## Status
-v0.3.0 is the full design with sample data. Nothing is connected yet.
+v0.5.0 is the design with sample data. Nothing is connected yet.
 
-Assignment (v0.4 design): three modes chosen by a manager on Team & Assignment: share out automatically to online people (round robin, skipping Away and anyone at their open-ticket limit, optionally by topic), team picks up from Unassigned with "Take it", or manager assigns. Anyone can transfer a ticket. A ticket shows who else is viewing or replying, so two people don't answer the same member. Tickets with no reply after the set time are marked Overdue. Each person sets Online or Away in the sidebar.
+Screens: Home (shortcuts, recent documents, team topics), Reply Assistant (paste an email, get a reply based on our policies), Member Lookup, Documents, Team Discussions (topics with votes and comments).
 
-Screens: Home (today at a glance), Tickets (inbox) and a ticket page (conversation, AI suggested reply, internal notes, member details, assign/priority/topic), Reply Assistant (paste any email), Member Lookup, Documents, Team Discussions (topics with votes and comments).
-
-Tickets live in this portal, not in Freshdesk. Plan: the member portal's Support Center and Collection Assistance create tickets here; staff reply here; the member gets the reply by email and sees it in their portal. Replies by email use Brevo credits, so keep emails to one per staff reply. Emails members send to the support inbox would need an inbound email service later; until then the team can create a ticket by hand.
+Tickets stay in Freshdesk (decided with the client). The sidebar links to Freshdesk, and Member Lookup will show the member's Freshdesk tickets. A ticket system inside this portal was designed in v0.3 to v0.4 and parked; see git history if it comes back.
 
 ## Roles
 | Role | Can do |
@@ -39,7 +37,6 @@ Staff are sent to /staff/ after logging in. Members and logged out visitors can'
 That's it: it shows in the sidebar, gets its own address and the permission check.
 
 ## Next steps (planned)
-0. Tickets: a `nab_staff_ticket` store (custom table or post type), creation from the member portal, replies, internal notes, assignment, statuses, and the member's view of their tickets.
 1. Reply assistant: AJAX endpoint that hides bank, card and SIN numbers, adds the member's details and the switched on documents, and asks OpenAI (same key and model as Nabby in the member portal) for a summary, tags and a reply in the chosen tone.
 2. Member lookup: read the member portal's data (membership status and access dates from `inc/member-access.php`, dispute letters, collection requests, last login).
 3. Documents: managers upload PDF or Word files into a private folder; the text is extracted and stored for the assistant; each document can be switched on or off.

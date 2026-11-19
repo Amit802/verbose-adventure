@@ -37,7 +37,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <ul class="list">
               <li><div>Collection agency · $909.00<small>Sent Nov 13 · Reference #228</small></div><span class="badge warn">Received</span></li>
             </ul>
-            <div class="sec">Support tickets</div>
+            <div class="sec">Freshdesk tickets</div>
             <ul class="list">
               <li><div>Can't log in to the portal<small>Oct 28</small></div><span class="badge good">Resolved</span></li>
               <li><div>Question about the Lending Finder Program<small>Nov 9</small></div><span class="badge blue">Open</span></li>

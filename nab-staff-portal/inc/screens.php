@@ -21,13 +21,11 @@ function nab_staff_screens() {
     if ( $screens !== null ) return $screens;
     $screens = apply_filters( 'nab_staff_screens', [
         'home'        => [ 'label' => 'Home',              'section' => 'Workspace',     'icon' => 'home',    'file' => 'home',        'cap' => 'use' ],
-        'tickets'     => [ 'label' => 'Tickets',           'section' => 'Workspace',     'icon' => 'ticket',  'file' => 'tickets',     'cap' => 'use', 'badge' => '12' ],
-        'ticket'      => [ 'label' => 'Ticket',            'section' => 'Workspace',     'icon' => 'ticket',  'file' => 'ticket',      'cap' => 'use', 'hidden' => true, 'parent' => 'tickets' ],
         'reply'       => [ 'label' => 'Reply Assistant',   'section' => 'Customer Care', 'icon' => 'message', 'file' => 'reply',       'cap' => 'use' ],
         'lookup'      => [ 'label' => 'Member Lookup',     'section' => 'Customer Care', 'icon' => 'search',  'file' => 'lookup',      'cap' => 'use' ],
         'documents'   => [ 'label' => 'Documents',         'section' => 'Customer Care', 'icon' => 'file',    'file' => 'documents',   'cap' => 'use' ],
         'discussions' => [ 'label' => 'Team Discussions',  'section' => 'Team',          'icon' => 'chat',    'file' => 'discussions', 'cap' => 'use' ],
-        'team'        => [ 'label' => 'Team & Assignment', 'section' => 'Team',          'icon' => 'users',   'file' => 'team',        'cap' => 'manage' ],
+        'freshdesk'   => [ 'label' => 'Freshdesk tickets', 'section' => 'Shortcuts',     'icon' => 'ticket',  'cap' => 'use', 'link' => 'https://nabsolutions.freshdesk.com/a/tickets' ],
         'access'      => [ 'label' => 'Member Access',     'section' => 'Shortcuts',     'icon' => 'user',    'cap' => 'manage', 'link' => admin_url( 'users.php?page=nab-member-access' ) ],
     ] );
     return $screens;

@@ -45,7 +45,7 @@ foreach ( $screens as $slug => $s ) {
     </nav>
     <div class="side-foot">
       <div class="av"><?php echo esc_html( $initial ); ?></div>
-      <div style="flex:1;min-width:0"><b><?php echo esc_html( $name ); ?></b><button class="status" type="button" id="myStatus" title="Click to change"><span class="dot-s"></span><span class="st-label">Online</span></button></div>
+      <div style="flex:1;min-width:0"><b><?php echo esc_html( $name ); ?></b><span><?php echo esc_html( $role ); ?></span></div>
       <a href="<?php echo esc_url( wp_logout_url( home_url( '/' ) ) ); ?>" title="Log out" aria-label="Log out" style="color:#fff;opacity:.8;display:flex"><?php echo nab_staff_icon( 'logout' ); ?></a>
     </div>
   </aside>

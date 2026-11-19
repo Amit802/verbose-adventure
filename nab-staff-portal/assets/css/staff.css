@@ -213,3 +213,13 @@ a.stat:hover{border-color:#CFE0EF}
 .opt b{display:block;font-size:14px}
 .opt small{display:block;font-size:12.5px;color:var(--text-2);line-height:1.5;margin-top:2px}
 .opt:has(input:checked){border-color:var(--brand);background:var(--brand-soft)}
+
+/* v0.5: home shortcuts */
+.quick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.qcard{display:block;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;text-decoration:none;color:var(--text)}
+.qcard:hover{border-color:#CFE0EF;background:#FBFDFF}
+.qcard .i{color:var(--brand)}
+.qcard b{display:block;font-size:15px;margin:10px 0 4px}
+.qcard span{display:block;font-size:12.5px;color:var(--text-2);line-height:1.5}
+.tlist .ficon{flex:0 0 32px}
+@media(max-width:980px){.quick{grid-template-columns:1fr}}
