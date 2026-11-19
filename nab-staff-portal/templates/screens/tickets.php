@@ -7,12 +7,13 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 $t = nab_staff_url( 'ticket' );
 $rows = [
-  [ '#1042', 'I want to cancel and get a refund', 'Sarah Thompson', 'Cancellation', 'Open', 'warn', 'High', 'Unassigned', '2h ago' ],
-  [ '#1041', 'A collection agency keeps calling me', 'Daniel Roy', 'Collection Assistance', 'Open', 'warn', 'High', 'You', '5h ago' ],
-  [ '#1040', 'Can\'t log in to the portal', 'Emily Tremblay', 'Login', 'Waiting on member', 'blue', 'Normal', 'Mark T.', 'Yesterday' ],
-  [ '#1039', 'Where do I find loan offers?', 'Priya Sharma', 'Loans', 'Replied', 'blue', 'Normal', 'You', 'Yesterday' ],
-  [ '#1038', 'My PAD payment came out twice', 'Michael Brown', 'Billing', 'Open', 'warn', 'High', 'Aisha M.', '2 days ago' ],
-  [ '#1037', 'How long does a dispute take?', 'David Chen', 'Disputes', 'Resolved', 'good', 'Low', 'Jessica K.', '3 days ago' ],
+  [ '#1043', 'Payment failed, what do I do?', 'Kevin Lee', 'Billing', 'New', 'warn', 'Normal', '', '10m ago', '' ],
+  [ '#1042', 'I want to cancel and get a refund', 'Sarah Thompson', 'Cancellation', 'Open', 'warn', 'High', '', '2h ago', 'Mark is viewing' ],
+  [ '#1041', 'A collection agency keeps calling me', 'Daniel Roy', 'Collection Assistance', 'Open', 'warn', 'High', 'You', '5h ago', '' ],
+  [ '#1040', 'Can\'t log in to the portal', 'Emily Tremblay', 'Login', 'Waiting on member', 'blue', 'Normal', 'Mark T.', 'Yesterday', '' ],
+  [ '#1039', 'Where do I find loan offers?', 'Priya Sharma', 'Loans', 'Replied', 'blue', 'Normal', 'You', 'Yesterday', '' ],
+  [ '#1038', 'My PAD payment came out twice', 'Michael Brown', 'Billing', 'Overdue', 'bad', 'High', 'Aisha M.', '26h, no reply', '' ],
+  [ '#1037', 'How long does a dispute take?', 'David Chen', 'Disputes', 'Resolved', 'good', 'Low', 'Jessica K.', '3 days ago', '' ],
 ];
 ?>
 <section class="screen" id="s-tickets">
@@ -20,7 +21,7 @@ $rows = [
     <div>
       <div class="eyebrow">Tickets</div>
       <div class="title">Member requests</div>
-      <p class="sub">Every question from the member portal lands here. Open a ticket to reply with help from the AI.</p>
+      <p class="sub">Every question from the member portal lands here. Take a ticket from the unassigned list, or new tickets are shared out to whoever is online.</p>
     </div>
     <button class="btn primary" type="button"><?php echo nab_staff_icon( 'plus', 16 ); ?>New ticket</button>
   </div>
@@ -30,8 +31,8 @@ $rows = [
       <div class="chips" role="tablist">
         <button class="chip on" type="button">All <span>12</span></button>
         <button class="chip" type="button">Mine <span>5</span></button>
-        <button class="chip" type="button">Unassigned <span>3</span></button>
-        <button class="chip" type="button">Urgent <span>2</span></button>
+        <button class="chip" type="button">Unassigned <span>2</span></button>
+        <button class="chip" type="button">Overdue <span>1</span></button>
         <button class="chip" type="button">Resolved</button>
       </div>
       <div class="filter-right">
@@ -44,13 +45,13 @@ $rows = [
       <tbody>
       <?php foreach ( $rows as $r ) : ?>
         <tr onclick="location.href='<?php echo esc_url( $t ); ?>'">
-          <td><a href="<?php echo esc_url( $t ); ?>"><span class="tid"><?php echo esc_html( $r[0] ); ?></span><b><?php echo esc_html( $r[1] ); ?></b></a></td>
+          <td><a href="<?php echo esc_url( $t ); ?>"><span class="tid"><?php echo esc_html( $r[0] ); ?><?php if ( $r[9] ) : ?> <span class="viewing"><?php echo esc_html( $r[9] ); ?></span><?php endif; ?></span><b><?php echo esc_html( $r[1] ); ?></b></a></td>
           <td><?php echo esc_html( $r[2] ); ?></td>
           <td><span class="tag"><?php echo esc_html( $r[3] ); ?></span></td>
           <td><span class="badge <?php echo esc_attr( $r[5] ); ?>"><?php echo esc_html( $r[4] ); ?></span></td>
           <td><span class="prio-t <?php echo esc_attr( strtolower( $r[6] ) ); ?>"><?php echo esc_html( $r[6] ); ?></span></td>
-          <td><?php echo esc_html( $r[7] ); ?></td>
-          <td class="muted"><?php echo esc_html( $r[8] ); ?></td>
+          <td><?php if ( $r[7] === '' ) : ?><button class="btn small take" type="button" onclick="event.stopPropagation();this.outerHTML='<span class=&quot;who&quot;><span class=&quot;av xs&quot;>Y</span>You</span>'">Take it</button><?php else : ?><span class="who"><span class="av xs"><?php echo esc_html( substr( $r[7], 0, 1 ) ); ?></span><?php echo esc_html( $r[7] ); ?></span><?php endif; ?></td>
+          <td class="<?php echo $r[4] === 'Overdue' ? 'late' : 'muted'; ?>"><?php echo esc_html( $r[8] ); ?></td>
         </tr>
       <?php endforeach; ?>
       </tbody>

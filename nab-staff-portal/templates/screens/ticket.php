@@ -9,9 +9,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
       <div class="title" style="font-size:22px">I want to cancel and get a refund</div>
       <div class="row" style="margin-top:6px"><span class="badge warn">Open</span><span class="tag">Cancellation</span><span class="tag">Refund request</span><span class="tag warn">Unhappy</span><span class="muted" style="font-size:12.5px">From the member portal · 2 hours ago</span></div>
     </div>
-    <div class="row"><button class="btn" type="button">Mark resolved</button></div>
+    <div class="row"><button class="btn primary" type="button">Assign to me</button><button class="btn" type="button">Mark resolved</button></div>
   </div>
 
+  <div class="presence"><span class="av xs" style="background:#FFF4E5;color:#8A4B00">M</span>Mark T. is also viewing this ticket. Check before you reply so you don't both answer.</div>
   <div class="tgrid">
     <div>
       <div class="card thread">
@@ -55,7 +56,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
       </div>
       <div class="card">
         <h2 style="margin-bottom:12px">Ticket details</h2>
-        <label class="f">Assigned to<select class="in sm"><option>Unassigned</option><option>You</option><option>Mark T.</option><option>Aisha M.</option><option>Jessica K.</option></select></label>
+        <label class="f">Assigned to<select class="in sm"><option>Unassigned</option><option>You</option><option>Mark T. (online, 4 open)</option><option>Aisha M. (online, 6 open)</option><option>Jessica K. (away)</option></select></label>
+        <p class="hint" style="margin:-6px 0 12px">Changing this transfers the ticket and lets the new person know.</p>
         <label class="f">Priority<select class="in sm"><option>High</option><option>Normal</option><option>Low</option></select></label>
         <label class="f" style="margin-bottom:0">Topic<select class="in sm"><option>Cancellation</option><option>Billing</option><option>Loans</option><option>Disputes</option><option>Collection Assistance</option><option>Login</option></select></label>
       </div>

@@ -27,6 +27,7 @@ function nab_staff_screens() {
         'lookup'      => [ 'label' => 'Member Lookup',     'section' => 'Customer Care', 'icon' => 'search',  'file' => 'lookup',      'cap' => 'use' ],
         'documents'   => [ 'label' => 'Documents',         'section' => 'Customer Care', 'icon' => 'file',    'file' => 'documents',   'cap' => 'use' ],
         'discussions' => [ 'label' => 'Team Discussions',  'section' => 'Team',          'icon' => 'chat',    'file' => 'discussions', 'cap' => 'use' ],
+        'team'        => [ 'label' => 'Team & Assignment', 'section' => 'Team',          'icon' => 'users',   'file' => 'team',        'cap' => 'manage' ],
         'access'      => [ 'label' => 'Member Access',     'section' => 'Shortcuts',     'icon' => 'user',    'cap' => 'manage', 'link' => admin_url( 'users.php?page=nab-member-access' ) ],
     ] );
     return $screens;
@@ -52,6 +53,7 @@ function nab_staff_icon( $name, $size = 18 ) {
         'spark'   => '<path d="m12 3-1.9 5.8L4 10l5 3.6L7.6 20 12 16.5 16.4 20 15 13.6 20 10l-6.1-1.2z"/>',
         'plus'    => '<path d="M12 5v14"/><path d="M5 12h14"/>',
         'note'    => '<path d="M4 4h16v12H8l-4 4z"/>',
+        'users'   => '<circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-5.5 7-5.5s7 2 7 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7"/><path d="M22 20c0-2.6-1.6-4.4-4-5.1"/>',
         'logout'  => '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/>',
     ];
     return '<svg class="i" width="' . (int) $size . '" height="' . (int) $size . '" viewBox="0 0 24 24" aria-hidden="true">' . ( $paths[ $name ] ?? '' ) . '</svg>';

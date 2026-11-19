@@ -50,4 +50,7 @@ document.querySelectorAll('.chips').forEach(function(g){ g.addEventListener('cli
 document.querySelectorAll('.tabs').forEach(function(g){ g.addEventListener('click',function(e){ var c=e.target.closest('.tab'); if(!c) return; g.querySelectorAll('.tab').forEach(function(x){x.classList.toggle('on',x===c)}); }); });
 document.querySelectorAll('.vote').forEach(function(v){ v.addEventListener('click',function(){ var b=v.querySelector('b'), on=v.classList.toggle('on'); b.textContent=(+b.textContent)+(on?1:-1); }); });
 if($('newTopic')){ $('newTopic').addEventListener('click',function(){ $('newTopicBox').hidden=false; $('newTopicBox').querySelector('input').focus(); }); $('cancelTopic').addEventListener('click',function(){ $('newTopicBox').hidden=true; }); }
+
+/* Online / Away */
+if($('myStatus')){ $('myStatus').addEventListener('click',function(){ var a=this.classList.toggle('away'); this.querySelector('.st-label').textContent=a?'Away':'Online'; }); }
 })();

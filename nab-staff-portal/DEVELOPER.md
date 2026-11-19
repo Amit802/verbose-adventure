@@ -6,6 +6,8 @@ Built by Amit. Runs next to the NAB Member Portal plugin on the same site.
 ## Status
 v0.3.0 is the full design with sample data. Nothing is connected yet.
 
+Assignment (v0.4 design): three modes chosen by a manager on Team & Assignment: share out automatically to online people (round robin, skipping Away and anyone at their open-ticket limit, optionally by topic), team picks up from Unassigned with "Take it", or manager assigns. Anyone can transfer a ticket. A ticket shows who else is viewing or replying, so two people don't answer the same member. Tickets with no reply after the set time are marked Overdue. Each person sets Online or Away in the sidebar.
+
 Screens: Home (today at a glance), Tickets (inbox) and a ticket page (conversation, AI suggested reply, internal notes, member details, assign/priority/topic), Reply Assistant (paste any email), Member Lookup, Documents, Team Discussions (topics with votes and comments).
 
 Tickets live in this portal, not in Freshdesk. Plan: the member portal's Support Center and Collection Assistance create tickets here; staff reply here; the member gets the reply by email and sees it in their portal. Replies by email use Brevo credits, so keep emails to one per staff reply. Emails members send to the support inbox would need an inbound email service later; until then the team can create a ticket by hand.
