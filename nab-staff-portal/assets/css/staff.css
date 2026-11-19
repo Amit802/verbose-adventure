@@ -111,3 +111,86 @@ tr:last-child td{border-bottom:0}
 .preview-flag{position:fixed;right:16px;bottom:16px;background:#0E1B2C;color:#fff;font-size:12px;font-weight:600;padding:8px 12px;border-radius:999px;opacity:.85}
 @media(max-width:980px){.grid2,.profile{grid-template-columns:1fr}.side{display:none}.content{padding:18px 16px 40px}}
 .app:not(.can-manage) .switch{pointer-events:none;opacity:.55}
+
+/* v0.3: sidebar count, home, tickets, ticket page, discussions */
+.nav a .count{margin-left:auto;font-size:11px;font-weight:700;min-width:22px;text-align:center;padding:2px 7px;border-radius:999px;background:var(--accent);color:#fff}
+.head-row{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.link{font-size:13px;font-weight:650;color:var(--brand);text-decoration:none}
+.link:hover{text-decoration:underline}
+.muted{color:var(--text-3)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;text-decoration:none;color:var(--text);display:block}
+a.stat:hover{border-color:#CFE0EF}
+.stat span{font-size:12.5px;color:var(--text-2);font-weight:600}
+.stat b{display:block;font-size:28px;letter-spacing:-.02em;margin:4px 0 2px}
+.stat small{font-size:12px;color:var(--text-3)}
+.stat.warn b{color:var(--bad)}
+.tlist{list-style:none;margin:0;padding:0}
+.tlist li a{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line-soft);text-decoration:none;color:var(--text)}
+.tlist li:last-child a{border-bottom:0}
+.tlist li a:hover b{color:var(--brand)}
+.tlist div{flex:1;min-width:0}
+.tlist b{display:block;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tlist small{font-size:12px;color:var(--text-2)}
+.prio{width:8px;height:8px;border-radius:50%;background:#CBD3DD;flex:0 0 8px}
+.prio.high{background:var(--bad)}
+.votes{flex:0 0 36px;height:36px;border-radius:10px;background:var(--brand-soft);color:var(--brand);font-weight:700;font-size:13px;display:grid;place-items:center}
+.tip{display:flex;gap:10px;align-items:flex-start;margin-top:14px;padding:12px 14px;border-radius:12px;background:var(--accent-soft);color:#7A3D0E;font-size:13px;line-height:1.5}
+.tip .i{color:var(--accent);margin-top:2px}
+.filters{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px 16px;border-bottom:1px solid var(--line)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:650;color:var(--text-2);cursor:pointer}
+.chip span{margin-left:4px;color:var(--text-3)}
+.chip.on{background:var(--brand);border-color:var(--brand);color:#fff}
+.chip.on span{color:rgba(255,255,255,.75)}
+.filter-right{display:flex;gap:8px;flex-wrap:wrap}
+.in.sm{height:34px;margin-top:6px;font-size:13px;border-radius:9px}
+.filter-right .in.sm{margin-top:0;width:auto;min-width:180px}
+.ttable td,.ttable th{padding:12px 16px}
+.ttable tbody tr{cursor:pointer}
+.ttable tbody tr:hover{background:var(--surface-2)}
+.ttable a{text-decoration:none;color:var(--text)}
+.ttable b{font-size:13.5px}
+.tid{display:block;font-size:11.5px;color:var(--text-3);font-weight:650;margin-bottom:2px}
+.prio-t{font-size:12.5px;font-weight:650;color:var(--text-2)}
+.prio-t.high{color:var(--bad)}.prio-t.low{color:var(--text-3)}
+.crumb{font-size:12.5px;color:var(--text-3);margin-bottom:8px}
+.crumb a{color:var(--brand);text-decoration:none;font-weight:650}
+.crumb span{margin:0 4px}
+.tgrid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px;align-items:start}
+.tgrid .card+.card,.tside .card+.card{margin-top:16px}
+.msg{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
+.msg:last-child{margin-bottom:0}
+.av.sm{width:32px;height:32px;font-size:12px;flex:0 0 32px;background:var(--brand-soft);color:var(--brand)}
+.bubble{flex:1;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font-size:14px;line-height:1.6}
+.bubble .meta{display:flex;gap:8px;align-items:baseline;margin-bottom:3px;font-size:12px;color:var(--text-3)}
+.bubble .meta b{font-size:13px;color:var(--text)}
+.note-msg .bubble{background:#FFFAF0;border-color:#F6DDB8}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:-4px 0 14px}
+.tab{background:none;border:0;border-bottom:2px solid transparent;padding:8px 12px;font-size:13.5px;font-weight:650;color:var(--text-2);cursor:pointer}
+.tab.on{color:var(--brand);border-bottom-color:var(--brand)}
+.ai-box{background:var(--brand-soft);border:1px solid #D6E6F5;border-radius:12px;padding:12px 14px;margin-bottom:12px}
+.ai-head{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--brand);flex-wrap:wrap}
+.ai-head span{color:var(--text-2);font-size:12px}
+.ai-sum{font-size:13.5px;line-height:1.55;margin:8px 0 10px}
+.composer textarea.in{min-height:170px}
+.tside h2{font-size:15px;margin:0}
+.ph .av{flex:0 0 auto}
+.ph span{display:block}
+.topics .card+.card{margin-top:12px}
+.topic{display:flex;gap:14px;align-items:flex-start}
+.vote{flex:0 0 52px;display:flex;flex-direction:column;align-items:center;gap:2px;border:1px solid var(--line);background:#fff;border-radius:12px;padding:8px 0;cursor:pointer;color:var(--text-2)}
+.vote b{font-size:14px;color:var(--text)}
+.vote.on{border-color:var(--brand);background:var(--brand-soft);color:var(--brand)}
+.vote.on b{color:var(--brand)}
+.topic-body{flex:1;min-width:0}
+.topic-title{font-size:15px}
+.topic-body p{margin:4px 0 10px;font-size:13.5px;line-height:1.55;color:var(--text-2)}
+.topic-meta{display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:12px;color:var(--text-3)}
+.comments{margin-top:14px;padding-top:14px;border-top:1px solid var(--line-soft)}
+.comments .bubble{font-size:13.5px}
+.new-topic{margin-bottom:16px}
+.new-topic h2{margin-bottom:12px}
+[hidden]{display:none!important}
+@media(max-width:980px){.stats{grid-template-columns:1fr 1fr}.tgrid{grid-template-columns:1fr}.ttable{display:block;overflow-x:auto}}

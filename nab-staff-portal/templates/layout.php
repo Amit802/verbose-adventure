@@ -5,18 +5,18 @@
  */
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-$current = $GLOBALS['nab_staff_screen'] ?? 'reply';
+$current = $GLOBALS['nab_staff_screen'] ?? 'home';
 $screens = nab_staff_screens();
 $screen  = $screens[ $current ];
 $user    = wp_get_current_user();
 $name    = trim( $user->first_name . ' ' . $user->last_name ) ?: $user->display_name;
 $parts   = preg_split( '/\s+/', $name );
 $initial = strtoupper( substr( $parts[0] ?? '', 0, 1 ) . substr( $parts[1] ?? '', 0, 1 ) ) ?: 'NS';
-$role    = nab_staff_can( 'manage' ) ? 'Customer Care Manager' : 'Customer Care';
+$role    = nab_staff_can( 'manage' ) ? 'Care Manager' : 'Customer Care';
 
 $sections = [];
 foreach ( $screens as $slug => $s ) {
-    if ( ! nab_staff_can( $s['cap'] ?? 'use' ) ) continue;
+    if ( ! empty( $s['hidden'] ) || ! nab_staff_can( $s['cap'] ?? 'use' ) ) continue;
     $sections[ $s['section'] ][ $slug ] = $s;
 }
 ?><!doctype html>
@@ -37,8 +37,9 @@ foreach ( $screens as $slug => $s ) {
       <div class="nav-label"><?php echo esc_html( $label ); ?></div>
         <?php foreach ( $items as $slug => $s ) :
           $is_link = ! empty( $s['link'] );
-          $href    = $is_link ? $s['link'] : nab_staff_url( $slug === 'reply' ? '' : $slug ); ?>
-      <a href="<?php echo esc_url( $href ); ?>"<?php echo $slug === $current ? ' class="on" aria-current="page"' : ''; ?><?php echo $is_link ? ' target="_blank" rel="noopener"' : ''; ?>><?php echo nab_staff_icon( $s['icon'] ); ?><?php echo esc_html( $s['label'] ); ?></a>
+          $href    = $is_link ? $s['link'] : nab_staff_url( $slug === 'home' ? '' : $slug );
+          $on      = $slug === $current || $slug === ( $screen['parent'] ?? '' ); ?>
+      <a href="<?php echo esc_url( $href ); ?>"<?php echo $on ? ' class="on" aria-current="page"' : ''; ?><?php echo $is_link ? ' target="_blank" rel="noopener"' : ''; ?>><?php echo nab_staff_icon( $s['icon'] ); ?><?php echo esc_html( $s['label'] ); ?><?php if ( ! empty( $s['badge'] ) ) : ?><span class="count"><?php echo esc_html( $s['badge'] ); ?></span><?php endif; ?></a>
         <?php endforeach; ?>
       <?php endforeach; ?>
     </nav>

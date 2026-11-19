@@ -9,7 +9,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 function nab_staff_add_rewrites() {
-    add_rewrite_rule( '^staff/?$', 'index.php?nab_staff=reply', 'top' );
+    add_rewrite_rule( '^staff/?$', 'index.php?nab_staff=home', 'top' );
     add_rewrite_rule( '^staff/([a-z0-9-]+)/?$', 'index.php?nab_staff=$matches[1]', 'top' );
 }
 add_action( 'init', 'nab_staff_add_rewrites' );
@@ -32,7 +32,7 @@ add_action( 'template_redirect', function () {
     if ( ! $slug ) return;
 
     if ( ! is_user_logged_in() ) {
-        wp_safe_redirect( wp_login_url( nab_staff_url( $slug === 'reply' ? '' : $slug ) ) );
+        wp_safe_redirect( wp_login_url( nab_staff_url( $slug === 'home' ? '' : $slug ) ) );
         exit;
     }
     if ( ! nab_staff_can( 'use' ) ) {
