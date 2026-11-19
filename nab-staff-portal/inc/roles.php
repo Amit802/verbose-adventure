@@ -44,10 +44,36 @@ function nab_staff_can( $key = 'use', $user_id = 0 ) {
     return $user_id ? user_can( $user_id, $cap ) : current_user_can( $cap );
 }
 
+/** True for people whose job is the staff portal: NAB Staff or NAB Staff Manager, and not an admin. */
+function nab_staff_is_staff_only( $user = null ) {
+    $user = $user ?: wp_get_current_user();
+    if ( ! $user || ! $user->exists() || user_can( $user, 'manage_options' ) ) return false;
+    return (bool) array_intersect( [ 'nab_staff', 'nab_staff_manager' ], (array) $user->roles );
+}
+
+/**
+ * Staff land on the staff portal, wherever they log in from. The member
+ * portal sends logged-in people from its home and login pages to the member
+ * dashboard, so besides the login redirect below, staff opening the home page
+ * or any member portal page are sent to /staff/. Admins are never redirected.
+ */
+add_action( 'template_redirect', function () {
+    if ( get_query_var( 'nab_staff' ) || ! is_user_logged_in() || ! nab_staff_is_staff_only() ) return;
+    $is_portal_page = false;
+    if ( is_page() && function_exists( 'nab_portal_tools' ) ) {
+        $tpl            = get_post_meta( get_queried_object_id(), '_wp_page_template', true );
+        $is_portal_page = isset( nab_portal_tools()[ $tpl ] );
+    }
+    if ( $is_portal_page || is_front_page() || is_home() ) {
+        wp_safe_redirect( nab_staff_url() );
+        exit;
+    }
+}, 1 );
+
 /** Staff (not admins) are sent to the staff portal after logging in. */
 add_filter( 'login_redirect', function ( $redirect, $requested, $user ) {
-    if ( $user instanceof WP_User && array_intersect( [ 'nab_staff', 'nab_staff_manager' ], (array) $user->roles ) ) {
+    if ( $user instanceof WP_User && nab_staff_is_staff_only( $user ) ) {
         return nab_staff_url();
     }
     return $redirect;
-}, 99, 3 );
+}, 9999, 3 );

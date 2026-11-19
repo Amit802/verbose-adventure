@@ -18,7 +18,7 @@ Tickets stay in Freshdesk (decided with the client). The sidebar links to Freshd
 | Administrator | Everything |
 
 Screens check permissions (`nab_staff_portal`, `nab_staff_manage_docs`), never role names. See `inc/roles.php`.
-Staff are sent to /staff/ after logging in. Members and logged out visitors can't open it.
+Staff (not admins) are sent to /staff/ after logging in, and if they open the home page or any member portal page (the member portal sends logged-in people to its dashboard). Members and logged out visitors can't open it.
 
 ## Files
 | Path | What it does |
