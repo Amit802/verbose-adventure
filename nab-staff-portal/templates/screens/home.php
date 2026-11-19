@@ -33,7 +33,7 @@ $first = wp_get_current_user()->first_name ?: 'there';
         <li><a href="<?php echo esc_url( nab_staff_url( 'discussions' ) ); ?>"><span class="votes">9</span><div><b>New wording for refund replies</b><small>Process · Mark T. · 5 comments</small></div></a></li>
         <li><a href="<?php echo esc_url( nab_staff_url( 'discussions' ) ); ?>"><span class="votes">6</span><div><b>Many members can't find the Dispute Center</b><small>Member feedback · Aisha M. · 3 comments</small></div></a></li>
       </ul>
-      <div class="tip"><?php echo nab_staff_icon( 'spark', 16 ); ?><span><b>This week's top question:</b> "How do I get loan offers?" came up 23 times. A short guide in the welcome email could cut these down.</span></div>
+      <div class="tip"><?php echo nab_staff_icon( 'spark', 16 ); ?><span><b>Most common topic this week:</b> Loans, 23 tickets</span></div>
     </div>
   </div>
 </section>

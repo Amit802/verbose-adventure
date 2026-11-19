@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <div class="loading" id="rLoad"><span class="dot"></span><span class="dot"></span><span class="dot"></span> Reading the email and our policies</div>
             <div id="rOut" style="display:none">
               <div class="summary"><div><b>What she wants</b><p>Sarah wants to cancel and is asking for a refund for this week.</p></div></div>
-              <div class="tags"><span class="tag">Cancellation</span><span class="tag">Refund request</span><span class="tag warn">Upset customer</span></div>
+              <div class="tags"><span class="tag">Cancellation</span><span class="tag">Refund request</span><span class="tag warn">Unhappy</span></div>
               <div class="row" style="margin-bottom:10px">
                 <button class="btn small on" data-tone="standard">Standard</button>
                 <button class="btn small" data-tone="short">Shorter</button>

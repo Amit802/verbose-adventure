@@ -5,7 +5,7 @@ $topics = [
   [ 14, 'Add a short video on how to use the Lending Finder', 'Suggestion', 'Jessica K.', '8 comments', 'Planned', 'blue', 'A lot of members email asking where the loan offers are. A 1 minute video in the welcome email and on the LFP page could save us a lot of tickets.' ],
   [ 9, 'New wording for refund replies', 'Process', 'Mark T.', '5 comments', 'Discussing', 'warn', 'Our current refund reply sounds a bit cold. I wrote a softer version, let me know what you think before we add it to the templates.' ],
   [ 6, 'Many members can\'t find the Dispute Center', 'Member feedback', 'Aisha M.', '3 comments', 'Open', 'warn', 'Three members this week asked how to dispute something. Maybe a button on the dashboard home?' ],
-  [ 4, 'Weekend coverage for urgent tickets', 'Team', 'Matt', '2 comments', 'Done', 'good', 'Starting next week, one person checks urgent tickets on Saturday morning. Rota is in the team sheet.' ],
+  [ 4, 'Weekend coverage for urgent tickets', 'Team', 'Rachel P.', '2 comments', 'Done', 'good', 'Starting next week, one person checks urgent tickets on Saturday morning. Rota is in the team sheet.' ],
 ];
 ?>
 <section class="screen" id="s-discussions">
@@ -41,7 +41,7 @@ $topics = [
         <?php if ( $i === 0 ) : ?>
         <div class="comments">
           <div class="msg"><div class="av sm">MT</div><div class="bubble"><div class="meta"><b>Mark T.</b><span>Yesterday</span></div>Agree, I answer this one almost every day.</div></div>
-          <div class="msg"><div class="av sm">MA</div><div class="bubble"><div class="meta"><b>Matt</b><span>Today</span></div>Love it. Let's do it next month, Amit can add it to the welcome email.</div></div>
+          <div class="msg"><div class="av sm">RP</div><div class="bubble"><div class="meta"><b>Rachel P.</b><span>Today</span></div>Same here. I can record it if someone writes the steps.</div></div>
           <div class="row"><input class="in sm" style="flex:1" placeholder="Write a comment"><button class="btn small" type="button">Comment</button></div>
         </div>
         <?php endif; ?>

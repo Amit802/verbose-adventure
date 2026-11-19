@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
   <div class="head head-row" style="margin-bottom:14px">
     <div>
       <div class="title" style="font-size:22px">I want to cancel and get a refund</div>
-      <div class="row" style="margin-top:6px"><span class="badge warn">Open</span><span class="tag">Cancellation</span><span class="tag">Refund request</span><span class="tag warn">Upset customer</span><span class="muted" style="font-size:12.5px">From the member portal · 2 hours ago</span></div>
+      <div class="row" style="margin-top:6px"><span class="badge warn">Open</span><span class="tag">Cancellation</span><span class="tag">Refund request</span><span class="tag warn">Unhappy</span><span class="muted" style="font-size:12.5px">From the member portal · 2 hours ago</span></div>
     </div>
     <div class="row"><button class="btn" type="button">Mark resolved</button></div>
   </div>
