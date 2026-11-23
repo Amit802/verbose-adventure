@@ -153,6 +153,20 @@ let fails = 0; const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); 
   ok(await m.locator('.logo-chip img').evaluate(i => i.complete && i.naturalWidth > 0), 'customizer logo shown');
   await m.screenshot({ path: __dirname + '/shots/logo.png' });
 
+  // Portal Settings: upload own logo, wrong file, back to website logo
+  await m.goto(B + '/staff/settings');
+  ok((await m.textContent('#logoFrom')).includes('website logo'), 'settings shows website logo in use');
+  await m.setInputFiles('#logoFile', F + 'fake.png'); await m.waitForTimeout(600);
+  ok((await m.textContent('#logoMsg')).includes('PNG, JPG or WebP'), 'fake image refused');
+  await Promise.all([m.waitForNavigation(), m.setInputFiles('#logoFile', F + 'newlogo.png')]);
+  ok((await m.textContent('#logoFrom')).includes('Uploaded here') && (await m.locator('.logo-chip img').getAttribute('src')).startsWith('/up/nab-staff-brand/'), 'uploaded logo used in sidebar');
+  ok(await m.locator('.logo-chip img').evaluate(i => i.complete && i.naturalWidth === 320), 'uploaded logo loads');
+  await m.screenshot({ path: __dirname + '/shots/settings.png' });
+  const sn2 = await s.evaluate(() => NABSTAFF.nonce);
+  ok((await (await s.request.post(B + '/wp-admin/admin-ajax.php', { form: { action: 'nab_staff', do: 'logo_reset', nonce: sn2 } })).json()).success === false, 'staff cannot change logo');
+  await Promise.all([m.waitForNavigation(), m.click('#logoReset')]);
+  ok((await m.textContent('#logoFrom')).includes('website logo') && require('fs').readdirSync(__dirname + '/uploads/nab-staff-brand').length === 0, 'back to website logo, old file removed');
+
   // Member and guest are kept out
   const mem = await as(10, ''); ok(!(await mem.content()).includes('Staff Portal</span>'), 'member cannot open staff portal');
   const memAjax = await mem.request.post(B + '/wp-admin/admin-ajax.php', { form: { action: 'nab_staff', do: 'member_search', nonce: 'n-nab_staff-10', q: 'sam' } });

@@ -29,6 +29,8 @@ function nab_staff_ajax_tasks() {
         'team_role'      => [ 'manage', 'nab_staff_team_role' ],
         'team_remove'    => [ 'manage', 'nab_staff_team_remove' ],
         'team_resend'    => [ 'manage', 'nab_staff_team_resend' ],
+        'logo_upload'    => [ 'manage', 'nab_staff_logo_upload' ],
+        'logo_reset'     => [ 'manage', 'nab_staff_logo_reset' ],
     ];
 }
 

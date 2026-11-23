@@ -103,7 +103,8 @@ function sanitize_file_name( $n ) { return preg_replace( '/[^A-Za-z0-9._-]/', '-
 function wp_strip_all_tags( $s ) { return strip_tags( $s ); } function wp_generate_password( $n = 12 ) { return substr( bin2hex( random_bytes( 20 ) ), 0, $n ); }
 function wp_date( $f, $t = null ) { return date( $f, $t ?? time() ); } function current_time( $t, $gmt = false ) { return $t === 'mysql' ? gmdate( 'Y-m-d H:i:s' ) : time(); }
 function get_gmt_from_date( $d ) { return $d; } function trailingslashit( $s ) { return rtrim( $s, '/' ) . '/'; } function wp_mkdir_p( $d ) { return @mkdir( $d, 0777, true ); }
-function wp_upload_dir() { return [ 'basedir' => __DIR__ . '/uploads' ]; }
+function wp_upload_dir() { return [ 'basedir' => __DIR__ . '/uploads', 'baseurl' => '/up' ]; }
+function delete_option( $k ) { unset( $GLOBALS['S']['opt'][ $k ] ); save_state(); return true; }
 function add_query_arg( $a, $u ) { return $u . ( strpos( $u, '?' ) === false ? '?' : '&' ) . http_build_query( $a ); }
 function wp_create_nonce( $a ) { return 'n-' . $a . '-' . get_current_user_id(); } function wp_verify_nonce( $n, $a ) { return $n === wp_create_nonce( $a ); }
 function check_ajax_referer( $a, $k, $die = true ) { return wp_verify_nonce( $_REQUEST[ $k ] ?? '', $a ); }

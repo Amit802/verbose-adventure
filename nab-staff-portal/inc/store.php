@@ -56,15 +56,16 @@ function nab_staff_person( $user_id ) {
 
 /**
  * The site's logo from Appearance > Customize > Site Identity.
- * Returns [ 'url' => ..., 'wide' => bool ]: the Logo first (usually a wide
+ * Returns [ 'url', 'wide', 'source' ]: a logo uploaded in Portal Settings first, then the site Logo (usually a wide
  * wordmark), then the Site Icon (square). Empty url = show the "NAB" mark.
  */
 function nab_staff_logo() {
+    if ( function_exists( 'nab_staff_own_logo' ) && ( $own = nab_staff_own_logo() ) ) return [ 'url' => $own['url'], 'wide' => true, 'source' => 'portal' ];
     $id = (int) get_theme_mod( 'custom_logo' );
     if ( $id ) {
         $url = wp_get_attachment_image_url( $id, 'medium' ) ?: wp_get_attachment_image_url( $id, 'full' );
-        if ( $url ) return [ 'url' => $url, 'wide' => true ];
+        if ( $url ) return [ 'url' => $url, 'wide' => true, 'source' => 'site' ];
     }
     $icon = function_exists( 'get_site_icon_url' ) ? get_site_icon_url( 96 ) : '';
-    return [ 'url' => $icon ?: '', 'wide' => false ];
+    return [ 'url' => $icon ?: '', 'wide' => false, 'source' => $icon ? 'icon' : 'none' ];
 }

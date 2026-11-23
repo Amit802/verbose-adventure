@@ -386,4 +386,28 @@ if ($('teamTable') && window.NABSTAFF_TEAM) {
   });
 }
 
+
+/* ── Portal Settings: logo ───────────────────────────────── */
+if ($('logoForm')) {
+  var FROM = { portal: 'Uploaded here', site: 'The website logo (Appearance > Customize > Site Identity)', icon: 'The site icon (no logo set)', none: 'No logo set, showing the NAB mark' };
+  function logoMsg(t, good) { var m = $('logoMsg'); m.textContent = t; m.className = 'form-msg ' + (good ? 'good' : 'bad'); }
+  function applyLogo(l) {
+    $('logoFrom').textContent = FROM[l.source] || '';
+    show($('logoReset'), l.source === 'portal');
+    var pv = $('logoPreview'); pv.textContent = '';
+    if (l.url) { var im = el('img'); im.src = l.url; im.alt = 'Current logo'; pv.appendChild(im); } else pv.appendChild(el('span', 'brand-mark', 'NAB'));
+    setTimeout(function () { location.reload(); }, 900);
+  }
+  $('logoFile').addEventListener('change', function () {
+    if (!this.files.length) return;
+    var fd = new FormData(); fd.append('logo', this.files[0]); logoMsg('Uploading…', true);
+    post('logo_upload', fd).then(function (d) { logoMsg(d.message, true); applyLogo(d.logo); }).catch(function (e) { logoMsg(e.message, false); });
+    this.value = '';
+  });
+  $('logoReset').addEventListener('click', function () {
+    if (!confirm('Go back to the website logo?')) return;
+    post('logo_reset', {}).then(function (d) { logoMsg(d.message, true); applyLogo(d.logo); }).catch(function (e) { logoMsg(e.message, false); });
+  });
+}
+
 })();
