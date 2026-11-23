@@ -13,6 +13,8 @@ $name    = trim( $user->first_name . ' ' . $user->last_name ) ?: $user->display_
 $parts   = preg_split( '/\s+/', $name );
 $initial = strtoupper( substr( $parts[0] ?? '', 0, 1 ) . substr( $parts[1] ?? '', 0, 1 ) ) ?: 'NS';
 $role    = nab_staff_can( 'manage' ) ? 'Care Manager' : 'Customer Care';
+$logo    = nab_staff_logo();
+$favicon = function_exists( 'get_site_icon_url' ) ? get_site_icon_url( 32 ) : '';
 
 $sections = [];
 foreach ( $screens as $slug => $s ) {
@@ -26,12 +28,17 @@ foreach ( $screens as $slug => $s ) {
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title><?php echo esc_html( $screen['label'] ); ?> | NAB Staff Portal</title>
+<?php if ( $favicon ) : ?><link rel="icon" href="<?php echo esc_url( $favicon ); ?>"><?php endif; ?>
 <link rel="stylesheet" href="<?php echo esc_url( NAB_STAFF_URL . 'assets/css/staff.css?v=' . NAB_STAFF_VERSION ); ?>">
 </head>
 <body>
 <div class="app<?php echo nab_staff_can( 'manage' ) ? ' can-manage' : ''; ?>">
   <aside class="side">
-    <div class="brand"><div class="brand-mark">NAB</div><div><b>NAB Solutions</b><span>Staff Portal</span></div></div>
+    <?php if ( $logo['url'] && $logo['wide'] ) : ?>
+    <a class="brand brand-logo" href="<?php echo esc_url( nab_staff_url() ); ?>"><span class="logo-chip"><img src="<?php echo esc_url( $logo['url'] ); ?>" alt="NAB Solutions"></span><span>Staff Portal</span></a>
+    <?php else : ?>
+    <a class="brand" href="<?php echo esc_url( nab_staff_url() ); ?>"><div class="brand-mark"><?php if ( $logo['url'] ) : ?><img src="<?php echo esc_url( $logo['url'] ); ?>" alt=""><?php else : ?>NAB<?php endif; ?></div><div><b>NAB Solutions</b><span>Staff Portal</span></div></a>
+    <?php endif; ?>
     <nav class="nav" aria-label="Staff portal">
       <?php foreach ( $sections as $label => $items ) : ?>
       <div class="nav-label"><?php echo esc_html( $label ); ?></div>

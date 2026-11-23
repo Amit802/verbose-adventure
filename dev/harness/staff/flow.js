@@ -145,6 +145,14 @@ let fails = 0; const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); 
   const ar = await m.request.post(B + '/wp-admin/admin-ajax.php', { form: { action: 'nab_staff', do: 'team_remove', nonce: await m.evaluate(() => NABSTAFF.nonce), id: '1' } });
   ok((await ar.json()).success === false, 'admin cannot be removed');
 
+  // Logo from Customize > Site Identity
+  const setOpt = (k, v) => { const f = __dirname + '/state.json', st = JSON.parse(require('fs').readFileSync(f, 'utf8')); st.opt = st.opt || {}; st.opt[k] = v; require('fs').writeFileSync(f, JSON.stringify(st)); };
+  await m.goto(B + '/staff/'); ok(await m.locator('.brand-mark').textContent() === 'NAB', 'no logo set: NAB mark');
+  setOpt('site_icon_url', '/fx/logo.svg'); await m.reload(); ok(await m.locator('.brand-mark img').count() === 1, 'site icon used when no logo');
+  setOpt('theme_custom_logo', 55); await m.reload();
+  ok(await m.locator('.logo-chip img').evaluate(i => i.complete && i.naturalWidth > 0), 'customizer logo shown');
+  await m.screenshot({ path: __dirname + '/shots/logo.png' });
+
   // Member and guest are kept out
   const mem = await as(10, ''); ok(!(await mem.content()).includes('Staff Portal</span>'), 'member cannot open staff portal');
   const memAjax = await mem.request.post(B + '/wp-admin/admin-ajax.php', { form: { action: 'nab_staff', do: 'member_search', nonce: 'n-nab_staff-10', q: 'sam' } });

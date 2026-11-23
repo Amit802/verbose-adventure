@@ -143,3 +143,6 @@ function nab_freshdesk_config() { return [ 'key', 'nabsolutions.freshdesk.com' ]
 function nab_portal_ai_config() { return [ 'key' => get_option( 'ai_key', 'sk-test' ), 'model' => 'gpt-4o-mini' ]; }
 function nab_dispatch_welcome_email( $id ) { $GLOBALS['S']['mails'][] = $id; save_state(); }
 function nab_portal_tools() { return []; }
+function get_theme_mod( $k, $d = false ) { return get_option( 'theme_' . $k, $d ); }
+function wp_get_attachment_image_url( $id, $size = 'thumbnail' ) { return $id ? '/fx/logo.svg' : false; }
+function get_site_icon_url( $size = 512 ) { return get_option( 'site_icon_url', '' ); }

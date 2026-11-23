@@ -4,7 +4,7 @@ Private workspace for the NAB Customer Care team, at members.nabsolutions.ca/sta
 Built by Amit. Runs next to the NAB Member Portal plugin on the same site.
 
 ## Status
-v1.1.0: everything works with real data, and managers add people from the People screen. v1.0.0 connected all screens; v0.5 was the design only.
+v1.2.0: the sidebar shows the site logo from Appearance > Customize > Site Identity (Logo, else Site Icon, else the "NAB" mark; `nab_staff_logo()` in `inc/store.php`), and the Site Icon is the tab icon. v1.1.0 added the People screen. v1.0.0 connected all screens; v0.5 was the design only.
 
 Screens: Home (shortcuts, recent documents, team topics), Reply Assistant (paste an email, get a reply based on our policies), Member Lookup, Documents, Team Discussions (topics with votes and comments).
 
