@@ -54,13 +54,26 @@ function nab_staff_person( $user_id ) {
     return [ 'name' => $name, 'init' => $init ];
 }
 
+/** The member portal's Dashboard page, where the ACF settings live (same as Nabby's OpenAI key). */
+function nab_staff_dashboard_page_id() {
+    $pages = get_pages( [ 'meta_key' => '_wp_page_template', 'meta_value' => 'nab-dashboard', 'number' => 1 ] );
+    return ! empty( $pages ) ? (int) $pages[0]->ID : 0;
+}
+
 /**
- * The site's logo from Appearance > Customize > Site Identity.
- * Returns [ 'url', 'wide', 'source' ]: a logo uploaded in Portal Settings first, then the site Logo (usually a wide
- * wordmark), then the Site Icon (square). Empty url = show the "NAB" mark.
+ * The logo in the staff portal sidebar. Returns [ 'url', 'wide', 'source' ]:
+ *   1. "Staff Portal logo" (ACF, Pages > Dashboard > Staff Portal box)
+ *   2. the website Logo (Appearance > Customize > Site Identity)
+ *   3. the Site Icon (square)
+ *   empty url = the "NAB" mark.
  */
 function nab_staff_logo() {
-    if ( function_exists( 'nab_staff_own_logo' ) && ( $own = nab_staff_own_logo() ) ) return [ 'url' => $own['url'], 'wide' => true, 'source' => 'portal' ];
+    $page = function_exists( 'get_field' ) ? nab_staff_dashboard_page_id() : 0;
+    if ( $page ) {
+        $f   = get_field( 'nab_staff_logo', $page );
+        $url = is_array( $f ) ? ( $f['sizes']['medium'] ?? $f['url'] ?? '' ) : ( is_numeric( $f ) ? wp_get_attachment_image_url( (int) $f, 'medium' ) : (string) $f );
+        if ( $url ) return [ 'url' => $url, 'wide' => true, 'source' => 'acf' ];
+    }
     $id = (int) get_theme_mod( 'custom_logo' );
     if ( $id ) {
         $url = wp_get_attachment_image_url( $id, 'medium' ) ?: wp_get_attachment_image_url( $id, 'full' );
@@ -69,3 +82,40 @@ function nab_staff_logo() {
     $icon = function_exists( 'get_site_icon_url' ) ? get_site_icon_url( 96 ) : '';
     return [ 'url' => $icon ?: '', 'wide' => false, 'source' => $icon ? 'icon' : 'none' ];
 }
+
+/**
+ * ACF box "Staff Portal" on the Dashboard page (next to the member portal's
+ * settings). Registered in code, so nothing to set up in ACF.
+ */
+add_action( 'acf/init', function () {
+    if ( ! function_exists( 'acf_add_local_field_group' ) ) return;
+    acf_add_local_field_group( [
+        'key'      => 'group_nab_staff_portal',
+        'title'    => 'Staff Portal',
+        'fields'   => [ [
+            'key'           => 'field_nab_staff_logo',
+            'label'         => 'Staff Portal logo',
+            'name'          => 'nab_staff_logo',
+            'type'          => 'image',
+            'instructions'  => 'Shown at the top left of the staff portal (/staff/). Leave empty to use the website logo from Appearance > Customize > Site Identity. A wide PNG with a transparent background, at least 300 pixels wide, looks best.',
+            'return_format' => 'id',
+            'preview_size'  => 'medium',
+            'library'       => 'all',
+            'mime_types'    => 'png,jpg,jpeg,webp',
+        ] ],
+        'location' => [ [ [ 'param' => 'page_template', 'operator' => '==', 'value' => 'nab-dashboard' ] ] ],
+        'position' => 'normal',
+        'menu_order' => 90,
+    ] );
+} );
+
+// v1.3.0 had a logo upload in the portal itself; remove its file and setting once.
+add_action( 'init', function () {
+    $old = get_option( 'nab_staff_logo' );
+    if ( ! $old ) return;
+    if ( is_array( $old ) && ! empty( $old['file'] ) ) {
+        $up = wp_upload_dir( null, false );
+        @unlink( trailingslashit( $up['basedir'] ) . 'nab-staff-brand/' . basename( $old['file'] ) );
+    }
+    delete_option( 'nab_staff_logo' );
+} );

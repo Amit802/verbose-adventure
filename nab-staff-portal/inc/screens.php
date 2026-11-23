@@ -26,7 +26,6 @@ function nab_staff_screens() {
         'documents'   => [ 'label' => 'Documents',         'section' => 'Customer Care', 'icon' => 'file',    'file' => 'documents',   'cap' => 'use' ],
         'discussions' => [ 'label' => 'Team Discussions',  'section' => 'Team',          'icon' => 'chat',    'file' => 'discussions', 'cap' => 'use' ],
         'team'        => [ 'label' => 'People',            'section' => 'Team',          'icon' => 'users',   'file' => 'team',        'cap' => 'manage' ],
-        'settings'    => [ 'label' => 'Portal Settings',   'section' => 'Team',          'icon' => 'gear',    'file' => 'settings',    'cap' => 'manage' ],
         'freshdesk'   => [ 'label' => 'Freshdesk tickets', 'section' => 'Shortcuts',     'icon' => 'ticket',  'cap' => 'use', 'link' => 'https://nabsolutions.freshdesk.com/a/tickets' ],
         'access'      => [ 'label' => 'Member Access',     'section' => 'Shortcuts',     'icon' => 'user',    'cap' => 'manage', 'link' => admin_url( 'users.php?page=nab-member-access' ) ],
     ] );

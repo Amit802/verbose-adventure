@@ -146,4 +146,6 @@ function nab_dispatch_welcome_email( $id ) { $GLOBALS['S']['mails'][] = $id; sav
 function nab_portal_tools() { return []; }
 function get_theme_mod( $k, $d = false ) { return get_option( 'theme_' . $k, $d ); }
 function wp_get_attachment_image_url( $id, $size = 'thumbnail' ) { return $id ? '/fx/logo.svg' : false; }
+function get_pages( $a ) { return [ (object) [ 'ID' => 900 ] ]; }
+function get_field( $k, $id = 0 ) { return $id === 900 ? get_option( 'acf_' . $k, null ) : null; }
 function get_site_icon_url( $size = 512 ) { return get_option( 'site_icon_url', '' ); }

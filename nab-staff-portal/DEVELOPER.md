@@ -4,7 +4,7 @@ Private workspace for the NAB Customer Care team, at members.nabsolutions.ca/sta
 Built by Amit. Runs next to the NAB Member Portal plugin on the same site.
 
 ## Status
-v1.3.0: Portal Settings screen (managers) to upload a staff portal logo (PNG, JPG or WebP, max 2 MB, kept in `uploads/nab-staff-brand/`, option `nab_staff_logo`, `inc/settings.php`) or go back to the website logo. v1.2.0: the sidebar shows the site logo from Appearance > Customize > Site Identity (Logo, else Site Icon, else the "NAB" mark; `nab_staff_logo()` in `inc/store.php`), and the Site Icon is the tab icon. v1.1.0 added the People screen. v1.0.0 connected all screens; v0.5 was the design only.
+v1.3.1: the logo is set in wp-admin, Pages > Dashboard > "Staff Portal" box (ACF image field `nab_staff_logo`, registered in code in `inc/store.php`, same page as the OpenAI key). Empty = website logo. The v1.3.0 in-portal logo upload was removed (the client wanted it in the backend). v1.2.0: the sidebar shows the site logo from Appearance > Customize > Site Identity (Logo, else Site Icon, else the "NAB" mark; `nab_staff_logo()` in `inc/store.php`), and the Site Icon is the tab icon. v1.1.0 added the People screen. v1.0.0 connected all screens; v0.5 was the design only.
 
 Screens: Home (shortcuts, recent documents, team topics), Reply Assistant (paste an email, get a reply based on our policies), Member Lookup, Documents, Team Discussions (topics with votes and comments).
 
@@ -33,7 +33,6 @@ Staff (not admins) are sent to /staff/ after logging in, and if they open the ho
 | `inc/members.php` | Member search, profile (reads member portal data), Freshdesk tickets, resend login email, short brief for the assistant |
 | `inc/assistant.php` | Hides card/SIN/bank numbers, picks document text, calls OpenAI, cleans the reply (no em dashes or emoji), tones |
 | `inc/team.php` | People: add a person (staff invite email with a set-password link), change role, resend invite, remove (logs out, blocks login). Also stops the member welcome email for staff accounts |
-| `inc/settings.php` | Portal Settings: upload or reset the staff portal logo |
 | `inc/ajax.php` | One endpoint `admin-ajax.php?action=nab_staff&do=<task>`: nonce, then permission per task (`nab_staff_ajax_tasks()`), then the handler |
 | `templates/layout.php` | Sidebar, top bar, loads the current screen |
 | `templates/screens/*.php` | One file per screen |
