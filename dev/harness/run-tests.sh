@@ -45,4 +45,14 @@ timeout 120 node import-flow.js 2>&1 | grep -E "no file|xlsx|preview:|result:|sc
 grep -iE "fatal|warning|deprecated" admin.log && fail=1
 rm -f admin-state.json
 
+echo "== Staff Portal (nab-staff-portal)"
+for f in $(find ../../nab-staff-portal -name '*.php'); do php -l "$f" >/dev/null || { echo "LINT FAIL $f"; fail=1; }; done
+node --check ../../nab-staff-portal/assets/js/staff.js || fail=1
+( cd staff && rm -f state.json && rm -rf uploads && mkdir -p shots && php -S 127.0.0.1:8096 router.php > server.log 2>&1 & echo $! > staff/.pid ) 2>/dev/null
+sleep 0.2; STF=$(cat staff/.pid); rm -f staff/.pid
+trap 'kill $SRV $ADM $STF 2>/dev/null' EXIT
+for i in $(seq 1 30); do curl -s -o /dev/null http://127.0.0.1:8096/reset && break; sleep 0.3; done
+timeout 240 node staff/flow.js 2>&1 | grep -v '^PASS' || fail=1
+grep -iE "fatal|warning|deprecated" staff/server.log && fail=1
+
 [ $fail = 0 ] && echo "== DONE: no lint/page errors (read the flow output above for ERRORS: [])" || echo "== SOME CHECKS FAILED"

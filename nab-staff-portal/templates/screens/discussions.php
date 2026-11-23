@@ -1,12 +1,6 @@
 <?php
-/** Team discussions: suggestions, process ideas and member feedback, with votes and comments. v0.3: design with sample data. */
+/** Team discussions: topics with votes and comments. Rendered by staff.js from the data below. */
 if ( ! defined( 'ABSPATH' ) ) exit;
-$topics = [
-  [ 14, 'Add a short video on how to use the Lending Finder', 'Suggestion', 'Jessica K.', '8 comments', 'Planned', 'blue', 'A lot of members email asking where the loan offers are. A 1 minute video in the welcome email and on the LFP page could save us a lot of tickets.' ],
-  [ 9, 'New wording for refund replies', 'Process', 'Mark T.', '5 comments', 'Discussing', 'warn', 'Our current refund reply sounds a bit cold. I wrote a softer version, let me know what you think before we add it to the templates.' ],
-  [ 6, 'Many members can\'t find the Dispute Center', 'Member feedback', 'Aisha M.', '3 comments', 'Open', 'warn', 'Three members this week asked how to dispute something. Maybe a button on the dashboard home?' ],
-  [ 4, 'Weekend coverage for urgent tickets', 'Team', 'Rachel P.', '2 comments', 'Done', 'good', 'Starting next week, one person checks urgent tickets on Saturday morning. Rota is in the team sheet.' ],
-];
 ?>
 <section class="screen" id="s-discussions">
   <div class="head head-row">
@@ -18,35 +12,20 @@ $topics = [
     <button class="btn primary" type="button" id="newTopic"><?php echo nab_staff_icon( 'plus', 16 ); ?>New topic</button>
   </div>
 
-  <div class="card new-topic" id="newTopicBox" hidden>
+  <form class="card new-topic" id="newTopicBox" hidden autocomplete="off">
     <h2>Start a topic</h2>
-    <label class="f">Title<input class="in" placeholder="What's it about?"></label>
-    <label class="f">Type<select class="in"><option>Suggestion</option><option>Process</option><option>Member feedback</option><option>Question</option><option>Team</option></select></label>
-    <label class="f">Details<textarea class="in" style="min-height:110px" placeholder="Explain the idea or the problem"></textarea></label>
-    <div class="row"><button class="btn primary" type="button">Post topic</button><button class="btn" type="button" id="cancelTopic">Cancel</button></div>
+    <label class="f">Title<input class="in" name="title" maxlength="150" placeholder="What's it about?" required></label>
+    <label class="f">Type<select class="in" name="type"><?php foreach ( nab_staff_topic_types() as $k => $l ) : ?><option value="<?php echo esc_attr( $k ); ?>"><?php echo esc_html( $l ); ?></option><?php endforeach; ?></select></label>
+    <label class="f">Details<textarea class="in" name="body" maxlength="5000" style="min-height:110px" placeholder="Explain the idea or the problem"></textarea></label>
+    <div class="row"><button class="btn primary" type="submit">Post topic</button><button class="btn" type="button" id="cancelTopic">Cancel</button><span class="form-msg" id="topicMsg"></span></div>
+  </form>
+
+  <div class="chips" id="topicFilter" style="margin-bottom:14px">
+    <button class="chip on" type="button" data-type="">All</button>
+    <?php foreach ( nab_staff_topic_types() as $k => $l ) : ?><button class="chip" type="button" data-type="<?php echo esc_attr( $k ); ?>"><?php echo esc_html( $l ); ?></button><?php endforeach; ?>
   </div>
 
-  <div class="chips" style="margin-bottom:14px">
-    <button class="chip on" type="button">All</button><button class="chip" type="button">Suggestions</button><button class="chip" type="button">Process</button><button class="chip" type="button">Member feedback</button><button class="chip" type="button">Questions</button>
-  </div>
-
-  <div class="topics">
-  <?php foreach ( $topics as $i => $t ) : ?>
-    <div class="card topic">
-      <button class="vote<?php echo $i === 0 ? ' on' : ''; ?>" type="button" aria-label="Vote"><?php echo nab_staff_icon( 'up', 16 ); ?><b><?php echo (int) $t[0]; ?></b></button>
-      <div class="topic-body">
-        <div class="row" style="gap:8px;margin-bottom:4px"><b class="topic-title"><?php echo esc_html( $t[1] ); ?></b><span class="badge <?php echo esc_attr( $t[6] ); ?>"><?php echo esc_html( $t[5] ); ?></span></div>
-        <p><?php echo esc_html( $t[7] ); ?></p>
-        <div class="topic-meta"><span class="tag"><?php echo esc_html( $t[2] ); ?></span><span><?php echo esc_html( $t[3] ); ?></span><span><?php echo esc_html( $t[4] ); ?></span></div>
-        <?php if ( $i === 0 ) : ?>
-        <div class="comments">
-          <div class="msg"><div class="av sm">MT</div><div class="bubble"><div class="meta"><b>Mark T.</b><span>Yesterday</span></div>Agree, I answer this one almost every day.</div></div>
-          <div class="msg"><div class="av sm">RP</div><div class="bubble"><div class="meta"><b>Rachel P.</b><span>Today</span></div>Same here. I can record it if someone writes the steps.</div></div>
-          <div class="row"><input class="in sm" style="flex:1" placeholder="Write a comment"><button class="btn small" type="button">Comment</button></div>
-        </div>
-        <?php endif; ?>
-      </div>
-    </div>
-  <?php endforeach; ?>
-  </div>
+  <div class="topics" id="topics"></div>
+  <p class="empty-note" id="topicsEmpty" hidden>No topics yet. Start the first one.</p>
 </section>
+<script>window.NABSTAFF_TOPICS=<?php echo wp_json_encode( [ 'topics' => nab_staff_topics(), 'statuses' => array_map( function ( $s ) { return $s[0]; }, nab_staff_topic_statuses() ) ], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT ); ?>;</script>

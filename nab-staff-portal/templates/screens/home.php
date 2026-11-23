@@ -1,7 +1,9 @@
 <?php
-/** Home: today at a glance. v0.3: design with sample data. */
+/** Home: shortcuts, recently updated documents and the team's top topics. */
 if ( ! defined( 'ABSPATH' ) ) exit;
-$first = wp_get_current_user()->first_name ?: 'there';
+$first  = wp_get_current_user()->first_name ?: 'there';
+$docs   = array_slice( nab_staff_docs(), 0, 3 );
+$topics = array_slice( array_filter( nab_staff_topics(), function ( $t ) { return $t['status'] !== 'done'; } ), 0, 3 );
 ?>
 <section class="screen" id="s-home">
   <div class="head">
@@ -19,19 +21,27 @@ $first = wp_get_current_user()->first_name ?: 'there';
   <div class="grid2" style="margin-top:16px">
     <div class="card">
       <div class="card-head"><h2>Recently updated documents</h2><a class="link" href="<?php echo esc_url( nab_staff_url( 'documents' ) ); ?>">All documents</a></div>
+      <?php if ( ! $docs ) : ?>
+        <p class="empty-note">No documents yet. <?php echo nab_staff_can( 'manage' ) ? 'Add our policies and reply templates so the Reply Assistant can use them.' : 'Your manager will add our policies and templates here.'; ?></p>
+      <?php else : ?>
       <ul class="tlist">
-        <li><a href="<?php echo esc_url( nab_staff_url( 'documents' ) ); ?>"><span class="ficon doc">DOC</span><div><b>Reply Templates</b><small>Updated Nov 15 by Jessica K.</small></div></a></li>
-        <li><a href="<?php echo esc_url( nab_staff_url( 'documents' ) ); ?>"><span class="ficon pdf">PDF</span><div><b>Cancellation and Refund Policy</b><small>Updated Nov 12</small></div></a></li>
-        <li><a href="<?php echo esc_url( nab_staff_url( 'documents' ) ); ?>"><span class="ficon doc">DOC</span><div><b>PAD and Billing Procedures</b><small>Updated Nov 10</small></div></a></li>
+        <?php foreach ( $docs as $p ) : $d = nab_staff_doc_view( $p ); ?>
+        <li><a href="<?php echo esc_url( nab_staff_url( 'documents' ) ); ?>"><span class="ficon <?php echo $d['ext'] === 'PDF' ? 'pdf' : 'doc'; ?>"><?php echo esc_html( $d['ext'] === 'DOCX' ? 'DOC' : $d['ext'] ); ?></span><div><b><?php echo esc_html( $d['title'] ); ?></b><small>Updated <?php echo esc_html( $d['updated'] ); ?> by <?php echo esc_html( $d['by'] ); ?></small></div></a></li>
+        <?php endforeach; ?>
       </ul>
+      <?php endif; ?>
     </div>
     <div class="card">
       <div class="card-head"><h2>From the team</h2><a class="link" href="<?php echo esc_url( nab_staff_url( 'discussions' ) ); ?>">All discussions</a></div>
+      <?php if ( ! $topics ) : ?>
+        <p class="empty-note">No open topics. Have an idea that would help the team or our members? <a class="link" href="<?php echo esc_url( nab_staff_url( 'discussions' ) ); ?>">Start a topic</a></p>
+      <?php else : ?>
       <ul class="tlist">
-        <li><a href="<?php echo esc_url( nab_staff_url( 'discussions' ) ); ?>"><span class="votes">14</span><div><b>Add a short video on how to use the Lending Finder</b><small>Suggestion · Jessica K. · 8 comments</small></div></a></li>
-        <li><a href="<?php echo esc_url( nab_staff_url( 'discussions' ) ); ?>"><span class="votes">9</span><div><b>New wording for refund replies</b><small>Process · Mark T. · 5 comments</small></div></a></li>
-        <li><a href="<?php echo esc_url( nab_staff_url( 'discussions' ) ); ?>"><span class="votes">6</span><div><b>Many members can't find the Dispute Center</b><small>Member feedback · Aisha M. · 3 comments</small></div></a></li>
+        <?php foreach ( $topics as $t ) : ?>
+        <li><a href="<?php echo esc_url( nab_staff_url( 'discussions' ) . '#topic-' . $t['id'] ); ?>"><span class="votes"><?php echo (int) $t['votes']; ?></span><div><b><?php echo esc_html( $t['title'] ); ?></b><small><?php echo esc_html( $t['typeLabel'] . ' · ' . $t['author'] . ' · ' . count( $t['comments'] ) . ( count( $t['comments'] ) === 1 ? ' comment' : ' comments' ) ); ?></small></div></a></li>
+        <?php endforeach; ?>
       </ul>
+      <?php endif; ?>
     </div>
   </div>
 </section>

@@ -51,12 +51,13 @@ foreach ( $screens as $slug => $s ) {
   </aside>
 
   <main class="main">
-    <header class="top"><h1><?php echo esc_html( $screen['label'] ); ?></h1><span class="pill">Preview, sample data</span></header>
+    <header class="top"><h1><?php echo esc_html( $screen['label'] ); ?></h1><a class="pill" href="https://nabsolutions.freshdesk.com/a/tickets" target="_blank" rel="noopener">Open Freshdesk</a></header>
     <div class="content">
       <?php include NAB_STAFF_DIR . 'templates/screens/' . basename( $screen['file'] ) . '.php'; ?>
     </div>
   </main>
 </div>
+<script>window.NABSTAFF=<?php echo wp_json_encode( [ 'ajax' => admin_url( 'admin-ajax.php' ), 'nonce' => wp_create_nonce( 'nab_staff' ), 'manage' => nab_staff_can( 'manage' ), 'staffUrl' => nab_staff_url() ] ); ?>;</script>
 <script src="<?php echo esc_url( NAB_STAFF_URL . 'assets/js/staff.js?v=' . NAB_STAFF_VERSION ); ?>"></script>
 </body>
 </html>
