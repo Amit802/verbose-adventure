@@ -330,4 +330,60 @@ if ($('topics') && window.NABSTAFF_TOPICS) {
   render();
   if (location.hash) { var target = document.querySelector(location.hash); if (target) target.scrollIntoView({ block: 'center' }); }
 }
+
+/* ── People (managers) ───────────────────────────────────── */
+if ($('teamTable') && window.NABSTAFF_TEAM) {
+  var TM = window.NABSTAFF_TEAM;
+  function teamRow(p) {
+    var tr = el('tr'); tr.dataset.id = p.id;
+    var td = el('td'), who = el('div', 'file'), av = el('span', 'av xs', p.init), txt = el('div');
+    txt.appendChild(el('b', null, p.name + (p.me ? ' (you)' : ''))); txt.appendChild(el('small', 'muted', p.email));
+    who.appendChild(av); who.appendChild(txt); td.appendChild(who); tr.appendChild(td);
+    var rt = el('td');
+    if (p.admin || p.me) rt.appendChild(badge(p.roleLabel, p.admin ? 'blue' : ''));
+    else {
+      var sel = el('select', 'in sm status-sel'); sel.setAttribute('aria-label', 'Role for ' + p.name);
+      Object.keys(TM.roles).forEach(function (k) { var o = el('option', null, TM.roles[k]); o.value = k; if (k === p.role) o.selected = true; sel.appendChild(o); });
+      sel.addEventListener('change', function () {
+        sel.disabled = true;
+        post('team_role', { id: p.id, role: sel.value }).then(function (d) { replaceP(d.person); })
+          .catch(function (e) { alert(e.message); sel.value = p.role; sel.disabled = false; });
+      });
+      rt.appendChild(sel);
+    }
+    tr.appendChild(rt);
+    var lt = el('td'); if (p.lastLogin) lt.textContent = p.lastLogin; else lt.appendChild(badge(p.invited ? 'Invited ' + p.invited + ', not logged in yet' : 'Not logged in yet', 'warn')); tr.appendChild(lt);
+    var at = el('td'); at.style.textAlign = 'right'; at.style.whiteSpace = 'nowrap';
+    if (!p.admin && !p.me) {
+      var rs = el('button', 'linkbtn', 'Resend invite'); rs.type = 'button';
+      rs.addEventListener('click', function () {
+        rs.disabled = true;
+        post('team_resend', { id: p.id }).then(function (d) { replaceP(d.person); flash(d.message, true); })
+          .catch(function (e) { flash(e.message, false); rs.disabled = false; });
+      });
+      var rm = el('button', 'linkbtn danger', 'Remove'); rm.type = 'button';
+      rm.addEventListener('click', function () {
+        if (!confirm('Remove ' + p.name + ' from the staff portal? They will be logged out and can\'t log in again.')) return;
+        rm.disabled = true;
+        post('team_remove', { id: p.id }).then(function () { TM.people = TM.people.filter(function (x) { return x.id !== p.id; }); renderTeam(); flash(p.name + ' has been removed.', true); })
+          .catch(function (e) { flash(e.message, false); rm.disabled = false; });
+      });
+      at.appendChild(rs); at.appendChild(document.createTextNode(' · ')); at.appendChild(rm);
+    }
+    tr.appendChild(at);
+    return tr;
+  }
+  function flash(text, good) { var m = $('teamMsg'); m.textContent = text; m.className = 'form-msg ' + (good ? 'good' : 'bad'); }
+  function replaceP(p) { if (!p) return; TM.people = TM.people.map(function (x) { return x.id === p.id ? p : x; }); renderTeam(); }
+  function renderTeam() { var b = $('teamTable').tBodies[0]; b.textContent = ''; TM.people.forEach(function (p) { b.appendChild(teamRow(p)); }); }
+  renderTeam();
+  $('teamAdd').addEventListener('submit', function (e) {
+    e.preventDefault(); var f = this, btn = f.querySelector('[type=submit]'); btn.disabled = true; flash('Adding…', true);
+    post('team_add', new FormData(f)).then(function (d) {
+      if (d.person) { TM.people = TM.people.filter(function (x) { return x.id !== d.person.id; }); TM.people.push(d.person); }
+      f.reset(); renderTeam(); flash(d.message, true);
+    }).catch(function (er) { flash(er.message, false); }).then(function () { btn.disabled = false; });
+  });
+}
+
 })();

@@ -4,7 +4,7 @@ Private workspace for the NAB Customer Care team, at members.nabsolutions.ca/sta
 Built by Amit. Runs next to the NAB Member Portal plugin on the same site.
 
 ## Status
-v1.0.0: everything works with real data. v0.5 was the design only.
+v1.1.0: everything works with real data, and managers add people from the People screen. v1.0.0 connected all screens; v0.5 was the design only.
 
 Screens: Home (shortcuts, recent documents, team topics), Reply Assistant (paste an email, get a reply based on our policies), Member Lookup, Documents, Team Discussions (topics with votes and comments).
 
@@ -14,7 +14,7 @@ Tickets stay in Freshdesk (decided with the client). The sidebar links to Freshd
 | Role | Can do |
 |---|---|
 | NAB Staff | Open the staff portal, use the reply assistant and member lookup, read documents |
-| NAB Staff Manager | All of the above, plus upload and switch documents on or off, and the Member Access shortcut |
+| NAB Staff Manager | All of the above, plus upload and switch documents on or off, People (add, change role, remove) and the Member Access shortcut |
 | Administrator | Everything |
 
 Screens check permissions (`nab_staff_portal`, `nab_staff_manage_docs`), never role names. See `inc/roles.php`.
@@ -32,6 +32,7 @@ Staff (not admins) are sent to /staff/ after logging in, and if they open the ho
 | `inc/discussions.php` | Topics: create, vote, comment, status (author or manager), delete |
 | `inc/members.php` | Member search, profile (reads member portal data), Freshdesk tickets, resend login email, short brief for the assistant |
 | `inc/assistant.php` | Hides card/SIN/bank numbers, picks document text, calls OpenAI, cleans the reply (no em dashes or emoji), tones |
+| `inc/team.php` | People: add a person (staff invite email with a set-password link), change role, resend invite, remove (logs out, blocks login). Also stops the member welcome email for staff accounts |
 | `inc/ajax.php` | One endpoint `admin-ajax.php?action=nab_staff&do=<task>`: nonce, then permission per task (`nab_staff_ajax_tasks()`), then the handler |
 | `templates/layout.php` | Sidebar, top bar, loads the current screen |
 | `templates/screens/*.php` | One file per screen |
@@ -46,6 +47,7 @@ That's it: it shows in the sidebar, gets its own address and the permission chec
 - **Reply Assistant**: card, SIN and bank numbers are replaced before anything leaves the site; phone numbers are kept. All documents that are switched on are sent if they fit (about 24,000 characters), otherwise the parts that match the email best. OpenAI key and model come from the member portal (`nab_portal_ai_config()`, same as Nabby). Limit: 120 AI requests per person per hour. If no document covers the question, the reply says the team will check and a warning shows.
 - **Member Lookup**: only members are found (admins and staff are left out). Reads `nab_access_state()`, score history, dispute letters, Collection Assistance requests and `nab_last_login` from the member portal. "Resend login email" uses the member portal's welcome email, once per 10 minutes per member. Managers also get a link to Member Access.
 - **Documents**: files go to `uploads/nab-staff-docs/` with a random name and are blocked from direct access; downloads go through a nonce-checked AJAX link. The extracted text is what the assistant reads, so check PDFs with "Edit text".
+- **People**: shown as "Customer Care" (role `nab_staff`) and "Care Manager" (`nab_staff_manager`). A manager can't change their own account or a site admin. An email that already belongs to a member is refused, so a member never loses their member portal. Removed people keep their account with no role and the `nab_staff_removed` flag; they can't log in, and adding the same email again gives access back. Staff added in WordPress (Users > Add New) also skip the member welcome email.
 - **Discussions**: the author votes for their own topic. An open topic becomes "Being discussed" when someone else comments.
 - Every member portal function is checked with `function_exists`, so the staff portal still loads if the member portal is off (those parts then show empty).
 

@@ -25,6 +25,10 @@ function nab_staff_ajax_tasks() {
         'topic_comment'  => [ 'use',    function () { return nab_staff_topic_comment( absint( $_POST['id'] ?? 0 ) ); } ],
         'topic_status'   => [ 'use',    function () { return nab_staff_topic_status( absint( $_POST['id'] ?? 0 ) ); } ],
         'topic_delete'   => [ 'use',    function () { return nab_staff_topic_delete( absint( $_POST['id'] ?? 0 ) ); } ],
+        'team_add'       => [ 'manage', 'nab_staff_team_add' ],
+        'team_role'      => [ 'manage', 'nab_staff_team_role' ],
+        'team_remove'    => [ 'manage', 'nab_staff_team_remove' ],
+        'team_resend'    => [ 'manage', 'nab_staff_team_resend' ],
     ];
 }
 

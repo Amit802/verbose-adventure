@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 /** Is this account a member (not staff, not an admin)? */
 function nab_staff_is_member( $user ) {
-    if ( ! $user || user_can( $user, 'manage_options' ) || user_can( $user, 'nab_staff_portal' ) ) return false;
+    if ( ! $user || user_can( $user, 'manage_options' ) || user_can( $user, 'nab_staff_portal' ) || get_user_meta( $user->ID, 'nab_staff_removed', true ) ) return false;
     return true;
 }
 

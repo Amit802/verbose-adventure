@@ -114,6 +114,37 @@ let fails = 0; const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); 
   ok(home.includes('Saved replies') && home.includes('Policy'), 'home shows real topics and docs');
   await m.screenshot({ path: __dirname + '/shots/home.png', fullPage: true });
 
+  // People: manager adds, changes role, resends, removes
+  await m.goto(B + '/staff/team');
+  ok(await m.locator('#teamTable tbody tr').count() === 3, 'team lists admin, staff, manager');
+  ok((await m.locator('#teamTable').textContent()).includes('Mark Taylor (you)'), 'own row marked');
+  const add = async (first, email, role) => { await m.fill('#teamAdd [name=first]', first); await m.fill('#teamAdd [name=last]', 'Test'); await m.fill('#teamAdd [name=email]', email); await m.selectOption('#teamAdd [name=role]', role); await m.click('#teamAdd [type=submit]'); await m.waitForTimeout(600); return m.textContent('#teamMsg'); };
+  ok((await add('Priya', 'priya@nab.ca', 'nab_staff')).includes('has been added'), 'person added');
+  ok(await m.locator('#teamTable tbody tr').count() === 4, 'new person in list');
+  ok((await add('Sarah', 'sarah.thompson@example.com', 'nab_staff')).includes('member account'), 'member email refused');
+  ok((await add('Jess', 'jessica@nab.ca', 'nab_staff')).includes('already on the team'), 'duplicate refused');
+  const state = () => JSON.parse(require('fs').readFileSync(__dirname + '/state.json', 'utf8'));
+  let S1 = state(); const pid = Object.keys(S1.users).find(k => S1.users[k].user_email === 'priya@nab.ca');
+  ok(S1.mail.some(x => x[0] === 'priya@nab.ca' && x[1].includes('Staff Portal')), 'staff invite email sent');
+  ok(S1.meta[pid] && S1.meta[pid].nab_welcome_sent == 1, 'member welcome email blocked for staff');
+  const prow = m.locator(`#teamTable tr[data-id="${pid}"]`);
+  await prow.locator('select').selectOption('nab_staff_manager'); await m.waitForTimeout(500);
+  ok(state().users[pid].roles[0] === 'nab_staff_manager', 'role changed');
+  await prow.locator('button:has-text("Resend")').click(); await m.waitForTimeout(500);
+  ok((await m.textContent('#teamMsg')).includes('wait 10 minutes'), 'resend limited');
+  await m.locator(`#teamTable tr[data-id="${pid}"] button:has-text("Remove")`).click(); await m.waitForTimeout(500);
+  ok(await m.locator('#teamTable tbody tr').count() === 3 && state().users[pid].roles.length === 0, 'person removed');
+  ok((await add('Priya', 'priya@nab.ca', 'nab_staff')).includes('has been added') && state().users[pid].roles[0] === 'nab_staff', 'removed person can be added back');
+  await m.locator('#teamTable tbody tr').first().screenshot().catch(()=>{});
+  await m.screenshot({ path: __dirname + '/shots/team.png', fullPage: true });
+  ok(!m.errs.length, 'no JS errors on people ' + m.errs.join(';'));
+  const sn = await s.evaluate(() => NABSTAFF.nonce);
+  const sr = await s.request.post(B + '/wp-admin/admin-ajax.php', { form: { action: 'nab_staff', do: 'team_add', nonce: sn, first: 'X', email: 'x@nab.ca', role: 'nab_staff_manager' } });
+  ok((await sr.json()).success === false, 'staff cannot add people');
+  await s.goto(B + '/staff/team'); ok(!(await s.content()).includes('id="teamAdd"'), 'staff cannot open People');
+  const ar = await m.request.post(B + '/wp-admin/admin-ajax.php', { form: { action: 'nab_staff', do: 'team_remove', nonce: await m.evaluate(() => NABSTAFF.nonce), id: '1' } });
+  ok((await ar.json()).success === false, 'admin cannot be removed');
+
   // Member and guest are kept out
   const mem = await as(10, ''); ok(!(await mem.content()).includes('Staff Portal</span>'), 'member cannot open staff portal');
   const memAjax = await mem.request.post(B + '/wp-admin/admin-ajax.php', { form: { action: 'nab_staff', do: 'member_search', nonce: 'n-nab_staff-10', q: 'sam' } });

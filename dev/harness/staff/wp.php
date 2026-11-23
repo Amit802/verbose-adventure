@@ -32,7 +32,16 @@ function delete_transient( $k ) { unset( $GLOBALS['S']['tr'][ $k ] ); save_state
 
 /* users */
 class WP_User { public $ID = 0, $roles = [], $user_email = '', $user_login = '', $display_name = '', $first_name = '', $last_name = '', $user_registered = '';
-  function exists() { return $this->ID > 0; } }
+  function exists() { return $this->ID > 0; }
+  function set_role( $r ) { $GLOBALS['S']['users'][ (string) $this->ID ]['roles'] = $r ? [ $r ] : []; $this->roles = $r ? [ $r ] : []; save_state(); } }
+function username_exists( $l ) { foreach ( S( 'users' ) as $u ) if ( $u['user_login'] === $l ) return true; return false; }
+function sanitize_user( $l, $strict = false ) { return preg_replace( '/[^a-z0-9_.\-@]/i', '', $l ); }
+function wp_insert_user( $a ) { $GLOBALS['S']['seq'] = ( $GLOBALS['S']['seq'] ?? 100 ) + 1; $id = $GLOBALS['S']['seq'];
+  $GLOBALS['S']['users'][ (string) $id ] = [ 'roles' => [ $a['role'] ], 'user_email' => $a['user_email'], 'user_login' => $a['user_login'], 'display_name' => $a['display_name'], 'first_name' => $a['first_name'], 'last_name' => $a['last_name'], 'user_registered' => gmdate( 'Y-m-d H:i:s' ) ];
+  save_state(); do_action( 'user_register', $id ); return $id; }
+function get_password_reset_key( $u ) { return 'key' . $u->ID; }
+function wp_mail( $to, $subj, $body, $h = [] ) { $GLOBALS['S']['mail'][] = [ $to, $subj, $body ]; save_state(); return true; }
+function wp_parse_url( $u, $c = -1 ) { return parse_url( $u === '/' ? 'https://members.nabsolutions.ca/' : $u, $c ); }
 function get_userdata( $id ) { $u = S( 'users' )[ (string) $id ] ?? null; if ( ! $u ) return false; $o = new WP_User; foreach ( $u as $k => $v ) $o->$k = $v; $o->ID = (int) $id; return $o; }
 function get_user_by( $f, $v ) { foreach ( S( 'users' ) as $id => $u ) if ( $f === 'email' && strcasecmp( $u['user_email'], $v ) === 0 ) return get_userdata( $id ); return false; }
 function get_current_user_id() { return (int) ( $_COOKIE['as'] ?? 0 ); }
@@ -49,6 +58,7 @@ function get_users( $a ) {
   $out = [];
   foreach ( S( 'users' ) as $id => $u ) {
     $ok = true;
+    if ( isset( $a['role__in'] ) && ! array_intersect( $a['role__in'], $u['roles'] ) ) continue;
     if ( isset( $a['search'] ) ) { $t = trim( $a['search'], '*' ); $ok = stripos( $u['user_email'] . ' ' . $u['user_login'] . ' ' . $u['display_name'], $t ) !== false; }
     if ( isset( $a['meta_key'] ) ) $ok = $ok && ( get_user_meta( $id, $a['meta_key'] ) === $a['meta_value'] );
     if ( isset( $a['meta_query'] ) ) { $hit = false; foreach ( array_slice( $a['meta_query'], 1 ) as $q ) { $v = (string) ( $q['key'] === 'first_name' || $q['key'] === 'last_name' ? ( $u[ $q['key'] ] ?? '' ) : get_user_meta( $id, $q['key'] ) ); if ( $v !== '' && stripos( $v, $q['value'] ) !== false ) $hit = true; } $ok = $ok && $hit; }
