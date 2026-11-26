@@ -73,6 +73,10 @@ function nab_enqueue_portal_js() {
         wp_enqueue_script( 'nab-chartjs', NAB_URL . 'assets/js/vendor/chart.umd.min.js', [], '4.5.1', true );
         wp_enqueue_script( 'nab-loan-calc', NAB_URL . 'assets/js/nab-loan-calc.js', [ 'jquery', 'nab-chartjs' ], NAB_VERSION, true );
     }
+    // v1.24.0 Card Rewards Checker (all maths in the browser; cards saved by inc/card-rewards.php)
+    if ( $slug === 'nab-card-rewards' ) {
+        wp_enqueue_script( 'nab-card-rewards', NAB_URL . 'assets/js/nab-card-rewards.js', [ 'jquery' ], NAB_VERSION, true );
+    }
     wp_add_inline_script(
         'jquery',
         'var nabPortal=' . wp_json_encode( [

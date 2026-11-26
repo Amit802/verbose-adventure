@@ -6,7 +6,7 @@ Renders the plugin's real templates with stand-in WordPress functions (`wp.php`)
 bash dev/harness/run-tests.sh
 ```
 
-It lints every PHP/JS file, runs the member-access unit tests, renders all portal pages, and runs the Playwright flows (dashboard, budget, payments, simulator, loan calculator, member cancel, dispute center). Screenshots land in `dev/harness/shots/` (ignored by git).
+It lints every PHP/JS file, runs the member-access unit tests, renders all portal pages, and runs the Playwright flows (dashboard, budget, payments, simulator, loan calculator, card rewards, member cancel, dispute center). Screenshots land in `dev/harness/shots/` (ignored by git).
 
 The Member Access admin screen has its own small server with several fake members (`admin-router.php`, port 8093); `import-flow.js` uploads a CSV there and confirms it.
 

@@ -56,6 +56,7 @@ function nab_portal_tools() {
         'nab-networth'       => [ 'name' => 'NAB Net Worth Calculator',    'file' => 'page-nab-networth.php' ],
         'nab-loan-calculator' => [ 'name' => 'NAB Loan Calculator',        'file' => 'page-nab-loan-calculator.php' ],
         'nab-collections'    => [ 'name' => 'NAB Collection Assistance',   'file' => 'page-nab-collections.php' ],
+        'nab-card-rewards'   => [ 'name' => 'NAB Card Rewards Checker',    'file' => 'page-nab-card-rewards.php' ],
     ] );
     return $tools;
 }
@@ -100,6 +101,7 @@ function nab_portal_nav_sections() {
             [ 'key' => 'lfp',        'label' => 'Lending Finder Program', 'icon' => 'landmark', 'tone' => 'navy',    'desc' => 'Find lenders that fit your profile',            'keywords' => 'lending finder lfp lender loan' ],
             [ 'key' => 'loan',       'label' => 'Auto Loan Matcher',      'icon' => 'car', 'tone' => 'orange',         'desc' => 'Auto loan offers from Canadian lenders',          'keywords' => 'auto loan car vehicle lender' ],
             [ 'key' => 'card-match', 'label' => 'Card Matcher',           'icon' => 'credit-card', 'tone' => 'purple', 'desc' => 'Get matched to the best credit card for you',    'keywords' => 'credit card matcher best card' ],
+            [ 'key' => 'card-rewards', 'label' => 'Card Rewards Checker', 'icon' => 'gem', 'tone' => 'gold',      'template' => 'nab-card-rewards', 'desc' => 'See which of your cards earns the most at a store', 'keywords' => 'credit card rewards cash back points store shopping which card best card walmart costco groceries gas' ],
         ] ],
         'money' => [ 'label' => 'Money Management', 'items' => [
             [ 'key' => 'budget',   'label' => 'Budget Planner',         'icon' => 'wallet', 'tone' => 'green',         'template' => 'nab-budget', 'desc' => 'Set a monthly budget and track your spending', 'keywords' => 'monthly budget planner spending categories' ],
